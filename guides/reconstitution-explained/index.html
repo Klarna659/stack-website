@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reconstitution, explained — vial math from first principles | Stack</title>
+  <meta name="description" content="How peptide reconstitution actually works: concentration, dose volume and syringe units, with worked examples and the mistakes that ruin vials." />
+  <meta name="theme-color" content="#0b0b0f" />
+  <link rel="canonical" href="https://klarna659.github.io/stack-website/guides/reconstitution-explained/" />
+  <meta property="og:title" content="Reconstitution, explained — vial math from first principles | Stack" />
+  <meta property="og:description" content="How peptide reconstitution actually works: concentration, dose volume and syringe units, with worked examples and the mistakes that ruin vials." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://klarna659.github.io/stack-website/guides/reconstitution-explained/" />
+  <meta property="og:image" content="https://klarna659.github.io/stack-website/assets/img/og.png" />
+  <meta property="og:site_name" content="Stack" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/icon-dark.svg" />
+  <link rel="icon" type="image/png" href="../../assets/img/icon.png" />
+  <link rel="apple-touch-icon" href="../../assets/img/icon.png" />
+  <link rel="preload" href="../../assets/fonts/InterVariable.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="stylesheet" href="../../assets/css/mono.css?v=1" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Reconstitution, explained — vial math from first principles", "description": "How peptide reconstitution actually works: concentration, dose volume and syringe units, with worked examples and the mistakes that ruin vials.", "datePublished": "2026-06-11", "dateModified": "2026-06-11", "author": {"@type": "Organization", "name": "Stack"}, "publisher": {"@type": "Organization", "name": "Stack", "url": "https://klarna659.github.io/stack-website"}, "mainEntityOfPage": "https://klarna659.github.io/stack-website/guides/reconstitution-explained/"}</script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack — home">
+        <svg class="brand-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#c9ccd2"/>
+          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#6b6e76"/>
+          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#f4f4f5"/>
+        </svg>
+        <span class="brand-word">Stack</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="../../#features">Features</a>
+        <a href="../../compounds/">Compounds</a>
+        <a href="../../tools/reconstitution/">Calculator</a>
+        <a href="../../guides/" aria-current="page">Guides</a>
+        <a href="../../stacks/">Stacks</a>
+      </nav>
+      <a href="../../#download" class="nav-cta">Get the app</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </header>
+  <main>
+
+    <div class="prose-w prose">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../">Guides</a> <span>/</span> <span>Reconstitution</span>
+      </nav>
+      <span class="eyebrow">Guide</span>
+      <h1>Reconstitution, explained</h1>
+      <p class="updated">Last reviewed 2026-06-11 · 6 min read</p>
+
+      <p><strong>Bottom line:</strong> reconstitution is three divisions.
+      Concentration = peptide ÷ water. Dose volume = dose ÷ concentration.
+      Syringe units = volume × 100. Everything else is unit conversion —
+      and the <a href="../../tools/reconstitution/">calculator</a> does all of it.</p>
+
+      <h2>What reconstitution is</h2>
+      <p>Most research peptides ship as a lyophilized (freeze-dried) powder in a small vial.
+      Before it can be drawn into a syringe, the powder is dissolved in a measured amount of
+      bacteriostatic water. That measured amount is the single most important number you'll
+      write down: it sets the concentration, and the concentration decides what every mark on
+      your syringe means.</p>
+
+      <h2>The three numbers</h2>
+      <table>
+        <tr><th>Number</th><th>Formula</th><th>Example (5 mg vial + 2 mL water)</th></tr>
+        <tr><td>Concentration</td><td>peptide ÷ water</td><td>5 mg ÷ 2 mL = 2.5 mg/mL</td></tr>
+        <tr><td>Dose volume</td><td>dose ÷ concentration</td><td>250 mcg ÷ 2,500 mcg/mL = 0.1 mL</td></tr>
+        <tr><td>Syringe units</td><td>volume × 100</td><td>0.1 mL = 10 units (U-100)</td></tr>
+      </table>
+      <p>The "× 100" works because a U-100 insulin syringe is defined as 100 units per mL —
+      that's what U-100 means. A 0.5 mL syringe holds 50 units; a 0.3 mL holds 30. The units
+      are a volume scale, nothing more.</p>
+
+      <h2>Worked example, end to end</h2>
+      <p>Say a vial holds 10 mg of a peptide, and the target dose is 500 mcg.</p>
+      <ul>
+        <li><strong>Add 3 mL</strong> of bacteriostatic water → concentration is 10 ÷ 3 ≈ 3.33 mg/mL
+        (3,333 mcg/mL).</li>
+        <li><strong>Dose volume</strong>: 500 ÷ 3,333 ≈ 0.15 mL.</li>
+        <li><strong>Draw to 15 units</strong> on a U-100 syringe. The vial holds 10,000 ÷ 500 = 20 doses.</li>
+      </ul>
+
+      <h2>Choosing how much water</h2>
+      <p>More water = more dilute = more units per dose, which is <em>easier to measure
+      accurately</em>. Less water = concentrated = small draws, which fit small syringes but
+      amplify any measuring error. Two rules of thumb keep you out of trouble:</p>
+      <ul>
+        <li>Pick a volume that puts your usual dose <strong>between roughly 5 and 30 units</strong> —
+        big enough to measure, small enough to leave headroom.</li>
+        <li>Pick a round number that makes the mental math clean (1, 2 or 3 mL beats 1.7 mL).</li>
+      </ul>
+
+      <h2>The classic mistakes</h2>
+      <ul>
+        <li><strong>Forgetting the water amount.</strong> Without it, the vial is a mystery solution.
+        Write it on the vial or log it the moment you reconstitute.</li>
+        <li><strong>mg/mcg confusion.</strong> 1 mg = 1,000 mcg. Most dosing errors are a
+        thousand-fold unit slip — sanity-check that your dose volume is a fraction of a mL,
+        not multiple mL.</li>
+        <li><strong>Assuming all syringes are U-100.</strong> They almost always are, but check the
+        barrel — the math above is U-100 math.</li>
+        <li><strong>Spraying water directly onto the powder.</strong> Run it down the glass wall
+        slowly and swirl gently; peptides are fragile molecules and foaming degrades some of them.</li>
+        <li><strong>Skipping the fridge.</strong> Most reconstituted peptides are stored cold —
+        check the <a href="../../compounds/">compound library</a> entry for storage notes.</li>
+      </ul>
+
+      <h2>Track it once, reuse it every pin</h2>
+      <p>This math only needs doing once per vial — if it's logged. Stack stores the vial size and
+      water volume when you add a vial, shows the unit draw for your scheduled dose, counts doses
+      remaining and projects the refill date. <a href="../../#download">Get the app →</a></p>
+
+      <div class="callout"><b>Not medical advice.</b> This guide explains arithmetic and handling
+      conventions. It does not recommend any compound or dose.</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand-col">
+        <a href="../../" class="brand">
+          <svg class="brand-mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
+          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#c9ccd2"/>
+          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#6b6e76"/>
+          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#f4f4f5"/>
+        </svg>
+          <span class="brand-word">Stack</span>
+        </a>
+        <p class="tag">Track your stack. Supplements, peptides, meds and more — one quiet, private app.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="../../#features">Features</a></li>
+          <li><a href="../../#download">Get the app</a></li>
+          <li><a href="../../referral.html">Referral program</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../../compounds/">Compound library</a></li>
+          <li><a href="../../guides/">Guides</a></li>
+          <li><a href="../../tools/reconstitution/">Reconstitution calculator</a></li>
+          <li><a href="../../stacks/">Creator stacks</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about/">About &amp; sourcing</a></li>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+          <li><a href="#" data-email-link>Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer-band">
+      Stack is a logging tool and an educational reference. Nothing on this site is medical
+      advice, a recommendation, or an endorsement of any compound. Information is summarized
+      from public sources and may contain errors — always verify against the original label
+      or literature and talk to a clinician about anything you take.
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 Stack</span>
+      <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
+    </div>
+  </footer>
+  <script src="../../assets/js/site.js?v=1"></script>
+</body>
+</html>
