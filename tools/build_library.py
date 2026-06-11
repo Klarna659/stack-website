@@ -23,7 +23,7 @@ import unicodedata
 from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_URL = "https://klarna659.github.io/stack-website"  # swap when DNS lands
+BASE_URL = "https://trackyourstack.app"  # swap when DNS lands
 REVIEWED = "2026-06-11"
 TODAY = date(2026, 6, 11)
 

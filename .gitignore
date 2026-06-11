@@ -5,3 +5,4 @@ tools/__pycache__/
 
 # Internal ops handoff (local only)
 /DOMAIN_SETUP_HANDOFF.md
+/HANDOFF.md

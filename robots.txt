@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /mockups/
 
-Sitemap: https://klarna659.github.io/stack-website/sitemap.xml
+Sitemap: https://trackyourstack.app/sitemap.xml
