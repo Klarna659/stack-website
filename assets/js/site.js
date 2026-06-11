@@ -43,6 +43,46 @@
     a.setAttribute("href", "mailto:" + EMAIL);
   });
 
+  /* ---- config: paste a real endpoint at launch and the forms POST to it ----
+     WAITLIST_ENDPOINT: a Formspark/Buttondown/Formspree URL that accepts a JSON
+     or form POST with an "email" field. Empty string → mailto fallback so the
+     site still captures interest today with zero backend. */
+  var WAITLIST_ENDPOINT = ""; // e.g. "https://submit-form.com/abcd1234"
+
+  /* waitlist (hero) — POST to endpoint when set, else mailto */
+  document.querySelectorAll('form[data-form="waitlist"]').forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input = form.querySelector('[name="email"]');
+      var email = (input && input.value || "").trim();
+      var note = document.querySelector(".hero-note[data-msg]") || form.querySelector("[data-msg]");
+      if (!email || email.indexOf("@") === -1) {
+        if (note) note.textContent = "Enter a valid email and we'll keep you posted.";
+        return;
+      }
+      if (WAITLIST_ENDPOINT) {
+        if (note) note.textContent = "Adding you…";
+        fetch(WAITLIST_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ email: email, source: "stack-website-hero" })
+        }).then(function (r) {
+          if (note) note.textContent = r.ok
+            ? "You're on the list — we'll email you at launch."
+            : "Hmm, that didn't go through. Email us at " + EMAIL + ".";
+          if (r.ok && input) { input.value = ""; }
+        }).catch(function () {
+          if (note) note.textContent = "Network hiccup — email us at " + EMAIL + " instead.";
+        });
+      } else {
+        window.location.href = "mailto:" + EMAIL +
+          "?subject=" + encodeURIComponent("Notify me when Stack launches") +
+          "&body=" + encodeURIComponent("Add me to the launch list: " + email);
+        if (note) note.textContent = "Opening your email app — hit send and you're on the list.";
+      }
+    });
+  });
+
   /* store badges — until store URLs exist, scroll to the notify line */
   document.querySelectorAll(".store-badge[data-store]").forEach(function (b) {
     b.addEventListener("click", function () {

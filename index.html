@@ -19,8 +19,8 @@
   <link rel="icon" type="image/svg+xml" href="assets/img/icon-dark.svg" />
   <link rel="icon" type="image/png" href="assets/img/icon.png" />
   <link rel="apple-touch-icon" href="assets/img/icon.png" />
-  <link rel="preload" href="assets/fonts/InterVariable.ttf" as="font" type="font/ttf" crossorigin />
-  <link rel="stylesheet" href="assets/css/mono.css?v=1" />
+  <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/css/mono.css?v=2" />
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stack","operatingSystem":"Android","applicationCategory":"HealthApplication","description":"Private dose, supplement, peptide and GLP-1 tracker — reminders, supply projection, injection-site rotation, bloodwork and weight trends.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://klarna659.github.io/stack-website/"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Stack free?","acceptedAnswer":{"@type":"Answer","text":"Yes — tracking, reminders, supply projection and the core features are free. A Plus tier adds unlimited compounds, bloodwork tracking, encrypted backups and every card style."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. Stack has no account, no email signup and no cloud requirement — your data is stored encrypted on your device and you can export an encrypted backup file you own."}},{"@type":"Question","name":"What can I track with Stack?","acceptedAnswer":{"@type":"Answer","text":"Anything you take on a schedule: supplements, vitamins, medications, peptides, GLP-1s and TRT — plus habits, weight, lifts and bloodwork alongside your doses."}},{"@type":"Question","name":"Does Stack give dosing advice?","acceptedAnswer":{"@type":"Answer","text":"No. Stack is a logging tool and an educational reference. It never recommends compounds or doses, and nothing in the app or on this site is medical advice."}}]}</script>
@@ -73,7 +73,11 @@
               <span class="sb-text"><span class="sb-top">Coming to the</span><span class="sb-main">App Store</span></span>
             </button>
           </div>
-          <p class="hero-note">Launching soon. <a href="#" data-email-link>Be first to know →</a></p>
+          <form class="waitlist" data-form="waitlist" novalidate aria-label="Join the launch list">
+            <input class="input" type="email" name="email" placeholder="you@email.com" aria-label="Your email" required />
+            <button type="submit" class="btn btn-primary">Notify me</button>
+          </form>
+          <p class="hero-note" data-msg>Launching soon on Android. Drop your email and we'll tell you the day it's live.</p>
         </div>
 
         <div class="reveal" aria-hidden="true">
@@ -346,6 +350,6 @@
     <img id="lbImg" alt="" />
   </div>
 
-  <script src="assets/js/site.js?v=1"></script>
+  <script src="assets/js/site.js?v=2"></script>
 </body>
 </html>

@@ -7,7 +7,8 @@
 
 @font-face {
   font-family: "Inter";
-  src: url("../fonts/InterVariable.ttf") format("truetype-variations");
+  src: url("../fonts/inter-subset.woff2") format("woff2"),
+       url("../fonts/InterVariable.ttf") format("truetype-variations");
   font-weight: 100 900;
   font-display: swap;
 }
@@ -134,8 +135,13 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
 .sb-top { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; opacity: .72; }
 .sb-main { font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
 .store-badge.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-.hero-note { color: var(--dim); font-size: 13.5px; margin-top: 16px; }
+.hero-note { color: var(--dim); font-size: 13.5px; margin-top: 16px; max-width: 46ch; }
 .hero-note a { color: var(--mut); text-decoration: underline; text-underline-offset: 3px; }
+
+/* waitlist capture (hero) */
+.waitlist { display: flex; gap: 10px; margin-top: 22px; max-width: 420px; flex-wrap: wrap; }
+.waitlist .input { flex: 1 1 200px; }
+.waitlist .btn { flex: none; }
 
 /* phone preview (pure HTML/CSS mini Today screen) */
 .phone-prev {

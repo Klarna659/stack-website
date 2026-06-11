@@ -136,8 +136,8 @@ def head(title: str, desc: str, canonical: str, assets: str, jsonld: list | None
   <link rel="icon" type="image/svg+xml" href="{assets}/img/icon-dark.svg" />
   <link rel="icon" type="image/png" href="{assets}/img/icon.png" />
   <link rel="apple-touch-icon" href="{assets}/img/icon.png" />
-  <link rel="preload" href="{assets}/fonts/InterVariable.ttf" as="font" type="font/ttf" crossorigin />
-  <link rel="stylesheet" href="{assets}/css/mono.css?v=1" />{blocks}
+  <link rel="preload" href="{assets}/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="{assets}/css/mono.css?v=2" />{blocks}
 </head>"""
 
 
@@ -223,7 +223,7 @@ def footer(root: str) -> str:
       <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
     </div>
   </footer>
-  <script src="{root}assets/js/site.js?v=1"></script>"""
+  <script src="{root}assets/js/site.js?v=2"></script>"""
 
 
 def decay_bars(hours: float | None) -> str:
@@ -512,6 +512,9 @@ def catalog_page(compounds: list[dict], by_cat: dict[str, list[dict]]) -> str:
         <span class="lib-count" id="libCount">{len(compounds)} compounds</span>
       </div>
       <div class="cat-row" role="group" aria-label="Filter by category">{chips}</div>
+      <p class="muted" style="margin-top:18px;font-size:14px">Comparing two?
+      See the <a href="compare/" style="text-decoration:underline;text-underline-offset:3px">head-to-head comparisons</a> —
+      semaglutide vs tirzepatide, test cyp vs enanthate and more.</p>
     </div>
     <div class="container">{sections}
     </div>
@@ -522,18 +525,23 @@ def catalog_page(compounds: list[dict], by_cat: dict[str, list[dict]]) -> str:
 """
 
 
-def build_sitemap(slugs: list[str]) -> str:
+def build_sitemap(slugs: list[str], extra: list[str] | None = None) -> str:
+    """`slugs` are compound slugs (→ /compounds/<slug>/). `extra` are
+    site-relative paths already including their full path (e.g.
+    'compounds/compare/semaglutide-vs-tirzepatide/')."""
     static = [
-        "", "compounds/", "tools/reconstitution/", "guides/",
-        "guides/reconstitution-explained/", "guides/injection-site-rotation/",
-        "guides/glp1-tracking/", "about/", "stacks/", "privacy.html",
-        "terms.html", "referral.html",
+        "", "compounds/", "compounds/compare/", "tools/reconstitution/",
+        "guides/", "guides/reconstitution-explained/",
+        "guides/injection-site-rotation/", "guides/glp1-tracking/",
+        "about/", "stacks/", "privacy.html", "terms.html", "referral.html",
     ]
     urls = ""
     for p in static:
         urls += f"  <url><loc>{BASE_URL}/{p}</loc><lastmod>{TODAY}</lastmod></url>\n"
     for s in slugs:
         urls += f"  <url><loc>{BASE_URL}/compounds/{s}/</loc><lastmod>{TODAY}</lastmod></url>\n"
+    for p in extra or []:
+        urls += f"  <url><loc>{BASE_URL}/{p}</loc><lastmod>{TODAY}</lastmod></url>\n"
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             f"{urls}</urlset>\n")
@@ -566,8 +574,16 @@ def main() -> None:
         with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as f:
             f.write(compound_page(c, by_cat))
 
+    # Comparison pages (separate module; returns site-relative paths for sitemap).
+    extra: list[str] = []
+    try:
+        import build_compare
+        extra = build_compare.main()
+    except Exception as e:  # never let a compare error nuke the whole build
+        print(f"  (compare skipped: {e})")
+
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
-        f.write(build_sitemap(sorted(slugs)))
+        f.write(build_sitemap(sorted(slugs), extra))
 
     print(f"built compounds/index.html + {len(compounds)} pages + sitemap.xml")
 
