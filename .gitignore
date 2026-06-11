@@ -2,3 +2,6 @@
 # Python
 tools/__pycache__/
 *.pyc
+
+# Internal ops handoff (local only)
+/DOMAIN_SETUP_HANDOFF.md
