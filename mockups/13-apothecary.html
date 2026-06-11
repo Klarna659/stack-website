@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 13 Apothecary</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f4ede0;color:#27241e;font-family:Georgia,"Iowan Old Style",serif;line-height:1.5;-webkit-font-smoothing:antialiased;background-image:radial-gradient(rgba(80,60,30,.05) 1px,transparent 1px);background-size:8px 8px}
+  a{color:inherit;text-decoration:none}
+  .sans{font-family:"Inter",system-ui,sans-serif}
+
+  header{padding:30px 60px;border-bottom:1.5px solid #27241e;display:flex;justify-content:space-between;align-items:center;background:rgba(244,237,224,.7);backdrop-filter:blur(6px);position:sticky;top:0;z-index:5}
+  .brand{display:flex;gap:11px;align-items:center;font-size:24px;font-weight:700;letter-spacing:.02em;font-style:italic}
+  .brand .seal{width:42px;height:42px;border:1.5px solid #27241e;border-radius:50%;display:grid;place-items:center;font-family:serif;font-style:italic;font-size:22px;font-weight:600}
+  nav{display:flex;gap:30px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;font-family:Inter,sans-serif}
+  .cta{padding:9px 18px;background:#27241e;color:#f4ede0;border-radius:999px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;font-family:Inter,sans-serif}
+
+  /* sub-banner with date / no */
+  .runner{padding:14px 60px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:.22em;text-transform:uppercase;border-bottom:1.5px solid #27241e;font-family:Inter,sans-serif;font-weight:600}
+
+  /* hero */
+  .hero{max-width:1280px;margin:0 auto;padding:80px 60px 60px;display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:center}
+  .l .est{font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:600;font-family:Inter,sans-serif;margin-bottom:38px}
+  h1{font-size:clamp(64px,8.2vw,128px);letter-spacing:-.02em;line-height:.95;font-style:italic;font-weight:400}
+  h1 .lf{display:block;font-style:normal;font-weight:600;letter-spacing:-.025em}
+  h1 .or{color:#a04221;font-style:italic}
+  .lead{margin-top:36px;font-size:20px;line-height:1.55;max-width:520px;color:#3a3528}
+  .lead em{color:#a04221}
+  .actions{margin-top:50px;display:flex;gap:14px;align-items:center;font-family:Inter,sans-serif}
+  .b1{padding:16px 28px;background:#27241e;color:#f4ede0;border-radius:999px;font-weight:600;font-size:13.5px;letter-spacing:.04em}
+  .b2{padding:16px 26px;border:1.5px solid #27241e;border-radius:999px;font-weight:600;font-size:13.5px;letter-spacing:.04em}
+
+  /* right — apothecary jar / label */
+  .jar{position:relative;width:100%;max-width:340px;margin:0 auto;aspect-ratio:1/1.35}
+  .jar svg{width:100%;height:100%;display:block;filter:drop-shadow(0 30px 40px rgba(80,60,30,.18))}
+  .label-card{position:absolute;background:#fff;border:1.5px solid #27241e;padding:18px 22px;font-family:Inter,sans-serif;box-shadow:8px 8px 0 #27241e}
+  .lc1{top:30%;left:-40px;width:200px;transform:rotate(-3deg)}
+  .lc2{bottom:5%;right:-30px;width:180px;transform:rotate(2deg)}
+  .lc .h{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#a04221;margin-bottom:8px}
+  .lc .n{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .lc .d{font-size:12px;color:#5a5240;margin-top:6px}
+
+  /* table-of-contents row */
+  .toc{border-top:1.5px solid #27241e;border-bottom:1.5px solid #27241e;padding:30px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5px;background:#27241e}
+  .toc .col{background:#f4ede0;padding:22px 24px}
+  .toc .num{font-size:11px;letter-spacing:.18em;font-family:Inter,sans-serif;font-weight:700;color:#a04221}
+  .toc .t{font-size:22px;font-style:italic;margin-top:8px;font-weight:400}
+  .toc .d{font-size:13px;color:#5a5240;margin-top:6px;font-family:Inter,sans-serif;line-height:1.45}
+
+  /* footnote */
+  footer{padding:40px 60px;display:flex;justify-content:space-between;align-items:baseline;font-family:Inter,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+
+  @media (max-width:900px){.hero{grid-template-columns:1fr;gap:80px}.toc{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<header>
+  <a class="brand"><span class="seal">S</span> Stack &amp; Co.</a>
+  <nav><a>Apothecary</a><a>Compendium</a><a>The Stack</a><a>About</a></nav>
+  <a class="cta">Get the app</a>
+</header>
+<div class="runner"><span>No. 001 · The Compendium</span><span>Saint Charles · MMXXVI</span><span>Track your stack.</span></div>
+
+<section class="hero">
+  <div class="l">
+    <div class="est">Established 2026 · A modest tracker for the modern stack</div>
+    <h1><span class="lf">Every dose,</span> <span class="or">noted</span> &amp; remembered.</h1>
+    <p class="lead">For the patient keeper of vials and capsules: a quiet ledger of supplements, peptides, GLP-1, vitamins and prescriptions — <em>kept on your device, in your hand, never elsewhere.</em></p>
+    <div class="actions">
+      <a class="b1">Begin →</a>
+      <a class="b2">Read the compendium</a>
+    </div>
+  </div>
+
+  <div class="r">
+    <div class="jar">
+      <svg viewBox="0 0 200 270">
+        <!-- jar -->
+        <path d="M60 30 L140 30 L140 60 L155 65 L155 250 Q155 260 145 260 L55 260 Q45 260 45 250 L45 65 L60 60 Z" fill="#e8dcc0" stroke="#27241e" stroke-width="2"/>
+        <!-- liquid -->
+        <path d="M45 130 L155 130 L155 250 Q155 260 145 260 L55 260 Q45 260 45 250 Z" fill="#c0d4b5" opacity=".8"/>
+        <!-- label rectangle -->
+        <rect x="55" y="150" width="90" height="80" fill="#fff" stroke="#27241e" stroke-width="1.5"/>
+        <text x="100" y="172" text-anchor="middle" font-family="serif" font-style="italic" font-size="13" fill="#27241e">Stack</text>
+        <line x1="65" y1="180" x2="135" y2="180" stroke="#27241e" stroke-width=".8"/>
+        <text x="100" y="198" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="700" letter-spacing="2" fill="#a04221">PROTOCOL · 01</text>
+        <text x="100" y="215" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#5a5240">100 mg · every 3.5 d</text>
+        <text x="100" y="225" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="#888">— stack.app</text>
+        <!-- lid -->
+        <rect x="55" y="20" width="90" height="14" fill="#27241e"/>
+      </svg>
+    </div>
+    <div class="label-card lc lc1">
+      <div class="h">Today's Stack</div>
+      <div class="n">3 of 4 logged</div>
+      <div class="d">Next: BPC-157 · 7:00 PM</div>
+    </div>
+    <div class="label-card lc lc2">
+      <div class="h">In your system</div>
+      <div class="n">~ 67%</div>
+      <div class="d">Modeled by half-life</div>
+    </div>
+  </div>
+</section>
+
+<section class="toc">
+  <div class="col"><div class="num">I.</div><div class="t">A schedule</div><div class="d">That respects every half-life, every titration, every missed day.</div></div>
+  <div class="col"><div class="num">II.</div><div class="t">A library</div><div class="d">Every compound sourced. Add your own with a scan of the label.</div></div>
+  <div class="col"><div class="num">III.</div><div class="t">A ledger</div><div class="d">A streak that forgives. A trend that's honest. A model, not a verdict.</div></div>
+  <div class="col"><div class="num">IV.</div><div class="t">A vault</div><div class="d">Encrypted on your device. No accounts, no analytics, no exits.</div></div>
+</section>
+
+<footer>
+  <span>Stack &amp; Co. · 2026</span>
+  <span>Hello@trackyourstack.app</span>
+  <span>Privacy · Terms · The Compendium</span>
+</footer>
+</body></html>

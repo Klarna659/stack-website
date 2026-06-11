@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 23 Apple Stacked</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f5f5f7;color:#1d1d1f;font-family:"Inter","SF Pro Text",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+
+  header{position:sticky;top:0;z-index:10;background:rgba(245,245,247,.82);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+  .hwrap{max-width:1024px;margin:0 auto;padding:13px 22px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .brand{font-weight:600;letter-spacing:-.01em}
+  nav{display:flex;gap:24px;color:#1d1d1f;font-weight:400}
+  .cta{background:#0071e3;color:#fff;padding:5px 14px;border-radius:999px;font-weight:500;font-size:13px}
+
+  .section{padding:80px 22px;text-align:center}
+  .section.alt{background:#fff}
+
+  .eye{font-size:14px;color:#0071e3;font-weight:500;margin-bottom:10px}
+  .section.alt .eye{color:#0071e3}
+  h1{font-size:clamp(40px,5vw,64px);letter-spacing:-.03em;line-height:1.07;font-weight:600;max-width:760px;margin:0 auto}
+  .sub{margin-top:14px;color:#6e6e73;font-size:19px;max-width:540px;margin:14px auto 0;line-height:1.42}
+  .links{margin-top:26px;display:flex;gap:30px;justify-content:center;font-size:17px;color:#0071e3;font-weight:400}
+
+  /* phone */
+  .phone-wrap{margin-top:54px;display:flex;justify-content:center}
+  .phone{width:280px;border-radius:38px;background:linear-gradient(170deg,#3a3d44,#1a1d24);padding:7px;box-shadow:0 50px 80px -20px rgba(0,0,0,.25)}
+  .scr{aspect-ratio:9/19.5;background:#fafbfc;border-radius:32px;overflow:hidden;padding:38px 14px 14px;font-size:11px;color:#1d1d1f;position:relative;text-align:left}
+  .scr::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:96px;height:20px;background:#1a1d24;border-radius:999px}
+  .scr h2{font-size:19px;font-weight:600;letter-spacing:-.015em;margin:4px 0 12px}
+  .scr .row{background:#fff;border:1px solid #ececec;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .scr .row .d{width:7px;height:7px;border-radius:50%;background:#34c759}
+  .scr .row b{flex:1;font-size:12px;font-weight:500}
+  .scr .row .ti{font-size:11px;color:#86868b}
+
+  /* big stat */
+  .stat-row{display:flex;justify-content:center;gap:60px;margin-top:50px;flex-wrap:wrap}
+  .st .n{font-size:72px;font-weight:600;letter-spacing:-.04em;line-height:1;color:#1d1d1f}
+  .st .l{font-size:13px;color:#86868b;margin-top:6px;letter-spacing:.02em}
+
+  footer{padding:30px 22px;border-top:1px solid rgba(0,0,0,.08);color:#86868b;font-size:12px;text-align:center}
+</style></head>
+<body>
+<header><div class="hwrap">
+  <span class="brand">Stack</span>
+  <nav><a>Today</a><a>Stack</a><a>Trends</a><a>Support</a></nav>
+  <a class="cta">Get</a>
+</div></header>
+
+<section class="section">
+  <div class="eye">Stack</div>
+  <h1>One quiet place<br>for everything you take.</h1>
+  <p class="sub">Supplements, peptides, GLP-1, vitamins and prescriptions — remembered by your phone, kept on your phone.</p>
+  <div class="links"><a>Learn more ›</a><a>Get the app ›</a></div>
+  <div class="phone-wrap"><div class="phone"><div class="scr">
+    <h2>Today</h2>
+    <div class="row"><span class="d"></span><b>Testosterone Cyp.</b><span class="ti">9:00 ✓</span></div>
+    <div class="row"><span class="d" style="background:#c7c7cc"></span><b>BPC-157</b><span class="ti">7:00 PM</span></div>
+    <div class="row"><span class="d" style="background:#c7c7cc"></span><b>Creatine 5 g</b><span class="ti">9:00 PM</span></div>
+    <div class="row"><span class="d" style="background:#c7c7cc"></span><b>Vitamin D3</b><span class="ti">9:00 PM</span></div>
+  </div></div></div>
+</section>
+
+<section class="section alt">
+  <div class="eye">Today</div>
+  <h1>Open it. Log it. Done.</h1>
+  <p class="sub">One tap from your lock screen. Stack remembers what's due, what's done, and what runs out next.</p>
+  <div class="stat-row">
+    <div class="st"><div class="n">&lt;3s</div><div class="l">to log a dose</div></div>
+    <div class="st"><div class="n">100%</div><div class="l">on your device</div></div>
+    <div class="st"><div class="n">0</div><div class="l">accounts required</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eye">Private</div>
+  <h1>Your data stays<br>with you.</h1>
+  <p class="sub">Encrypted on your device. No accounts. No analytics. No cloud sync, unless you turn it on.</p>
+</section>
+
+<footer>Stack · 2026 · hello@trackyourstack.app</footer>
+</body></html>

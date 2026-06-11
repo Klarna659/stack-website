@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 27 Stripe Clean</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fff;color:#0a2540;font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+
+  header{padding:18px 28px;border-bottom:1px solid #f0f4f8}
+  .hwrap{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-weight:600;letter-spacing:-.02em;font-size:16px}
+  nav{display:flex;gap:28px;font-size:14px;color:#425466;font-weight:500}
+  .cta{padding:8px 16px;background:#0a2540;color:#fff;border-radius:8px;font-weight:500;font-size:13.5px}
+
+  /* hero with subtle bg */
+  .hero{position:relative;padding:90px 28px 70px;background-image:radial-gradient(rgba(10,37,64,.08) 1px,transparent 1px);background-size:22px 22px;background-position:center top}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,#fff 80%);pointer-events:none}
+  .hwrap2{position:relative;z-index:1;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr .9fr;gap:60px;align-items:center}
+  .eye{font-size:13px;font-weight:600;color:#635bff;letter-spacing:.04em;margin-bottom:18px;text-transform:uppercase}
+  h1{font-size:clamp(40px,5vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:600;color:#0a2540}
+  .lead{margin-top:22px;color:#425466;font-size:18px;max-width:460px;line-height:1.55}
+  .actions{margin-top:32px;display:flex;gap:12px;align-items:center}
+  .b1{background:#0a2540;color:#fff;padding:11px 20px;border-radius:8px;font-weight:500;font-size:14px}
+  .b2{padding:11px 16px;color:#0a2540;font-weight:500;font-size:14px}
+  .b2::after{content:" ›";color:#635bff}
+
+  /* preview card */
+  .preview{background:#fff;border:1px solid #e3e8ee;border-radius:14px;box-shadow:0 30px 60px -20px rgba(10,37,64,.18),0 0 0 1px rgba(10,37,64,.02);overflow:hidden}
+  .preview .top{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid #f0f4f8;background:#f7fafc}
+  .preview .top .d{display:flex;gap:5px}
+  .preview .top .d span{width:10px;height:10px;border-radius:50%;background:#dde3ea}
+  .preview .top .url{margin-left:14px;background:#fff;border:1px solid #e3e8ee;border-radius:6px;padding:4px 11px;font-size:11px;color:#425466;flex:1;max-width:300px}
+  .preview .body{padding:18px}
+  .preview .h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .preview .h b{font-size:14px;font-weight:600}
+  .preview .h .ch{font-size:11px;background:#eaf0ff;color:#635bff;padding:3px 9px;border-radius:999px;font-weight:600}
+  .preview .row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0f4f8;font-size:13.5px}
+  .preview .row:last-child{border-bottom:0}
+  .preview .row .d{width:7px;height:7px;border-radius:50%;background:#16b876}
+  .preview .row b{flex:1;font-weight:500}
+  .preview .row .ti{font-size:12px;color:#8c9bab}
+
+  /* features */
+  .trio{padding:80px 28px}
+  .tw{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:42px}
+  .f .ic{width:32px;height:32px;border-radius:8px;background:#eaf0ff;color:#635bff;display:grid;place-items:center;margin-bottom:14px}
+  .f h3{font-size:16px;font-weight:600;margin-bottom:6px}
+  .f p{font-size:14.5px;color:#425466;line-height:1.55}
+
+  footer{padding:28px;border-top:1px solid #f0f4f8;color:#8c9bab;font-size:13px}
+  footer .fw{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between}
+
+  @media (max-width:900px){.hwrap2{grid-template-columns:1fr;gap:40px}.tw{grid-template-columns:1fr;gap:24px}}
+</style></head>
+<body>
+<header><div class="hwrap">
+  <a class="brand">Stack</a>
+  <nav><a>Product</a><a>Stacks</a><a>Pricing</a><a>Docs</a></nav>
+  <a class="cta">Get the app</a>
+</div></header>
+
+<section class="hero">
+  <div class="hwrap2">
+    <div>
+      <div class="eye">Now in private beta</div>
+      <h1>The infrastructure for your stack.</h1>
+      <p class="lead">A quiet, encrypted log for everything you take — supplements, peptides, GLP-1, vitamins and prescriptions. Built for your phone.</p>
+      <div class="actions">
+        <a class="b1">Get the app</a>
+        <a class="b2">See features</a>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="top"><div class="d"><span></span><span></span><span></span></div><div class="url">stack.app · today</div></div>
+      <div class="body">
+        <div class="h"><b>Today, Jun 3</b><span class="ch">3 of 4 done</span></div>
+        <div class="row"><span class="d"></span><b>Testosterone Cyp. · 100 mg</b><span class="ti">9:00 ✓</span></div>
+        <div class="row"><span class="d" style="background:#dde3ea"></span><b>BPC-157 · 250 mcg</b><span class="ti">7:00 PM</span></div>
+        <div class="row"><span class="d" style="background:#dde3ea"></span><b>Creatine · 5 g</b><span class="ti">9:00 PM</span></div>
+        <div class="row"><span class="d" style="background:#dde3ea"></span><b>Vitamin D3</b><span class="ti">9:00 PM</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trio">
+  <div class="tw">
+    <div class="f"><div class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Half-life aware</h3><p>Real residence-time math, per compound — not a generic timer.</p></div>
+    <div class="f"><div class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg></div><h3>On your device</h3><p>Local-first and encrypted. Nothing leaves your phone.</p></div>
+    <div class="f"><div class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 7L9 18l-5-5"/></svg></div><h3>Free to start</h3><p>Track your entire stack at no cost. Premium adds depth.</p></div>
+  </div>
+</section>
+
+<footer><div class="fw"><span>Stack · 2026</span><span>hello@trackyourstack.app</span></div></footer>
+</body></html>

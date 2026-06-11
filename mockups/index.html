@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 30 Mockups</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0a0a0a;color:#e8e8e8;font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+
+  /* sticky top index nav */
+  header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid #222}
+  .hwrap{max-width:1400px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .htitle{font-weight:700;letter-spacing:-.02em;font-size:15px;display:flex;gap:10px;align-items:center}
+  .htitle .pill{background:#5b93f6;color:#fff;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.03em}
+  .quickjump{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap}
+  .quickjump a{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:#1a1a1a;border:1px solid #2a2a2a;font-size:12px;font-weight:600;color:#888;transition:all .15s}
+  .quickjump a:hover{background:#5b93f6;color:#fff;border-color:#5b93f6}
+  .quickjump .gap{width:8px}
+
+  /* hero intro */
+  .intro{padding:60px 24px 40px;text-align:center;max-width:840px;margin:0 auto}
+  .intro h1{font-size:clamp(36px,5vw,56px);letter-spacing:-.035em;line-height:1.05;font-weight:700;margin-bottom:18px}
+  .intro h1 .g{background:linear-gradient(110deg,#5b93f6,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .intro p{color:#888;font-size:17px;line-height:1.55}
+  .intro .batch{margin-top:18px;display:inline-flex;gap:16px;font-size:12px;color:#666;font-weight:600;letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap;justify-content:center}
+  .intro .batch span.on{color:#2dd4bf}
+
+  /* mockup container */
+  .mockup{max-width:1400px;margin:0 auto;padding:36px 24px}
+  .label{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:14px;padding:0 4px;flex-wrap:wrap}
+  .label .left{display:flex;align-items:baseline;gap:14px}
+  .label .num{font-size:64px;font-weight:800;letter-spacing:-.04em;color:#1a1a1a;line-height:.85;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#2a2a2a,#0f0f0f);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .label h2{font-size:24px;font-weight:700;letter-spacing:-.025em}
+  .label .tag{color:#666;font-size:14px;font-weight:500}
+  .label .links{display:flex;gap:8px}
+  .label .links a{padding:6px 12px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;font-size:12px;color:#aaa;transition:all .15s}
+  .label .links a:hover{background:#5b93f6;color:#fff;border-color:#5b93f6}
+
+  .desc{color:#777;font-size:14px;margin-bottom:14px;max-width:760px;padding:0 4px}
+  .desc strong{color:#bbb;font-weight:600}
+
+  .frame{position:relative;width:100%;height:760px;border-radius:14px;overflow:hidden;background:#0f0f0f;border:1px solid #1f1f1f;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+  .frame iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+
+  /* batch divider */
+  .batch-div{max-width:1400px;margin:60px auto 0;padding:0 24px}
+  .batch-div .inner{display:flex;align-items:center;gap:20px;padding:24px 0;border-top:1px solid #2dd4bf;border-bottom:1px solid #1a1a1a;margin-bottom:20px;flex-wrap:wrap}
+  .batch-div .inner b{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#2dd4bf}
+  .batch-div .inner span{color:#666;font-size:13px}
+
+  /* divider */
+  .divider{max-width:1400px;margin:0 auto;padding:0 24px}
+  .divider hr{border:0;height:1px;background:#1a1a1a;margin:30px 0}
+
+  /* footer */
+  footer{padding:80px 24px;text-align:center;color:#555;font-size:13px;border-top:1px solid #1a1a1a;margin-top:40px}
+  footer .tip{color:#888;font-size:14px;margin-bottom:8px}
+
+  @media (max-width:760px){
+    .frame{height:560px}
+    .label .num{font-size:42px}
+  }
+</style></head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="htitle">Stack <span class="pill">30 MOCKUPS</span></div>
+    <div class="quickjump">
+      <a href="#batch3" style="background:#2dd4bf;color:#0a0a0a;border-color:#2dd4bf;font-weight:700;width:auto;padding:0 12px">Batch 3 ↓ (minimal)</a>
+      <span class="gap"></span>
+      <a href="#m21">21</a><a href="#m22">22</a><a href="#m23">23</a><a href="#m24">24</a><a href="#m25">25</a>
+      <a href="#m26">26</a><a href="#m27">27</a><a href="#m28">28</a><a href="#m29">29</a><a href="#m30">30</a>
+      <span class="gap"></span>
+      <a href="#m1">01</a><a href="#m2">02</a><a href="#m3">03</a><a href="#m4">04</a><a href="#m5">05</a>
+      <a href="#m6">06</a><a href="#m7">07</a><a href="#m8">08</a><a href="#m9">09</a><a href="#m10">10</a>
+      <span class="gap"></span>
+      <a href="#m11">11</a><a href="#m12">12</a><a href="#m13">13</a><a href="#m14">14</a><a href="#m15">15</a>
+      <a href="#m16">16</a><a href="#m17">17</a><a href="#m18">18</a><a href="#m19">19</a><a href="#m20">20</a>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <h1>30 directions for <span class="g">Stack.</span></h1>
+  <p>Each mockup is a distinct aesthetic and layout choice — not just a color swap. Scroll through, jump with the numbered nav above, click any frame to open it full-screen. Tell me which one (or which mix) feels right.</p>
+  <p style="margin-top:14px;color:#bbb;font-size:14px">Batch 3 (<strong>21–30</strong>) is the new "normal/minimal" set — quiet palettes, restrained type, no theatrics. Start there. Old batches kept below for reference.</p>
+  <div class="batch"><span class="on">● Batch 3 · 21–30 NEW (minimal)</span><span>○ Batch 1 · 01–10</span><span>○ Batch 2 · 11–20</span></div>
+</section>
+
+<!-- BATCH 3 — MINIMAL / NORMAL — start here -->
+<div class="batch-div" id="batch3"><div class="inner"><b>· Batch 3 · 10 minimal directions</b><span>Quiet palettes (white / off-white / charcoal · one subtle accent). No loud colors, no statement designs.</span></div></div>
+
+<article class="mockup" id="m21">
+  <div class="label">
+    <div class="left"><span class="num">21</span><h2>Quiet</h2><span class="tag">— Stripe / Vercel</span></div>
+    <div class="links"><a href="21-quiet.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Pure white, <strong>centered single column</strong>, small phone below the fold. Maximum restraint. Subtle green accent only.</p>
+  <div class="frame"><iframe src="21-quiet.html" title="Quiet"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m22">
+  <div class="label">
+    <div class="left"><span class="num">22</span><h2>Two-Up Sober</h2><span class="tag">— Linear / Replit</span></div>
+    <div class="links"><a href="22-twoup.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Clean <strong>left text / right phone</strong>. Hairline borders, subtle blue accent, normal sans-serif. The "default" website that nobody objects to.</p>
+  <div class="frame"><iframe src="22-twoup.html" title="Two Up"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m23">
+  <div class="label">
+    <div class="left"><span class="num">23</span><h2>Apple-style Stacked</h2><span class="tag">— apple.com</span></div>
+    <div class="links"><a href="23-apple-stack.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Alternating light-grey / white sections</strong>, each a single centered statement + visual. The most familiar pattern on the web. Quiet by default.</p>
+  <div class="frame"><iframe src="23-apple-stack.html" title="Apple Stack"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m24">
+  <div class="label">
+    <div class="left"><span class="num">24</span><h2>Notion Document</h2><span class="tag">— Notion / Linear docs</span></div>
+    <div class="links"><a href="24-notion.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Treats the page like a <strong>document</strong> with a real checklist card. Warm-grey body text, Notion-style restraint. Reads as a tool, not a pitch.</p>
+  <div class="frame"><iframe src="24-notion.html" title="Notion"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m25">
+  <div class="label">
+    <div class="left"><span class="num">25</span><h2>Mono</h2><span class="tag">— Vercel / Are.na</span></div>
+    <div class="links"><a href="25-mono.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Pure black on white.</strong> Sharp borders, a single table, numbered sections. Zero color. The most "serious tool" look possible without going brutalist.</p>
+  <div class="frame"><iframe src="25-mono.html" title="Mono"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m26">
+  <div class="label">
+    <div class="left"><span class="num">26</span><h2>Things 3 Soft</h2><span class="tag">— Things 3 / Bear</span></div>
+    <div class="links"><a href="26-things.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Soft <strong>off-white background</strong>, a Things-3-style checklist card, friendly blue accent, rounded everything. Quiet but warm — not clinical.</p>
+  <div class="frame"><iframe src="26-things.html" title="Things"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m27">
+  <div class="label">
+    <div class="left"><span class="num">27</span><h2>Stripe Clean</h2><span class="tag">— stripe.com</span></div>
+    <div class="links"><a href="27-stripe.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Subtle dot-grid background</strong>, deep navy text, single purple accent. A faux "browser window" preview card. The Stripe template, restrained to a single product.</p>
+  <div class="frame"><iframe src="27-stripe.html" title="Stripe"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m28">
+  <div class="label">
+    <div class="left"><span class="num">28</span><h2>Bear Quiet</h2><span class="tag">— Bear / iA Writer</span></div>
+    <div class="links"><a href="28-bear.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Serif body, off-white paper, <strong>single column</strong>, an inline note-card with the checklist. Reads like a calm letter, not a sales page. Very anti-AI.</p>
+  <div class="frame"><iframe src="28-bear.html" title="Bear"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m29">
+  <div class="label">
+    <div class="left"><span class="num">29</span><h2>iA Writer Mono</h2><span class="tag">— iA Writer / Hugo</span></div>
+    <div class="links"><a href="29-iawriter.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">The whole page is a <strong>markdown document</strong>: monospace body, `# headings`, a real `- [x]` checklist. Wildly minimal. For people who like Hacker News.</p>
+  <div class="frame"><iframe src="29-iawriter.html" title="iA Writer"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m30">
+  <div class="label">
+    <div class="left"><span class="num">30</span><h2>Linear Dark Quiet</h2><span class="tag">— linear.app dark</span></div>
+    <div class="links"><a href="30-lineardark.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Dark mode done <strong>quietly</strong>. Deep charcoal, no neon, hairline borders, a faux app window. The dark equivalent of #22 — restrained and modern.</p>
+  <div class="frame"><iframe src="30-lineardark.html" title="Linear Dark"></iframe></div>
+</article>
+
+<!-- BATCH 1 — kept for reference -->
+<div class="batch-div"><div class="inner"><b>· Batch 1 · originals</b><span>Earlier directions, kept for reference.</span></div></div>
+
+<article class="mockup" id="m1">
+  <div class="label">
+    <div class="left"><span class="num">01</span><h2>Bento Grid</h2><span class="tag">— Apple iPad / Linear</span></div>
+    <div class="links"><a href="01-bento.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">A wall of <strong>asymmetric feature cards</strong> — different sizes, different treatments, the product showcases itself through composition. No phone mockup needed.</p>
+  <div class="frame"><iframe src="01-bento.html" title="Bento Grid"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m2">
+  <div class="label">
+    <div class="left"><span class="num">02</span><h2>Editorial Magazine</h2><span class="tag">— Notion / NYT print feel</span></div>
+    <div class="links"><a href="02-editorial.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Treats the landing page like a <strong>field note</strong> — huge italic serif headline, byline, multi-column body, dropcap, pull quote. Quiet authority, makes the product feel considered.</p>
+  <div class="frame"><iframe src="02-editorial.html" title="Editorial"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m3">
+  <div class="label">
+    <div class="left"><span class="num">03</span><h2>Centered Minimal</h2><span class="tag">— Stripe / Family.co minimal</span></div>
+    <div class="links"><a href="03-minimal.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Extreme whitespace.</strong> Almost nothing on the page — a single massive headline, one sub-line, one CTA. The confidence move; only works if the brand can carry it.</p>
+  <div class="frame"><iframe src="03-minimal.html" title="Minimal"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m4">
+  <div class="label">
+    <div class="left"><span class="num">04</span><h2>Split Sticky Scroll</h2><span class="tag">— Apple AirPods / Watch</span></div>
+    <div class="links"><a href="04-split-sticky.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Left column tells the story and scrolls; right column has a <strong>sticky phone</strong> that stays in view as you read through the features. Premium feel, easy to extend with more chapters.</p>
+  <div class="frame"><iframe src="04-split-sticky.html" title="Split Sticky"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m5">
+  <div class="label">
+    <div class="left"><span class="num">05</span><h2>Bold Typographic</h2><span class="tag">— Pitch / Cron / Layer</span></div>
+    <div class="links"><a href="05-typographic.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Type IS the design.</strong> Massive mixed-weight headline, marquee of categories, magazine-grid description. Bold, opinionated, unmistakable — no phone mockup needed.</p>
+  <div class="frame"><iframe src="05-typographic.html" title="Typographic"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m6">
+  <div class="label">
+    <div class="left"><span class="num">06</span><h2>Dashboard Hero</h2><span class="tag">— Linear / Vercel</span></div>
+    <div class="links"><a href="06-dashboard.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">The <strong>app dashboard IS the hero</strong> — full-width browser-framed UI dominates the page. Headline above is small and almost an afterthought. Show, don't tell.</p>
+  <div class="frame"><iframe src="06-dashboard.html" title="Dashboard"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m7">
+  <div class="label">
+    <div class="left"><span class="num">07</span><h2>Soft Wellness</h2><span class="tag">— Oura / Calm / Headspace</span></div>
+    <div class="links"><a href="07-wellness.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Pastel gradient washes</strong>, rounded everything, italic serif accents, illustrated organic shapes. Calming. Best fit for the wellness/peptide audience pivot.</p>
+  <div class="frame"><iframe src="07-wellness.html" title="Wellness"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m8">
+  <div class="label">
+    <div class="left"><span class="num">08</span><h2>Operator Dark</h2><span class="tag">— Raycast / Vercel dark</span></div>
+    <div class="links"><a href="08-operator.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">True-black canvas, <strong>grid lines</strong>, mono-font accents, a code editor "stack.config" block as the showcase, brutalist spec table. Operator energy — TRT/peptide power-users.</p>
+  <div class="frame"><iframe src="08-operator.html" title="Operator"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m9">
+  <div class="label">
+    <div class="left"><span class="num">09</span><h2>Storybook Vertical</h2><span class="tag">— Apple product pages</span></div>
+    <div class="links"><a href="09-storybook.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>One feature per full viewport</strong> as you scroll. Alternating light/dark panels, progress dots on the right. Apple-style "one more thing" rhythm. Use the iframe scrollbar to step through.</p>
+  <div class="frame"><iframe src="09-storybook.html" title="Storybook"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m10">
+  <div class="label">
+    <div class="left"><span class="num">10</span><h2>Tactile Card Stack</h2><span class="tag">— Family.co / Arc</span></div>
+    <div class="links"><a href="10-cardstack.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Slightly-rotated cards, sticker accents, <strong>physical/playful</strong> feel. Big shadow-offset buttons, squiggly highlight on the headline. Best for "fun" — less clinical than the rest.</p>
+  <div class="frame"><iframe src="10-cardstack.html" title="Card Stack"></iframe></div>
+</article>
+
+<!-- BATCH 2 — NEW -->
+
+<div class="batch-div"><div class="inner"><b>· Batch 2 · 10 more directions</b><span>None of these recolor batch 1 — these are different aesthetic universes.</span></div></div>
+
+<article class="mockup" id="m11">
+  <div class="label">
+    <div class="left"><span class="num">11</span><h2>Brutalist Swiss</h2><span class="tag">— Bauhaus / Pentagram</span></div>
+    <div class="links"><a href="11-brutalist.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Hard grid, thick borders, raw type.</strong> Cream + black + alarm-red. Numbered statements, ledger rows, brutal honesty. The opposite of "AI-looking."</p>
+  <div class="frame"><iframe src="11-brutalist.html" title="Brutalist"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m12">
+  <div class="label">
+    <div class="left"><span class="num">12</span><h2>Glassmorphism Aurora</h2><span class="tag">— visionOS / Stripe glass</span></div>
+    <div class="links"><a href="12-glassmorphism.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Frosted glass cards floating on an animated aurora.</strong> Premium tech feel, blurred color washes, depth without skeumorphism. visionOS energy.</p>
+  <div class="frame"><iframe src="12-glassmorphism.html" title="Glass"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m13">
+  <div class="label">
+    <div class="left"><span class="num">13</span><h2>Apothecary</h2><span class="tag">— Aesop / Apotheke</span></div>
+    <div class="links"><a href="13-apothecary.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Vintage pharmacy</strong> — paper-grain cream, italic serif, jar illustration, old-pharmacy labels. Reads as considered, expensive, anti-tech. Wellness-curious without "wellness app."</p>
+  <div class="frame"><iframe src="13-apothecary.html" title="Apothecary"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m14">
+  <div class="label">
+    <div class="left"><span class="num">14</span><h2>Y2K Chrome</h2><span class="tag">— 2003 Apple / aughts</span></div>
+    <div class="links"><a href="14-y2k.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">Glossy <strong>chrome gradient buttons</strong>, aqua sky background, pill nav, raised glass. Nostalgic but in a fun way. Risk: feels dated. Reward: nothing else on the App Store looks like this.</p>
+  <div class="frame"><iframe src="14-y2k.html" title="Y2K"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m15">
+  <div class="label">
+    <div class="left"><span class="num">15</span><h2>Newspaper Press</h2><span class="tag">— The Browser Co / NYT</span></div>
+    <div class="links"><a href="15-newspaper.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>The Stack Gazette.</strong> Broadsheet masthead, three-column justified body with dropcap, classified strip, footnotes. Reads as a publication — gives the app gravitas.</p>
+  <div class="frame"><iframe src="15-newspaper.html" title="Newspaper"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m16">
+  <div class="label">
+    <div class="left"><span class="num">16</span><h2>Phone-First Showcase</h2><span class="tag">— Things 3 / Bear</span></div>
+    <div class="links"><a href="16-phonefirst.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Giant phone center stage</strong>, headline OVER the phone, four feature blurbs flanking it. The phone IS the page — most direct way to communicate "this is a mobile app."</p>
+  <div class="frame"><iframe src="16-phonefirst.html" title="PhoneFirst"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m17">
+  <div class="label">
+    <div class="left"><span class="num">17</span><h2>Manifesto</h2><span class="tag">— Are.na / Cabana</span></div>
+    <div class="links"><a href="17-manifesto.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Text-only declarations.</strong> Cream-on-charcoal, line-by-line poetic statement, no UI screenshots. Says what you believe before what you sell. Cult-brand energy.</p>
+  <div class="frame"><iframe src="17-manifesto.html" title="Manifesto"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m18">
+  <div class="label">
+    <div class="left"><span class="num">18</span><h2>Diagonal Split</h2><span class="tag">— Stripe Atlas / Asana</span></div>
+    <div class="links"><a href="18-diagonal.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>Dramatic 45° split</strong> — color gradient on the left, dark phone on the right, headline lives across both. Bold, modern, immediately readable as "a tool with two sides."</p>
+  <div class="frame"><iframe src="18-diagonal.html" title="Diagonal"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m19">
+  <div class="label">
+    <div class="left"><span class="num">19</span><h2>Conversational</h2><span class="tag">— Linear / iMessage</span></div>
+    <div class="links"><a href="19-conversation.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc">The hero IS a <strong>working chat thread</strong> with Stack — animated message bubbles, an embedded "Today" card, a typing indicator. Sells the "as easy as a text" pitch instantly.</p>
+  <div class="frame"><iframe src="19-conversation.html" title="Conversation"></iframe></div>
+</article>
+
+<div class="divider"><hr></div>
+
+<article class="mockup" id="m20">
+  <div class="label">
+    <div class="left"><span class="num">20</span><h2>Floating Depth</h2><span class="tag">— visionOS / Framer</span></div>
+    <div class="links"><a href="20-depth.html" target="_blank">Open ↗</a></div>
+  </div>
+  <p class="desc"><strong>3D-staged floating islands</strong> — five widgets in real perspective space with a glow underneath. The deepest, most premium take. Hover any card to bring it forward.</p>
+  <div class="frame"><iframe src="20-depth.html" title="Depth"></iframe></div>
+</article>
+
+<footer>
+  <div class="tip">Tell me which numbers feel right — or which parts of which to mix.</div>
+  <span>← <a href="/" style="color:#5b93f6">Back to the current site</a></span>
+</footer>
+
+</body></html>

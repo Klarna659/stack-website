@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 28 Bear Quiet</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fbfaf7;color:#2a2a2a;font-family:Charter,"Iowan Old Style",Georgia,serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .sans{font-family:"Inter",system-ui,sans-serif}
+
+  header{padding:22px 32px;border-bottom:1px solid #ece8df;background:#fbfaf7}
+  .hwrap{max-width:780px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-weight:600;letter-spacing:-.01em;font-size:15px;font-family:Inter,sans-serif}
+  nav{display:flex;gap:24px;font-size:13.5px;color:#777;font-family:Inter,sans-serif;font-weight:500}
+  .cta{padding:7px 14px;background:#2a2a2a;color:#fbfaf7;border-radius:6px;font-weight:500;font-size:13px;font-family:Inter,sans-serif}
+
+  /* one column reading */
+  .col{max-width:680px;margin:0 auto;padding:80px 32px 60px}
+  .eye{font-size:12px;color:#999;font-family:Inter,sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px}
+  h1{font-size:clamp(38px,5vw,56px);letter-spacing:-.02em;line-height:1.1;font-weight:500;font-style:italic;color:#1a1a1a;font-family:Charter,Georgia,serif}
+  h1 .lf{font-style:normal;font-weight:600}
+  .lead{margin-top:24px;color:#5a5a5a;font-size:18.5px;line-height:1.6}
+  .actions{margin-top:36px;display:flex;gap:12px;align-items:center;font-family:Inter,sans-serif}
+  .b1{background:#2a2a2a;color:#fbfaf7;padding:11px 20px;border-radius:6px;font-weight:500;font-size:14px}
+  .b2{padding:11px 16px;color:#2a2a2a;font-weight:500;font-size:14px}
+
+  /* inline note card */
+  .note{margin:60px 0;border-left:3px solid #2a2a2a;background:#fff;padding:22px 24px;font-family:Inter,sans-serif;border-radius:0 8px 8px 0;box-shadow:0 1px 0 #ece8df}
+  .note .h{font-size:12px;color:#999;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+  .note .it{display:flex;align-items:center;gap:11px;padding:6px 0;font-size:14px;border-bottom:1px solid #f3f0e7}
+  .note .it:last-child{border-bottom:0}
+  .note .it .cb{width:14px;height:14px;border:1.6px solid #c9c3b4;border-radius:3px;flex:none;display:grid;place-items:center}
+  .note .it .cb.on{background:#2a2a2a;border-color:#2a2a2a;color:#fbfaf7;font-size:9px}
+  .note .it b{flex:1;font-weight:500;color:#2a2a2a}
+  .note .it.done b{color:#9c9c9c;text-decoration:line-through;text-decoration-color:#c9c3b4}
+  .note .it .ti{color:#9c9c9c;font-size:12.5px}
+
+  /* body */
+  .body p{margin-top:18px;font-size:17px}
+  .body h2{margin-top:46px;font-size:24px;letter-spacing:-.015em;font-family:Charter,Georgia,serif;font-style:italic;font-weight:500}
+
+  footer{padding:36px 32px;border-top:1px solid #ece8df;color:#a39e93;font-size:13px;text-align:center;font-family:Inter,sans-serif}
+</style></head>
+<body>
+<header><div class="hwrap">
+  <a class="brand">Stack</a>
+  <nav><a>Features</a><a>Stacks</a><a>Pricing</a><a>About</a></nav>
+  <a class="cta">Get the app</a>
+</div></header>
+
+<article class="col">
+  <div class="eye">A small introduction</div>
+  <h1><span class="lf">Stack</span> is a quiet place to track <span>everything you take.</span></h1>
+  <p class="lead">Supplements, peptides, GLP-1, vitamins, prescriptions — a private, on-device log that remembers every dose, every refill, every day.</p>
+  <div class="actions">
+    <a class="b1">Get the app</a>
+    <a class="b2">See features →</a>
+  </div>
+
+  <div class="note">
+    <div class="h">Today · Mon, Jun 3</div>
+    <div class="it done"><span class="cb on">✓</span><b>Testosterone Cypionate · 100 mg</b><span class="ti">9:00</span></div>
+    <div class="it done"><span class="cb on">✓</span><b>BPC-157 · 250 mcg</b><span class="ti">7:00 PM</span></div>
+    <div class="it done"><span class="cb on">✓</span><b>Creatine monohydrate · 5 g</b><span class="ti">9:00 PM</span></div>
+    <div class="it"><span class="cb"></span><b>Vitamin D3 · 5000 IU</b><span class="ti">9:00 PM</span></div>
+  </div>
+
+  <div class="body">
+    <h2>What it does</h2>
+    <p>You add a compound, and Stack handles the rest — schedule, half-life, refill projection, an encrypted record you can export at any time. Scan a label and the app pre-fills the math.</p>
+    <h2>What it doesn't</h2>
+    <p>Stack will not tell you what to take. It will not flag a dose as "good" or "bad." It will not sell your data, because there is none to sell — every byte lives on your phone, encrypted with a key only you hold.</p>
+  </div>
+</article>
+
+<footer>Stack · 2026 · hello@trackyourstack.app</footer>
+</body></html>

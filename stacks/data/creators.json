@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "note": "Canonical dataset for the Creator Stacks directory. EVERY entry must follow SOURCING_STANDARD.md (self-admitted + primary-source receipt + dated). Seed entries below are Tier 1 (self-published, legal supplements). Receipts here point to each person's OWN primary source; before public launch, tighten any podcast claims to exact episode + timestamp.",
+    "risk_tiers": {
+      "1": "legal supplements / openly-marketed protocol — publish freely",
+      "2": "Rx / hormones the person openly stated (TRT, GLP-1) — publish with care",
+      "3": "illegal/controlled PEDs — HOLD for media/IP attorney review"
+    },
+    "last_updated": "2026-06-02"
+  },
+  "creators": [
+    {
+      "id": "bryan-johnson",
+      "name": "Bryan Johnson",
+      "known_for": "Blueprint / 'Don't Die' longevity protocol",
+      "category": "longevity",
+      "risk_tier": 1,
+      "handles": { "x": "@bryan_johnson", "instagram": "@bryanjohnson_" },
+      "basis": "Publishes his entire protocol openly on his own sites and sells the commercial Blueprint stack — strongest possible self-admission.",
+      "primary_sources": [
+        "https://protocol.bryanjohnson.com/",
+        "https://blueprint.bryanjohnson.com/"
+      ],
+      "stack": [
+        { "compound": "Creatine monohydrate", "dose": "2.5 g/day", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "Listed in his published Blueprint protocol", "last_verified": "2026-06-02" },
+        { "compound": "NMN / NR (NAD+ precursor)", "dose": "as published", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "Part of published NAD+ support", "last_verified": "2026-06-02" },
+        { "compound": "Spermidine", "dose": "as published", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "Listed in protocol", "last_verified": "2026-06-02" },
+        { "compound": "Fisetin", "dose": "as published", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "Listed in protocol", "last_verified": "2026-06-02" },
+        { "compound": "CoQ10", "dose": "as published", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "Listed in protocol", "last_verified": "2026-06-02" },
+        { "compound": "Ca-AKG", "dose": "as published", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "Listed in protocol", "last_verified": "2026-06-02" },
+        { "compound": "Turmeric / curcumin", "dose": "~2 g/day", "type": "supplement", "source": "https://protocol.bryanjohnson.com/", "stated": "States ~2 g turmeric daily, split", "last_verified": "2026-06-02" },
+        { "compound": "Extra-virgin olive oil", "dose": "daily", "type": "food", "source": "https://blueprint.bryanjohnson.com/", "stated": "Core of published diet", "last_verified": "2026-06-02" }
+      ]
+    },
+    {
+      "id": "andrew-huberman",
+      "name": "Andrew Huberman",
+      "known_for": "Huberman Lab podcast (neuroscience)",
+      "category": "performance",
+      "risk_tier": 1,
+      "handles": { "x": "@hubermanlab", "instagram": "@hubermanlab" },
+      "basis": "Discusses his own supplementation in detail on his podcast and his website's supplementation hub.",
+      "primary_sources": [
+        "https://www.hubermanlab.com/topics/supplementation"
+      ],
+      "stack": [
+        { "compound": "Omega-3 fish oil (EPA-heavy)", "dose": "2-4 g/day", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Names omega-3 a foundational daily supplement", "last_verified": "2026-06-02" },
+        { "compound": "Creatine monohydrate", "dose": "5 g/day", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Foundational; daily incl. rest days", "last_verified": "2026-06-02" },
+        { "compound": "Magnesium L-threonate", "dose": "~140 mg PM", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Part of sleep/wind-down stack", "last_verified": "2026-06-02" },
+        { "compound": "Vitamin D3 + K2", "dose": "5,000-10,000 IU D3", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Daily vitamin/mineral support", "last_verified": "2026-06-02" },
+        { "compound": "Tongkat Ali", "dose": "cycled", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Testosterone-support, cycled", "last_verified": "2026-06-02" },
+        { "compound": "Zinc", "dose": "15 mg/day", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Daily, esp. when active", "last_verified": "2026-06-02" },
+        { "compound": "NMN", "dose": "~2 g AM (sublingual)", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Stated on the Joe Rogan Experience — TIGHTEN to exact episode+timestamp before launch", "last_verified": "2026-06-02" },
+        { "compound": "Apigenin", "dose": "sleep stack", "type": "supplement", "source": "https://www.hubermanlab.com/topics/supplementation", "stated": "Optional sleep stack (w/ magnesium)", "last_verified": "2026-06-02" }
+      ]
+    }
+  ]
+}

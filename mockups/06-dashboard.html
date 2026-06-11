@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 06 Dashboard Hero</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#06080d;color:#e8ecf3;font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  header{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:18px 32px;max-width:1320px;margin:0 auto}
+  .brand{display:flex;gap:9px;align-items:center;font-weight:700;letter-spacing:-.02em}
+  .brand img{width:26px;height:26px;border-radius:7px}
+  nav{display:flex;gap:24px;font-size:13.5px;color:#9aa3b3;font-weight:500}
+  .cta{background:#fff;color:#06080d;padding:9px 16px;border-radius:8px;font-size:13.5px;font-weight:600}
+
+  /* hero — UI dominates */
+  .hero{position:relative;padding:60px 32px 0;max-width:1320px;margin:0 auto;text-align:center}
+  .hero::before{content:"";position:absolute;left:50%;top:0;width:1100px;height:600px;transform:translateX(-50%);background:radial-gradient(50% 50% at 50% 30%,rgba(91,147,246,.25),transparent 70%),radial-gradient(40% 40% at 50% 0%,rgba(45,212,191,.18),transparent 70%);z-index:-1;pointer-events:none}
+  .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:6px 14px;border-radius:999px;font-size:12.5px;color:#9aa3b3;margin-bottom:30px}
+  .tag .dot{width:6px;height:6px;border-radius:999px;background:#33d17e}
+  h1{font-size:clamp(40px,5.5vw,72px);letter-spacing:-.04em;line-height:1.02;font-weight:600;max-width:880px;margin:0 auto}
+  h1 .g{background:linear-gradient(110deg,#fff 0%,#9bb3f0 60%,#5b93f6 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin:22px auto 36px;color:#9aa3b3;font-size:18px;max-width:560px}
+  .ctas{display:flex;gap:12px;justify-content:center;margin-bottom:80px}
+  .b1{background:#5b93f6;color:#fff;padding:13px 22px;border-radius:10px;font-weight:600;font-size:15px;border:0;font-family:inherit;cursor:pointer}
+  .b2{background:transparent;color:#fff;padding:13px 22px;border-radius:10px;font-weight:500;font-size:15px;border:1px solid rgba(255,255,255,.18);font-family:inherit;cursor:pointer}
+
+  /* the dashboard preview — full width, the star of the show */
+  .preview{position:relative;margin:0 auto;max-width:1180px;padding:0 32px}
+  .browser{background:#0c1119;border:1px solid #1a2236;border-radius:18px 18px 0 0;box-shadow:0 60px 120px -30px rgba(91,147,246,.4),0 30px 60px rgba(0,0,0,.5);overflow:hidden}
+  .bbar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #1a2236;background:#0a0e15}
+  .bbar .dots{display:flex;gap:6px}
+  .bbar .dots span{width:11px;height:11px;border-radius:999px;background:#2a3346}
+  .bbar .url{margin-left:auto;margin-right:auto;background:#121927;padding:5px 14px;border-radius:6px;font-size:12px;color:#6b7588;font-family:ui-monospace,monospace}
+  /* fake dashboard inside */
+  .dash{display:grid;grid-template-columns:200px 1fr 320px;height:520px;background:#0a0e15}
+  .side{border-right:1px solid #1a2236;padding:18px 14px;font-size:12.5px}
+  .side .sect{color:#5a657b;text-transform:uppercase;letter-spacing:.08em;font-size:10.5px;margin:18px 0 8px;font-weight:600}
+  .side .item{display:flex;gap:10px;align-items:center;padding:7px 9px;border-radius:7px;color:#9aa3b3;margin-bottom:2px}
+  .side .item.on{background:rgba(91,147,246,.14);color:#fff}
+  .side .it-dot{width:8px;height:8px;border-radius:2px;background:#5b93f6;flex:none}
+  .main{padding:24px 28px;overflow:hidden}
+  .h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:18px}
+  .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px}
+  .stat{background:#121927;border:1px solid #1a2236;border-radius:12px;padding:14px}
+  .stat .lbl{font-size:11px;color:#6b7588;text-transform:uppercase;letter-spacing:.05em}
+  .stat .v{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-top:4px}
+  .chart{background:#121927;border:1px solid #1a2236;border-radius:12px;padding:18px;height:240px}
+  .chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .chart-head h3{font-size:14px;font-weight:600}
+  .chart-head .chip{font-size:10.5px;color:#9aa3b3;background:#0a0e15;padding:3px 9px;border-radius:999px}
+  .chart svg{width:100%;height:160px}
+  .chart .line{stroke:#2dd4bf;stroke-width:2.5;fill:none;stroke-linecap:round}
+  .chart .area{fill:url(#gr1)}
+  .right-pane{border-left:1px solid #1a2236;padding:18px;background:#0a0e15}
+  .right-pane .h3{font-size:13px;color:#6b7588;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;font-weight:600}
+  .dose{display:flex;gap:10px;align-items:center;padding:10px;background:#121927;border:1px solid #1a2236;border-radius:10px;margin-bottom:8px}
+  .dose .ico{width:30px;height:30px;border-radius:8px;background:rgba(91,147,246,.15);color:#5b93f6;display:grid;place-items:center;flex:none;font-size:11px;font-weight:700}
+  .dose .t{flex:1;font-size:12.5px}
+  .dose .t b{display:block;font-weight:600}
+  .dose .t span{color:#6b7588;font-size:11px}
+  .dose .ck{width:22px;height:22px;border-radius:999px;background:#33d17e;color:#fff;display:grid;place-items:center;font-size:12px}
+  @media (max-width:900px){.dash{grid-template-columns:1fr;height:auto}.side,.right-pane{display:none}}
+</style></head>
+<body>
+<header>
+  <a class="brand"><img src="../assets/img/icon.png" alt=""> Stack</a>
+  <nav><a>Product</a><a>Stacks</a><a>Pricing</a><a>Changelog</a></nav>
+  <a class="cta">Open Stack</a>
+</header>
+
+<section class="hero">
+  <div class="tag"><span class="dot"></span> v1.0 launching this fall</div>
+  <h1>The dashboard for <span class="g">everything you take.</span></h1>
+  <p class="sub">Doses, refills, half-lives, trends, bloodwork. All in one place.</p>
+  <div class="ctas">
+    <button class="b1">Get Stack free</button>
+    <button class="b2">See a demo →</button>
+  </div>
+</section>
+
+<div class="preview">
+  <div class="browser">
+    <div class="bbar">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">app.trackyourstack.app</div>
+    </div>
+    <div class="dash">
+      <div class="side">
+        <div class="sect">Workspace</div>
+        <div class="item on"><span class="it-dot"></span> Today</div>
+        <div class="item"><span class="it-dot" style="background:#2dd4bf"></span> Your Stack</div>
+        <div class="item"><span class="it-dot" style="background:#f2a33c"></span> Trends</div>
+        <div class="item"><span class="it-dot" style="background:#33d17e"></span> Bloodwork</div>
+        <div class="sect">Compounds</div>
+        <div class="item">Testosterone Cyp.</div>
+        <div class="item">Semaglutide</div>
+        <div class="item">BPC-157</div>
+        <div class="item">Creatine</div>
+      </div>
+      <div class="main">
+        <div class="h2">Good afternoon</div>
+        <div class="row">
+          <div class="stat"><div class="lbl">Streak</div><div class="v">12 days</div></div>
+          <div class="stat"><div class="lbl">On-time</div><div class="v">94%</div></div>
+          <div class="stat"><div class="lbl">Doses today</div><div class="v">3 / 4</div></div>
+        </div>
+        <div class="chart">
+          <div class="chart-head"><h3>In your system · Testosterone Cyp.</h3><span class="chip">t½ 8 days</span></div>
+          <svg viewBox="0 0 600 160" preserveAspectRatio="none">
+            <defs><linearGradient id="gr1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2dd4bf" stop-opacity=".4"/><stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/></linearGradient></defs>
+            <path class="area" d="M0,140 L60,110 L120,124 L200,82 L260,98 L340,60 L400,76 L500,40 L600,28 L600,160 L0,160 Z"/>
+            <path class="line" d="M0,140 L60,110 L120,124 L200,82 L260,98 L340,60 L400,76 L500,40 L600,28"/>
+          </svg>
+        </div>
+      </div>
+      <div class="right-pane">
+        <div class="h3">Due today</div>
+        <div class="dose"><div class="ico">T</div><div class="t"><b>Testosterone Cyp.</b><span>100 mg · 9:00 AM</span></div><div class="ck">✓</div></div>
+        <div class="dose"><div class="ico" style="background:rgba(45,212,191,.15);color:#2dd4bf">S</div><div class="t"><b>Semaglutide</b><span>0.5 mg · 6:00 PM</span></div></div>
+        <div class="dose"><div class="ico" style="background:rgba(242,163,60,.15);color:#f2a33c">B</div><div class="t"><b>BPC-157</b><span>250 mcg · 7:00 PM</span></div></div>
+        <div class="dose"><div class="ico" style="background:rgba(51,209,126,.15);color:#33d17e">C</div><div class="t"><b>Creatine</b><span>5 g · 9:00 PM</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

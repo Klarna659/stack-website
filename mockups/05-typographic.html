@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 05 Typographic</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#eae5d8;color:#0e0e0c;font-family:"Inter",system-ui,sans-serif;line-height:1;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  header{padding:22px 36px;display:flex;justify-content:space-between;align-items:center;font-size:13.5px;letter-spacing:.04em}
+  .brand{font-weight:700;letter-spacing:-.02em;font-size:18px}
+  nav{display:flex;gap:22px;font-weight:500}
+  /* the big type — multiple massive lines, mixed weights and styles */
+  .mega{padding:80px 36px 40px;line-height:.86;letter-spacing:-.06em;font-weight:900}
+  .mega .line{display:block;font-size:clamp(60px,16vw,240px)}
+  .mega .l1{font-weight:200}
+  .mega .l2{font-weight:900;font-style:italic;color:#0e0e0c}
+  .mega .l3{font-weight:300;font-style:italic;color:#a8a397}
+  .mega .l4{font-weight:900;text-align:right}
+  /* marquee */
+  .marq{margin-top:60px;padding:24px 0;border-top:2px solid #0e0e0c;border-bottom:2px solid #0e0e0c;overflow:hidden;white-space:nowrap;font-size:46px;font-weight:600;letter-spacing:-.025em}
+  .marq-track{display:inline-block;animation:slide 28s linear infinite}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .marq span{display:inline-block;padding:0 24px}
+  .marq .dot{color:#c46c30;display:inline-block;padding:0 6px}
+  /* description */
+  .body{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;max-width:1280px;margin:0 auto;padding:80px 36px}
+  .body .ix{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#7a7569;font-weight:600}
+  .body p{font-size:22px;line-height:1.45;letter-spacing:-.01em;color:#1f1f1c}
+  .body p em{font-style:normal;background:#0e0e0c;color:#eae5d8;padding:2px 6px;border-radius:4px}
+  /* footer block */
+  .end{padding:36px;display:flex;justify-content:space-between;align-items:flex-end;border-top:2px solid #0e0e0c}
+  .end .yr{font-size:96px;font-weight:200;letter-spacing:-.04em;line-height:.9}
+  .end .meta{text-align:right;font-size:14px}
+  .end .meta b{display:block;font-size:22px;letter-spacing:-.02em;margin-bottom:4px}
+  @media (max-width:760px){.mega .line{font-size:14vw}.body{grid-template-columns:1fr;gap:24px;padding:50px 24px}.body p{font-size:18px}.end .yr{font-size:56px}}
+</style></head>
+<body>
+<header>
+  <div class="brand">Stack</div>
+  <nav><span>Index</span><span>Take</span><span>Get</span></nav>
+  <span>2026</span>
+</header>
+
+<div class="mega">
+  <span class="line l1">track</span>
+  <span class="line l2">EVERY</span>
+  <span class="line l3">thing</span>
+  <span class="line l4">you take.</span>
+</div>
+
+<div class="marq">
+  <div class="marq-track">
+    <span>Supplements</span><span class="dot">●</span><span>Peptides</span><span class="dot">●</span><span>GLP-1</span><span class="dot">●</span><span>Vitamins</span><span class="dot">●</span><span>TRT</span><span class="dot">●</span><span>Reconstitution</span><span class="dot">●</span>
+    <span>Supplements</span><span class="dot">●</span><span>Peptides</span><span class="dot">●</span><span>GLP-1</span><span class="dot">●</span><span>Vitamins</span><span class="dot">●</span><span>TRT</span><span class="dot">●</span><span>Reconstitution</span><span class="dot">●</span>
+  </div>
+</div>
+
+<div class="body">
+  <div class="ix">01 — What it is</div>
+  <p>Stack is the simplest way to keep every dose, refill, and reminder in one place. Local-first, encrypted on your device — <em>no accounts, no ads, no analytics</em>.</p>
+</div>
+
+<div class="end">
+  <div class="yr">→</div>
+  <div class="meta"><b>Be first in line.</b>hello@trackyourstack.app</div>
+</div>
+</body></html>

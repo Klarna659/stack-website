@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — app-icon mockups</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#eef0f3;color:#0f1115;font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+
+  header{padding:18px 32px;border-bottom:1px solid #d8dde4;background:#fff;position:sticky;top:0;z-index:5}
+  .hwrap{max-width:1320px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+  .htitle{font-weight:600;font-size:15px;letter-spacing:-.02em}
+  .htitle b{background:#0f1115;color:#fff;padding:2px 8px;border-radius:5px;font-size:11px;margin-left:8px;letter-spacing:.04em}
+  .back{font-size:14px;color:#5a606e}
+
+  .intro{max-width:1320px;margin:0 auto;padding:50px 32px 14px}
+  .intro h1{font-size:36px;font-weight:600;letter-spacing:-.03em;margin-bottom:14px}
+  .intro p{color:#5a606e;font-size:16px;max-width:760px;line-height:1.55}
+
+  .legal{max-width:1320px;margin:18px auto 0;padding:0 32px}
+  .legal-card{background:#fff;border:1px solid #d8dde4;border-radius:14px;padding:24px 28px}
+  .legal-card h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#5a606e;font-weight:700;margin-bottom:14px}
+  .legal-card .lr{display:flex;justify-content:space-between;align-items:flex-start;padding:11px 0;border-top:1px solid #eef0f3;gap:18px}
+  .legal-card .lr:first-of-type{border-top:0}
+  .legal-card .lr b{font-size:14.5px;font-weight:600;flex:none;width:200px}
+  .legal-card .lr p{font-size:13.5px;color:#5a606e;line-height:1.55;flex:1}
+  .legal-card .badge{flex:none;padding:3px 9px;border-radius:5px;font-size:11px;font-weight:700;letter-spacing:.04em}
+  .legal-card .badge.ok{background:#dffaea;color:#0a6b3a}
+  .legal-card .badge.cau{background:#fff4d5;color:#7a5a0a}
+  .legal-card .badge.no{background:#ffe0e0;color:#a32118}
+
+  .section{max-width:1320px;margin:0 auto;padding:64px 32px 0}
+  .section-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;gap:20px;flex-wrap:wrap;border-bottom:1px solid #d8dde4;padding-bottom:14px}
+  .section-h h2{font-size:22px;font-weight:600;letter-spacing:-.02em}
+  .section-h .meta{font-size:13px;color:#9aa1ac}
+
+  .vars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+
+  .vcard{background:#fff;border:1px solid #d8dde4;border-radius:14px;overflow:hidden}
+  .vcard .stage{
+    aspect-ratio:1.05;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(180deg,#f5f7fa 0%,#dee2e8 100%);
+    padding:30px 20px 18px;
+    position:relative;
+  }
+  /* iOS home-screen wallpaper feel — subtle */
+  .vcard .stage::before{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle at 30% 20%,rgba(255,255,255,.7),transparent 50%);
+    pointer-events:none;
+  }
+  .vcard .holder{display:flex;flex-direction:column;align-items:center;gap:11px;position:relative;z-index:1}
+
+  /* the app icon itself (iOS squircle approx) */
+  .icon{
+    width:124px;height:124px;
+    border-radius:28px;
+    display:grid;place-items:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.7) inset;
+    overflow:hidden;
+    position:relative;
+  }
+  .icon svg{width:62%;height:62%}
+
+  /* iOS-style label */
+  .label{
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:-.01em;
+    color:#1a1c20;
+    text-shadow:0 1px 2px rgba(255,255,255,.85);
+    line-height:1.1;
+  }
+  .label.caps{text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .label.lower{text-transform:lowercase;letter-spacing:-.02em}
+
+  .vcard .info{padding:14px 18px 18px;border-top:1px solid #eef0f3;background:#fff}
+  .vcard .info .name{font-size:13px;font-weight:600;color:#0f1115;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+  .vcard .info .name span{font-size:10.5px;color:#9aa1ac;font-weight:600;letter-spacing:.08em}
+  .vcard .info p{font-size:12.5px;color:#5a606e;line-height:1.5}
+
+  /* ----- icon background flavors ----- */
+  .bg-dark  { background:#0f1115; }
+  .bg-light { background:#fff; border:1px solid #ececee; }
+  .bg-cream { background:#f4f0e8; }
+  .bg-charcoal { background:linear-gradient(180deg,#2a2e36,#0a0c10); }
+
+  footer{padding:60px 32px;text-align:center;color:#9aa1ac;font-size:13px;margin-top:60px;border-top:1px solid #d8dde4;background:#fff}
+
+  @media (max-width:960px){.vars{grid-template-columns:1fr 1fr}}
+  @media (max-width:580px){.vars{grid-template-columns:1fr}}
+</style></head>
+<body>
+
+<header><div class="hwrap">
+  <span class="htitle">Stack <b>APP-ICON MOCKUPS</b></span>
+  <a class="back" href="logos.html">← Back to logos</a>
+</div></header>
+
+<section class="intro">
+  <h1>App-icon mockups</h1>
+  <p>3 logos × 3 variations each = 9 ways "Stack" could look on a phone home screen. Capitalization, background, and weight are dialed differently in each variation. Pick a code (e.g. "02-B").</p>
+</section>
+
+<section class="legal">
+  <div class="legal-card">
+    <h2>Lawsuit check</h2>
+    <div class="lr">
+      <b>#02 Stacked Discs</b>
+      <p>Abstract three-disc stack. Searched major trademarks — no dominant brand owns this mark in any consumer category. Safe.</p>
+      <span class="badge ok">SAFE</span>
+    </div>
+    <div class="lr">
+      <b>#04 Stacked Diamonds</b>
+      <p>Renault owns a single diamond, Ethereum a single rhombus. Three stacked diamonds is generic geometry and not owned by a major brand. Safe.</p>
+      <span class="badge ok">SAFE</span>
+    </div>
+    <div class="lr">
+      <b>#10 Hex Cluster</b>
+      <p>Hexagons are everywhere (Bumble, HBO Max, many crypto). Three-hex tile arrangement is generic. Geometry was tweaked from the comp page to be clearly distinct from Bumble's single yellow hex. Use with normal brand care.</p>
+      <span class="badge cau">SAFE (CAUTION)</span>
+    </div>
+    <div class="lr">
+      <b>#15 Linked Rings</b>
+      <p>Mastercard owns two interlocking circles in financial services and defends it aggressively. Even in our category, visual confusion risk is too high. Cut.</p>
+      <span class="badge no">SKIP</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================== 02 STACKED DISCS === -->
+
+<section class="section">
+  <div class="section-h"><h2>02 · Stacked Discs</h2><span class="meta">3 variations</span></div>
+  <div class="vars">
+
+    <!-- 02-A: dark icon, "Stack" -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-dark">
+          <svg viewBox="0 0 40 40">
+            <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#fff" opacity=".4"/>
+            <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#fff" opacity=".7"/>
+            <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#fff"/>
+          </svg>
+        </div>
+        <span class="label">Stack</span>
+      </div></div>
+      <div class="info"><div class="name">Classic dark <span>02-A</span></div><p>Black squircle, light discs fading bottom → top. Standard title-case label.</p></div>
+    </article>
+
+    <!-- 02-B: light icon, "STACK" caps -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-light">
+          <svg viewBox="0 0 40 40">
+            <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#c9ccd2"/>
+            <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#6b6e76"/>
+            <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#15171c"/>
+          </svg>
+        </div>
+        <span class="label caps">STACK</span>
+      </div></div>
+      <div class="info"><div class="name">Minimal white <span>02-B</span></div><p>White icon with subtle border, three solid greys. Loud all-caps wordmark.</p></div>
+    </article>
+
+    <!-- 02-C: cream icon, "stack" lower -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-cream">
+          <svg viewBox="0 0 40 40">
+            <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#a8a39a"/>
+            <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#5a554e"/>
+            <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#1a1814"/>
+          </svg>
+        </div>
+        <span class="label lower">stack</span>
+      </div></div>
+      <div class="info"><div class="name">Warm lowercase <span>02-C</span></div><p>Cream paper background, warm-grey discs. Lowercase wordmark for the friendly, anti-corporate read.</p></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ================================================ 04 STACKED DIAMONDS === -->
+
+<section class="section">
+  <div class="section-h"><h2>04 · Stacked Diamonds</h2><span class="meta">3 variations</span></div>
+  <div class="vars">
+
+    <!-- 04-A: dark icon -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-dark">
+          <svg viewBox="0 0 40 44">
+            <polygon points="20,4 31,12 20,20 9,12"  fill="#fff" opacity=".4"/>
+            <polygon points="20,14 31,22 20,30 9,22" fill="#fff" opacity=".7"/>
+            <polygon points="20,24 31,32 20,40 9,32" fill="#fff"/>
+          </svg>
+        </div>
+        <span class="label">Stack</span>
+      </div></div>
+      <div class="info"><div class="name">Classic dark <span>04-A</span></div><p>Three diamonds cascading, white-on-black. Sharpest read at small sizes.</p></div>
+    </article>
+
+    <!-- 04-B: charcoal gradient -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-charcoal">
+          <svg viewBox="0 0 40 44">
+            <polygon points="20,4 31,12 20,20 9,12"  fill="#c9ccd2"/>
+            <polygon points="20,14 31,22 20,30 9,22" fill="#9da0a6"/>
+            <polygon points="20,24 31,32 20,40 9,32" fill="#fafafa"/>
+          </svg>
+        </div>
+        <span class="label caps">STACK</span>
+      </div></div>
+      <div class="info"><div class="name">Charcoal premium <span>04-B</span></div><p>Subtle dark gradient background, brushed silver diamonds. Premium hardware feel.</p></div>
+    </article>
+
+    <!-- 04-C: white icon -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-light">
+          <svg viewBox="0 0 40 44">
+            <polygon points="20,4 31,12 20,20 9,12"  fill="#c9ccd2"/>
+            <polygon points="20,14 31,22 20,30 9,22" fill="#6b6e76"/>
+            <polygon points="20,24 31,32 20,40 9,32" fill="#15171c"/>
+          </svg>
+        </div>
+        <span class="label lower">stack<span style="color:#f59e0b">.</span></span>
+      </div></div>
+      <div class="info"><div class="name">White, low-key <span>04-C</span></div><p>Clean white icon, dark-ascending diamonds. Lowercase "stack." with one amber period — the dash of color.</p></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- =================================================== 10 HEX CLUSTER === -->
+
+<section class="section">
+  <div class="section-h"><h2>10 · Hex Cluster</h2><span class="meta">3 variations · geometry tweaked from comp page</span></div>
+  <div class="vars">
+
+    <!-- 10-A: dark, asymmetric trio -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-dark">
+          <svg viewBox="0 0 40 40">
+            <!-- arrangement: large hex left, two small hexes right (stacked vert) -->
+            <polygon points="12,8 20,8 24,15 20,22 12,22 8,15" fill="#fff"/>
+            <polygon points="26,6  32,6  35,11 32,16 26,16 23,11" fill="#fff" opacity=".55"/>
+            <polygon points="26,18 32,18 35,23 32,28 26,28 23,23" fill="#fff" opacity=".3"/>
+          </svg>
+        </div>
+        <span class="label">Stack</span>
+      </div></div>
+      <div class="info"><div class="name">Hex trio dark <span>10-A</span></div><p>One big hex + two stacked smaller ones — asymmetric, deliberately unlike Bumble's single hex.</p></div>
+    </article>
+
+    <!-- 10-B: light, tight 3-hex tile -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-light">
+          <svg viewBox="0 0 40 40">
+            <!-- triangle arrangement of 3 hexes -->
+            <polygon points="14,4 22,4 26,11 22,18 14,18 10,11"  fill="#15171c"/>
+            <polygon points="22,18 30,18 34,25 30,32 22,32 18,25" fill="#6b6e76"/>
+            <polygon points="6,18  14,18 18,25 14,32 6,32  2,25"  fill="#c9ccd2"/>
+          </svg>
+        </div>
+        <span class="label caps">STACK</span>
+      </div></div>
+      <div class="info"><div class="name">Honeycomb white <span>10-B</span></div><p>Three hexes in a tight triangle, three solid greys. Pyramid pointing up — "building a stack."</p></div>
+    </article>
+
+    <!-- 10-C: cream, single bold hex with stack lines inside -->
+    <article class="vcard">
+      <div class="stage"><div class="holder">
+        <div class="icon bg-cream">
+          <svg viewBox="0 0 40 40">
+            <polygon points="20,3 34,11 34,29 20,37 6,29 6,11" fill="none" stroke="#1a1814" stroke-width="2.5"/>
+            <line x1="11" y1="16" x2="29" y2="16" stroke="#1a1814" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="11" y1="20" x2="29" y2="20" stroke="#1a1814" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="11" y1="24" x2="29" y2="24" stroke="#1a1814" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="label lower">stack</span>
+      </div></div>
+      <div class="info"><div class="name">One hex, stacked inside <span>10-C</span></div><p>Single bold hex outline with three horizontal bars inside — combines hex container + stack motif. Most original direction.</p></div>
+    </article>
+
+  </div>
+</section>
+
+<footer>Stack · 9 app-icon mockups · pick a code (e.g. "10-C" or "02-A label, 04-A icon")</footer>
+</body></html>

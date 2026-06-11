@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 18 Diagonal Split</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fff;color:#0a0e15;font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+
+  /* nav */
+  header{position:absolute;top:0;left:0;right:0;z-index:10;padding:22px 40px;display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;gap:11px;align-items:center;font-weight:700;letter-spacing:-.02em;font-size:18px;color:#fff;mix-blend-mode:difference}
+  .brand .b{width:30px;height:30px;background:#fff;color:#0a0e15;border-radius:9px;display:grid;place-items:center;font-weight:800}
+  nav{display:flex;gap:30px;font-size:14px;color:#fff;mix-blend-mode:difference;font-weight:500}
+  .cta{background:#fff;color:#0a0e15;padding:9px 18px;border-radius:999px;font-weight:600;font-size:13.5px}
+
+  /* diagonal hero */
+  .hero{position:relative;height:100vh;min-height:720px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#5b93f6 0%,#2dd4bf 100%);clip-path:polygon(0 0,55% 0,45% 100%,0 100%);z-index:1}
+  .hero::after{content:"";position:absolute;inset:0;background:#0a0e15;clip-path:polygon(55% 0,100% 0,100% 100%,45% 100%);z-index:1}
+  .hero-content{position:relative;z-index:2;height:100%;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 80px;gap:80px;max-width:1400px;margin:0 auto}
+
+  .l{color:#fff}
+  .eyebrow{display:inline-flex;gap:9px;align-items:center;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:7px 14px;border-radius:999px;font-size:12px;letter-spacing:.04em;color:#fff;margin-bottom:24px;font-weight:500;border:1px solid rgba(255,255,255,.25)}
+  .eyebrow .d{width:6px;height:6px;background:#fff;border-radius:50%}
+  h1{font-size:clamp(54px,7vw,96px);font-weight:800;letter-spacing:-.045em;line-height:.98;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.15)}
+  .lead{margin-top:24px;color:rgba(255,255,255,.92);font-size:18px;max-width:440px;line-height:1.55}
+  .actions{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
+  .b1{background:#fff;color:#0a0e15;padding:15px 26px;border-radius:14px;font-weight:600;font-size:15px}
+  .b2{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;padding:15px 24px;border-radius:14px;font-weight:500;font-size:15px;backdrop-filter:blur(10px)}
+
+  /* right diagonal — phone in dark */
+  .r{display:flex;justify-content:center;align-items:center;position:relative}
+  .phone{width:280px;border-radius:42px;background:linear-gradient(170deg,#2a2c33,#0a0c11);padding:8px;box-shadow:0 60px 100px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06);transform:rotate(-4deg)}
+  .scr{aspect-ratio:9/19.5;background:linear-gradient(180deg,#101218 0%,#0a0c11 100%);border-radius:36px;overflow:hidden;padding:38px 16px 16px;color:#fff;font-size:11px;position:relative}
+  .scr::before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);width:96px;height:22px;background:#000;border-radius:999px}
+  .scr h2{font-size:20px;font-weight:700;letter-spacing:-.02em;margin:6px 0 14px}
+  .scr .row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:9px;margin-bottom:7px}
+  .scr .row .ic{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#5b93f6,#2dd4bf);display:grid;place-items:center;font-weight:700;color:#fff;font-size:11px}
+  .scr .row b{flex:1;font-size:12px;font-weight:600}
+  .scr .row .ti{font-size:10.5px;color:#7a818c}
+  .scr .strk{margin-top:10px;background:linear-gradient(135deg,#5b93f6,#2dd4bf);border-radius:13px;padding:12px 14px}
+  .scr .strk .l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;opacity:.85}
+  .scr .strk .n{font-size:28px;font-weight:800;line-height:1;letter-spacing:-.03em;margin-top:4px}
+
+  /* floating tags around phone */
+  .tag{position:absolute;background:#fff;color:#0a0e15;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.18);display:flex;align-items:center;gap:8px}
+  .tag .d{width:8px;height:8px;border-radius:50%;background:#2dd4bf}
+  .t1{top:18%;right:5%;transform:rotate(4deg)}
+  .t2{bottom:22%;left:-5%;transform:rotate(-3deg);background:#0a0e15;color:#fff}
+  .t2 .d{background:#5b93f6}
+
+  /* secondary band */
+  .band{padding:80px 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:60px;max-width:1280px;margin:0 auto}
+  .f h3{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#5b93f6;font-weight:700;margin-bottom:14px}
+  .f .t{font-size:28px;letter-spacing:-.025em;font-weight:700;line-height:1.15;margin-bottom:10px}
+  .f .d{color:#5a5a60;font-size:14.5px;line-height:1.55}
+
+  @media (max-width:900px){.hero::before{clip-path:polygon(0 0,100% 0,100% 50%,0 60%)}.hero::after{clip-path:polygon(0 60%,100% 50%,100% 100%,0 100%)}.hero-content{grid-template-columns:1fr;padding:80px 30px;gap:40px}.band{grid-template-columns:1fr;gap:40px}}
+</style></head>
+<body>
+<header>
+  <a class="brand"><span class="b">S</span> Stack</a>
+  <nav><a>Why</a><a>Features</a><a>Stacks</a><a>Pricing</a></nav>
+  <a class="cta">Get the app</a>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="l">
+      <div class="eyebrow"><span class="d"></span> Launching this fall</div>
+      <h1>Two halves<br>of the same<br>routine.</h1>
+      <p class="lead">Bright days. Dark hours. The peptide cycle and the supplement stack. Stack tracks both — without judging either.</p>
+      <div class="actions">
+        <a class="b1">Get the app →</a>
+        <a class="b2">See features</a>
+      </div>
+    </div>
+    <div class="r">
+      <div class="tag t1"><span class="d"></span>3 of 4 done today</div>
+      <div class="phone">
+        <div class="scr">
+          <h2>Today</h2>
+          <div class="row"><div class="ic">T</div><b>Test Cyp.</b><span class="ti">✓ 9:00</span></div>
+          <div class="row"><div class="ic">B</div><b>BPC-157</b><span class="ti">7:00 PM</span></div>
+          <div class="row"><div class="ic">C</div><b>Creatine</b><span class="ti">9:00 PM</span></div>
+          <div class="strk"><div class="l">Day streak</div><div class="n">12 days</div></div>
+        </div>
+      </div>
+      <div class="tag t2"><span class="d"></span>9-day refill warning</div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="f"><h3>/ Schedule</h3><div class="t">Half-life aware</div><div class="d">Each compound modeled by its true residence time. See what's "in your system" right now, not just what's on your list.</div></div>
+  <div class="f"><h3>/ Streak</h3><div class="t">Forgiving by design</div><div class="d">One grace day per perfect week. Real adherence over time, not punishment for a single bad day.</div></div>
+  <div class="f"><h3>/ Vault</h3><div class="t">On your device</div><div class="d">Encrypted. No accounts. No cloud. Export anytime. Delete in one tap.</div></div>
+</section>
+</body></html>

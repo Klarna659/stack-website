@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 09 Storybook</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f5f5f7;color:#1d1d1f;font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  header{position:sticky;top:0;z-index:20;background:rgba(245,245,247,.78);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+  .navin{max-width:1024px;margin:0 auto;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .brand{font-weight:600;letter-spacing:-.01em}
+  nav{display:flex;gap:24px;color:#1d1d1f;font-weight:400}
+  .cta{font-size:13px;background:#0071e3;color:#fff;padding:5px 14px;border-radius:999px;font-weight:500}
+
+  /* panels are full viewport, one story per scroll */
+  .panel{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;position:relative}
+  .panel.dark{background:#000;color:#f5f5f7}
+  .panel.tint1{background:linear-gradient(180deg,#f5f5f7 0%,#e8edf2 100%)}
+  .panel.tint2{background:linear-gradient(180deg,#000 0%,#1a1d24 100%);color:#f5f5f7}
+  .panel.tint3{background:linear-gradient(180deg,#f5f5f7 0%,#fdf6ee 100%)}
+
+  .eyebrow{font-size:14px;color:#0071e3;font-weight:500;margin-bottom:14px;letter-spacing:.01em}
+  .panel.dark .eyebrow,.panel.tint2 .eyebrow{color:#2997ff}
+  h1{font-size:clamp(48px,7vw,96px);font-weight:600;letter-spacing:-.04em;line-height:1.04;max-width:900px}
+  h2{font-size:clamp(40px,5.5vw,72px);font-weight:600;letter-spacing:-.035em;line-height:1.06;max-width:780px}
+  .sub{margin-top:22px;font-size:22px;color:#6e6e73;max-width:580px;line-height:1.4}
+  .panel.dark .sub,.panel.tint2 .sub{color:#a1a1a6}
+  .links{margin-top:30px;display:flex;gap:30px;font-size:18px;color:#0071e3;font-weight:400}
+  .panel.dark .links a,.panel.tint2 .links a{color:#2997ff}
+  .links a::after{content:" ›";display:inline-block;margin-left:3px;transition:transform .25s}
+
+  /* visual blocks */
+  .vis{margin-top:50px;width:100%;max-width:760px}
+  .vis-phone{width:280px;border-radius:36px;padding:7px;background:linear-gradient(155deg,#3a3d44,#0a0c11);box-shadow:0 50px 90px -20px rgba(0,0,0,.3);margin:0 auto}
+  .vis-phone .scr{aspect-ratio:1080/2400;background:#f5f5f7;border-radius:30px;overflow:hidden}
+  .vis-phone .scr img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+
+  .vis-stat{display:flex;justify-content:center;gap:40px;margin-top:50px;flex-wrap:wrap}
+  .vis-stat .n{font-size:96px;font-weight:600;letter-spacing:-.04em;line-height:1;background:linear-gradient(180deg,#0071e3,#5b93f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .vis-stat .l{font-size:14px;color:#6e6e73;margin-top:8px;letter-spacing:.02em}
+
+  .vis-chip{display:inline-flex;gap:10px;align-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:14px 22px;border-radius:999px;font-size:18px;font-weight:500;margin-top:30px}
+  .vis-chip .dot{width:8px;height:8px;border-radius:999px;background:#33d17e}
+
+  /* progress dots on the right side */
+  .dots-nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:30}
+  .dots-nav span{width:6px;height:6px;border-radius:999px;background:rgba(0,0,0,.2);transition:background .2s,transform .2s}
+  .dots-nav span.on{background:#0071e3;transform:scale(1.4)}
+
+  @media (max-width:760px){.dots-nav{display:none}h1{font-size:42px}.vis-stat .n{font-size:64px}}
+</style></head>
+<body>
+<header><div class="navin">
+  <span class="brand">Stack</span>
+  <nav><a>Today</a><a>Stack</a><a>Trends</a><a>Support</a></nav>
+  <a class="cta">Get</a>
+</div></header>
+
+<div class="dots-nav"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+
+<section class="panel">
+  <div class="eyebrow">Stack</div>
+  <h1>One app for every<br>dose you take.</h1>
+  <p class="sub">A quiet, private place for your whole stack. Supplements, peptides, meds, GLP-1, vitamins.</p>
+  <div class="links"><a>Learn more</a><a>Get Stack</a></div>
+</section>
+
+<section class="panel tint1">
+  <div class="eyebrow">Today</div>
+  <h2>Open it. Log it. Done.</h2>
+  <p class="sub">The Today screen is one tap from your lock screen. Doses due, your streak, what runs out next.</p>
+  <div class="vis"><div class="vis-phone"><div class="scr"><img src="../assets/img/screens/today.png" alt=""></div></div></div>
+</section>
+
+<section class="panel dark">
+  <div class="eyebrow">In your system</div>
+  <h2>See your levels<br>over time.</h2>
+  <p class="sub">An estimated curve modeled from each compound's half-life. Real model, not a blood test.</p>
+  <div class="vis-stat"><div><div class="n">8d</div><div class="l">half-life</div></div><div><div class="n">94%</div><div class="l">on-time</div></div><div><div class="n">12</div><div class="l">day streak</div></div></div>
+</section>
+
+<section class="panel tint3">
+  <div class="eyebrow">Stack</div>
+  <h2>Every compound,<br>every schedule.</h2>
+  <p class="sub">Add a compound from the library or scan a label. Stack does the math — recon, supply, refill.</p>
+  <div class="vis"><div class="vis-phone"><div class="scr"><img src="../assets/img/screens/stack.png" alt=""></div></div></div>
+</section>
+
+<section class="panel tint2">
+  <div class="eyebrow">One more thing</div>
+  <h2>Your data stays<br>on your device.</h2>
+  <p class="sub">No accounts. No analytics. No ads. Local-first, encrypted, yours alone. Always.</p>
+  <span class="vis-chip"><span class="dot"></span> Free · Launching this fall</span>
+</section>
+</body></html>

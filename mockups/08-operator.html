@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stack — 08 Operator</title>
+<style>
+  @font-face{font-family:"Inter";src:url("../assets/fonts/InterVariable.ttf") format("truetype-variations");font-weight:100 900;font-display:swap}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;color:#e6e6e6;font-family:"Inter",system-ui,sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased}
+  body{background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:48px 48px;
+  }
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace}
+  header{border-bottom:1px solid #1a1a1a;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);position:sticky;top:0;z-index:5}
+  .navin{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;gap:9px;align-items:center;font-weight:600;letter-spacing:-.01em;font-size:14px}
+  .brand .b{width:18px;height:18px;background:#fff;color:#000;display:grid;place-items:center;font-weight:800;font-size:10px;border-radius:3px}
+  nav{display:flex;gap:24px;font-size:13px;color:#888;font-weight:500}
+  .cta{font-size:13px;color:#000;background:#fff;padding:7px 14px;border-radius:5px;font-weight:600;font-family:inherit}
+
+  /* terminal-style hero */
+  .hero{max-width:1280px;margin:0 auto;padding:80px 28px 40px}
+  .crumb{font-size:12px;color:#555;letter-spacing:.06em;margin-bottom:30px}
+  .crumb b{color:#999;font-weight:500}
+  h1{font-size:clamp(48px,7vw,96px);letter-spacing:-.045em;line-height:.98;font-weight:600;max-width:1100px}
+  h1 .br{display:block}
+  h1 .dim{color:#555}
+  h1 .accent{color:#7ee787}
+  .sub{margin-top:36px;color:#999;font-size:17px;max-width:540px}
+  .actions{margin-top:40px;display:flex;gap:14px;align-items:center}
+  .b1{background:#fff;color:#000;padding:11px 20px;border-radius:6px;font-weight:600;font-size:14px;border:0;font-family:inherit;cursor:pointer}
+  .b2{background:transparent;color:#fff;padding:11px 20px;border-radius:6px;font-weight:500;font-size:14px;border:1px solid #2a2a2a;font-family:inherit;cursor:pointer}
+  .kbd{font-size:12px;color:#666;margin-left:10px}
+  .kbd kbd{background:#111;border:1px solid #2a2a2a;border-radius:4px;padding:2px 6px;font-family:ui-monospace,monospace;font-size:11px;color:#aaa}
+
+  /* terminal block */
+  .term{margin:60px 0 100px;max-width:1100px}
+  .term-box{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:8px;overflow:hidden}
+  .term-top{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #1a1a1a;background:#070707}
+  .term-top .dots{display:flex;gap:5px}
+  .term-top .dots span{width:10px;height:10px;border-radius:999px;background:#2a2a2a}
+  .term-top .file{margin-left:auto;font-size:11px;color:#555}
+  .term-body{padding:22px;font-size:13.5px;line-height:1.7}
+  .ln{display:flex;gap:14px}
+  .ln .n{color:#3a3a3a;width:24px;text-align:right;flex:none;user-select:none}
+  .ln .c{color:#c9d1d9}
+  .ln .com{color:#7d8590}
+  .ln .key{color:#ff7b72}
+  .ln .str{color:#a5d6ff}
+  .ln .var{color:#79c0ff}
+  .ln .num{color:#7ee787}
+
+  /* spec rows */
+  .specs{max-width:1280px;margin:0 auto;padding:60px 28px 100px;border-top:1px solid #1a1a1a}
+  .spec-head{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#555;margin-bottom:30px}
+  .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#1a1a1a}
+  .spec{background:#000;padding:28px 22px}
+  .spec .l{font-size:11px;letter-spacing:.1em;color:#666;text-transform:uppercase;margin-bottom:10px}
+  .spec .v{font-size:36px;letter-spacing:-.03em;font-weight:600;line-height:1}
+  .spec .v small{font-size:14px;color:#666;font-weight:400;margin-left:4px}
+  .spec .d{margin-top:8px;font-size:12.5px;color:#888}
+  @media (max-width:760px){.spec-grid{grid-template-columns:1fr 1fr}h1{font-size:44px}}
+</style></head>
+<body>
+<header><div class="navin">
+  <a class="brand"><span class="b">S</span> Stack</a>
+  <nav><a>Docs</a><a>Changelog</a><a>Pricing</a><a>GitHub</a></nav>
+  <a class="cta mono">$ install</a>
+</div></header>
+
+<section class="hero">
+  <div class="crumb mono"><b>~/stack</b> · main</div>
+  <h1><span class="br">The tracker for</span><span class="dim">everything</span><span class="br"><span class="accent">// you take.</span></span></h1>
+  <p class="sub">Local-first. Encrypted on-device. Built for people who actually run protocols — TRT, GLP-1, peptides, stacks, anything.</p>
+  <div class="actions">
+    <button class="b1">Get Stack</button>
+    <button class="b2 mono">$ open docs</button>
+    <span class="kbd">or press <kbd>⌘</kbd> <kbd>K</kbd></span>
+  </div>
+</section>
+
+<div class="hero term">
+  <div class="term-box">
+    <div class="term-top">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="file mono">stack.config.ts</div>
+    </div>
+    <div class="term-body mono">
+      <div class="ln"><span class="n">1</span><span class="c"><span class="com">// Your stack — defined once, tracked forever.</span></span></div>
+      <div class="ln"><span class="n">2</span><span class="c"><span class="key">export const</span> <span class="var">stack</span> = {</span></div>
+      <div class="ln"><span class="n">3</span><span class="c">  <span class="var">testosterone</span>: { dose: <span class="num">100</span>, unit: <span class="str">"mg"</span>, every: <span class="str">"3.5d"</span> },</span></div>
+      <div class="ln"><span class="n">4</span><span class="c">  <span class="var">semaglutide</span>:  { dose: <span class="num">0.5</span>, unit: <span class="str">"mg"</span>, every: <span class="str">"7d"</span> },</span></div>
+      <div class="ln"><span class="n">5</span><span class="c">  <span class="var">bpc157</span>:       { dose: <span class="num">250</span>, unit: <span class="str">"mcg"</span>, every: <span class="str">"1d"</span> },</span></div>
+      <div class="ln"><span class="n">6</span><span class="c">  <span class="var">creatine</span>:     { dose: <span class="num">5</span>, unit: <span class="str">"g"</span>, every: <span class="str">"1d"</span> },</span></div>
+      <div class="ln"><span class="n">7</span><span class="c">}</span></div>
+      <div class="ln"><span class="n">8</span><span class="c"></span></div>
+      <div class="ln"><span class="n">9</span><span class="c"><span class="com">// Stack handles the math. You just press log.</span></span></div>
+    </div>
+  </div>
+</div>
+
+<section class="specs">
+  <div class="spec-head mono">// SPEC</div>
+  <div class="spec-grid">
+    <div class="spec"><div class="l mono">storage</div><div class="v">100<small>%</small></div><div class="d">on your device, encrypted</div></div>
+    <div class="spec"><div class="l mono">accounts</div><div class="v">0</div><div class="d">no sign-up required</div></div>
+    <div class="spec"><div class="l mono">compounds</div><div class="v">∞</div><div class="d">unlimited, free tier</div></div>
+    <div class="spec"><div class="l mono">latency</div><div class="v">&lt;100<small>ms</small></div><div class="d">log a dose, instantly</div></div>
+  </div>
+</section>
+</body></html>
