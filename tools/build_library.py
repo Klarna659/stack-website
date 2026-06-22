@@ -164,7 +164,6 @@ def nav(root: str, current: str = "") -> str:
         <a href="{root}compounds/"{cur('compounds')}>Compounds</a>
         <a href="{root}tools/reconstitution/"{cur('tools')}>Calculator</a>
         <a href="{root}guides/"{cur('guides')}>Guides</a>
-        <a href="{root}stacks/"{cur('stacks')}>Stacks</a>
       </nav>
       <a href="{root}#download" class="nav-cta">Get the app</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
@@ -199,7 +198,7 @@ def footer(root: str) -> str:
           <li><a href="{root}compounds/">Compound library</a></li>
           <li><a href="{root}guides/">Guides</a></li>
           <li><a href="{root}tools/reconstitution/">Reconstitution calculator</a></li>
-          <li><a href="{root}stacks/">Creator stacks</a></li>
+          <li><a href="{root}stacks/">Share your stack</a></li>
         </ul>
       </div>
       <div>

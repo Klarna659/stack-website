@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy Policy — Stack</title>
-  <meta name="description" content="Stack is local-first and encrypted. We have no servers, no accounts, and never receive your data." />
+  <meta name="description" content="Stack is local-first and encrypted. No accounts, never sold or harvested, and what you take is never tied to your identity." />
   <meta name="theme-color" content="#0b0b0f" />
   <link rel="canonical" href="https://trackyourstack.app/privacy.html" />
   <link rel="icon" type="image/svg+xml" href="assets/img/icon-dark.svg" />
@@ -31,7 +31,7 @@
     <article class="legal">
       <a href="index.html" class="back-link">← Back to Stack</a>
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: June 2, 2026</p>
+      <p class="updated">Last updated: June 21, 2026</p>
 
       <p>Stack (the “App”, “we”, “us”, “our”) is an independently developed application.
         Questions: <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</p>
@@ -40,9 +40,11 @@
         <strong>The short version</strong>
         <ul>
           <li>Stack is <strong>local-first</strong>. Your data lives <strong>on your device</strong>, in an <strong>encrypted</strong> database.</li>
-          <li>We have <strong>no servers, no accounts, and no logins</strong>. We never receive your data.</li>
-          <li>We <strong>do not</strong> run analytics, show ads, track you, or sell or share your personal or health information.</li>
-          <li>Data only ever leaves your device when <strong>you</strong> choose — e.g. when you create a backup file or share a stack code and send it somewhere yourself.</li>
+          <li>We have <strong>no accounts and no logins</strong> — nothing ties what you take to who you are.</li>
+          <li>We <strong>never sell, rent, share, or harvest your data</strong> — not your medications, not your results, nothing.</li>
+          <li>Your <strong>health data</strong> stays <strong>encrypted on your device</strong> and never leaves it in a form that identifies you.</li>
+          <li>We show <strong>no ads</strong> and use <strong>no advertising identifiers or cross-app tracking</strong>. We do use <strong>anonymous, aggregate analytics and crash reporting</strong> to improve the App; these never include your health data or anything that identifies you (Section 3a).</li>
+          <li>Other data leaves your device only when <strong>you</strong> choose — e.g. a backup file or a stack code you send somewhere yourself.</li>
           <li>Label scanning runs <strong>on your device</strong>; the App does not upload your photos.</li>
         </ul>
       </div>
@@ -61,15 +63,23 @@
       </ul>
       <p>This is held in an <strong>encrypted on-device database</strong> (SQLCipher). The encryption key is stored in your device’s secure storage (Android Keystore). <strong>We do not have a copy and cannot access it.</strong></p>
 
-      <h2>3. What we do NOT collect</h2>
-      <p>Because we operate no servers and no accounts, we do not collect, receive, or store:</p>
+      <h2>3. What we never collect, sell, or share</h2>
+      <p>We have no accounts, so we never collect, receive, store, sell, rent, or share:</p>
       <ul>
-        <li>Your identity, email, or login (there is no sign-up);</li>
-        <li>Your health or medication data;</li>
-        <li>Analytics, usage tracking, advertising identifiers, or crash logs;</li>
-        <li>Your location, contacts, or advertising/device identifiers.</li>
+        <li>Your identity, name, email, or login (there is no sign-up);</li>
+        <li>Your <strong>health or medication data</strong> — what you take, your doses, your lab results, your weight: none of it is ever transmitted to us or anyone else in a form tied to you;</li>
+        <li>Your location, contacts, or advertising identifiers;</li>
+        <li>Anything used to track you across other apps or services.</li>
       </ul>
-      <p>The App does not transmit your personal or health data to us or to any third party for our benefit.</p>
+      <p>We do not sell, rent, or trade any of your information, full stop. The App does not transmit your personal or health data to us or to any third party for our benefit. The <strong>only</strong> data that leaves your device automatically is anonymous analytics and crash reports — described next.</p>
+
+      <h2>3a. Anonymous analytics and crash reports</h2>
+      <p>To see which features are used and to fix bugs, the App uses two privacy-preserving tools. <strong>Neither ever receives your health, medication, dose, weight, or personal data, and neither can tie anything back to you.</strong></p>
+      <ul>
+        <li><strong>Aptabase</strong> (anonymous usage analytics): records anonymous, aggregate events — for example, that a screen was opened or a dose was logged — with <strong>no user identifier</strong> and <strong>no personal content</strong>. We only ever see counts, in aggregate.</li>
+        <li><strong>Sentry</strong> (crash reporting): if the App crashes, it sends an anonymous crash report with the technical error and your device model, OS, and app version. It is configured to <strong>never</strong> send your IP address, identity, or any of your data.</li>
+      </ul>
+      <p>There are <strong>no advertising identifiers</strong> and <strong>no cross-app tracking</strong>. Think of these as a usage counter and a smoke detector — never a window into your stack.</p>
 
       <h2>4. Camera and photos (label scanning)</h2>
       <p>The “Scan a label” feature uses your camera, or a photo you choose, and reads the text <strong>entirely on your device</strong> using Google’s ML Kit on-device text recognition. The image is processed locally to pre-fill fields. <strong>The App does not upload your photos</strong>, and it does not save the image after reading it.</p>
@@ -95,9 +105,10 @@
       <h2>8. Third-party components</h2>
       <ul>
         <li><strong>Google ML Kit (on-device text recognition)</strong> — runs locally for label scanning; the App does not send your images to Google.</li>
+        <li><strong>Aptabase</strong> (anonymous usage analytics) and <strong>Sentry</strong> (crash reporting) — see Section 3a; neither receives your health or personal data.</li>
         <li><strong>Your operating system, and any app you choose</strong> to receive a shared backup or stack code.</li>
       </ul>
-      <p>We do not integrate advertising, analytics, or tracking SDKs.</p>
+      <p>We integrate <strong>no advertising and no cross-app tracking SDKs</strong>. The only telemetry is the anonymous analytics and crash reporting in Section 3a, which never include your health or personal data.</p>
 
       <h2>9. How your data is protected</h2>
       <ul>
@@ -117,10 +128,10 @@
       <p>We hold nothing to delete on our side.</p>
 
       <h2>11. Children</h2>
-      <p>Stack is intended for <strong>adults (18+)</strong> and is not directed to children. We do not knowingly collect data from anyone (we don’t collect data at all). If you are under 18, do not use the App.</p>
+      <p>Stack is intended for <strong>adults (18+)</strong> and is not directed to children. We do not knowingly collect personal data from anyone (the only data that leaves your device is the anonymous analytics and crash reports in Section 3a, which cannot be tied to you). If you are under 18, do not use the App.</p>
 
       <h2>12. Your privacy rights (GDPR / UK GDPR / CCPA-CPRA and similar)</h2>
-      <p>Because your data stays on your device and we don’t collect it, you can exercise rights such as access, correction, deletion, and portability <strong>directly in the App</strong> (view, edit, export via backup, or wipe). We do not “sell” or “share” personal information as those terms are defined under U.S. state laws, and we do not process it on servers. Questions about your rights: contact us at the email above.</p>
+      <p>Because your personal and health data stays on your device and we don’t collect it (beyond the anonymous analytics in Section 3a, which can’t be tied to you), you can exercise rights such as access, correction, deletion, and portability <strong>directly in the App</strong> (view, edit, export via backup, or wipe). We do not “sell” or “share” personal information as those terms are defined under U.S. state laws. Questions about your rights: contact us at the email above.</p>
 
       <h2>13. International users</h2>
       <p>The App runs locally on your device wherever you are; we do not transfer your data across borders because we never receive it.</p>
