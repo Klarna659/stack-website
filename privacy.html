@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy Policy — Stack</title>
-  <meta name="description" content="Stack is local-first and encrypted. No accounts, never sold or harvested, and what you take is never tied to your identity." />
+  <meta name="description" content="Stack is local-first and encrypted by default. Optional email, cloud backup, and feedback are the only things that ever leave your device — and only when you choose. We never sell or harvest your data." />
   <meta name="theme-color" content="#0b0b0f" />
   <link rel="canonical" href="https://trackyourstack.app/privacy.html" />
   <link rel="icon" type="image/svg+xml" href="assets/img/icon-dark.svg" />
@@ -31,7 +31,7 @@
     <article class="legal">
       <a href="index.html" class="back-link">← Back to Stack</a>
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: June 21, 2026</p>
+      <p class="updated">Last updated: July 1, 2026</p>
 
       <p>Stack (the “App”, “we”, “us”, “our”) is an independently developed application.
         Questions: <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</p>
@@ -39,12 +39,12 @@
       <div class="short">
         <strong>The short version</strong>
         <ul>
-          <li>Stack is <strong>local-first</strong>. Your data lives <strong>on your device</strong>, in an <strong>encrypted</strong> database.</li>
-          <li>We have <strong>no accounts and no logins</strong> — nothing ties what you take to who you are.</li>
-          <li>We <strong>never sell, rent, share, or harvest your data</strong> — not your medications, not your results, nothing.</li>
-          <li>Your <strong>health data</strong> stays <strong>encrypted on your device</strong> and never leaves it in a form that identifies you.</li>
-          <li>We show <strong>no ads</strong> and use <strong>no advertising identifiers or cross-app tracking</strong>. We do use <strong>anonymous, aggregate analytics and crash reporting</strong> to improve the App; these never include your health data or anything that identifies you (Section 3a).</li>
-          <li>Other data leaves your device only when <strong>you</strong> choose — e.g. a backup file or a stack code you send somewhere yourself.</li>
+          <li>Stack is <strong>local-first by default</strong>. Your data lives <strong>on your device</strong>, in an <strong>encrypted</strong> database.</li>
+          <li>There is <strong>no forced sign-up</strong>. You can use the whole App without ever giving us an email.</li>
+          <li>We <strong>never sell, rent, share, or harvest your data</strong> — not your medications, not your results, nothing. That is the promise.</li>
+          <li><strong>Three optional features send data off your device — and only when you turn them on:</strong> (1) giving us your <strong>email</strong> for product updates; (2) <strong>Cloud backup</strong>, which stores an encrypted copy of your data on our backend so you can recover it on a new phone; (3) <strong>sending feedback</strong>. Details in Sections 3b and 5.</li>
+          <li>We show <strong>no ads</strong> and use <strong>no advertising identifiers or cross-app tracking</strong>. We do use <strong>anonymous, aggregate analytics and crash reporting</strong> to improve the App; these never include your health data (Section 3a).</li>
+          <li>If you never touch email, cloud backup, or feedback, your health data <strong>never leaves your device</strong>.</li>
           <li>Label scanning runs <strong>on your device</strong>; the App does not upload your photos.</li>
         </ul>
       </div>
@@ -64,14 +64,12 @@
       <p>This is held in an <strong>encrypted on-device database</strong> (SQLCipher). The encryption key is stored in your device’s secure storage (Android Keystore). <strong>We do not have a copy and cannot access it.</strong></p>
 
       <h2>3. What we never collect, sell, or share</h2>
-      <p>We have no accounts, so we never collect, receive, store, sell, rent, or share:</p>
+      <p>Whatever you do in the App, we never collect, receive, store, sell, rent, or share:</p>
       <ul>
-        <li>Your identity, name, email, or login (there is no sign-up);</li>
-        <li>Your <strong>health or medication data</strong> — what you take, your doses, your lab results, your weight: none of it is ever transmitted to us or anyone else in a form tied to you;</li>
-        <li>Your location, contacts, or advertising identifiers;</li>
+        <li>Your name, real-world identity, location, contacts, or advertising identifiers;</li>
         <li>Anything used to track you across other apps or services.</li>
       </ul>
-      <p>We do not sell, rent, or trade any of your information, full stop. The App does not transmit your personal or health data to us or to any third party for our benefit. The <strong>only</strong> data that leaves your device automatically is anonymous analytics and crash reports — described next.</p>
+      <p><strong>We never sell, rent, trade, or harvest any of your information, full stop</strong> — including anything you send us through the optional features in Sections 3b and 5. We use your data only to run the feature you asked for (reach you about Stack, restore your backup, answer your feedback). By default the App does not transmit your personal or health data anywhere; the only thing that leaves automatically is the anonymous analytics and crash reports described next. The optional features that <em>can</em> send data off your device — email, cloud backup, and feedback — are covered in Sections 3b and 5, and each is off until you turn it on.</p>
 
       <h2>3a. Anonymous analytics and crash reports</h2>
       <p>To see which features are used and to fix bugs, the App uses two privacy-preserving tools. <strong>Neither ever receives your health, medication, dose, weight, or personal data, and neither can tie anything back to you.</strong></p>
@@ -81,13 +79,23 @@
       </ul>
       <p>There are <strong>no advertising identifiers</strong> and <strong>no cross-app tracking</strong>. Think of these as a usage counter and a smoke detector — never a window into your stack.</p>
 
+      <h2>3b. Optional features that send data off your device</h2>
+      <p>These are <strong>opt-in</strong>. Each one is off until you turn it on, and none is required to use the App. When they do send data, it goes to <strong>Supabase</strong>, the backend hosting provider we use (see Section 8). We use it only for the feature you enabled, and we never sell or share it.</p>
+      <ul>
+        <li><strong>Email (product updates):</strong> if you choose to join our updates list, we store the <strong>email address you enter</strong>, along with an anonymous install identifier, the source of the sign-up, and your app/OS version, so we can email you about Stack and avoid duplicate sign-ups. You can leave the list at any time using the unsubscribe link in any email or by contacting us. We do not use your email for anything but Stack, and we never sell it.</li>
+        <li><strong>Cloud backup (optional recovery):</strong> if you turn on Cloud backup, we store your <strong>email</strong> (used to sign you in with a one-time code) and an <strong>encrypted copy of your Stack data</strong> on our backend so you can restore everything on a new phone. Your data is encrypted on your device before it is uploaded. <strong>Important, in plain terms:</strong> so that we can restore your data even if you lose your phone and every password, the App also stores the decryption key alongside the backup. This means <strong>Cloud backup is a convenience feature, not a zero-knowledge one</strong> — while we never look at, sell, or share your data, the encrypted copy on our backend is technically accessible to us, unlike the copy on your device. This is a deliberate trade-off for painless recovery. If you want your health data to stay only on your device, simply leave Cloud backup off (it is off by default). You can turn it off and request deletion of your cloud copy at any time (Section 10).</li>
+        <li><strong>Anonymous install identifier:</strong> each install of the App generates a <strong>random identifier</strong> that is not your name and does not identify you in the real world. It is used to de-duplicate sign-ups and, if you enable an optional feature above, to link that install's records. It only becomes associated with your email if you choose to give us one.</li>
+        <li><strong>Feedback:</strong> if you send feedback from within the App, we receive your <strong>message</strong> and basic technical context (app version, device/OS) so we can act on it. Please don't include health details you'd rather keep private in a feedback message.</li>
+      </ul>
+
       <h2>4. Camera and photos (label scanning)</h2>
       <p>The “Scan a label” feature uses your camera, or a photo you choose, and reads the text <strong>entirely on your device</strong> using Google’s ML Kit on-device text recognition. The image is processed locally to pre-fill fields. <strong>The App does not upload your photos</strong>, and it does not save the image after reading it.</p>
 
       <h2>5. Backups and sharing — you’re in control</h2>
       <ul>
-        <li><strong>Backups:</strong> You can create an <strong>encrypted backup file</strong> protected by a password you choose. The App writes the file and hands it to your device’s share sheet so <strong>you</strong> can save it wherever you like. Once you send it somewhere, that destination’s own terms apply. We never receive your backup, and <strong>we cannot recover your backup password</strong> — keep it safe.</li>
-        <li><strong>Stack sharing:</strong> Stack-share codes/QR are encrypted and shared <strong>directly by you</strong> with whoever you choose. Nothing passes through our servers (we have none).</li>
+        <li><strong>Local backup file:</strong> You can create an <strong>encrypted backup file</strong> protected by a password you choose. The App writes the file and hands it to your device’s share sheet so <strong>you</strong> can save it wherever you like. Once you send it somewhere, that destination’s own terms apply. We never receive this file, and <strong>we cannot recover its password</strong> — keep it safe.</li>
+        <li><strong>Cloud backup (optional):</strong> If you turn it on, an encrypted copy of your data is stored on our backend so you can recover it on a new phone with an emailed code. See Section 3b for exactly what is stored and the convenience-vs-zero-knowledge trade-off. It is off by default, and you can turn it off and delete the cloud copy at any time (Section 10).</li>
+        <li><strong>Stack sharing:</strong> Stack-share codes/QR are encrypted and shared <strong>directly by you</strong> with whoever you choose. These do not pass through our backend.</li>
       </ul>
 
       <h2>6. Notifications</h2>
@@ -106,9 +114,10 @@
       <ul>
         <li><strong>Google ML Kit (on-device text recognition)</strong> — runs locally for label scanning; the App does not send your images to Google.</li>
         <li><strong>Aptabase</strong> (anonymous usage analytics) and <strong>Sentry</strong> (crash reporting) — see Section 3a; neither receives your health or personal data.</li>
+        <li><strong>Supabase</strong> (backend hosting) — stores the data from the opt-in features in Section 3b (your email if you join updates or use Cloud backup, your encrypted Cloud backup, and feedback you send). It receives this data only when you use one of those features, and it is governed by Supabase's own security and privacy terms.</li>
         <li><strong>Your operating system, and any app you choose</strong> to receive a shared backup or stack code.</li>
       </ul>
-      <p>We integrate <strong>no advertising and no cross-app tracking SDKs</strong>. The only telemetry is the anonymous analytics and crash reporting in Section 3a, which never include your health or personal data.</p>
+      <p>We integrate <strong>no advertising and no cross-app tracking SDKs</strong>. Beyond the anonymous analytics and crash reporting in Section 3a and the opt-in features in Section 3b, the App does not transmit your data.</p>
 
       <h2>9. How your data is protected</h2>
       <ul>
@@ -119,25 +128,25 @@
       <p>No system is perfectly secure; you are responsible for securing your device and your backups.</p>
 
       <h2>10. Keeping and deleting your data</h2>
-      <p>Because everything is local, <strong>you control retention.</strong> You can:</p>
+      <p>Your on-device data is <strong>yours to control.</strong> You can:</p>
       <ul>
         <li>Delete individual entries in the App;</li>
-        <li>Use <strong>Settings → wipe all data</strong> to erase everything (irreversible);</li>
+        <li>Use <strong>Settings → wipe all data</strong> to erase everything on the device (irreversible);</li>
         <li>Uninstall the App to remove its data from your device.</li>
       </ul>
-      <p>We hold nothing to delete on our side.</p>
+      <p>For the opt-in features that store data on our backend (Section 3b): you can <strong>turn off Cloud backup</strong> and request deletion of your cloud copy, and you can <strong>leave the updates list</strong> via any email's unsubscribe link. To have us delete your email and/or your Cloud backup from our backend, contact <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a> and we will remove it. If you never used those features, we hold nothing to delete.</p>
 
       <h2>11. Children</h2>
-      <p>Stack is intended for <strong>adults (18+)</strong> and is not directed to children. We do not knowingly collect personal data from anyone (the only data that leaves your device is the anonymous analytics and crash reports in Section 3a, which cannot be tied to you). If you are under 18, do not use the App.</p>
+      <p>Stack is intended for <strong>adults (18+)</strong> and is not directed to children. We do not knowingly collect personal data from anyone under 18. If you are under 18, do not use the App. If you believe a child has provided us an email or other data through an opt-in feature, contact us and we will delete it.</p>
 
       <h2>12. Your privacy rights (GDPR / UK GDPR / CCPA-CPRA and similar)</h2>
-      <p>Because your personal and health data stays on your device and we don’t collect it (beyond the anonymous analytics in Section 3a, which can’t be tied to you), you can exercise rights such as access, correction, deletion, and portability <strong>directly in the App</strong> (view, edit, export via backup, or wipe). We do not “sell” or “share” personal information as those terms are defined under U.S. state laws. Questions about your rights: contact us at the email above.</p>
+      <p>Because your personal and health data stays on your device by default, you can exercise rights such as access, correction, deletion, and portability <strong>directly in the App</strong> (view, edit, export via backup, or wipe). For any data you sent us through an opt-in feature (Section 3b) — your email or a Cloud backup — you can access, correct, or delete it by contacting us at the email above. We do not “sell” or “share” personal information as those terms are defined under U.S. state laws. Questions about your rights: contact us at the email above.</p>
 
       <h2>13. International users</h2>
-      <p>The App runs locally on your device wherever you are; we do not transfer your data across borders because we never receive it.</p>
+      <p>The App runs locally on your device wherever you are. If you use an opt-in feature in Section 3b, the data for that feature is stored on our backend provider's servers, which may be located in the United States; by using those features you consent to that processing. Everything else stays on your device.</p>
 
       <h2>14. Changes to this policy</h2>
-      <p>We may update this policy as the App changes. If an optional cloud feature is ever added, we will describe it here and update the app stores’ data-safety information <strong>before</strong> that release. Material changes are reflected by the “Last updated” date.</p>
+      <p>We may update this policy as the App changes. When we add or change an optional feature that sends data off your device, we describe it here and update the app stores’ data-safety information <strong>before</strong> that release. Material changes are reflected by the “Last updated” date.</p>
 
       <h2>15. Contact</h2>
       <p><strong>Stack</strong> — <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a></p>
