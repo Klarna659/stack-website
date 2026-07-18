@@ -243,6 +243,72 @@
     </div>
   </section>
 
+  <!-- ================================================= ROTATION MAP === -->
+  <section class="section-pad" id="rotation" style="padding-top:0">
+    <div class="container">
+      <div class="show-grid reveal">
+        <div class="viz">
+          <span class="eyebrow">Injection rotation</span>
+          <h3>It remembers where you pinned.</h3>
+          <p>Mark the sites you use, and Stack keeps an honest rotation going —
+          the map shows what's rested and hands you the next spot, so you're never
+          asking "did I already do the left side?"</p>
+          <div class="viz-body">
+            <div class="rotamap">
+              <svg viewBox="0 0 120 200" width="120" role="img" aria-label="A body map with injection sites: several marked as used, one highlighted as the next site to use.">
+                <g fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.5">
+                  <circle cx="60" cy="17" r="10"/>
+                  <rect x="44" y="30" width="32" height="58" rx="11"/>
+                  <rect x="29" y="32" width="12" height="44" rx="6"/>
+                  <rect x="79" y="32" width="12" height="44" rx="6"/>
+                  <rect x="45" y="90" width="13" height="76" rx="6.5"/>
+                  <rect x="62" y="90" width="13" height="76" rx="6.5"/>
+                </g>
+                <circle class="rota-site used" cx="36" cy="41" r="5.5"/>
+                <circle class="rota-site used" cx="84" cy="41" r="5.5"/>
+                <circle class="rota-site used" cx="52" cy="58" r="5.5"/>
+                <circle class="rota-site next pulse-dot" cx="68" cy="58" r="6"/>
+                <circle class="rota-site" cx="51" cy="122" r="5.5"/>
+                <circle class="rota-site used" cx="69" cy="122" r="5.5"/>
+              </svg>
+              <div class="rota-legend">
+                <div class="r"><span class="k next"></span><b style="color:var(--ink);font-weight:700">Next up</b> — right abdomen</div>
+                <div class="r"><span class="k used"></span>Used recently — resting</div>
+                <div class="r"><span class="k"></span>Clear to use</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="viz">
+          <span class="eyebrow">Supply, projected</span>
+          <h3>Never caught empty.</h3>
+          <p>Every logged dose draws down the vial. Stack counts what's left and tells you
+          the refill date before you run dry.</p>
+          <div class="viz-body">
+            <div style="display:grid;gap:14px">
+              <div class="lib-mini" style="background:var(--panel-2)">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <span class="nm">Testosterone Cyp.</span>
+                  <span class="tnum gold" style="font-weight:800;font-size:15px">≈ 9 doses</span>
+                </div>
+                <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:36%"></div></div>
+                <div class="fx" style="margin-top:8px">Refill by Jul 21 · $0.74 / dose</div>
+              </div>
+              <div class="lib-mini" style="background:var(--panel-2)">
+                <div style="display:flex;justify-content:space-between;align-items:baseline">
+                  <span class="nm">BPC-157</span>
+                  <span class="tnum gold" style="font-weight:800;font-size:15px">≈ 22 doses</span>
+                </div>
+                <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:71%"></div></div>
+                <div class="fx" style="margin-top:8px">Refill by Aug 6 · $0.41 / dose</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ========================================================= SCREENS === -->
   <section class="section-pad" id="screens" style="padding-top:0">
     <div class="container">
