@@ -408,8 +408,8 @@ def compound_page(c: dict, by_cat: dict[str, list[dict]]) -> str:
         {decay_bars(c.get("half_life_hours"))}
         <div class="track-cta">
           <h3>Track {esc(short_name(name))} in Stack</h3>
-          <p>Doses, schedules, supply projection{', site rotation' if c.get('form') == 'injection' else ''} and an
-          "in your system" curve — free, private, no account.</p>
+          <p>Log doses, schedules, reminders and supply{', with injection-site rotation,' if c.get('form') == 'injection' else ''} — free.
+          Its "in your system" level curve comes with Plus. Your health data stays encrypted on your device.</p>
           <a class="btn btn-primary" href="{root}#download">Get the app</a>
         </div>
       </aside>

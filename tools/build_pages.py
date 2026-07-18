@@ -324,7 +324,8 @@ page(
 
       <p><strong>Stack is a private tracking app</strong> for people who take more than one thing —
       supplements, medications, peptides, GLP-1s, TRT — and want one honest log of all of it.
-      No account, no ads, no cloud requirement; data stays encrypted on your device.</p>
+      No ads, and no cloud requirement for your health data — it stays encrypted on your device.
+      Sign-in is email-only and never sees what you take.</p>
 
       <h2>Why we publish a compound library</h2>
       <p>People who track are people who look things up. The

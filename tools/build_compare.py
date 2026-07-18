@@ -61,7 +61,7 @@ PAIRS = [
             ("The ester", "Cypionate has an 8-carbon ester; enanthate has 7. That single carbon makes cypionate release marginally slower and gives it a slightly longer half-life."),
             ("Half-life in practice", "The difference is small — both are measured in days, and most protocols inject on the same cadence regardless. For tracking purposes they behave the same: log the date, the dose and the site."),
             ("Availability", "Cypionate is the most commonly prescribed injectable testosterone in the US; enanthate is more common elsewhere. Neither distinction affects how you'd log it."),
-            ("Site rotation matters more than the ester", "With any oil-based IM or subq testosterone, <a href=\"../../guides/injection-site-rotation/\">rotating sites</a> and recording where you injected does more for a clean experience than the cypionate-vs-enanthate choice."),
+            ("Site rotation matters more than the ester", "With any oil-based IM or subq testosterone, <a href=\"../../../guides/injection-site-rotation/\">rotating sites</a> and recording where you injected does more for a clean experience than the cypionate-vs-enanthate choice."),
         ],
     },
     {
@@ -73,7 +73,7 @@ PAIRS = [
         "diff": [
             ("Origin", "BPC-157 is a synthetic fragment of a protein found in gastric juice. TB-500 is a synthetic fragment of <b>thymosin beta-4</b>. Different parent molecules, different proposed mechanisms."),
             ("Half-life &amp; dosing rhythm", "Their pharmacokinetics differ, which is why people who run both often log them on separate schedules. A per-compound dose log keeps two overlapping cadences straight."),
-            ("Reconstitution &amp; storage", "Both ship lyophilized and are reconstituted with bacteriostatic water, and both are typically refrigerated after mixing — so the <a href=\"../../tools/reconstitution/\">reconstitution calculator</a> and an opened-vial date apply to each."),
+            ("Reconstitution &amp; storage", "Both ship lyophilized and are reconstituted with bacteriostatic water, and both are typically refrigerated after mixing — so the <a href=\"../../../tools/reconstitution/\">reconstitution calculator</a> and an opened-vial date apply to each."),
             ("Regulatory status", "Neither is approved for human use anywhere. Their inclusion in the library is documentation, not endorsement."),
         ],
     },
@@ -87,7 +87,7 @@ PAIRS = [
             ("Mechanism", "CJC-1295 mimics <b>GHRH</b>. Ipamorelin mimics <b>ghrelin</b> and is prized for being selective (it raises GH with comparatively little effect on other hormones). Two different signals, often used together."),
             ("Why they're stacked", "Because they act on separate receptors, they're frequently logged as a pair on the same schedule. Stack groups them under one protocol you can pause together."),
             ("DAC vs no-DAC", "CJC-1295 comes with and without DAC (drug affinity complex), which dramatically changes its half-life and dosing cadence — see the separate library entries. Ipamorelin is short-acting."),
-            ("Handling", "Both are reconstituted peptides, typically refrigerated. The same <a href=\"../../tools/reconstitution/\">vial math</a> and opened-date tracking apply to each."),
+            ("Handling", "Both are reconstituted peptides, typically refrigerated. The same <a href=\"../../../tools/reconstitution/\">vial math</a> and opened-date tracking apply to each."),
         ],
     },
     {
@@ -151,7 +151,7 @@ PAIRS = [
         "diff": [
             ("Molecule", "Sermorelin is a fragment of GHRH (the first 29 amino acids). Tesamorelin is a <b>stabilized</b> GHRH analog engineered for a longer functional life."),
             ("Approval", "Tesamorelin has a specific FDA-approved indication; sermorelin's regulatory history is different. Each page states its status — read them rather than assuming."),
-            ("Cadence", "Both are injectable peptides reconstituted from powder, so the <a href=\"../../tools/reconstitution/\">calculator</a>, refrigeration and opened-vial dates apply to each."),
+            ("Cadence", "Both are injectable peptides reconstituted from powder, so the <a href=\"../../../tools/reconstitution/\">calculator</a>, refrigeration and opened-vial dates apply to each."),
             ("Tracking", "GH-axis peptides reward careful timing logs; record the dose, time and site each administration."),
         ],
     },
@@ -264,7 +264,7 @@ def compare_page(pair, compounds_by_name):
 
       <div class="track-cta" style="margin-top:22px">
         <h3>Track your stack in Stack</h3>
-        <p>Free, private, no account. Doses, schedules, supply and trends in one quiet app.</p>
+        <p>Free to track — doses, schedules, supply and reminders in one quiet app. Your health data stays encrypted on your device.</p>
         <a class="btn btn-primary" href="{root}#download">Get the app</a>
       </div>
 
