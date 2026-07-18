@@ -22,6 +22,41 @@
     });
   }
 
+  /* theme toggle — default follows the OS; a click pins the choice (localStorage).
+     Mirrors the app's "one world per theme, system default" behaviour. */
+  var themeBtn = document.getElementById("themeToggle");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", function () {
+      var root = document.documentElement;
+      var cur = root.getAttribute("data-theme");
+      var sysDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var isDark = cur ? cur === "dark" : sysDark;
+      var next = isDark ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("stack-theme", next); } catch (e) {}
+    });
+  }
+
+  /* pricing month/year toggle (landing) */
+  var priceToggle = document.querySelector(".price-toggle");
+  if (priceToggle) {
+    var pbtns = priceToggle.querySelectorAll("button");
+    var show = function (sel, on) {
+      document.querySelectorAll(sel).forEach(function (el) { el.hidden = !on; });
+    };
+    pbtns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        pbtns.forEach(function (x) { x.classList.remove("active"); });
+        b.classList.add("active");
+        var year = b.getAttribute("data-bill") === "year";
+        show("[data-price-month]", !year); show("[data-price-year]", year);
+        show("[data-anchor-month]", !year); show("[data-anchor-year]", year);
+        var per = document.querySelector("[data-per]");
+        if (per) per.textContent = year ? "/yr" : "/mo";
+      });
+    });
+  }
+
   /* reveal on scroll (finite, once) */
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {

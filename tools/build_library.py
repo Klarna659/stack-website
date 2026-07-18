@@ -124,7 +124,8 @@ def head(title: str, desc: str, canonical: str, assets: str, jsonld: list | None
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(desc)}" />
-  <meta name="theme-color" content="#0b0b0f" />
+  <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href="{canonical}" />
   <meta property="og:title" content="{esc(title)}" />
   <meta property="og:description" content="{esc(desc)}" />
@@ -133,20 +134,30 @@ def head(title: str, desc: str, canonical: str, assets: str, jsonld: list | None
   <meta property="og:image" content="{BASE_URL}/assets/img/og.png" />
   <meta property="og:site_name" content="Stack" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" type="image/svg+xml" href="{assets}/img/icon-dark.svg" />
+  <link rel="icon" type="image/svg+xml" href="{assets}/img/icon.svg" />
   <link rel="icon" type="image/png" href="{assets}/img/icon.png" />
   <link rel="apple-touch-icon" href="{assets}/img/icon.png" />
   <link rel="preload" href="{assets}/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="{assets}/css/mono.css?v=2" />{blocks}
+  <link rel="stylesheet" href="{assets}/css/mono.css?v=3" />{blocks}
+  <script>(function(){{try{{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}}})();</script>
 </head>"""
 
 
 def mark(size: int = 36) -> str:
+    # Three stacked discs — the app icon. Theme-aware ink tones (never gold:
+    # the brand mark isn't an "earned" moment). Fills resolve from mono.css vars.
     return f"""<svg class="brand-mark" width="{size}" height="{size}" viewBox="0 0 40 40" aria-hidden="true">
-          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#c9ccd2"/>
-          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#6b6e76"/>
-          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#f4f4f5"/>
+          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
+          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
+          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
         </svg>"""
+
+
+def theme_toggle() -> str:
+    return """<button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>"""
 
 
 def nav(root: str, current: str = "") -> str:
@@ -159,16 +170,19 @@ def nav(root: str, current: str = "") -> str:
         {mark(36)}
         <span class="brand-word">Stack</span>
       </a>
-      <nav class="nav-links" id="navLinks">
-        <a href="{root}#features"{cur('features')}>Features</a>
-        <a href="{root}compounds/"{cur('compounds')}>Compounds</a>
-        <a href="{root}tools/reconstitution/"{cur('tools')}>Calculator</a>
-        <a href="{root}guides/"{cur('guides')}>Guides</a>
-      </nav>
-      <a href="{root}#download" class="nav-cta">Get the app</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
-        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks">
+          <a href="{root}#features"{cur('features')}>Features</a>
+          <a href="{root}#pricing"{cur('pricing')}>Pricing</a>
+          <a href="{root}compounds/"{cur('compounds')}>Compounds</a>
+          <a href="{root}guides/"{cur('guides')}>Guides</a>
+        </nav>
+        {theme_toggle()}
+        <a href="{root}#download" class="nav-cta">Get the app</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
     </div>
   </header>"""
 
@@ -222,7 +236,7 @@ def footer(root: str) -> str:
       <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
     </div>
   </footer>
-  <script src="{root}assets/js/site.js?v=2"></script>"""
+  <script src="{root}assets/js/site.js?v=3"></script>"""
 
 
 def decay_bars(hours: float | None) -> str:
