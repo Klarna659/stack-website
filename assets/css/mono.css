@@ -433,6 +433,22 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
 .plan .btn { margin-top: auto; width: 100%; }
 .plan-foot { color: var(--dim); font-size: 12.5px; margin: 14px 0 0; line-height: 1.5; text-align: center; }
 
+/* account tier badge — gold only when a plan is actually earned */
+.tier-badge {
+  display: inline-block; font-size: 15px; font-weight: 800; letter-spacing: -.01em;
+  color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+}
+.tier-badge.earned { color: var(--gold); border-color: var(--gold-line); background: var(--gold-fill); }
+
+/* comparison table */
+.cmp { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.cmp th { text-align: left; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.cmp th:not(:first-child), .cmp td:not(:first-child) { text-align: center; width: 22%; }
+.cmp td { padding: 13px 14px; border-bottom: 1px solid var(--line-soft); color: var(--ink-2); }
+.cmp td:first-child { color: var(--ink); font-weight: 600; }
+.cmp td.y { color: var(--gold); font-weight: 700; }
+.cmp tbody tr:hover { background: var(--bg-soft); }
+
 /* pricing toggle (monthly / yearly) */
 .price-toggle { display: inline-flex; gap: 0; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--panel); }
 .price-toggle button {

@@ -118,6 +118,34 @@
     });
   });
 
+  /* Plus buy buttons ([data-plan]) — go to the RevenueCat Web Billing checkout
+     when it's configured (carrying the signed-in user id so the entitlement
+     attaches to the right account), else fall back to the notify flow. */
+  var RAIL = window.STACK_RAIL;
+  document.querySelectorAll("[data-plan]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var key = b.getAttribute("data-plan");
+      if (RAIL && RAIL.checkoutReady && RAIL.checkoutReady(key)) {
+        var url = RAIL.checkout[key];
+        var go = function (uid) {
+          if (uid) url += (url.indexOf("?") === -1 ? "?" : "&") + "app_user_id=" + encodeURIComponent(uid);
+          window.location.href = url;
+        };
+        if (window.StackAccount) {
+          window.StackAccount.ensureSession().then(function (s) {
+            go(s && (s.user_id || (window.StackAccount.decodeJwtEmail(s.access_token) || {}).user_id));
+          }).catch(function () { go(null); });
+        } else { go(null); }
+        return;
+      }
+      // not configured yet → notify at launch
+      var email = (RAIL && RAIL.contactEmail) || "hello@trackyourstack.app";
+      window.location.href = "mailto:" + email +
+        "?subject=" + encodeURIComponent("Notify me when Stack Plus launches") +
+        "&body=" + encodeURIComponent("Tell me when I can get Plus.");
+    });
+  });
+
   /* store badges — until store URLs exist, scroll to the notify line */
   document.querySelectorAll(".store-badge[data-store]").forEach(function (b) {
     b.addEventListener("click", function () {

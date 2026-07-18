@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your account — sign in | Stack</title>
+<meta name="description" content="Sign in to your Stack account. Buy Plus on the web and it unlocks in the app when you sign in with the same email." />
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+<link rel="canonical" href="https://trackyourstack.app/account/" />
+<link rel="icon" type="image/svg+xml" href="../assets/img/icon.svg" />
+<link rel="icon" type="image/png" href="../assets/img/icon.png" />
+<link rel="preload" href="../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="../assets/css/mono.css?v=3" />
+<script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../" class="brand" aria-label="Stack — home">
+        <svg class="brand-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
+          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
+          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
+        </svg>
+        <span class="brand-word">Stack</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks">
+          <a href="../#features">Features</a>
+          <a href="../pricing/">Pricing</a>
+          <a href="../compounds/">Compounds</a>
+          <a href="../guides/">Guides</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="../pricing/" class="nav-cta">See Plus</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container" style="max-width:560px;padding-top:clamp(48px,8vw,88px);padding-bottom:80px">
+      <span class="eyebrow">Your account</span>
+
+      <!-- signed OUT -->
+      <div id="acct-signedout" hidden>
+        <h1 style="font-size:clamp(30px,5vw,44px);margin:12px 0 14px">Sign in</h1>
+        <p class="lead" style="font-size:17px;margin-bottom:26px">One account for the web and the app.
+        Buy Plus here, then sign in on the app with the same email — it unlocks automatically.</p>
+        <form class="panel" id="acct-form" novalidate>
+          <div class="field">
+            <label for="acct-email-input">Email</label>
+            <input class="input" id="acct-email-input" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Email me a sign-in link</button>
+          <p class="form-msg" id="acct-msg" style="margin-top:12px;text-align:center"></p>
+        </form>
+        <p class="muted" style="font-size:13px;margin-top:16px;text-align:center">No password. We email you a one-tap link.</p>
+      </div>
+
+      <!-- signed IN -->
+      <div id="acct-signedin" hidden>
+        <h1 style="font-size:clamp(30px,5vw,44px);margin:12px 0 6px">You're signed in.</h1>
+        <p class="muted" style="margin:0 0 24px">as <strong id="acct-email" style="color:var(--ink)">your account</strong></p>
+        <div class="panel" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+          <div>
+            <div class="eyebrow" style="margin-bottom:6px">Membership</div>
+            <span class="tier-badge" id="acct-tier">Free</span>
+          </div>
+          <a class="btn btn-primary" href="../pricing/" id="acct-plus-hint">Get Plus</a>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <h3 style="font-size:16px;margin-bottom:6px">Using the app?</h3>
+          <p class="muted" style="font-size:14px;margin:0;line-height:1.6">Open Stack on your phone and sign in with
+          <strong style="color:var(--ink)">this same email</strong>. Any Plus you buy here rides your account —
+          nothing to restore, nothing to re-enter.</p>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:14px;flex-wrap:wrap">
+          <button class="btn" id="acct-signout">Sign out</button>
+          <p class="muted" style="font-size:12.5px;margin:0">Encrypted with your key. We store your backup — we can't read it.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom" style="border-top:0">
+      <span>© 2026 Stack</span>
+      <span><a href="../pricing/">Pricing</a> · <a href="../privacy.html">Privacy</a> · <a href="#" data-email-link>hello@trackyourstack.app</a></span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/rail-config.js"></script>
+  <script src="../assets/js/site.js?v=3"></script>
+  <script src="../assets/js/account.js"></script>
+</body>
+</html>

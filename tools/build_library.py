@@ -173,7 +173,7 @@ def nav(root: str, current: str = "") -> str:
       <div class="nav-right">
         <nav class="nav-links" id="navLinks">
           <a href="{root}#features"{cur('features')}>Features</a>
-          <a href="{root}#pricing"{cur('pricing')}>Pricing</a>
+          <a href="{root}pricing/"{cur('pricing')}>Pricing</a>
           <a href="{root}compounds/"{cur('compounds')}>Compounds</a>
           <a href="{root}guides/"{cur('guides')}>Guides</a>
         </nav>
@@ -202,7 +202,9 @@ def footer(root: str) -> str:
         <h4>Product</h4>
         <ul>
           <li><a href="{root}#features">Features</a></li>
+          <li><a href="{root}pricing/">Pricing</a></li>
           <li><a href="{root}#download">Get the app</a></li>
+          <li><a href="{root}account/">Sign in</a></li>
           <li><a href="{root}referral.html">Referral program</a></li>
         </ul>
       </div>
@@ -543,7 +545,7 @@ def build_sitemap(slugs: list[str], extra: list[str] | None = None) -> str:
     site-relative paths already including their full path (e.g.
     'compounds/compare/semaglutide-vs-tirzepatide/')."""
     static = [
-        "", "compounds/", "compounds/compare/", "tools/reconstitution/",
+        "", "pricing/", "compounds/", "compounds/compare/", "tools/reconstitution/",
         "guides/", "guides/reconstitution-explained/",
         "guides/injection-site-rotation/", "guides/glp1-tracking/",
         "about/", "stacks/", "privacy.html", "terms.html", "referral.html",
