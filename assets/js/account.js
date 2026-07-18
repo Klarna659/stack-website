@@ -34,6 +34,22 @@
     };
   }
 
+  var authErrorMsg = null;
+
+  /* capture a failed magic-link return: #error=access_denied&error_code=otp_expired&…
+     Strip it from the URL and stash a friendly message for render() to surface. */
+  function captureError() {
+    if (!location.hash || location.hash.indexOf("error") === -1) return;
+    var p = {}; location.hash.replace(/^#/, "").split("&").forEach(function (kv) {
+      var i = kv.indexOf("="); if (i > -1) p[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1).replace(/\+/g, " "));
+    });
+    if (!p.error && !p.error_code) return;
+    history.replaceState(null, "", location.pathname + location.search);
+    authErrorMsg = /expired|otp_expired/.test(p.error_code || p.error || "")
+      ? "That link expired — request a new one below."
+      : (p.error_description || "That sign-in link didn't work — try again below.");
+  }
+
   /* capture a magic-link return: #access_token=…&refresh_token=… */
   function captureHash() {
     if (!location.hash || location.hash.indexOf("access_token") === -1) return null;
@@ -104,7 +120,11 @@
     if (!signedOut || !signedIn) return;
 
     ensureSession().then(function (sess) {
-      if (!sess) { signedOut.hidden = false; signedIn.hidden = true; return; }
+      if (!sess) {
+        signedOut.hidden = false; signedIn.hidden = true;
+        if (authErrorMsg) { var m = $("acct-msg"); if (m) m.textContent = authErrorMsg; authErrorMsg = null; }
+        return;
+      }
       var who = sess.email ? sess : Object.assign({}, sess, decodeJwtEmail(sess.access_token));
       var emailEl = $("acct-email"); if (emailEl) emailEl.textContent = who.email || "your account";
       signedOut.hidden = true; signedIn.hidden = false;
@@ -138,7 +158,8 @@
     });
   }
 
-  // capture a magic-link return before rendering
+  // capture a magic-link return (success or error) before rendering
+  captureError();
   var captured = captureHash();
   if (captured) saveSession(captured);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", render);

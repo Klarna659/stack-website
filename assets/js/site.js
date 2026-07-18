@@ -53,6 +53,10 @@
         show("[data-anchor-month]", !year); show("[data-anchor-year]", year);
         var per = document.querySelector("[data-per]");
         if (per) per.textContent = year ? "/yr" : "/mo";
+        // Keep the Plus buy button's SKU in sync with the toggle, else a Yearly
+        // selection would check out on the monthly plan.
+        var buyBtn = document.querySelector("[data-plan-toggle]");
+        if (buyBtn) buyBtn.setAttribute("data-plan", year ? "plusAnnual" : "plusMonthly");
       });
     });
   }

@@ -8,6 +8,8 @@
 <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
 <link rel="canonical" href="https://trackyourstack.app/pricing/" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sTHdUZ83c1Y55MOwbLaMFzLTSLMk8TCQ5cIw+4vcK/c='; connect-src 'self' https://nkxwtlfcezgehskzneqm.supabase.co; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta property="og:title" content="Stack — pricing" />
 <meta property="og:description" content="Free tracks the habit. Plus reads the insight. No compound caps, ever." />
 <meta property="og:type" content="website" />
@@ -57,7 +59,7 @@
       <div class="container">
         <div class="section-head center">
           <span class="eyebrow">Pricing</span>
-          <h2 style="font-size:clamp(34px,5vw,52px)">Free tracks the habit.<br/>Plus reads the insight.</h2>
+          <h1 style="font-size:clamp(34px,5vw,52px)">Free tracks the habit.<br/>Plus reads the insight.</h1>
           <p>The whole logbook is free — every compound, no caps. Plus is for when you want
           to see <em>why</em>: the levels, the labs, the long trends. Buy it on the web;
           it unlocks in the app the moment you sign in.</p>
@@ -94,10 +96,11 @@
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Free</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>In-system levels</strong> — the half-life curves</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bloodwork ranges &amp; the full trend history</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Unlimited Sage, custom sounds &amp; a doctor report</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Encrypted cloud backup you own</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Unlimited Sage &amp; a doctor-ready report</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Automatic encrypted cloud backup</li>
             </ul>
-            <button class="btn btn-primary btn-lg" data-plan="plusMonthly">Get Plus</button>
+            <button class="btn btn-primary btn-lg" data-plan="plusMonthly" data-plan-toggle>Get Plus</button>
+            <button class="btn btn-lg" data-plan="lifetime" style="width:100%;margin-top:10px">Get Lifetime — $124.99 once</button>
             <p class="plan-foot">Buy on the web · sign in on the app · it's already on.</p>
           </div>
         </div>
@@ -120,8 +123,8 @@
             <tr><td>In-system level curves</td><td>—</td><td class="y">Yes</td></tr>
             <tr><td>Bloodwork ranges</td><td>—</td><td class="y">Yes</td></tr>
             <tr><td>Full trend history</td><td>—</td><td class="y">Yes</td></tr>
-            <tr><td>Custom notification sounds</td><td>—</td><td class="y">Yes</td></tr>
-            <tr><td>Doctor report</td><td>—</td><td class="y">Yes</td></tr>
+            <tr><td>Custom notification sounds</td><td>Yes</td><td class="y">Yes</td></tr>
+            <tr><td>Doctor-ready PDF report</td><td>—</td><td class="y">Yes</td></tr>
             <tr><td>Encrypted cloud backup</td><td>Export a file you own</td><td class="y">Automatic</td></tr>
           </tbody>
         </table>

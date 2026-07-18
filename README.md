@@ -1,55 +1,60 @@
-# Stack — landing site
+# Stack — website
 
-Clean, minimal landing + redirect page for the Stack app. Plain HTML/CSS/JS —
-no build step, no dependencies.
+Marketing + SEO + premium-conversion surface for the Stack app. Plain
+HTML/CSS/vanilla JS, no build step, no runtime dependencies. Live at
+**https://trackyourstack.app** (GitHub Pages behind Cloudflare, DNS-only).
+
+## Brand
+"A ledger with a gold thread" — locked in `../dose_tracker/DESIGN_LANGUAGE.md`.
+Paper/light is the default world; dark follows the OS + a nav toggle. Exactly one
+hue (**gold = earned**, never decoration/buttons). Inter only, tabular figures,
+no emoji, the word "AI" never appears (the assistant is "Sage"). Single
+stylesheet: `assets/css/mono.css`.
 
 ## Run it locally
-Just open `index.html` in a browser. (For forms/preview to behave exactly like
-production, serve it: `npx serve` in this folder, then visit the printed URL.)
-
-## The 4 things to set when you're ready
-Open **`assets/js/main.js`** and edit the `CONFIG` block at the very top.
-Everything works before you touch it — these just upgrade it.
-
-| Setting | What it does | Until you set it |
-|---|---|---|
-| `CONTACT_EMAIL` | where form emails go | already set to `hello@trackyourstack.app` |
-| `FORM_ENDPOINT` | paste a Formspree / Web3Forms / Getform URL to collect submissions in a dashboard | forms open the visitor's email app pre-filled (works today) |
-| `PLAY_URL` | your Google Play listing URL | store buttons say "coming soon" → bounce to the email-notify box |
-| `APP_STORE_URL` | your App Store listing URL | same |
-
-### Easiest form backend (5 min, free)
-1. Go to **web3forms.com**, enter your email, copy the **access key**.
-2. In `main.js`, you can either keep the mailto fallback, or wire Web3Forms:
-   set `FORM_ENDPOINT: "https://api.web3forms.com/submit"` and add your key by
-   putting `<input type="hidden" name="access_key" value="YOUR_KEY">` inside each
-   `<form>` in `index.html`. (Formspree works too — paste its form URL as
-   `FORM_ENDPOINT`.)
-
-## Add a screenshot
-Drop a `1080×2400` PNG into `assets/img/screens/`, then add one line to the
-`SCREENS` array in `main.js`:
-```js
-{ img: "assets/img/screens/yourfile.png", title: "Title", sub: "One-line caption" },
 ```
+python -m http.server 8891   # then open http://127.0.0.1:8891/
+```
+(A plain file open works for most pages, but the account sign-in + relative
+routing behave like production only when served.)
 
-## Deploy (free, ~2 min)
-- **Netlify / Cloudflare Pages / Vercel:** drag this whole folder onto their
-  dashboard, or connect a Git repo. No settings needed (it's static).
-- Point your domain **trackyourstack.app** at it.
-- Your hosted legal URLs become:
-  - `https://trackyourstack.app/privacy.html`  ← use this for the Play Store data-safety / privacy-policy URL
-  - `https://trackyourstack.app/terms.html`
+## Config — `assets/js/rail-config.js`
+One config block for the web rail (see `WEB_RAIL.md`). Supabase URL + anon key
+are the app's own committed public (RLS-gated) values. The `checkout.*` RevenueCat
+Web Billing URLs are `PASTE_…` until launch; while unset, the buy buttons fall
+back to a "notify at launch" mailto. Shared site JS (nav, theme toggle, pricing
+toggle, gallery, forms, buy buttons) lives in `assets/js/site.js`; account
+sign-in in `assets/js/account.js`.
+
+## Generated content — re-run the generators, don't hand-edit output
+```
+python tools/build_library.py   # compounds/ (index + 112 pages + 10 compares) + sitemap.xml
+python tools/build_pages.py      # guides/, about/, 404.html
+```
+Compound data lives in `assets/data/compounds.json`. Shared page chrome
+(`head`/`nav`/`footer`/`mark`) is defined in `tools/build_library.py` and imported
+by `tools/build_pages.py` + `tools/build_compare.py`. Editing a generated
+`.html` directly will be overwritten on the next build.
+
+## Deploy
+Push to `main` → GitHub Pages publishes. `CNAME` = trackyourstack.app (apex);
+GitHub owns the TLS cert (Cloudflare is DNS-only/grey — do not proxy it).
+Hosted legal URLs for the store listings:
+- `https://trackyourstack.app/privacy.html`
+- `https://trackyourstack.app/terms.html`
+- `https://trackyourstack.app/data-deletion.html`
 
 ## Structure
 ```
-index.html        landing page (hero, features, screenshots, referral, feedback, notify)
-privacy.html      hosted Privacy Policy
-terms.html        hosted Terms of Service
-assets/css/styles.css
-assets/js/main.js   ← CONFIG + screenshot list live here
-assets/img/         icon + screenshots
-assets/fonts/       Inter (self-hosted)
+index.html         landing (hero, in-system + rotation visuals, features, pricing teaser, library funnel, FAQ)
+pricing/           dedicated pricing + comparison + FAQ (the checkout surface)
+account/           magic-link sign-in (noindex)
+compounds/         112-compound SEO library + 10 head-to-head compares (generated)
+guides/  about/    prose pages (generated)
+stacks/ referral.html creators.html   share + creator/partner funnels
+privacy.html terms.html data-deletion.html   hosted legal
+assets/css/mono.css   the single design system
+assets/js/            site.js · account.js · rail-config.js
+assets/img/ assets/fonts/   icons/og + self-hosted Inter (subset)
+tools/                page generators + reconstitution calculator
 ```
-
-Brand mirrors the app's `DESIGN_SYSTEM.md`: blue `#2563EB`, Inter, light theme.

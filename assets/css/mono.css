@@ -33,7 +33,7 @@
   --ink: #18181B;         /* Mono _lightInk */
   --ink-2: #52525B;       /* Mono _lightInk2 */
   --mut: #71717A;         /* secondary text, AA on paper */
-  --dim: #A1A1AA;         /* Mono _lightMut — tertiary */
+  --dim: #6B6B73;         /* tertiary TEXT — AA (~5.2:1 on paper). Borders/hover too. */
 
   /* Gold = earned. Deep brass, measured 4.96:1 on paper (AA). */
   --gold: #8F661C;
@@ -71,7 +71,7 @@
   --ink: #F4F4F5;         /* Mono _darkInk */
   --ink-2: #CBCBD0;       /* Mono _darkInk2 */
   --mut: #A0A2AA;
-  --dim: #6E7077;
+  --dim: #8A8C94;
 
   --gold: #E6B45A;        /* capsule-glow amber, desaturated for UI */
   --gold-fill: rgba(230, 180, 90, 0.14);
@@ -91,7 +91,7 @@
   :root:not([data-theme="light"]) {
     --bg: #0B0B0F; --bg-soft: #101015; --panel: #18181E; --panel-2: #1E1E25;
     --line: #2A2A30; --line-soft: #232329;
-    --ink: #F4F4F5; --ink-2: #CBCBD0; --mut: #A0A2AA; --dim: #6E7077;
+    --ink: #F4F4F5; --ink-2: #CBCBD0; --mut: #A0A2AA; --dim: #8A8C94;
     --gold: #E6B45A; --gold-fill: rgba(230, 180, 90, 0.14); --gold-line: rgba(230, 180, 90, 0.30);
     --brand-1: #C9CCD2; --brand-2: #6B6E76; --brand-3: #F4F4F5;
     --shadow-card: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 60px -30px rgba(0, 0, 0, .8);
@@ -456,7 +456,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
   background: transparent; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer;
 }
 .price-toggle button.active { background: var(--ink); color: var(--bg); }
-.price-toggle .save { color: var(--gold); font-size: 11.5px; font-weight: 800; margin-left: 4px; }
+.price-toggle .save { color: var(--mut); font-size: 11.5px; font-weight: 800; margin-left: 4px; }
 
 /* ============================================================== SHOWPIECE */
 /* Code-drawn product visuals: PK curve, streak thread, rotation map,
@@ -545,7 +545,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
 }
 .lib-mini .nm { font-weight: 700; font-size: 14px; letter-spacing: -.01em; }
 .lib-mini .fx { color: var(--mut); font-size: 12px; margin-top: 3px; }
-.lib-mini .hl { color: var(--gold); font-size: 12px; font-weight: 700; margin-top: 8px; }
+.lib-mini .hl { color: var(--ink-2); font-size: 12px; font-weight: 700; margin-top: 8px; }
 
 /* =================================================================== LIBRARY */
 .lib-head { padding: clamp(56px, 8vw, 92px) 0 10px; }

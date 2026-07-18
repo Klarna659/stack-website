@@ -4,10 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy Policy — Stack</title>
-  <meta name="description" content="Stack is local-first and encrypted by default. Optional email, cloud backup, and feedback are the only things that ever leave your device — and only when you choose. We never sell or harvest your data." />
+  <meta name="description" content="Stack keeps your health data encrypted on your device. You sign in with just an email; cloud backup and feedback are opt-in. We never sell or harvest your data." />
   <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href="https://trackyourstack.app/privacy.html" />
+  <meta property="og:title" content="Privacy Policy — Stack" />
+  <meta property="og:description" content="Stack keeps your health data encrypted on your device. You sign in with just an email; cloud backup and feedback are opt-in. We never sell or harvest your data." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackyourstack.app/privacy.html" />
+  <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+  <meta property="og:site_name" content="Stack" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/img/icon.svg" />
   <link rel="icon" type="image/png" href="assets/img/icon.png" />
   <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
@@ -34,7 +41,7 @@
     <article class="legal">
       <a href="index.html" class="back-link">← Back to Stack</a>
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: July 1, 2026</p>
+      <p class="updated">Last updated: July 18, 2026</p>
 
       <p>Stack (the “App”, “we”, “us”, “our”) is an independently developed application.
         Questions: <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</p>
@@ -42,18 +49,19 @@
       <div class="short">
         <strong>The short version</strong>
         <ul>
-          <li>Stack is <strong>local-first by default</strong>. Your data lives <strong>on your device</strong>, in an <strong>encrypted</strong> database.</li>
-          <li>There is <strong>no forced sign-up</strong>. You can use the whole App without ever giving us an email.</li>
+          <li>Your <strong>health data lives on your device</strong>, in an <strong>encrypted</strong> database — and stays there unless you turn on Cloud backup.</li>
+          <li>Stack requires a <strong>Stack account</strong>: you sign in with your <strong>email</strong> using a one-time link or code — no password. The account holds <strong>only your email</strong>, never what you take (Section 3b).</li>
           <li>We <strong>never sell, rent, share, or harvest your data</strong> — not your medications, not your results, nothing. That is the promise.</li>
-          <li><strong>Three optional features send data off your device — and only when you turn them on:</strong> (1) giving us your <strong>email</strong> for product updates; (2) <strong>Cloud backup</strong>, which stores an encrypted copy of your data on our backend so you can recover it on a new phone; (3) <strong>sending feedback</strong>. Details in Sections 3b and 5.</li>
+          <li>Beyond the required account email, features that send data off your device are <strong>opt-in</strong>: <strong>Cloud backup</strong> (an encrypted copy for recovery), <strong>product-update emails</strong>, and <strong>sending feedback</strong>. Details in Sections 3b and 5.</li>
+          <li>If you buy <strong>Plus on the web</strong>, your email and payment details go to our payment processor (<strong>Stripe</strong>) and subscription manager (<strong>RevenueCat</strong>); we receive only your subscription status, never full card numbers (Section 8).</li>
           <li>We show <strong>no ads</strong> and use <strong>no advertising identifiers or cross-app tracking</strong>. We do use <strong>anonymous, aggregate analytics and crash reporting</strong> to improve the App; these never include your health data (Section 3a).</li>
-          <li>If you never touch email, cloud backup, or feedback, your health data <strong>never leaves your device</strong>.</li>
+          <li>The account only knows your email; unless you turn on Cloud backup, your <strong>health data never leaves your device</strong>.</li>
           <li>Label scanning runs <strong>on your device</strong>; the App does not upload your photos.</li>
         </ul>
       </div>
 
       <h2>1. Scope</h2>
-      <p>This policy covers the Stack mobile application. It does not cover any third-party service you choose to send your data to (for example, a cloud drive where you save a backup).</p>
+      <p>This policy covers the Stack mobile application and the Stack website account and web checkout at trackyourstack.app. It does not cover any third-party service you choose to send your data to (for example, a cloud drive where you save a backup).</p>
 
       <h2>2. What the App stores on your device</h2>
       <p>Everything you enter is stored <strong>locally on your device</strong>, including:</p>
@@ -82,8 +90,9 @@
       </ul>
       <p>There are <strong>no advertising identifiers</strong> and <strong>no cross-app tracking</strong>. Think of these as a usage counter and a smoke detector — never a window into your stack.</p>
 
-      <h2>3b. Optional features that send data off your device</h2>
-      <p>These are <strong>opt-in</strong>. Each one is off until you turn it on, and none is required to use the App. When they do send data, it goes to <strong>Supabase</strong>, the backend hosting provider we use (see Section 8). We use it only for the feature you enabled, and we never sell or share it.</p>
+      <h2>3b. Your account, and optional features that send data off your device</h2>
+      <p><strong>Your account (required).</strong> Stack is a sign-in app. You create an account with your <strong>email</strong> and authenticate with a one-time link or code — no password. We store that email and use <strong>Supabase</strong> (Section 8) to send the code and keep you signed in across your devices and the web. The account holds <strong>only your email</strong> — it is never linked to what you take, and your health data stays encrypted on your device.</p>
+      <p>Everything below is <strong>opt-in</strong>. Each one is off until you turn it on, and none is required to use the App. When they do send data, it goes to <strong>Supabase</strong>, the backend hosting provider we use (see Section 8). We use it only for the feature you enabled, and we never sell or share it.</p>
       <ul>
         <li><strong>Email (product updates):</strong> if you choose to join our updates list, we store the <strong>email address you enter</strong>, along with an anonymous install identifier, the source of the sign-up, and your app/OS version, so we can email you about Stack and avoid duplicate sign-ups. You can leave the list at any time using the unsubscribe link in any email or by contacting us. We do not use your email for anything but Stack, and we never sell it.</li>
         <li><strong>Cloud backup (optional recovery):</strong> if you turn on Cloud backup, we store your <strong>email</strong> (used to sign you in with a one-time code) and an <strong>encrypted copy of your Stack data</strong> on our backend so you can restore everything on a new phone. Your data is encrypted on your device before it is uploaded. <strong>Important, in plain terms:</strong> so that we can restore your data even if you lose your phone and every password, the App also stores the decryption key alongside the backup. This means <strong>Cloud backup is a convenience feature, not a zero-knowledge one</strong> — while we never look at, sell, or share your data, the encrypted copy on our backend is technically accessible to us, unlike the copy on your device. This is a deliberate trade-off for painless recovery. If you want your health data to stay only on your device, simply leave Cloud backup off (it is off by default). You can turn it off and request deletion of your cloud copy at any time (Section 10).</li>
@@ -117,7 +126,8 @@
       <ul>
         <li><strong>Google ML Kit (on-device text recognition)</strong> — runs locally for label scanning; the App does not send your images to Google.</li>
         <li><strong>Aptabase</strong> (anonymous usage analytics) and <strong>Sentry</strong> (crash reporting) — see Section 3a; neither receives your health or personal data.</li>
-        <li><strong>Supabase</strong> (backend hosting) — stores the data from the opt-in features in Section 3b (your email if you join updates or use Cloud backup, your encrypted Cloud backup, and feedback you send). It receives this data only when you use one of those features, and it is governed by Supabase's own security and privacy terms.</li>
+        <li><strong>Supabase</strong> (backend hosting + account authentication) — stores your account email and sends your sign-in code, and stores the data from the opt-in features in Section 3b (your email, your encrypted Cloud backup, and feedback you send). Governed by Supabase's own security and privacy terms.</li>
+        <li><strong>RevenueCat</strong> (subscription management) and <strong>Stripe</strong> (payment processing) — used only if you buy Stack Plus on the web. At checkout, your email and payment details go to Stripe (the payment processor/merchant of record) and your subscription is managed by RevenueCat; Stack receives only your resulting subscription status tied to your account. <strong>We never see or store full card numbers.</strong> Each is governed by its own privacy terms.</li>
         <li><strong>Your operating system, and any app you choose</strong> to receive a shared backup or stack code.</li>
       </ul>
       <p>We integrate <strong>no advertising and no cross-app tracking SDKs</strong>. Beyond the anonymous analytics and crash reporting in Section 3a and the opt-in features in Section 3b, the App does not transmit your data.</p>

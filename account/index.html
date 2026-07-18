@@ -9,6 +9,8 @@
 <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
 <link rel="canonical" href="https://trackyourstack.app/account/" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sTHdUZ83c1Y55MOwbLaMFzLTSLMk8TCQ5cIw+4vcK/c='; connect-src 'self' https://nkxwtlfcezgehskzneqm.supabase.co; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <link rel="icon" type="image/svg+xml" href="../assets/img/icon.svg" />
 <link rel="icon" type="image/png" href="../assets/img/icon.png" />
 <link rel="preload" href="../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
@@ -84,7 +86,7 @@
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:14px;flex-wrap:wrap">
           <button class="btn" id="acct-signout">Sign out</button>
-          <p class="muted" style="font-size:12.5px;margin:0">Encrypted with your key. We store your backup — we can't read it.</p>
+          <p class="muted" style="font-size:12.5px;margin:0">Cloud backup is encrypted and opt-in — a convenience backup, not zero-knowledge. <a href="../privacy.html" style="text-decoration:underline">See Privacy</a>.</p>
         </div>
       </div>
     </div>

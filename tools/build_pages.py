@@ -367,20 +367,23 @@ page(
 
 # ===================================================================== 404 ==
 with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as f:
-    f.write(f"""{head("Page not found | Stack", "That page doesn't exist. Head back to Stack.", BASE_URL + "/404.html", "assets", None, "website")}
+    # GitHub Pages serves 404.html AT the missed deep URL, so relative paths
+    # would resolve against that path and 404. Everything here is root-absolute
+    # (safe: the apex domain serves at the web root).
+    f.write(f"""{head("Page not found | Stack", "That page doesn't exist. Head back to Stack.", BASE_URL + "/404.html", "/assets", None, "website")}
 <body>
-{nav('./')}
+{nav('/')}
   <main>
     <div class="container center" style="padding:120px 22px 140px">
       <span class="eyebrow">404</span>
       <h1 class="display" style="font-size:clamp(40px,7vw,80px)">Nothing here.</h1>
       <p class="lead" style="max-width:40ch;margin:22px auto 34px">That page doesn't exist — but the
       compound library and the app very much do.</p>
-      <a class="btn btn-primary btn-lg" href="./">Back to Stack</a>
-      <a class="btn btn-lg" href="compounds/" style="margin-left:8px">Compound library</a>
+      <a class="btn btn-primary btn-lg" href="/">Back to Stack</a>
+      <a class="btn btn-lg" href="/compounds/" style="margin-left:8px">Compound library</a>
     </div>
   </main>
-{footer('./')}
+{footer('/')}
 </body>
 </html>
 """)

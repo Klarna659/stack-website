@@ -227,8 +227,8 @@
       $("syr-fill").style.width = pct + "%";
 
       var warn = "";
-      if (units > syrMax) warn = "⚠ That dose doesn't fit this syringe — use less water when reconstituting, or a bigger syringe.";
-      else if (units > 0 && units < 2) warn = "⚠ Under 2 units is hard to measure accurately — consider using more water for a dilute mix.";
+      if (units > syrMax) warn = "Heads up — that dose doesn't fit this syringe. Use less water when reconstituting, or a bigger syringe.";
+      else if (units > 0 && units < 2) warn = "Heads up — under 2 units is hard to measure accurately. Consider using more water for a dilute mix.";
       var sub = $("out-sub");
       var w = document.getElementById("out-warn");
       if (warn) {

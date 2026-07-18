@@ -223,6 +223,7 @@ def footer(root: str) -> str:
           <li><a href="{root}about/">About &amp; sourcing</a></li>
           <li><a href="{root}privacy.html">Privacy</a></li>
           <li><a href="{root}terms.html">Terms</a></li>
+          <li><a href="{root}data-deletion.html">Data deletion</a></li>
           <li><a href="#" data-email-link>Contact</a></li>
         </ul>
       </div>
@@ -245,7 +246,7 @@ def decay_bars(hours: float | None) -> str:
     if not hours:
         return ""
     bars = "".join(
-        f'<i style="--o:{max(0.06, 0.5 ** i):.3f}" title="{int(round(100 * 0.5 ** i))}% after {i} half-li{"fe" if i == 1 else "ves"}"></i>'
+        f'<i style="--o:{max(0.04, 0.5 ** i):.3f}" title="{int(round(100 * 0.5 ** i))}% after {i} half-li{"fe" if i == 1 else "ves"}"></i>'
         for i in range(0, 6)
     )
     return f"""
@@ -454,7 +455,9 @@ def tracking_paragraph(c: dict, hl: str | None) -> str:
                     "<em>at each step</em> is the difference between knowing your history and guessing it")
     if c.get("typical_storage") in ("fridge", "fridge_after_recon"):
         bits.append("it's also worth noting opened-vial dates, since this one lives in the fridge")
-    return ". ".join(bits) + "."
+    # Capitalize each fragment so joined sentences don't read "…problem. with a
+    # half-life…". Safe: every fragment starts with a plain letter, not a tag.
+    return ". ".join(b[0].upper() + b[1:] for b in bits) + "."
 
 
 def catalog_page(compounds: list[dict], by_cat: dict[str, list[dict]]) -> str:
@@ -544,11 +547,14 @@ def build_sitemap(slugs: list[str], extra: list[str] | None = None) -> str:
     """`slugs` are compound slugs (→ /compounds/<slug>/). `extra` are
     site-relative paths already including their full path (e.g.
     'compounds/compare/semaglutide-vs-tirzepatide/')."""
+    # NOTE: compounds/compare/ is emitted by build_compare (it leads `extra`),
+    # so it is intentionally NOT listed here to avoid a duplicate sitemap entry.
     static = [
-        "", "pricing/", "compounds/", "compounds/compare/", "tools/reconstitution/",
+        "", "pricing/", "compounds/", "tools/reconstitution/",
         "guides/", "guides/reconstitution-explained/",
         "guides/injection-site-rotation/", "guides/glp1-tracking/",
         "about/", "stacks/", "privacy.html", "terms.html", "referral.html",
+        "creators.html", "data-deletion.html",
     ]
     urls = ""
     for p in static:
