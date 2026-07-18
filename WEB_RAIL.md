@@ -106,9 +106,8 @@ Once 1–3 are done the loop is closed: buy on the web → open the app → sign
 with the same email → Plus is on.
 
 ## Notes / open items
-- The app still hard-codes `kFreeCompoundLimit = 5` / `kFreeHistoryDays = 30`
-  (`entitlement.dart`). The website now says **no compound caps** (Sim's locked
-  call). The app constants need to be retired/raised to match — flagged for the
-  app repo, not this one.
+- No compound cap on the free tier (`kFreeCompoundLimit` was retired). The
+  free/paid boundary is insight: `kFreeHistoryDays = 30` plus the gated features
+  (PK curves, bloodwork, doctor report, cloud backup, unlimited Sage).
 - Prices here are display strings; RevenueCat/Stripe is the source of truth for
   the actual charge. Keep the two in sync.
