@@ -138,7 +138,7 @@ def head(title: str, desc: str, canonical: str, assets: str, jsonld: list | None
   <link rel="icon" type="image/png" href="{assets}/img/icon.png" />
   <link rel="apple-touch-icon" href="{assets}/img/icon.png" />
   <link rel="preload" href="{assets}/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="{assets}/css/mono.css?v=3" />{blocks}
+  <link rel="stylesheet" href="{assets}/css/mono.css?v=4" />{blocks}
   <script>(function(){{try{{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}}})();</script>
 </head>"""
 
@@ -239,7 +239,7 @@ def footer(root: str) -> str:
       <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
     </div>
   </footer>
-  <script src="{root}assets/js/site.js?v=3"></script>"""
+  <script src="{root}assets/js/site.js?v=4"></script>"""
 
 
 def decay_bars(hours: float | None) -> str:

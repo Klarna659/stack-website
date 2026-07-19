@@ -16,9 +16,23 @@
   var toggle = document.getElementById("navToggle");
   var links = document.getElementById("navLinks");
   if (toggle && links) {
-    toggle.addEventListener("click", function () {
-      var open = links.classList.toggle("open");
+    var setNav = function (open) {
+      links.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    toggle.addEventListener("click", function () {
+      setNav(!links.classList.contains("open"));
+    });
+    // Close the drawer on: link tap (so same-page anchors don't leave it open),
+    // Escape, or a tap outside the nav — the expected mobile-menu behaviours.
+    links.addEventListener("click", function (e) {
+      if (e.target.closest("a")) setNav(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && links.classList.contains("open")) { setNav(false); toggle.focus(); }
+    });
+    document.addEventListener("click", function (e) {
+      if (links.classList.contains("open") && !e.target.closest("#navLinks") && !e.target.closest("#navToggle")) setNav(false);
     });
   }
 

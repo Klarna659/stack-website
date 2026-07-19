@@ -133,7 +133,7 @@ PAIRS = [
         "a": "Anastrozole", "b": "Exemestane",
         "title": "Anastrozole vs Exemestane",
         "desc": "Anastrozole vs exemestane: two aromatase inhibitors compared by type (reversible vs irreversible) and class. Educational reference, not medical advice.",
-        "takeaway": "Both are aromatase inhibitors, and the textbook distinction is reversible vs irreversible: anastrozole is a non-steroidal, reversible AI, while exemestane is a steroidal, irreversible ('suicide') inhibitor. They're different chemical classes that reach a similar end.",
+        "takeaway": "Both are aromatase inhibitors, and the textbook distinction is reversible vs irreversible: anastrozole is a non-steroidal, reversible inhibitor, while exemestane is a steroidal, irreversible ('suicide') inhibitor. They're different chemical classes that reach a similar end.",
         "intro": "A clean factual split between two ancillaries that get compared constantly. The mechanism difference is real and easy to state without giving any dosing guidance.",
         "diff": [
             ("Class", "Anastrozole is <b>non-steroidal</b> and binds the aromatase enzyme <b>reversibly</b>. Exemestane is <b>steroidal</b> and binds <b>irreversibly</b> — the enzyme has to be remade. Same target, different chemistry."),
