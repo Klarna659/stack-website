@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mockup A — Ledger | Stack</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<style>
+@font-face{font-family:"Inter";src:url("../../assets/fonts/inter-subset.woff2") format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  --bg:#FBFBFA; --panel:#FFFFFF; --panel-2:#F4F4F3; --line:#ECECEA; --line-soft:#F1F1EF;
+  --ink:#18181B; --ink-2:#52525B; --mut:#71717A; --dim:#6B6B73;
+  --gold:#8F661C; --gold-fill:rgba(143,102,28,.13); --gold-line:rgba(143,102,28,.32);
+  --shadow:0 1px 2px rgba(24,24,27,.04),0 24px 60px -34px rgba(24,24,27,.28);
+  --gut:20px; color-scheme:light;
+}
+@media(min-width:700px){:root{--gut:40px}}
+@media(min-width:1100px){:root{--gut:64px}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.6 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.04em;line-height:1.02;text-wrap:balance}
+
+/* ---- the gold thread: a literal continuous line down the page ---- */
+.thread-rail{position:absolute;left:calc(var(--gut) + 2px);top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--gold-line) 8%,var(--gold-line) 92%,transparent);
+  opacity:.85;pointer-events:none}
+@media(min-width:1100px){.thread-rail{left:calc(50% - 590px + var(--gut))}}
+main{position:relative}
+.node{position:absolute;left:calc(var(--gut) - 2px);width:9px;height:9px;border-radius:50%;
+  background:var(--bg);border:1.5px solid var(--gold);pointer-events:none}
+@media(min-width:1100px){.node{left:calc(50% - 590px + var(--gut) - 4px)}}
+
+/* ---- nav ---- */
+.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.on{border-bottom-color:var(--line)}
+.nav-in{display:flex;align-items:center;gap:14px;height:62px}
+.brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:18px;letter-spacing:-.02em;margin-right:auto}
+.brand svg{flex:none}
+.nav a.ghost{font-size:14px;font-weight:600;color:var(--mut);display:none}
+@media(min-width:700px){.nav a.ghost{display:inline}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;
+  border-radius:999px;padding:12px 20px;min-height:46px;border:1px solid var(--ink);
+  background:var(--ink);color:var(--bg);cursor:pointer;transition:transform .15s,opacity .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn.sm{padding:9px 16px;min-height:40px;font-size:14px}
+.btn.out{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.lg{padding:16px 30px;min-height:56px;font-size:17px}
+
+/* ---- hero ---- */
+.hero{padding:clamp(52px,10vw,120px) 0 clamp(40px,6vw,72px);position:relative}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);
+  display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold)}
+.hero h1{font-size:clamp(46px,10.5vw,112px);letter-spacing:-.055em;line-height:.94}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .say{margin:26px 0 0;font-size:clamp(17px,2.2vw,21px);line-height:1.5;color:var(--ink-2);max-width:30ch}
+.hero-act{display:flex;flex-direction:column;gap:12px;margin-top:34px;align-items:stretch}
+@media(min-width:560px){.hero-act{flex-direction:row;align-items:center}}
+.hero-fine{margin-top:16px;font-size:13.5px;color:var(--dim)}
+.hero-fine b{color:var(--ink-2);font-weight:650}
+
+/* staggered code-drawn screens */
+.screens{margin-top:clamp(44px,7vw,10px);display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:860px){
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,5vw,70px);align-items:center}
+  .screens{margin-top:0;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  .screens .s2{margin-top:52px}
+}
+.scr{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 16px;box-shadow:var(--shadow)}
+.scr .cap{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.scr h4{margin:6px 0 14px;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line-soft);font-size:13.5px}
+.row .ic{flex:none;width:26px;height:26px;border-radius:8px;background:var(--panel-2);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--mut)}
+.row b{font-weight:650;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .t{margin-left:auto;font-size:12px;color:var(--dim);flex:none}
+.row.done .t,.row.done .ic{color:var(--gold)}
+.row.done .ic{border-color:var(--gold-line)}
+.streak{margin-top:12px;display:flex;align-items:baseline;justify-content:space-between;
+  background:var(--gold-fill);border:1px solid var(--gold-line);border-radius:12px;padding:11px 13px}
+.streak .l{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.streak .n{font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--gold)}
+.curve{width:100%;height:auto;display:block;margin-top:4px}
+.bar{height:9px;border-radius:99px;background:var(--panel-2);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:99px}
+.mini{font-size:12px;color:var(--mut);margin-top:7px}
+
+/* ---- pain negation ---- */
+.neg{padding:clamp(48px,7vw,90px) 0;border-top:1px solid var(--line)}
+.neg h2{font-size:clamp(28px,5vw,50px);letter-spacing:-.045em;max-width:16ch}
+.neg .list{margin-top:30px;display:grid;gap:0;max-width:640px}
+.neg .list p{margin:0;padding:16px 0;border-bottom:1px solid var(--line);font-size:clamp(17px,2.4vw,22px);
+  color:var(--ink-2);letter-spacing:-.02em;display:flex;gap:14px;align-items:baseline}
+.neg .list p::before{content:"No";font-weight:800;color:var(--gold);font-size:.86em;letter-spacing:0;flex:none}
+.neg .after{margin-top:28px;font-size:clamp(17px,2.4vw,22px);letter-spacing:-.02em;max-width:34ch}
+
+/* ---- scenes ---- */
+.scene{padding:clamp(46px,7vw,88px) 0;border-top:1px solid var(--line);position:relative}
+.scene-in{display:grid;gap:28px;grid-template-columns:1fr}
+@media(min-width:900px){
+  .scene-in{grid-template-columns:.85fr 1.15fr;gap:clamp(36px,5vw,72px);align-items:center}
+  .scene.flip .scene-in>.art{order:-1}
+}
+.scene .num{font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.scene h3{font-size:clamp(26px,4vw,40px);letter-spacing:-.04em;margin:12px 0 14px;max-width:16ch}
+.scene p{margin:0;color:var(--ink-2);font-size:16.5px;line-height:1.6;max-width:44ch}
+.art{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,28px);box-shadow:var(--shadow)}
+
+/* body map */
+.bodymap{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center}
+@media(max-width:430px){.bodymap{grid-template-columns:1fr;justify-items:center;text-align:left}}
+.legend{display:grid;gap:11px;font-size:13.5px;color:var(--ink-2)}
+.legend div{display:flex;align-items:center;gap:10px}
+.k{width:12px;height:12px;border-radius:4px;flex:none;border:1px solid var(--line);background:var(--panel-2)}
+.k.used{background:var(--gold-fill);border-color:var(--gold-line)}
+.k.next{background:var(--gold);border-color:var(--gold)}
+
+/* ---- library proof ---- */
+.proof{padding:clamp(52px,8vw,100px) 0;border-top:1px solid var(--line);background:var(--panel-2)}
+.proof .big{font-size:clamp(84px,20vw,220px);font-weight:800;letter-spacing:-.06em;line-height:.82;color:var(--ink)}
+.proof .big span{color:var(--gold)}
+.proof .say{max-width:38ch;font-size:clamp(17px,2.2vw,20px);color:var(--ink-2);margin:22px 0 0;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chip{font-size:12.5px;font-weight:650;color:var(--mut);border:1px solid var(--line);background:var(--panel);
+  border-radius:99px;padding:8px 13px}
+.proof .btn{margin-top:28px}
+
+/* ---- privacy ---- */
+.priv{padding:clamp(48px,7vw,92px) 0;border-top:1px solid var(--line)}
+.priv h2{font-size:clamp(26px,4.2vw,42px);letter-spacing:-.04em;max-width:18ch}
+.priv .cols{display:grid;gap:22px;margin-top:30px;grid-template-columns:1fr}
+@media(min-width:760px){.priv .cols{grid-template-columns:1fr 1fr 1fr;gap:30px}}
+.priv .cols div{padding-top:16px;border-top:1px solid var(--ink);}
+.priv .cols h4{margin:0 0 7px;font-size:15.5px;font-weight:750;letter-spacing:-.015em}
+.priv .cols p{margin:0;color:var(--mut);font-size:14px;line-height:1.55}
+
+/* ---- plus ---- */
+.plus{padding:clamp(48px,7vw,92px) 0;border-top:1px solid var(--line)}
+.plus-in{display:grid;gap:26px;grid-template-columns:1fr}
+@media(min-width:820px){.plus-in{grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,64px);align-items:center}}
+.plus h2{font-size:clamp(26px,4.2vw,42px);letter-spacing:-.04em}
+.plus p{color:var(--ink-2);font-size:16.5px;line-height:1.6;margin:14px 0 0;max-width:42ch}
+.ledgerbox{border:1px solid var(--line);border-radius:20px;background:var(--panel);box-shadow:var(--shadow);overflow:hidden}
+.ledgerbox .lrow{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid var(--line-soft);font-size:14.5px}
+.ledgerbox .lrow:last-child{border-bottom:0}
+.ledgerbox .lrow .w{color:var(--ink-2)}
+.ledgerbox .lrow .v{margin-left:auto;font-weight:700;font-size:13px;color:var(--mut)}
+.ledgerbox .lrow .v.g{color:var(--gold)}
+.ledgerbox .head{background:var(--panel-2);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+
+/* ---- close ---- */
+.close{padding:clamp(60px,10vw,130px) 0;border-top:1px solid var(--line);text-align:left}
+.close h2{font-size:clamp(34px,7vw,76px);letter-spacing:-.05em;max-width:14ch}
+.close .btn{margin-top:32px}
+.close .fine{margin-top:16px;color:var(--dim);font-size:13.5px}
+footer{border-top:1px solid var(--line);background:var(--panel-2);padding:34px 0 46px;color:var(--dim);font-size:13px}
+footer .fin{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center}
+footer a{color:var(--mut)}
+
+.tag{position:fixed;right:12px;bottom:12px;z-index:60;background:var(--ink);color:var(--bg);
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:99px;opacity:.9}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav"><div class="wrap nav-in">
+  <a class="brand" href="#">
+    <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#3F3F46"/>
+      <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#A1A1AA"/>
+      <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#18181B"/>
+    </svg><span>Stack</span></a>
+  <a class="ghost" href="#library">Library</a>
+  <a class="ghost" href="#plus">Plus</a>
+  <a class="btn sm" href="#get">Get the app</a>
+</div></header>
+
+<main>
+<div class="thread-rail" aria-hidden="true"></div>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Supplements · Peptides · GLP-1 · TRT</div>
+      <h1>Everything you take.<br/><em>One quiet page.</em></h1>
+      <p class="say">A logbook for people running real protocols — and the levels still working in you between doses.</p>
+      <div class="hero-act">
+        <a class="btn lg" href="#get">Get the app — free</a>
+        <a class="btn lg out" href="#plus">What Plus adds</a>
+      </div>
+      <p class="hero-fine"><b>Free to track, no compound caps.</b> Encrypted on your device.</p>
+    </div>
+
+    <div class="screens" aria-hidden="true">
+      <div class="scr s1">
+        <div class="cap">Today</div>
+        <h4>Tuesday</h4>
+        <div class="row done"><span class="ic">T</span><b>Testosterone Cyp.</b><span class="t">9:00 ✓</span></div>
+        <div class="row done"><span class="ic">B</span><b>BPC-157</b><span class="t">7:00 ✓</span></div>
+        <div class="row done"><span class="ic">C</span><b>Creatine</b><span class="t">9:00 ✓</span></div>
+        <div class="row"><span class="ic">D</span><b>Vitamin D3</b><span class="t">9:00 PM</span></div>
+        <div class="streak"><span class="l">Day streak</span><span class="n tnum">12</span></div>
+      </div>
+      <div class="scr s2">
+        <div class="cap">In your system</div>
+        <h4>Testosterone</h4>
+        <svg class="curve" viewBox="0 0 300 128" role="img" aria-label="Rising modelled level curve">
+          <line x1="0" y1="30" x2="300" y2="30" stroke="#18181B" stroke-opacity=".07"/>
+          <line x1="0" y1="62" x2="300" y2="62" stroke="#18181B" stroke-opacity=".07"/>
+          <line x1="0" y1="94" x2="300" y2="94" stroke="#18181B" stroke-opacity=".07"/>
+          <path d="M6,116 C40,92 52,72 76,80 C104,89 112,52 142,57 C174,62 176,38 210,42 C246,46 250,28 296,26 L296,120 L6,120 Z" fill="rgba(143,102,28,.13)"/>
+          <path d="M6,116 C40,92 52,72 76,80 C104,89 112,52 142,57 C174,62 176,38 210,42 C246,46 250,28 296,26" fill="none" stroke="#8F661C" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="142" cy="57" r="3" fill="#8F661C"/><circle cx="210" cy="42" r="3.6" fill="#8F661C"/>
+        </svg>
+        <p class="mini">Steady state, held.</p>
+        <div style="margin-top:14px">
+          <div class="cap">Supply</div>
+          <div class="bar"><i style="width:36%"></i></div>
+          <p class="mini">≈ 9 doses · refill Jul 21</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- PAIN NEGATION -->
+<section class="neg"><span class="node" style="top:-5px"></span><div class="wrap">
+  <h2>The parts nobody wants to do.</h2>
+  <div class="list">
+    <p>spreadsheet that dies in three weeks.</p>
+    <p>guessing what's still in you.</p>
+    <p>"did I already pin that side?"</p>
+    <p>counting vials the night before you run out.</p>
+  </div>
+  <p class="after">Stack keeps the ledger, so you just take the thing.</p>
+</div></section>
+
+<!-- SCENES -->
+<section class="scene"><span class="node" style="top:-5px"></span><div class="wrap"><div class="scene-in">
+  <div>
+    <div class="num">Between doses</div>
+    <h3>Watch it build in your system.</h3>
+    <p>Every injection adds to what hasn't cleared yet. Stack draws the curve from each compound's half-life, so overlapping doses stop being a guess.</p>
+  </div>
+  <div class="art">
+    <svg viewBox="0 0 520 200" width="100%" role="img" aria-label="Modelled level curve settling to steady state">
+      <line x1="0" y1="46" x2="520" y2="46" stroke="#18181B" stroke-opacity=".07"/>
+      <line x1="0" y1="96" x2="520" y2="96" stroke="#18181B" stroke-opacity=".07"/>
+      <line x1="0" y1="146" x2="520" y2="146" stroke="#18181B" stroke-opacity=".07"/>
+      <path d="M8,182 C60,146 84,116 128,128 C176,140 190,86 244,94 C300,102 300,64 360,70 C424,76 430,50 512,48 L512,186 L8,186 Z" fill="rgba(143,102,28,.13)"/>
+      <path d="M8,182 C60,146 84,116 128,128 C176,140 190,86 244,94 C300,102 300,64 360,70 C424,76 430,50 512,48" fill="none" stroke="#8F661C" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="128" cy="128" r="3.6" fill="#8F661C"/><circle cx="244" cy="94" r="3.6" fill="#8F661C"/><circle cx="360" cy="70" r="4.4" fill="#8F661C"/>
+    </svg>
+  </div>
+</div></div></section>
+
+<section class="scene flip"><span class="node" style="top:-5px"></span><div class="wrap"><div class="scene-in">
+  <div>
+    <div class="num">Every injection</div>
+    <h3>It remembers where you pinned.</h3>
+    <p>Mark the sites you use and Stack keeps an honest rotation — what's rested, and the next spot to use.</p>
+  </div>
+  <div class="art">
+    <div class="bodymap">
+      <svg viewBox="0 0 120 200" width="120" role="img" aria-label="Body map with used and next injection sites">
+        <g fill="#F4F4F3" stroke="#ECECEA" stroke-width="1.5">
+          <circle cx="60" cy="17" r="10"/><rect x="44" y="30" width="32" height="58" rx="11"/>
+          <rect x="29" y="32" width="12" height="44" rx="6"/><rect x="79" y="32" width="12" height="44" rx="6"/>
+          <rect x="45" y="90" width="13" height="76" rx="6.5"/><rect x="62" y="90" width="13" height="76" rx="6.5"/>
+        </g>
+        <circle cx="36" cy="41" r="5.5" fill="rgba(143,102,28,.13)" stroke="rgba(143,102,28,.32)"/>
+        <circle cx="84" cy="41" r="5.5" fill="rgba(143,102,28,.13)" stroke="rgba(143,102,28,.32)"/>
+        <circle cx="52" cy="58" r="5.5" fill="rgba(143,102,28,.13)" stroke="rgba(143,102,28,.32)"/>
+        <circle cx="68" cy="58" r="6" fill="#8F661C" stroke="#8F661C"/>
+        <circle cx="51" cy="122" r="5.5" fill="#F4F4F3" stroke="#ECECEA"/>
+        <circle cx="69" cy="122" r="5.5" fill="rgba(143,102,28,.13)" stroke="rgba(143,102,28,.32)"/>
+      </svg>
+      <div class="legend">
+        <div><span class="k next"></span><span><b>Next up</b> — right abdomen</span></div>
+        <div><span class="k used"></span><span>Used recently — resting</span></div>
+        <div><span class="k"></span><span>Clear to use</span></div>
+      </div>
+    </div>
+  </div>
+</div></div></section>
+
+<section class="scene"><span class="node" style="top:-5px"></span><div class="wrap"><div class="scene-in">
+  <div>
+    <div class="num">Before you run out</div>
+    <h3>Never caught empty.</h3>
+    <p>Every logged dose draws down the vial. Stack counts what's left and hands you the refill date before you run dry.</p>
+  </div>
+  <div class="art">
+    <div style="display:grid;gap:14px">
+      <div style="background:#F4F4F3;border:1px solid var(--line);border-radius:14px;padding:15px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <b style="font-size:14.5px">Testosterone Cyp.</b>
+          <span class="tnum" style="font-weight:800;font-size:15px;color:var(--gold)">≈ 9 doses</span>
+        </div>
+        <div class="bar"><i style="width:36%"></i></div>
+        <p class="mini">Refill by Jul 21 · $0.74 / dose</p>
+      </div>
+      <div style="background:#F4F4F3;border:1px solid var(--line);border-radius:14px;padding:15px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <b style="font-size:14.5px">BPC-157</b>
+          <span class="tnum" style="font-weight:800;font-size:15px;color:var(--gold)">≈ 22 doses</span>
+        </div>
+        <div class="bar"><i style="width:71%"></i></div>
+        <p class="mini">Refill by Aug 6 · $0.41 / dose</p>
+      </div>
+    </div>
+  </div>
+</div></div></section>
+
+<!-- LIBRARY PROOF -->
+<section class="proof" id="library"><div class="wrap">
+  <div class="eyebrow">The reference</div>
+  <div class="big tnum">112<span>.</span></div>
+  <p class="say">Plain-English pages for every compound in the library — what it is, how it works, half-life, storage, and what actually matters when you track it. Summarised from public sources, cited, free to read.</p>
+  <div class="chips">
+    <span class="chip">Semaglutide</span><span class="chip">Tirzepatide</span><span class="chip">Testosterone Cyp.</span>
+    <span class="chip">BPC-157</span><span class="chip">Retatrutide</span><span class="chip">Enclomiphene</span><span class="chip">NAD+</span>
+  </div>
+  <a class="btn out" href="../../compounds/">Browse the library</a>
+</div></section>
+
+<!-- PRIVACY -->
+<section class="priv"><span class="node" style="top:-5px"></span><div class="wrap">
+  <h2>Your protocol is nobody else's business.</h2>
+  <div class="cols">
+    <div><h4>Encrypted on your device</h4><p>Your health data lives on your phone. Cloud backup exists, and it's opt-in.</p></div>
+    <div><h4>Email-only sign-in</h4><p>The account knows your email so Plus follows you. It never sees what you take.</p></div>
+    <div><h4>No ads, ever</h4><p>We sell a subscription, not you. Nothing here is a lead magnet for a supplement brand.</p></div>
+  </div>
+</div></section>
+
+<!-- PLUS -->
+<section class="plus" id="plus"><span class="node" style="top:-5px"></span><div class="wrap"><div class="plus-in">
+  <div>
+    <div class="eyebrow">Free vs Plus</div>
+    <h2>Free tracks it.<br/>Plus reads it.</h2>
+    <p>The whole logbook is free with no cap on compounds. Plus is for when you want to see <em>why</em> — the curves, the labs, the long trends. Buy it here; it unlocks in the app the moment you sign in.</p>
+    <a class="btn" href="../../pricing/" style="margin-top:24px">See Plus — $9.99/mo</a>
+  </div>
+  <div class="ledgerbox">
+    <div class="lrow head"><span class="w">What you get</span><span class="v">Free / Plus</span></div>
+    <div class="lrow"><span class="w">Every compound, no caps</span><span class="v">Free</span></div>
+    <div class="lrow"><span class="w">Reminders &amp; supply projection</span><span class="v">Free</span></div>
+    <div class="lrow"><span class="w">Injection-site rotation</span><span class="v">Free</span></div>
+    <div class="lrow"><span class="w">In-system level curves</span><span class="v g">Plus</span></div>
+    <div class="lrow"><span class="w">Bloodwork &amp; full history</span><span class="v g">Plus</span></div>
+    <div class="lrow"><span class="w">Doctor-ready report</span><span class="v g">Plus</span></div>
+  </div>
+</div></div></section>
+
+<!-- CLOSE -->
+<section class="close" id="get"><span class="node" style="top:-5px"></span><div class="wrap">
+  <h2>Start the ledger.</h2>
+  <a class="btn lg" href="#">Get Stack — free on Android</a>
+  <p class="fine">Launching soon. iOS after. No ads, no data selling, no compound caps.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap fin">
+  <span>© 2026 Stack</span><span>·</span><a href="../../privacy.html">Privacy</a><span>·</span><a href="../../terms.html">Terms</a>
+  <span style="margin-left:auto;color:var(--dim)">Nothing here is medical advice.</span>
+</div></footer>
+
+<div class="tag">Mockup A · Ledger</div>
+<script>
+(function(){var n=document.getElementById('nav');
+addEventListener('scroll',function(){n.classList.toggle('on',scrollY>8)},{passive:true});})();
+</script>
+</body>
+</html>

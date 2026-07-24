@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mockup C — Clinic | Stack</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<style>
+@font-face{font-family:"Inter";src:url("../../assets/fonts/inter-subset.woff2") format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  --bg:#FBFAF7; --panel:#FFFFFF; --panel-2:#F3F1EC; --line:#E6E2D9; --line-soft:#EFEDE7;
+  --ink:#16181C; --ink-2:#4A4E55; --mut:#6E727A; --dim:#878B93;
+  --brand:#1E5245;          /* deep clinical green - trust */
+  --brand-2:#2C7A66;
+  --brand-soft:#E7F0EC;
+  --gold:#8F661C; --gold-fill:rgba(143,102,28,.13); --gold-line:rgba(143,102,28,.3);
+  --shadow:0 1px 2px rgba(22,24,28,.04),0 18px 44px -26px rgba(22,24,28,.24);
+  --gut:20px; color-scheme:light;
+}
+@media(min-width:700px){:root{--gut:38px}}
+@media(min-width:1100px){:root{--gut:56px}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.62 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.08;text-wrap:balance}
+.eyebrow{font-size:11.5px;font-weight:750;letter-spacing:.18em;text-transform:uppercase;color:var(--brand)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font:inherit;font-weight:700;
+  border-radius:999px;padding:15px 26px;min-height:52px;border:1.5px solid var(--brand);
+  background:var(--brand);color:#fff;cursor:pointer;transition:.18s;white-space:nowrap}
+.btn:hover{background:var(--brand-2);border-color:var(--brand-2);transform:translateY(-1px)}
+.btn.out{background:transparent;color:var(--brand);}
+.btn.out:hover{background:var(--brand-soft);color:var(--brand)}
+.btn.sm{padding:10px 18px;min-height:42px;font-size:14px}
+.btn.lg{padding:17px 32px;min-height:58px;font-size:17px}
+.btn.wide{width:100%}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.9);backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.on{border-bottom-color:var(--line)}
+.nav-in{display:flex;align-items:center;gap:14px;height:66px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:18.5px;letter-spacing:-.02em;margin-right:auto}
+.nav .lk{display:none;font-size:14.5px;font-weight:600;color:var(--mut)}
+.nav .lk:hover{color:var(--ink)}
+@media(min-width:840px){.nav .lk{display:inline}}
+
+/* hero */
+.hero{padding:clamp(36px,5vw,64px) 0 clamp(40px,6vw,72px)}
+.hero-grid{display:grid;gap:30px;grid-template-columns:1fr}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:clamp(34px,5vw,66px);align-items:center}}
+.hero h1{font-size:clamp(38px,7.4vw,64px);letter-spacing:-.045em;line-height:1.02}
+.hero .say{margin:20px 0 0;font-size:clamp(16.5px,2vw,19.5px);color:var(--ink-2);max-width:46ch;line-height:1.55}
+.hero-act{display:flex;flex-direction:column;gap:12px;margin-top:30px}
+@media(min-width:560px){.hero-act{flex-direction:row;align-items:center}}
+.hero-fine{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px;font-size:13.5px;color:var(--mut);font-weight:600}
+.hero-fine span{display:inline-flex;align-items:center;gap:7px}
+.tick{width:16px;height:16px;flex:none;color:var(--brand)}
+.hero-art{border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--panel-2)}
+.hero-art img{width:100%;height:100%;object-fit:cover;aspect-ratio:7/5}
+
+/* trust bar */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.trust-in{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+@media(min-width:820px){.trust-in{grid-template-columns:repeat(4,1fr)}}
+.trust .t{padding:22px 18px;border-left:1px solid var(--line-soft);text-align:center}
+.trust .t:first-child{border-left:0}
+@media(max-width:819px){.trust .t:nth-child(3){border-left:0}.trust .t:nth-child(n+3){border-top:1px solid var(--line-soft)}}
+.trust .t b{display:block;font-size:14.5px;font-weight:750;letter-spacing:-.01em}
+.trust .t span{display:block;margin-top:4px;font-size:12.5px;color:var(--mut)}
+
+/* steps */
+.sec{padding:clamp(52px,7.5vw,100px) 0}
+.sec-head{max-width:620px;margin-bottom:clamp(28px,4vw,46px)}
+.sec-head h2{font-size:clamp(28px,4.6vw,44px);margin-top:13px}
+.sec-head p{color:var(--mut);font-size:16.5px;margin:14px 0 0;line-height:1.6}
+.steps{display:grid;gap:14px;grid-template-columns:1fr;counter-reset:s}
+@media(min-width:640px){.steps{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.steps{grid-template-columns:repeat(4,1fr)}}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow)}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--brand-soft);color:var(--brand);
+  display:grid;place-items:center;font-weight:800;font-size:14px;margin-bottom:16px}
+.step h3{font-size:17px;letter-spacing:-.02em}
+.step p{margin:8px 0 0;color:var(--mut);font-size:14.5px;line-height:1.55}
+
+/* pricing early */
+.pricing{background:var(--panel-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.plans{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:800px){.plans{grid-template-columns:1fr 1fr}}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3.2vw,34px);
+  box-shadow:var(--shadow);display:flex;flex-direction:column;position:relative}
+.plan.best{border-color:var(--brand);border-width:1.5px}
+.badge{position:absolute;top:-11px;left:clamp(24px,3.2vw,34px);background:var(--brand);color:#fff;
+  font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:99px}
+.plan .kind{font-size:12.5px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.plan .price{font-size:clamp(40px,6vw,54px);font-weight:800;letter-spacing:-.045em;margin:12px 0 2px}
+.plan .price small{font-size:16px;font-weight:600;color:var(--mut);letter-spacing:0}
+.plan .sub{color:var(--dim);font-size:13.5px;margin:0 0 22px}
+.plan ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:12px}
+.plan li{font-size:14.5px;color:var(--ink-2);padding-left:26px;position:relative;line-height:1.5}
+.plan li svg{position:absolute;left:0;top:3px;width:17px;height:17px;color:var(--brand)}
+.plan .btn{margin-top:auto}
+.guarantee{text-align:center;margin-top:22px;color:var(--mut);font-size:13.5px}
+
+/* library */
+.lib{display:grid;gap:28px;grid-template-columns:1fr;align-items:center}
+@media(min-width:880px){.lib{grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px)}}
+.libnum{font-size:clamp(72px,14vw,150px);font-weight:800;letter-spacing:-.06em;line-height:.85;color:var(--brand)}
+.libcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.libcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 16px;box-shadow:var(--shadow)}
+.libcard b{font-size:14.5px;letter-spacing:-.01em}
+.libcard span{display:block;margin-top:3px;font-size:12.5px;color:var(--mut)}
+.libcard i{display:block;margin-top:9px;font-size:12px;font-weight:700;font-style:normal;color:var(--brand)}
+
+/* privacy */
+.priv{background:var(--brand);color:#EAF2EF}
+.priv .wrap{padding-top:clamp(46px,7vw,88px);padding-bottom:clamp(46px,7vw,88px)}
+.priv h2{font-size:clamp(26px,4.4vw,42px);color:#fff;max-width:20ch}
+.priv .cols{display:grid;gap:24px;margin-top:32px;grid-template-columns:1fr}
+@media(min-width:780px){.priv .cols{grid-template-columns:repeat(3,1fr);gap:34px}}
+.priv h4{margin:0 0 8px;font-size:16px;color:#fff;font-weight:750}
+.priv p{margin:0;font-size:14.5px;line-height:1.6;color:#C9DBD4}
+.priv .btn{margin-top:34px;background:#fff;border-color:#fff;color:var(--brand)}
+.priv .btn:hover{background:#EAF2EF;border-color:#EAF2EF}
+
+/* faq */
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;
+  align-items:center;font-weight:700;font-size:16.5px;padding:20px 0;letter-spacing:-.015em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--brand);font-size:24px;font-weight:400;flex:none}
+.faq details[open] summary::after{content:"\2013"}
+.faq p{color:var(--ink-2);font-size:15.5px;line-height:1.7;padding:0 0 20px;margin:0;max-width:62ch}
+
+/* close */
+.close{text-align:center;padding:clamp(56px,9vw,116px) 0}
+.close h2{font-size:clamp(32px,6vw,60px);max-width:18ch;margin:0 auto}
+.close p{color:var(--ink-2);max-width:44ch;margin:18px auto 0;font-size:16.5px}
+.close .btn{margin-top:30px}
+footer{border-top:1px solid var(--line);background:var(--panel-2);padding:34px 0 48px;color:var(--dim);font-size:13px}
+footer .f{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center}
+footer a{color:var(--mut)}
+.tag{position:fixed;right:12px;bottom:12px;z-index:60;background:var(--brand);color:#fff;
+  font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:99px}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav"><div class="wrap nav-in">
+  <a class="brand" href="#">
+    <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#4A4E55"/>
+      <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#A9ADB4"/>
+      <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#1E5245"/>
+    </svg><span>Stack</span></a>
+  <a class="lk" href="#how">How it works</a>
+  <a class="lk" href="#pricing">Pricing</a>
+  <a class="lk" href="#library">Library</a>
+  <a class="btn sm" href="#get">Start free</a>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap"><div class="hero-grid">
+  <div>
+    <span class="eyebrow">Supplements · Peptides · GLP-1 · TRT</span>
+    <h1 style="margin-top:16px">Know exactly what you took, and what's still working.</h1>
+    <p class="say">Stack is a private logbook for real protocols — doses, refills, injection sites and the levels building in your system between them. Free to track, no cap on compounds.</p>
+    <div class="hero-act">
+      <a class="btn lg" href="#get">Start free</a>
+      <a class="btn lg out" href="#pricing">See pricing</a>
+    </div>
+    <div class="hero-fine">
+      <span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No card to start</span>
+      <span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Encrypted on your device</span>
+      <span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cancel anytime</span>
+    </div>
+  </div>
+  <div class="hero-art"><img src="../assets/hero-paper.jpg" alt="A glass vial and capsules on warm paper" /></div>
+</div></div></section>
+
+<!-- TRUST -->
+<div class="trust"><div class="wrap"><div class="trust-in">
+  <div class="t"><b>Free to track</b><span>No compound caps</span></div>
+  <div class="t"><b>On your device</b><span>Cloud backup opt-in</span></div>
+  <div class="t"><b class="tnum">112 compounds</b><span>Cited reference pages</span></div>
+  <div class="t"><b>No ads</b><span>We sell software, not you</span></div>
+</div></div></div>
+
+<!-- HOW IT WORKS -->
+<section class="sec" id="how"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">How it works</span>
+    <h2>Four steps, then it runs itself.</h2>
+    <p>Set it up once. After that Stack does the remembering — the schedule, the sites, the vial math and the refill date.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h3>Add what you take</h3><p>Search 112 compounds or scan the label. Strength, form and half-life come pre-filled.</p></div>
+    <div class="step"><div class="n">2</div><h3>Set the schedule</h3><p>Daily, every-N-days, or a titration ladder. One combined reminder when doses land together.</p></div>
+    <div class="step"><div class="n">3</div><h3>Log in a tap</h3><p>Mark it taken, and for injections pick the site. Stack rotates you honestly from there.</p></div>
+    <div class="step"><div class="n">4</div><h3>See what it adds up to</h3><p>Supply drawn down, refill dates ahead, and the level still working in you between doses.</p></div>
+  </div>
+</div></section>
+
+<!-- PRICING EARLY -->
+<section class="pricing sec" id="pricing"><div class="wrap">
+  <div class="sec-head" style="max-width:620px">
+    <span class="eyebrow">Pricing</span>
+    <h2>Free tracks the habit. Plus reads the insight.</h2>
+    <p>The whole logbook costs nothing. Plus is the insight layer — bought here on the web, unlocked in the app when you sign in with the same email.</p>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <div class="kind">Free</div>
+      <div class="price tnum">$0</div>
+      <p class="sub">The full logbook. Yours to keep.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Every compound — no caps</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reminders &amp; supply projection</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Injection-site rotation</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Streaks, weight trend, label scan</li>
+      </ul>
+      <a class="btn out wide" href="#get">Start free</a>
+    </div>
+    <div class="plan best">
+      <span class="badge">Most complete</span>
+      <div class="kind">Plus</div>
+      <div class="price tnum">$9.99<small>/mo</small></div>
+      <p class="sub">Or $49.99/year · $124.99 once for Lifetime.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Free</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>In-system level curves</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bloodwork ranges &amp; full history</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Doctor-ready report &amp; cloud backup</li>
+      </ul>
+      <a class="btn wide" href="../../pricing/">Get Plus</a>
+    </div>
+  </div>
+  <p class="guarantee">Never a paywall on your own data — export an encrypted backup any time, on any plan.</p>
+</div></section>
+
+<!-- LIBRARY -->
+<section class="sec" id="library"><div class="wrap"><div class="lib">
+  <div>
+    <span class="eyebrow">Free reference</span>
+    <div class="libnum tnum" style="margin-top:14px">112</div>
+    <h2 style="font-size:clamp(24px,3.6vw,34px);margin-top:18px">Compound pages, in plain English.</h2>
+    <p style="color:var(--mut);font-size:16px;margin:14px 0 0;max-width:42ch;line-height:1.6">What each one is, how it works, half-life, storage and what actually matters when you track it. Summarised from public sources and cited. No signup to read.</p>
+    <a class="btn out" href="../../compounds/" style="margin-top:26px">Browse the library</a>
+  </div>
+  <div class="libcards">
+    <div class="libcard"><b>Semaglutide</b><span>GLP-1 · t½ ≈ 7 days</span><i>Read the page</i></div>
+    <div class="libcard"><b>Testosterone Cyp.</b><span>TRT ester · t½ ≈ 8 days</span><i>Read the page</i></div>
+    <div class="libcard"><b>BPC-157</b><span>Peptide · injection</span><i>Read the page</i></div>
+    <div class="libcard"><b>Tirzepatide</b><span>GLP-1 · t½ ≈ 5 days</span><i>Read the page</i></div>
+  </div>
+</div></div></section>
+
+<!-- PRIVACY -->
+<section class="priv"><div class="wrap">
+  <h2>Your protocol is nobody else's business.</h2>
+  <div class="cols">
+    <div><h4>Encrypted on your device</h4><p>Health data lives on your phone. Cloud backup exists and it's opt-in, never the default.</p></div>
+    <div><h4>Email-only sign-in</h4><p>The account knows your email so Plus follows you across devices. It never sees what you take.</p></div>
+    <div><h4>No ads, no data selling</h4><p>We charge for software. Nothing here is a lead magnet for a supplement brand.</p></div>
+  </div>
+  <a class="btn" href="../../privacy.html">Read the privacy policy</a>
+</div></section>
+
+<!-- FAQ -->
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><span class="eyebrow">Good to know</span><h2>Questions worth answering.</h2></div>
+  <div class="faq">
+    <details open><summary>Is it really free?</summary><p>Yes — the whole logbook, with no cap on how many compounds you track. Plus ($9.99/mo, $49.99/yr, or $124.99 once) adds the insight layer: level curves, bloodwork, full history, a doctor-ready report and automatic cloud backup.</p></details>
+    <details><summary>Do you give dosing advice?</summary><p>No. Stack is a logging tool and an educational reference. It never recommends a compound or a dose, and nothing here is medical advice.</p></details>
+    <details><summary>Why buy on the web instead of in the app?</summary><p>Buying here skips the app-store cut, which keeps the price honest. Sign in on the app with the same email and Plus is already on — nothing to restore.</p></details>
+    <details><summary>What happens to my data?</summary><p>It's encrypted on your device. Cloud backup is opt-in. You can export a backup file you own at any time, on any plan.</p></details>
+  </div>
+</div></section>
+
+<!-- CLOSE -->
+<section class="close" id="get"><div class="wrap">
+  <h2>Start the logbook today.</h2>
+  <p>Free on Android, iOS after. No card, no ads, no cap on what you track.</p>
+  <a class="btn lg" href="#">Start free</a>
+</div></section>
+
+<footer><div class="wrap f">
+  <span>© 2026 Stack</span><span>·</span><a href="../../privacy.html">Privacy</a><span>·</span><a href="../../terms.html">Terms</a>
+  <span style="margin-left:auto">Nothing here is medical advice.</span>
+</div></footer>
+
+<div class="tag">Mockup C · Clinic</div>
+<script>
+(function(){var n=document.getElementById('nav');
+addEventListener('scroll',function(){n.classList.toggle('on',scrollY>8)},{passive:true});})();
+</script>
+</body>
+</html>
