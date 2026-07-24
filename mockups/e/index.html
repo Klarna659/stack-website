@@ -77,14 +77,46 @@ h1,h2,h3{margin:0;font-weight:750;letter-spacing:-.035em;line-height:1.08;text-w
 .hero-act{display:flex;flex-direction:column;gap:11px;margin-top:28px}
 @media(min-width:560px){.hero-act{flex-direction:row;align-items:center}}
 .hero-note{margin-top:16px;font-size:13.5px;color:var(--mut)}
-.shot{margin-top:clamp(28px,5vw,44px);border-radius:16px;overflow:hidden;border:1px solid var(--line);
-  background:var(--panel-2)}
+.heroArt{margin-top:clamp(28px,5vw,44px)}
+.shot{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel-2);display:none}
+.shot[data-on]{display:block}
+.shot.prod{border:0;background:none;overflow:visible}
 .shot img{width:100%;aspect-ratio:16/9;object-fit:cover}
 @media(min-width:940px){
   .hero-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:clamp(36px,5vw,70px);align-items:center}
-  .shot{margin-top:0}
+  .heroArt{margin-top:0}
   .shot img{aspect-ratio:5/4}
 }
+
+/* product-as-hero: a real, large app screen */
+.dev{background:var(--panel-2);border:1px solid var(--line);border-radius:26px;padding:10px;
+  box-shadow:var(--shadow);max-width:440px;margin:0 auto}
+.devscr{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:20px 18px 18px}
+.devtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.devstreak{font-size:11.5px;font-weight:700;color:var(--gold);border:1px solid var(--gold-line);
+  background:var(--gold-fill);border-radius:999px;padding:4px 10px}
+.devscr h4{margin:8px 0 16px;font-size:28px;font-weight:750;letter-spacing:-.035em}
+.devrow{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line-soft)}
+.devrow div{min-width:0;display:flex;flex-direction:column}
+.devrow b{font-size:14.5px;font-weight:650;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.devrow i{font-style:normal;font-size:12px;color:var(--mut);margin-top:2px}
+.devic{width:32px;height:32px;border-radius:9px;background:var(--panel-2);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:12px;font-weight:750;color:var(--mut);flex:none}
+.devt{margin-left:auto;font-size:12.5px;color:var(--dim);flex:none;font-variant-numeric:tabular-nums}
+.devrow.ok .devt,.devrow.ok .devic{color:var(--gold)}
+.devrow.ok .devic{border-color:var(--gold-line)}
+.devrow.ok b{color:var(--mut)}
+.devlevel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.devlab{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px}
+
+/* hero switcher */
+.heroPick{position:fixed;left:12px;bottom:60px;z-index:60;display:flex;gap:6px;align-items:center;
+  flex-wrap:wrap;max-width:calc(100vw - 24px);
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 8px;box-shadow:var(--shadow)}
+.heroPick b{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:0 4px}
+.heroPick button{font:inherit;font-size:12px;font-weight:650;color:var(--mut);background:transparent;
+  border:1px solid var(--line);border-radius:999px;padding:6px 11px;cursor:pointer}
+.heroPick button[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg);border-color:var(--btn-bg)}
 
 /* quiet fact line - no dots, no hype */
 .facts{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -205,9 +237,33 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
     </div>
     <p class="hero-note">Free to track, no cap on compounds. Encrypted on your device.</p>
   </div>
-  <figure class="shot" style="margin:0">
-    <img id="heroImg" src="../assets/calm-paper.jpg" alt="A vial, capsules and tablets resting on a plain surface" />
-  </figure>
+  <div class="heroArt">
+    <!-- OPTION 1: the product itself (default) -->
+    <figure class="shot prod" data-hero="product" data-on style="margin:0">
+      <div class="dev">
+        <div class="devscr">
+          <div class="devtop"><span class="pcap">Tuesday, 22 July</span><span class="devstreak tnum">12 days</span></div>
+          <h4>Today</h4>
+          <div class="devrow ok"><span class="devic">T</span><div><b>Testosterone Cyp.</b><i>120 mg · right delt</i></div><span class="devt">9:00</span></div>
+          <div class="devrow ok"><span class="devic">B</span><div><b>BPC-157</b><i>250 mcg · subq</i></div><span class="devt">7:00</span></div>
+          <div class="devrow ok"><span class="devic">C</span><div><b>Creatine</b><i>5 g</i></div><span class="devt">9:00</span></div>
+          <div class="devrow"><span class="devic">D</span><div><b>Vitamin D3</b><i>5000 IU</i></div><span class="devt">9:00 PM</span></div>
+          <div class="devlevel">
+            <div class="devlab"><span class="pcap">In your system</span><span class="pcap">Testosterone</span></div>
+            <svg viewBox="0 0 300 74" width="100%" aria-hidden="true">
+              <path d="M4,66 C40,50 54,38 78,44 C108,52 116,26 152,30 C190,34 196,16 296,14 L296,70 L4,70 Z" fill="var(--gold-fill)"/>
+              <path d="M4,66 C40,50 54,38 78,44 C108,52 116,26 152,30 C190,34 196,16 296,14" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="152" cy="30" r="2.8" fill="var(--gold)"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </figure>
+    <!-- OPTION 2-5: photographic concepts -->
+    <figure class="shot" data-hero="photo" style="margin:0">
+      <img id="heroImg" src="../assets/idea-kit.jpg" alt="Vials arranged in a precise row beside a syringe and pen" />
+    </figure>
+  </div>
 </div></div></section>
 
 <div class="facts"><div class="wrap facts-in">
@@ -409,6 +465,14 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
   <span style="margin-left:auto">Nothing here is medical advice.</span>
 </div></footer>
 
+<div class="heroPick">
+  <b>Hero</b>
+  <button data-hero="product" aria-pressed="true">The product</button>
+  <button data-hero="idea-kit" aria-pressed="false">The kit</button>
+  <button data-hero="idea-drawer" aria-pressed="false">The drawer</button>
+  <button data-hero="idea-morning" aria-pressed="false">The morning</button>
+  <button data-hero="idea-order" aria-pressed="false">Order</button>
+</div>
 <div class="pal">
   <b>Colour</b>
   <button data-pal="paper" aria-pressed="true">Paper</button>
@@ -430,13 +494,23 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
     var p=document.querySelector('.pane[data-p="'+t.dataset.t+'"]'); if(p)p.setAttribute('data-on','');
   })});
 
-  var IMG={paper:'../assets/calm-paper.jpg',fog:'../assets/calm-slate.jpg',charcoal:'../assets/calm-charcoal.jpg'};
+  // palette: colour only
   var pals=[].slice.call(document.querySelectorAll('.pal button'));
   pals.forEach(function(b){b.addEventListener('click',function(){
-    var p=b.dataset.pal;
-    document.documentElement.setAttribute('data-pal',p);
+    document.documentElement.setAttribute('data-pal',b.dataset.pal);
     pals.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
-    var img=document.getElementById('heroImg'); if(IMG[p])img.src=IMG[p];
+  })});
+
+  // hero: product vs a photographic idea
+  var prod=document.querySelector('.shot.prod'),
+      photo=document.querySelector('.shot[data-hero="photo"]'),
+      img=document.getElementById('heroImg');
+  var heroes=[].slice.call(document.querySelectorAll('.heroPick button'));
+  heroes.forEach(function(b){b.addEventListener('click',function(){
+    var h=b.dataset.hero;
+    heroes.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+    if(h==='product'){ prod.setAttribute('data-on',''); photo.removeAttribute('data-on'); }
+    else { prod.removeAttribute('data-on'); photo.setAttribute('data-on',''); img.src='../assets/'+h+'.jpg'; }
   })});
 })();
 </script>
