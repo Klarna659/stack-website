@@ -41,7 +41,7 @@
     <article class="legal">
       <a href="index.html" class="back-link">← Back to Stack</a>
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: July 18, 2026</p>
+      <p class="updated">Last updated: August 19, 2026</p>
 
       <p>Stack (the “App”, “we”, “us”, “our”) is operated by <strong>Cedar Hills Studio LLC</strong>.
         Questions: <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</p>
@@ -97,6 +97,7 @@
         <li><strong>Email (product updates):</strong> if you choose to join our updates list, we store the <strong>email address you enter</strong>, along with an anonymous install identifier, the source of the sign-up, and your app/OS version, so we can email you about Stack and avoid duplicate sign-ups. You can leave the list at any time using the unsubscribe link in any email or by contacting us. We do not use your email for anything but Stack, and we never sell it.</li>
         <li><strong>Cloud backup (optional recovery):</strong> if you turn on Cloud backup, we store your <strong>email</strong> (used to sign you in with a one-time code) and an <strong>encrypted copy of your Stack data</strong> on our backend so you can restore everything on a new phone. Your data is encrypted on your device before it is uploaded. <strong>Important, in plain terms:</strong> so that we can restore your data even if you lose your phone and every password, the App also stores the decryption key alongside the backup. This means <strong>Cloud backup is a convenience feature, not a zero-knowledge one</strong> — while we never look at, sell, or share your data, the encrypted copy on our backend is technically accessible to us, unlike the copy on your device. This is a deliberate trade-off for painless recovery. If you want your health data to stay only on your device, simply leave Cloud backup off (it is off by default). You can turn it off and request deletion of your cloud copy at any time (Section 10).</li>
         <li><strong>Anonymous install identifier:</strong> each install of the App generates a <strong>random identifier</strong> that is not your name and does not identify you in the real world. It is used to de-duplicate sign-ups and, if you enable an optional feature above, to link that install's records. It only becomes associated with your email if you choose to give us one.</li>
+        <li><strong>Sage (the in-app assistant):</strong> when you ask Sage a question, the <strong>text of your message</strong> is sent to our processing endpoint on Cloudflare, which forwards it to <strong>OpenRouter</strong> to generate a reply. Your message is sent <strong>without your account, email, or any identifier</strong>, so it cannot be tied back to you, and we do not store your conversations on our backend. Because you type these messages yourself, please don’t include anything you’d rather not send off your device. Sage is optional — the rest of the App works without it.</li>
         <li><strong>Feedback:</strong> if you send feedback from within the App, we receive your <strong>message</strong> and basic technical context (app version, device/OS) so we can act on it. Please don't include health details you'd rather keep private in a feedback message.</li>
       </ul>
 
@@ -118,6 +119,8 @@
         <li><strong>Notifications / exact alarms</strong> — to deliver your dose reminders on time.</li>
         <li><strong>Camera</strong> — only when you use “Scan a label.”</li>
         <li><strong>Photos / media</strong> — only when you pick a label image or save/share a backup file.</li>
+        <li><strong>Microphone</strong> — only when you use voice capture to dictate a log entry. The audio is transcribed by <strong>your operating system’s speech recognition service</strong> (Apple or Google), which may process it on their servers; it is used only to produce the text and we never store your recordings.</li>
+        <li><strong>Health Connect / Apple Health</strong> — only if you allow it, to read your <strong>weight and height</strong> so you don’t have to retype them. This is read on your device and is not sent to us.</li>
         <li><strong>Biometric / device credential</strong> — only if you enable the optional app lock; this is handled by your operating system and we never receive your biometrics.</li>
       </ul>
       <p>You can grant or revoke these in your device settings; some features won’t work without them.</p>
@@ -128,9 +131,10 @@
         <li><strong>Aptabase</strong> (anonymous usage analytics) and <strong>Sentry</strong> (crash reporting) — see Section 3a; neither receives your health or personal data.</li>
         <li><strong>Supabase</strong> (backend hosting + account authentication) — stores your account email and sends your sign-in code, and stores the data from the opt-in features in Section 3b (your email, your encrypted Cloud backup, and feedback you send). Governed by Supabase's own security and privacy terms.</li>
         <li><strong>RevenueCat</strong> (subscription management) and <strong>Stripe</strong> (payment processing) — used only if you buy Stack Plus on the web. At checkout, your email and payment details go to Stripe (the payment processor/merchant of record) and your subscription is managed by RevenueCat; Stack receives only your resulting subscription status tied to your account. <strong>We never see or store full card numbers.</strong> Each is governed by its own privacy terms.</li>
+        <li><strong>Cloudflare</strong> (request forwarding) and <strong>OpenRouter</strong> (AI model provider) — used only for Sage; they receive the text you type into Sage, with no account or identifier attached. Each is governed by its own privacy terms.</li>
         <li><strong>Your operating system, and any app you choose</strong> to receive a shared backup or stack code.</li>
       </ul>
-      <p>We integrate <strong>no advertising and no cross-app tracking SDKs</strong>. Beyond the anonymous analytics and crash reporting in Section 3a and the opt-in features in Section 3b, the App does not transmit your data.</p>
+      <p>We integrate <strong>no advertising and no cross-app tracking SDKs</strong>. Beyond the anonymous analytics and crash reporting in Section 3a, the account and optional features in Section 3b, and the messages you choose to send to Sage, the App does not transmit your data.</p>
 
       <h2>9. How your data is protected</h2>
       <ul>
