@@ -21,14 +21,14 @@
   <link rel="icon" type="image/png" href="assets/img/icon.png" />
   <link rel="apple-touch-icon" href="assets/img/icon.png" />
   <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/css/mono.css?v=4" />
+  <link rel="stylesheet" href="assets/css/mono.css?v=6" />
 
   <script>/* set theme before paint — no flash */(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stack","operatingSystem":"Android","applicationCategory":"HealthApplication","description":"Private dose, supplement, peptide, GLP-1 and TRT tracker — reminders, supply projection, injection-site rotation, in-system levels, bloodwork and weight trends.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://trackyourstack.app/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stack","operatingSystem":"Android, iOS","applicationCategory":"HealthApplication","description":"Private dose, supplement, peptide, GLP-1 and TRT tracker — reminders, supply projection, injection-site rotation, in-system levels, bloodwork and weight trends.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://trackyourstack.app/"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Stack free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tracking, reminders, supply projection, streaks and weight trends are free, with no cap on how many compounds you track. Plus ($4.99/mo or $50/year, or $75 once for Lifetime) adds the insight layer: in-system level curves, bloodwork ranges, full trends, cloud backup and unlimited Sage."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"You sign in with just your email (no password) so your Plus and settings follow you across devices. The account only knows your email, never what you take — your health data stays encrypted on your device, and cloud backup is opt-in."}},{"@type":"Question","name":"What can I track with Stack?","acceptedAnswer":{"@type":"Answer","text":"Anything you take on a schedule: supplements, vitamins, medications, peptides, GLP-1s and TRT — plus habits, weight, lifts and bloodwork alongside your doses."}},{"@type":"Question","name":"Does Stack give dosing advice?","acceptedAnswer":{"@type":"Answer","text":"No. Stack is a logging tool and an educational reference. It never recommends compounds or doses, and nothing in the app or on this site is medical advice."}}]}</script>
 
-  <!-- 2026 homepage refresh: clean, gold, product-led. Additive to mono.css; theme-aware via mono tokens. -->
+  <!-- 2026 homepage refresh: clean, product-led. Additive to mono.css; the magenta accent now lives in mono.css itself (site-wide), not overridden here. -->
   <style>
     .script{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:500;color:var(--gold);letter-spacing:-.01em}
     .hero{position:relative;overflow:hidden}
@@ -76,6 +76,22 @@
     .lp-ii li.no svg{stroke:var(--dim)}
     .lp-priv p{font-size:14.5px;color:var(--ink-2);line-height:1.62;margin:0}
     .lp-priv .g{color:var(--ink);font-weight:650}
+    /* ===== feature carousel ===== */
+    .tour{position:relative;max-width:1000px;margin:0 auto}
+    .tour-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .tour-track::-webkit-scrollbar{display:none}
+    .tour-slide{flex:0 0 100%;scroll-snap-align:center;display:grid;gap:24px;align-items:center;padding:6px 2px}
+    @media(min-width:820px){.tour-slide{grid-template-columns:1fr 1fr;gap:44px}}
+    .tour-visual{display:flex;justify-content:center;align-items:center;min-height:300px}
+    .tour-copy .eyebrow{color:var(--gold);display:block;margin-bottom:12px}
+    .tour-copy h3{font-size:clamp(23px,3.2vw,34px);letter-spacing:-.03em;line-height:1.08}
+    .tour-copy p{color:var(--mut);font-size:15.5px;line-height:1.62;margin:14px 0 0;max-width:42ch}
+    .tour-copy p a{color:var(--gold);border-bottom:1px solid var(--gold-line)}
+    .tour-copy .plus{display:inline-block;margin-top:16px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-line);border-radius:99px;padding:4px 10px}
+    .tcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-card)}
+    .tour-dots{display:flex;gap:8px;justify-content:center;margin-top:32px}
+    .tour-dots button{width:8px;height:8px;border-radius:99px;background:var(--line);border:0;padding:0;cursor:pointer;transition:width .25s,background .25s}
+    .tour-dots button.on{background:var(--gold);width:26px}
   </style>
 </head>
 <body>
@@ -127,13 +143,17 @@
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
               <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
             </button>
+            <button class="store-badge ghost" data-store="apple">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2 1.1-3.1 1.7-3.6-.9-1.3-2.3-1.5-2.8-1.5-1.2-.1-2.3.7-2.9.7-.6 0-1.5-.7-2.5-.7-1.3 0-2.5.8-3.1 2-1.3 2.3-.3 5.7 1 7.5.6.9 1.3 1.9 2.3 1.9.9 0 1.3-.6 2.4-.6s1.4.6 2.4.6 1.6-.9 2.2-1.8c.7-1 1-2 1-2.1-.1 0-1.9-.8-1.9-2.8zM14.7 5.9c.5-.6.9-1.5.8-2.4-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.8-.5 2.2-1.1z"/></svg>
+              <span class="sb-text"><span class="sb-top">iOS beta on</span><span class="sb-main">TestFlight</span></span>
+            </button>
             <a class="btn btn-lg" href="pricing/" style="align-self:stretch">See what Plus adds</a>
           </div>
           <form class="waitlist" data-form="waitlist" novalidate aria-label="Join the launch list">
             <input class="input" type="email" name="email" placeholder="you@email.com" aria-label="Your email" required />
             <button type="submit" class="btn btn-primary">Notify me</button>
           </form>
-          <p class="hero-note" data-msg>Launching soon on Android — drop your email and we'll tell you the day it's live.</p>
+          <p class="hero-note" data-msg>Android launching soon. iOS is in TestFlight beta now — drop your email and we'll get you in.</p>
 
           <div class="hero-stats reveal">
             <div class="hero-stat"><div class="n tnum">112</div><div class="l">Cited compound pages</div></div>
@@ -205,202 +225,143 @@
         <a class="lp-chip" href="compounds/testosterone-cypionate/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Testosterone</a>
         <a class="lp-chip more" href="compounds/">+112 more →</a>
       </div>
-    </div>
-  </section>
-
-  <!-- ================================================= IN YOUR SYSTEM === -->
-  <section class="section-pad" id="insight" style="padding-bottom:0">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">The insight a checklist can't give you</span>
-        <h2>Watch it build in your system.</h2>
-        <p>A logbook tells you what you took. Stack also models what's still working —
-        a relative-level curve drawn from each compound's half-life, so overlapping
-        doses stop being a guess.</p>
-      </div>
-
-      <div class="show-grid reveal">
-        <!-- PK / in-system curve — code-drawn, gold thread draws in on load -->
-        <div class="viz">
-          <span class="eyebrow">In your system</span>
-          <h3>Testosterone · relative level</h3>
-          <p>Each injection adds to what hasn't cleared yet. The thread is the sum —
-          the steady state you're actually holding.</p>
-          <div class="viz-body">
-            <svg viewBox="0 0 520 210" width="100%" role="img" aria-label="A rising relative-level curve modeled from half-life, settling toward a steady state, with three dose markers.">
-              <line class="grid-line" x1="0" y1="40" x2="520" y2="40"/>
-              <line class="grid-line" x1="0" y1="90" x2="520" y2="90"/>
-              <line class="grid-line" x1="0" y1="140" x2="520" y2="140"/>
-              <line class="grid-line" x1="0" y1="190" x2="520" y2="190"/>
-              <path class="thread-area" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50 L512,190 Z"/>
-              <path class="thread-glow" pathLength="1" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50"/>
-              <path class="thread draw-in" style="--len:1" pathLength="1" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50"/>
-              <g class="fade-up">
-                <circle class="dot-live" cx="128" cy="132" r="3.4"/>
-                <circle class="dot-live" cx="244" cy="96" r="3.4"/>
-                <circle class="dot-live pulse-dot" cx="360" cy="72" r="4.4"/>
-              </g>
-            </svg>
-            <div class="viz-legend">
-              <span><span class="swatch" style="background:var(--gold)"></span><b>Modeled level</b></span>
-              <span><span class="swatch" style="background:var(--dim)"></span>Dose logged</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Completeness meter — the profile "make it yours" arc -->
-        <div class="viz">
-          <span class="eyebrow">Make it yours</span>
-          <h3>A profile that earns its keep</h3>
-          <p>The more Stack knows, the sharper the picture. The gold fills as you complete it — nothing here is required.</p>
-          <div class="viz-body">
-            <div class="meter-wrap">
-              <div class="meter">
-                <svg viewBox="0 0 120 120" width="118" height="118" aria-hidden="true">
-                  <circle class="meter-track" cx="60" cy="60" r="52"/>
-                  <circle class="meter-fill" pathLength="1" cx="60" cy="60" r="52"
-                          transform="rotate(-90 60 60)"/>
-                </svg>
-                <div class="pct tnum">67<span style="font-size:16px">%</span></div>
-              </div>
-              <div class="meter-list">
-                <div class="mi done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Your stack</div>
-                <div class="mi done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reminders</div>
-                <div class="mi done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Supply tracked</div>
-                <div class="mi todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/></svg>Target weight</div>
-                <div class="mi todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/></svg>Bloodwork</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="center" style="margin-top:22px">
+        <a class="btn btn-primary" href="compounds/">Browse the library</a>
+        <a class="btn" href="guides/" style="margin-left:8px">Read the guides</a>
       </div>
     </div>
   </section>
 
-  <!-- ======================================================== FEATURES === -->
+  <!-- ==================================================== FEATURE TOUR === -->
   <section class="section-pad" id="features">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Features</span>
-        <h2>Everything your stack needs</h2>
-        <p>Built for the way real protocols work — multiple compounds, different schedules, vials and titrations.</p>
+      <div class="section-head center reveal">
+        <span class="eyebrow">See it work</span>
+        <h2>One app for the <span class="script">whole stack.</span></h2>
+        <p>Swipe through what Stack does — it cycles on its own, too.</p>
       </div>
-      <div class="feature-grid">
+      <div class="tour reveal">
+        <div class="tour-track" id="tourTrack">
 
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
-          <h3>Smart reminders</h3>
-          <p>Exact-time, time-block or every-N-days. One combined ping when doses land together.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div>
-          <h3>Supply projection</h3>
-          <p>"≈ 10 doses left · refill Jul 3." See run-out before it happens, with cost per dose.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 4 5-7 4 5"/><path d="M3 21h18"/></svg></div>
-          <h3>In your system</h3>
-          <p>A relative-level curve modeled from each compound's half-life — see doses overlap.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div>
-          <h3>Injection rotation</h3>
-          <p>A body-map remembers where you pinned and recommends the next site.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7 15h10"/></svg></div>
-          <h3>Reconstitution calc</h3>
-          <p>Vial mg + water mL → exact syringe units. <a href="tools/reconstitution/" style="text-decoration:underline">Try it on the web →</a></p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
-          <h3>Scan a label</h3>
-          <p>Point your camera at a vial — Stack reads the strength and size on-device.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s7 4 7 10a7 7 0 0 1-14 0c0-6 7-10 7-10z"/></svg></div>
-          <h3>Bloodwork &amp; weight</h3>
-          <p>Labs, weight, body comp and lifts in the same place as your doses — trends line up.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <h3>Private by design</h3>
-          <p>Encrypted on your device. Sign-in is email-only — it never sees what you take. No ads; only anonymous, aggregate analytics that never include your health data.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================= ROTATION MAP === -->
-  <section class="section-pad" id="rotation" style="padding-top:0">
-    <div class="container">
-      <div class="show-grid reveal">
-        <div class="viz">
-          <span class="eyebrow">Injection rotation</span>
-          <h3>It remembers where you pinned.</h3>
-          <p>Mark the sites you use, and Stack keeps an honest rotation going —
-          the map shows what's rested and hands you the next spot, so you're never
-          asking "did I already do the left side?"</p>
-          <div class="viz-body">
-            <div class="rotamap">
-              <svg viewBox="0 0 120 200" width="120" role="img" aria-label="A body map with injection sites: several marked as used, one highlighted as the next site to use.">
-                <g fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.5">
-                  <circle cx="60" cy="17" r="10"/>
-                  <rect x="44" y="30" width="32" height="58" rx="11"/>
-                  <rect x="29" y="32" width="12" height="44" rx="6"/>
-                  <rect x="79" y="32" width="12" height="44" rx="6"/>
-                  <rect x="45" y="90" width="13" height="76" rx="6.5"/>
-                  <rect x="62" y="90" width="13" height="76" rx="6.5"/>
-                </g>
-                <circle class="rota-site used" cx="36" cy="41" r="5.5"/>
-                <circle class="rota-site used" cx="84" cy="41" r="5.5"/>
-                <circle class="rota-site used" cx="52" cy="58" r="5.5"/>
-                <circle class="rota-site next pulse-dot" cx="68" cy="58" r="6"/>
-                <circle class="rota-site" cx="51" cy="122" r="5.5"/>
-                <circle class="rota-site used" cx="69" cy="122" r="5.5"/>
-              </svg>
-              <div class="rota-legend">
-                <div class="r"><span class="k next"></span><span><b style="color:var(--ink);font-weight:700">Next up</b> — right abdomen</span></div>
-                <div class="r"><span class="k used"></span>Used recently — resting</div>
-                <div class="r"><span class="k"></span>Clear to use</div>
+          <!-- 1 · Log -->
+          <div class="tour-slide">
+            <div class="tour-visual">
+              <div class="phone-prev" style="max-width:250px">
+                <div class="scr">
+                  <div class="scr-meta">Today · Tuesday</div>
+                  <h3>Your stack</h3>
+                  <span class="scr-pill"><span class="d"></span>4 of 6 logged</span>
+                  <div class="scr-row done"><span class="ico">D</span><b>Vitamin D3</b><span class="ti">8:10 ✓</span></div>
+                  <div class="scr-row done"><span class="ico">T</span><b>Testosterone</b><span class="ti">9:00 ✓</span></div>
+                  <div class="scr-row done"><span class="ico">B</span><b>BPC-157</b><span class="ti">9:02 ✓</span></div>
+                  <div class="scr-row"><span class="ico">S</span><b>Semaglutide</b><span class="ti">weekly</span></div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="viz">
-          <span class="eyebrow">Supply, projected</span>
-          <h3>Never caught empty.</h3>
-          <p>Every logged dose draws down the vial. Stack counts what's left and tells you
-          the refill date before you run dry.</p>
-          <div class="viz-body">
-            <div style="display:grid;gap:14px">
-              <div class="lib-mini" style="background:var(--panel-2)">
-                <div style="display:flex;justify-content:space-between;align-items:baseline">
-                  <span class="nm">Testosterone Cyp.</span>
-                  <span class="tnum gold" style="font-weight:800;font-size:15px">≈ 9 doses</span>
-                </div>
-                <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:36%"></div></div>
-                <div class="fx" style="margin-top:8px">Refill by Jul 21 · $0.74 / dose</div>
-              </div>
-              <div class="lib-mini" style="background:var(--panel-2)">
-                <div style="display:flex;justify-content:space-between;align-items:baseline">
-                  <span class="nm">BPC-157</span>
-                  <span class="tnum gold" style="font-weight:800;font-size:15px">≈ 22 doses</span>
-                </div>
-                <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:71%"></div></div>
-                <div class="fx" style="margin-top:8px">Refill by Aug 6 · $0.41 / dose</div>
-              </div>
+            <div class="tour-copy">
+              <span class="eyebrow">Log</span>
+              <h3>Two taps, and it's logged.</h3>
+              <p>Every vitamin, capsule, peptide and shot on one screen. Reminders that actually land — one combined ping when doses stack up together.</p>
             </div>
           </div>
+
+          <!-- 2 · In system -->
+          <div class="tour-slide">
+            <div class="tour-visual">
+              <div class="tcard" style="width:min(440px,84vw)">
+                <svg viewBox="0 0 520 210" width="100%" role="img" aria-label="A rising relative-level curve modeled from half-life, settling toward steady state.">
+                  <line class="grid-line" x1="0" y1="40" x2="520" y2="40"/>
+                  <line class="grid-line" x1="0" y1="90" x2="520" y2="90"/>
+                  <line class="grid-line" x1="0" y1="140" x2="520" y2="140"/>
+                  <line class="grid-line" x1="0" y1="190" x2="520" y2="190"/>
+                  <path class="thread-area" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50 L512,190 Z"/>
+                  <path class="thread" pathLength="1" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50"/>
+                  <circle class="dot-live" cx="128" cy="132" r="3.4"/>
+                  <circle class="dot-live" cx="244" cy="96" r="3.4"/>
+                  <circle class="dot-live pulse-dot" cx="360" cy="72" r="4.4"/>
+                </svg>
+              </div>
+            </div>
+            <div class="tour-copy">
+              <span class="eyebrow">In your system</span>
+              <h3>Watch it build to steady state.</h3>
+              <p>A relative-level curve modeled from each compound's half-life — so overlapping doses stop being a guess.</p>
+              <span class="plus">Plus</span>
+            </div>
+          </div>
+
+          <!-- 3 · Supply -->
+          <div class="tour-slide">
+            <div class="tour-visual">
+              <div class="tcard" style="width:min(380px,84vw);display:grid;gap:16px">
+                <div>
+                  <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:650">Testosterone Cyp.</span><span class="tnum" style="font-weight:800;font-size:15px;color:var(--gold)">≈ 9 doses</span></div>
+                  <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:36%"></div></div>
+                  <div style="margin-top:8px;color:var(--mut);font-size:13px">Refill by Jul 21 · $0.74 / dose</div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:650">BPC-157</span><span class="tnum" style="font-weight:800;font-size:15px;color:var(--gold)">≈ 22 doses</span></div>
+                  <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:71%"></div></div>
+                  <div style="margin-top:8px;color:var(--mut);font-size:13px">Refill by Aug 6 · $0.41 / dose</div>
+                </div>
+              </div>
+            </div>
+            <div class="tour-copy">
+              <span class="eyebrow">Supply</span>
+              <h3>Never caught empty.</h3>
+              <p>Every logged dose draws down the vial. Stack shows what's left and the refill date before you run dry.</p>
+            </div>
+          </div>
+
+          <!-- 4 · Rotation -->
+          <div class="tour-slide">
+            <div class="tour-visual">
+              <div class="tcard" style="display:flex;justify-content:center">
+                <div class="rotamap">
+                  <svg viewBox="0 0 120 200" width="128" role="img" aria-label="A body map with injection sites, one highlighted as the next site to use.">
+                    <g fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.5">
+                      <circle cx="60" cy="17" r="10"/>
+                      <rect x="44" y="30" width="32" height="58" rx="11"/>
+                      <rect x="29" y="32" width="12" height="44" rx="6"/>
+                      <rect x="79" y="32" width="12" height="44" rx="6"/>
+                      <rect x="45" y="90" width="13" height="76" rx="6.5"/>
+                      <rect x="62" y="90" width="13" height="76" rx="6.5"/>
+                    </g>
+                    <circle class="rota-site used" cx="36" cy="41" r="5.5"/>
+                    <circle class="rota-site used" cx="84" cy="41" r="5.5"/>
+                    <circle class="rota-site used" cx="52" cy="58" r="5.5"/>
+                    <circle class="rota-site next pulse-dot" cx="68" cy="58" r="6"/>
+                    <circle class="rota-site" cx="51" cy="122" r="5.5"/>
+                    <circle class="rota-site used" cx="69" cy="122" r="5.5"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="tour-copy">
+              <span class="eyebrow">Injection rotation</span>
+              <h3>It remembers where you pinned.</h3>
+              <p>A body-map tracks the sites you've used and hands you the next safe spot — no more "did I already do this side?"</p>
+            </div>
+          </div>
+
+          <!-- 5 · Reconstitution -->
+          <div class="tour-slide">
+            <div class="tour-visual">
+              <div class="tcard" style="width:min(340px,82vw);text-align:center">
+                <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)">Draw to</div>
+                <div style="font-size:56px;font-weight:800;letter-spacing:-.04em;color:var(--gold);line-height:1;margin:10px 0">10<span style="font-size:20px;color:var(--mut)"> units</span></div>
+                <div style="color:var(--mut);font-size:13px">5 mg vial + 2 mL water · 250 mcg dose</div>
+              </div>
+            </div>
+            <div class="tour-copy">
+              <span class="eyebrow">Reconstitution</span>
+              <h3>The syringe math, done.</h3>
+              <p>Enter the vial mg and the water mL — Stack gives you the exact units to draw. <a href="tools/reconstitution/">Try it on the web →</a></p>
+            </div>
+          </div>
+
         </div>
+        <div class="tour-dots" id="tourDots" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -432,19 +393,6 @@
           We never sell your data, and never train on it.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= SCREENS === -->
-  <section class="section-pad" id="screens" style="padding-top:0">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">A look inside</span>
-        <h2>Your whole stack, at a glance</h2>
-        <p>Ink on paper, fast and quiet — here's what tracking actually looks like.</p>
-      </div>
-      <div class="gallery" id="gallery"></div>
-      <p class="gallery-hint reveal">Tap any screen to enlarge.</p>
     </div>
   </section>
 
@@ -500,48 +448,6 @@
     </div>
   </section>
 
-  <!-- ========================================================= LIBRARY === -->
-  <section class="section-pad" style="padding-top:0">
-    <div class="container">
-      <div class="panel reveal funnel">
-        <div>
-          <span class="eyebrow">Compound library · free</span>
-          <h2 style="font-size:clamp(26px,3.8vw,40px);margin:12px 0 14px">Know what you take.</h2>
-          <p class="muted" style="margin:0 0 22px;line-height:1.65">Plain-English pages for 112 compounds —
-          what each one is, how it works, half-life, storage and what matters when you track it.
-          Summarized from public sources, cited, and free to read. Every page opens straight
-          into tracking it in the app.</p>
-          <a class="btn btn-primary" href="compounds/">Browse the library</a>
-          <a class="btn" href="guides/" style="margin-left:8px">Read the guides</a>
-        </div>
-        <div aria-hidden="true">
-          <div class="lib-preview">
-            <div class="lib-mini">
-              <div class="nm">Semaglutide</div>
-              <div class="fx">GLP-1 · t½ ≈ 7 days</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-            <div class="lib-mini">
-              <div class="nm">Testosterone Cyp.</div>
-              <div class="fx">TRT ester · t½ ≈ 8 days</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-            <div class="lib-mini">
-              <div class="nm">BPC-157</div>
-              <div class="fx">Peptide · injection</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-            <div class="lib-mini">
-              <div class="nm">Tirzepatide</div>
-              <div class="fx">GLP-1 · t½ ≈ 5 days</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============================================================= FAQ === -->
   <section class="section-pad" id="faq" style="padding-top:0">
     <div class="container">
@@ -575,7 +481,7 @@
         </details>
         <details>
           <summary>When does it launch?</summary>
-          <p class="faq-a">Android first, very soon — iOS after. <a href="#" data-email-link style="text-decoration:underline">Email us</a> and we'll tell you the moment it's live.</p>
+          <p class="faq-a">iOS is already in TestFlight beta — join above to try it now. Android launches very soon. <a href="#" data-email-link style="text-decoration:underline">Email us</a> and we'll tell you the moment it's live.</p>
         </details>
       </div>
     </div>
@@ -591,42 +497,13 @@
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
         <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
       </button>
+      <button class="store-badge ghost" data-store="apple">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2 1.1-3.1 1.7-3.6-.9-1.3-2.3-1.5-2.8-1.5-1.2-.1-2.3.7-2.9.7-.6 0-1.5-.7-2.5-.7-1.3 0-2.5.8-3.1 2-1.3 2.3-.3 5.7 1 7.5.6.9 1.3 1.9 2.3 1.9.9 0 1.3-.6 2.4-.6s1.4.6 2.4.6 1.6-.9 2.2-1.8c.7-1 1-2 1-2.1-.1 0-1.9-.8-1.9-2.8zM14.7 5.9c.5-.6.9-1.5.8-2.4-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.8-.5 2.2-1.1z"/></svg>
+        <span class="sb-text"><span class="sb-top">iOS beta on</span><span class="sb-main">TestFlight</span></span>
+      </button>
     </div>
   </section>
 
-  <!-- ======================================================== FEEDBACK === -->
-  <section class="section-pad" id="feedback">
-    <div class="container" style="max-width:720px">
-      <div class="section-head reveal">
-        <span class="eyebrow">Feedback</span>
-        <h2>Tell us what to build next</h2>
-        <p>Bugs, ideas, love notes — we read every message and reply.</p>
-      </div>
-      <form class="form panel reveal" data-form="feedback" novalidate>
-        <div class="form-grid">
-          <div class="field">
-            <label for="f-type">Type</label>
-            <select class="select" id="f-type" name="type">
-              <option>Feature idea</option><option>Bug report</option>
-              <option>Love note</option><option>Something else</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-email">Email <span class="hint">(optional)</span></label>
-            <input class="input" id="f-email" name="email" type="email" placeholder="you@email.com" />
-          </div>
-        </div>
-        <div class="field">
-          <label for="f-msg">Your message</label>
-          <textarea class="textarea" id="f-msg" name="message" placeholder="What's on your mind?" required></textarea>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-          <div class="form-msg" data-msg></div>
-          <button type="submit" class="btn btn-primary">Send feedback</button>
-        </div>
-      </form>
-    </div>
-  </section>
   </main>
 
   <footer class="footer">
@@ -689,5 +566,30 @@
   </div>
 
   <script src="assets/js/site.js?v=4"></script>
+  <script>
+  /* feature carousel: dots + swipe + auto-advance (pauses on interaction, respects reduced-motion) */
+  (function(){
+    var track=document.getElementById('tourTrack'); if(!track) return;
+    var slides=[].slice.call(track.children);
+    var dotsWrap=document.getElementById('tourDots'); if(!dotsWrap) return;
+    var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var idx=0, timer=null, st;
+    var dots=slides.map(function(s,i){
+      var b=document.createElement('button');
+      b.type='button'; b.setAttribute('aria-label','Go to slide '+(i+1));
+      b.addEventListener('click',function(){go(i,true);});
+      dotsWrap.appendChild(b); return b;
+    });
+    function paint(){ dots.forEach(function(d,i){ d.classList.toggle('on',i===idx); }); }
+    function go(i,user){ idx=(i+slides.length)%slides.length; track.scrollTo({left:idx*track.clientWidth,behavior:'smooth'}); paint(); if(user) restart(); }
+    track.addEventListener('scroll',function(){ clearTimeout(st); st=setTimeout(function(){ var i=Math.round(track.scrollLeft/track.clientWidth); if(i!==idx){ idx=i; paint(); } },90); },{passive:true});
+    function tick(){ if(reduced) return; timer=setInterval(function(){ go(idx+1,false); },5000); }
+    function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+    function restart(){ stop(); tick(); }
+    ['pointerdown','mouseenter','touchstart','focusin'].forEach(function(ev){ track.addEventListener(ev,stop,{passive:true}); });
+    ['mouseleave','touchend'].forEach(function(ev){ track.addEventListener(ev,restart,{passive:true}); });
+    paint(); tick();
+  })();
+  </script>
 </body>
 </html>

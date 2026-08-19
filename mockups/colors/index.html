@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Stack — accent comparison</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#EDEDF0;color:#18181B;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif}
+  .head{padding:34px 24px 18px;text-align:center;max-width:900px;margin:0 auto}
+  .head h1{margin:0;font-size:28px;letter-spacing:-.03em;font-weight:800}
+  .head p{margin:10px 0 0;color:#5b5b63;font-size:16px;line-height:1.5}
+  .stack{display:flex;flex-direction:column;gap:28px;padding:8px 24px 48px;max-width:1400px;margin:0 auto}
+  .cell{background:#fff;border:1px solid #e2e2e6;border-radius:20px;overflow:hidden;
+    box-shadow:0 18px 44px -26px rgba(0,0,0,.4)}
+  .cap{display:flex;align-items:center;gap:14px;padding:18px 24px;border-bottom:1px solid #eee}
+  .cap .sw{width:26px;height:26px;border-radius:8px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .cap b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+  .cap .hex{margin-left:auto;color:#9a9aa2;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;
+    background:#f4f4f6;padding:5px 10px;border-radius:8px}
+  .frame{height:1000px;overflow:hidden;background:#fafafb}
+  .frame iframe{width:100%;height:100%;border:0;display:block}
+  .hint{text-align:center;color:#8a8a92;font-size:13.5px;padding:0 20px 30px}
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>Stack landing — accent comparison</h1>
+    <p>The same live page, full desktop width, stacked so each one is actually readable. Scroll any panel — it's the real site.</p>
+  </div>
+  <div class="stack">
+    <div class="cell"><div class="cap"><span class="sw" style="background:#12A150"></span><b>Green</b><span class="hex">#12A150</span></div><div class="frame"><iframe data-c="green" src="/" title="Green" loading="eager"></iframe></div></div>
+    <div class="cell"><div class="cap"><span class="sw" style="background:#DB2777"></span><b>Magenta · bold (current)</b><span class="hex">#DB2777</span></div><div class="frame"><iframe data-c="magenta" src="/" title="Magenta" loading="eager"></iframe></div></div>
+    <div class="cell"><div class="cap"><span class="sw" style="background:#EC4899"></span><b>Pink · lab</b><span class="hex">#EC4899</span></div><div class="frame"><iframe data-c="pink" src="/" title="Pink" loading="eager"></iframe></div></div>
+  </div>
+  <div class="hint">Preview only — nothing here is public. Magenta is already live on the real site; this page is just for reference.</div>
+<script>
+  /* magenta is the live site's real default now — no override needed for that panel */
+  var SCHEMES={
+    green:["#12A150","rgba(18,161,80,.12)","rgba(18,161,80,.32)"],
+    pink:["#EC4899","rgba(236,72,153,.13)","rgba(236,72,153,.34)"]
+  };
+  function paint(f){
+    try{
+      var d=f.contentDocument; if(!d) return;
+      var c=SCHEMES[f.getAttribute("data-c")];
+      if(!c) return; /* magenta === the live site's real color already; no override needed */
+      d.documentElement.setAttribute("data-theme","light");
+      var s=d.createElement("style");
+      s.textContent=":root{--gold:"+c[0]+" !important;--gold-fill:"+c[1]+" !important;--gold-line:"+c[2]+" !important}";
+      d.head.appendChild(s);
+    }catch(e){}
+  }
+  document.querySelectorAll("iframe").forEach(function(f){
+    f.addEventListener("load",function(){paint(f);});
+  });
+</script>
+</body>
+</html>

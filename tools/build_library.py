@@ -138,7 +138,7 @@ def head(title: str, desc: str, canonical: str, assets: str, jsonld: list | None
   <link rel="icon" type="image/png" href="{assets}/img/icon.png" />
   <link rel="apple-touch-icon" href="{assets}/img/icon.png" />
   <link rel="preload" href="{assets}/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="{assets}/css/mono.css?v=4" />{blocks}
+  <link rel="stylesheet" href="{assets}/css/mono.css?v=6" />{blocks}
   <script>(function(){{try{{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}}})();</script>
 </head>"""
 

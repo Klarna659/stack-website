@@ -43,24 +43,24 @@
   --mut: #71717A;         /* secondary text, AA on paper */
   --dim: #6B6B73;         /* tertiary TEXT — AA (~5.2:1 on paper). Borders/hover too. */
 
-  /* Gold = earned. Deep brass, measured 4.96:1 on paper (AA). */
-  --gold: #8F661C;
-  --gold-fill: rgba(143, 102, 28, 0.15);
-  --gold-line: rgba(143, 102, 28, 0.30);
+  /* Accent = the brand color. Magenta — loud, ownable, not the teal/blue/green every other tracker uses. */
+  --gold: #DB2777;
+  --gold-fill: rgba(219, 39, 119, 0.12);
+  --gold-line: rgba(219, 39, 119, 0.32);
 
   /* Functional data-ink only (per-lane chart colours) — never brand accents. */
   --up: #16A34A;
   --down: #DC2626;
 
-  --brand-1: #3F3F46;     /* stack mark discs on paper: ink tones, top→bottom */
-  --brand-2: #A1A1AA;
-  --brand-3: #18181B;
+  --brand-1: #F9A8D4;     /* stack mark discs: magenta gradient, light→deep top→bottom */
+  --brand-2: #EC4899;
+  --brand-3: #9D174D;
 
   --radius: 18px;
   --radius-sm: 12px;
   --maxw: 1200px;         /* wider measure — desktop breathes */
   --maxw-prose: 760px;
-  --nav-h: 58px;          /* compact bar on phones; bumped ≥900 */
+  --nav-h: 72px;          /* loud logo needs room; bumped further ≥900 */
 
   /* Gutters & vertical rhythm ramp with the viewport (set per-breakpoint). */
   --gutter: 18px;
@@ -85,13 +85,13 @@
   --mut: #A0A2AA;
   --dim: #8A8C94;
 
-  --gold: #E6B45A;        /* capsule-glow amber, desaturated for UI */
-  --gold-fill: rgba(230, 180, 90, 0.14);
-  --gold-line: rgba(230, 180, 90, 0.30);
+  --gold: #FF5FA8;        /* magenta, lifted for contrast on near-black */
+  --gold-fill: rgba(255, 95, 168, 0.16);
+  --gold-line: rgba(255, 95, 168, 0.36);
 
-  --brand-1: #C9CCD2;
-  --brand-2: #6B6E76;
-  --brand-3: #F4F4F5;
+  --brand-1: #FBCFE8;
+  --brand-2: #F9A8D4;
+  --brand-3: #EC4899;
 
   --shadow-card: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 60px -30px rgba(0, 0, 0, .8);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, .5), 0 30px 80px -30px rgba(0, 0, 0, .85);
@@ -104,8 +104,8 @@
     --bg: #0B0B0F; --bg-soft: #101015; --panel: #18181E; --panel-2: #1E1E25;
     --line: #2A2A30; --line-soft: #232329;
     --ink: #F4F4F5; --ink-2: #CBCBD0; --mut: #A0A2AA; --dim: #8A8C94;
-    --gold: #E6B45A; --gold-fill: rgba(230, 180, 90, 0.14); --gold-line: rgba(230, 180, 90, 0.30);
-    --brand-1: #C9CCD2; --brand-2: #6B6E76; --brand-3: #F4F4F5;
+    --gold: #FF5FA8; --gold-fill: rgba(255, 95, 168, 0.16); --gold-line: rgba(255, 95, 168, 0.36);
+    --brand-1: #FBCFE8; --brand-2: #F9A8D4; --brand-3: #EC4899;
     --shadow-card: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 60px -30px rgba(0, 0, 0, .8);
     --shadow-lift: 0 2px 4px rgba(0, 0, 0, .5), 0 30px 80px -30px rgba(0, 0, 0, .85);
     color-scheme: dark;
@@ -116,7 +116,7 @@
 /* Gutters and the nav bar grow with the screen. Mobile-first: the defaults
    above are the phone values; these only ever add air on bigger screens. */
 @media (min-width: 560px)  { :root { --gutter: 24px; } }
-@media (min-width: 900px)  { :root { --gutter: 32px; --nav-h: 64px; } }
+@media (min-width: 900px)  { :root { --gutter: 32px; --nav-h: 92px; } }
 @media (min-width: 1200px) { :root { --gutter: 44px; } }
 
 * { box-sizing: border-box; }
@@ -180,8 +180,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
 }
 .nav.scrolled { border-bottom-color: var(--line); }
 .nav-inner { display: flex; align-items: center; gap: 12px; height: var(--nav-h); }
-.brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; font-size: 18px; letter-spacing: -.02em; margin-right: auto; }
-.brand-mark { flex: none; width: 32px; height: 32px; }
+section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
+.brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; font-size: 24px; letter-spacing: -.03em; margin-right: auto; }
+.brand-mark { flex: none; width: 46px; height: 46px; }
 .nav-links a { position: relative; font-size: 14px; font-weight: 600; color: var(--mut); }
 .nav-links a:hover { color: var(--ink); opacity: 1; }
 /* Active section = a live location: the gold thread marks where you are. */
@@ -251,8 +252,8 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
 /* --- desktop nav (≥900): inline links, no hamburger, roomier --- */
 @media (min-width: 900px) {
   .nav-inner { gap: 22px; }
-  .brand { font-size: 19px; margin-right: 0; }
-  .brand-mark { width: 36px; height: 36px; }
+  .brand { font-size: 31px; margin-right: 0; gap: 14px; }
+  .brand-mark { width: 62px; height: 62px; }
   .nav-right { gap: 12px; margin-left: auto; }
   /* FLAT nav layout (older hand-authored pages: reconstitution, legal, stacks,
      referral, creators — nav-links is a DIRECT child of nav-inner, no .nav-right

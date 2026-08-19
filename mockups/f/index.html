@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mockup F — Instrument, whole-stack | Stack</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<style>
+@font-face{font-family:"Inter";src:url("../../assets/fonts/inter-subset.woff2") format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  --bg:#08090C; --bg-2:#0D0E12; --panel:#14151A; --panel-2:#1A1B21;
+  --line:#232430; --line-soft:#1C1D24;
+  --ink:#F4F4F5; --ink-2:#C7C8CE; --mut:#94959E; --dim:#767783;
+  --gold:#E6B45A; --gold-2:#C9964A; --gold-fill:rgba(230,180,90,.12); --gold-line:rgba(230,180,90,.34);
+  --gut:20px; color-scheme:dark;
+}
+@media(min-width:700px){:root{--gut:40px}}
+@media(min-width:1100px){:root{--gut:60px}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.6 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.04em;line-height:1.03;text-wrap:balance}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font:inherit;font-weight:700;
+  border-radius:8px;padding:14px 24px;min-height:50px;border:1px solid transparent;
+  background:var(--ink);color:#0A0B0E;cursor:pointer;transition:transform .15s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn.out{background:transparent;color:var(--ink);border-color:#3A3B47}
+.btn.out:hover{border-color:var(--ink)}
+.btn.sm{padding:9px 16px;min-height:40px;font-size:14px;border-radius:6px}
+.btn.lg{padding:17px 30px;min-height:58px;font-size:17px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(8,9,12,.72);backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+.nav.on{border-bottom-color:var(--line);background:rgba(8,9,12,.94)}
+.nav-in{display:flex;align-items:center;gap:16px;height:66px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.02em;margin-right:auto}
+.nav .lk{display:none;font-size:14px;font-weight:600;color:var(--mut)}
+.nav .lk:hover{color:var(--ink)}
+@media(min-width:820px){.nav .lk{display:inline}}
+
+/* ---------- product hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+  padding:clamp(48px,8vw,96px) 0 clamp(56px,8vw,104px)}
+.hero::before{content:"";position:absolute;z-index:0;top:-14%;right:-8%;width:min(760px,90vw);height:min(760px,90vw);
+  border-radius:50%;background:radial-gradient(circle,rgba(230,180,90,.16),rgba(230,180,90,.05) 42%,transparent 66%);
+  pointer-events:none;filter:blur(2px)}
+.hero-grid{position:relative;z-index:1;display:grid;gap:clamp(38px,6vw,60px);align-items:center}
+@media(min-width:940px){.hero-grid{grid-template-columns:1.02fr .98fr}}
+.hero .eyebrow{display:block;margin-bottom:20px}
+.hero h1{font-size:clamp(42px,8.4vw,84px);letter-spacing:-.05em;line-height:.98;max-width:14ch}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .say{margin:22px 0 0;font-size:clamp(16.5px,2vw,20px);color:var(--ink-2);max-width:46ch;line-height:1.56}
+.hero-act{display:flex;flex-direction:column;gap:12px;margin-top:34px;align-items:stretch}
+@media(min-width:560px){.hero-act{flex-direction:row;align-items:center}}
+.hero-note{margin:18px 0 0;font-size:13px;color:var(--dim)}
+
+/* hero device */
+.stage{position:relative;justify-self:center;width:100%;max-width:420px}
+.stage .float{position:absolute;z-index:3;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:10px 13px;box-shadow:0 24px 50px -30px #000;backdrop-filter:blur(6px)}
+.stage .float .fk{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.stage .float .fv{font-size:15px;font-weight:800;letter-spacing:-.02em;margin-top:3px}
+.stage .float.f-streak{top:-20px;left:-26px;border-color:var(--gold-line)}
+.stage .float.f-streak .fv{color:var(--gold)}
+.stage .float.f-sys{bottom:-20px;right:-24px}
+.stage .float.f-sys .bars{display:flex;align-items:flex-end;gap:3px;height:22px;margin-top:5px}
+.stage .float.f-sys .bars i{width:5px;background:var(--gold);border-radius:1px;opacity:.9}
+@media(max-width:620px){.stage .float{display:none}}
+
+.device{position:relative;z-index:2;background:linear-gradient(180deg,#17181E,#101116);
+  border:1px solid #2A2B36;border-radius:34px;padding:12px;box-shadow:0 60px 120px -50px #000,0 0 0 1px rgba(255,255,255,.02) inset}
+.screen{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:24px;overflow:hidden}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px 4px;font-size:11px;font-weight:700;color:var(--mut)}
+.sbar .dots{display:flex;gap:4px}.sbar .dots i{width:4px;height:4px;border-radius:50%;background:var(--dim)}
+.shead{padding:6px 18px 14px;border-bottom:1px solid var(--line-soft)}
+.shead .k{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.shead h4{margin:5px 0 0;font-size:23px;font-weight:800;letter-spacing:-.03em}
+.shead .prog{margin-top:12px;display:flex;align-items:center;gap:10px}
+.shead .prog b{font-size:12px;color:var(--gold);font-weight:700;flex:none}
+.shead .bar{flex:1;height:5px;border-radius:99px;background:#1F202A;overflow:hidden}
+.shead .bar i{display:block;height:100%;background:var(--gold)}
+.slist{padding:6px 12px 12px}
+.li{display:flex;align-items:center;gap:11px;padding:11px 6px;border-bottom:1px solid var(--line-soft)}
+.li:last-child{border-bottom:0}
+.li .ic{width:30px;height:30px;border-radius:8px;background:var(--panel);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--mut);flex:none}
+.li .nm{min-width:0}
+.li .nm b{display:block;font-size:14px;font-weight:650;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .nm span{font-size:11px;color:var(--dim)}
+.li .tt{margin-left:auto;font-size:12px;color:var(--dim);flex:none;font-variant-numeric:tabular-nums}
+.li.done .ic{color:var(--gold);border-color:var(--gold-line);background:var(--gold-fill)}
+.li.done .tt{color:var(--gold)}
+.li.next{background:linear-gradient(90deg,var(--gold-fill),transparent);border-radius:10px}
+
+/* trust strip */
+.strip{border-bottom:1px solid var(--line);background:var(--bg-2)}
+.strip-in{display:flex;flex-wrap:wrap;gap:12px 30px;padding:18px 0;font-size:13px;font-weight:600;color:var(--mut)}
+.strip-in span{display:inline-flex;align-items:center;gap:9px}
+.strip-in i{width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block;flex:none}
+
+/* ---------- problem band ---------- */
+.prob{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.prob-bg{position:absolute;inset:0;z-index:0}
+.prob-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.prob-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--bg) 8%,rgba(8,9,12,.82) 44%,rgba(8,9,12,.35) 100%)}
+.prob-in{position:relative;z-index:1;padding:clamp(64px,10vw,120px) 0}
+.prob-in .q{max-width:30ch}
+.prob-in h2{font-size:clamp(26px,4.4vw,44px);letter-spacing:-.04em;line-height:1.1}
+.prob-in p{color:var(--ink-2);font-size:16.5px;margin:16px 0 0;max-width:40ch;line-height:1.6}
+
+/* ---------- personas ---------- */
+.sec{padding:clamp(56px,8vw,110px) 0}
+.sec-head{max-width:640px;margin-bottom:clamp(28px,4vw,48px)}
+.sec-head h2{font-size:clamp(30px,5vw,52px);margin-top:14px;letter-spacing:-.045em}
+.sec-head p{color:var(--mut);font-size:16.5px;margin:16px 0 0;line-height:1.6}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font:inherit;font-size:14px;font-weight:650;color:var(--mut);background:transparent;
+  border:1px solid var(--line);border-radius:999px;padding:11px 18px;min-height:44px;cursor:pointer;transition:.18s;white-space:nowrap}
+.tab:hover{color:var(--ink);border-color:#3A3B47}
+.tab[aria-selected="true"]{background:var(--ink);color:#0A0B0E;border-color:var(--ink)}
+.panes{margin-top:26px;border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden}
+.pane{display:none;padding:clamp(22px,3.4vw,34px)}
+.pane[data-on]{display:grid;gap:26px}
+@media(min-width:860px){.pane[data-on]{grid-template-columns:1fr 1fr;gap:44px;align-items:center}}
+.pane h3{font-size:clamp(22px,3vw,32px);letter-spacing:-.035em}
+.pane p{color:var(--ink-2);font-size:16px;line-height:1.62;margin:14px 0 0;max-width:42ch}
+.caps{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.cap{font-size:12.5px;font-weight:650;color:var(--gold);border:1px solid var(--gold-line);
+  background:var(--gold-fill);border-radius:999px;padding:7px 13px}
+
+/* ---------- phones (persona) ---------- */
+.phones{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:start}
+@media(max-width:620px){.phones{grid-template-columns:repeat(2,1fr)}.phones .p3{display:none}}
+.phone{background:var(--panel-2);border:1px solid var(--line);border-radius:20px;padding:8px;box-shadow:0 30px 70px -40px #000}
+.phone.p2{transform:translateY(26px)}
+.phone.p3{transform:translateY(52px)}
+@media(max-width:620px){.phone.p2{transform:translateY(18px)}}
+.pscr{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:14px;padding:13px 11px;min-height:200px}
+.pcap{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.pscr h5{margin:5px 0 11px;font-size:15px;font-weight:800;letter-spacing:-.02em}
+.prow{display:flex;align-items:center;gap:7px;padding:7px 0;border-top:1px solid var(--line-soft);font-size:11px}
+.pic{width:18px;height:18px;border-radius:5px;background:var(--panel);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:8px;font-weight:800;color:var(--mut);flex:none}
+.prow b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.prow .tt{margin-left:auto;color:var(--dim);flex:none;font-size:10px}
+.prow.ok .tt,.prow.ok .pic{color:var(--gold)}
+.prow.ok .pic{border-color:var(--gold-line)}
+.pstreak{margin-top:10px;background:var(--gold-fill);border:1px solid var(--gold-line);border-radius:9px;
+  padding:8px 10px;display:flex;justify-content:space-between;align-items:baseline}
+.pstreak span{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.pstreak b{font-size:15px;color:var(--gold);letter-spacing:-.02em}
+
+/* ---------- stats ---------- */
+.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
+.stats-in{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:700px){.stats-in{grid-template-columns:repeat(3,1fr)}}
+.stat{padding:clamp(30px,4vw,52px) 0}
+@media(min-width:700px){.stat{padding-left:36px;border-left:1px solid var(--line)}.stat:first-child{padding-left:0;border-left:0}}
+@media(max-width:699px){.stat{border-top:1px solid var(--line)}.stat:first-child{border-top:0}}
+.stat .n{font-size:clamp(46px,7vw,76px);font-weight:800;letter-spacing:-.05em;line-height:1;color:var(--gold)}
+.stat .l{margin-top:12px;font-size:15px;color:var(--ink-2);max-width:26ch;line-height:1.5}
+
+/* ---------- plus ---------- */
+.plans{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:780px){.plans{grid-template-columns:1fr 1fr}}
+.plan{border:1px solid var(--line);border-radius:16px;padding:clamp(24px,3.4vw,34px);background:var(--panel);display:flex;flex-direction:column}
+.plan.hot{border-color:var(--gold-line);background:linear-gradient(180deg,rgba(230,180,90,.06),transparent 60%),var(--panel)}
+.plan .kind{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.plan .price{font-size:clamp(38px,6vw,52px);font-weight:800;letter-spacing:-.045em;margin:14px 0 4px}
+.plan.hot .price{color:var(--gold)}
+.plan .price small{font-size:15px;font-weight:600;color:var(--mut);letter-spacing:0}
+.plan .sub{color:var(--dim);font-size:13.5px;margin:0 0 22px}
+.plan ul{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:12px}
+.plan li{font-size:14.5px;color:var(--ink-2);padding-left:24px;position:relative;line-height:1.5}
+.plan li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:9px;border-radius:2px;
+  border:1.5px solid var(--dim)}
+.plan.hot li::before{border-color:var(--gold);background:var(--gold-fill)}
+.plan .btn{margin-top:auto;width:100%}
+
+/* ---------- close ---------- */
+.close{position:relative;overflow:hidden;border-top:1px solid var(--line);background:
+  radial-gradient(120% 90% at 50% 0%,rgba(230,180,90,.08),transparent 55%),var(--bg)}
+.close-in{position:relative;z-index:1;padding:clamp(64px,10vw,130px) 0;text-align:center}
+.close h2{font-size:clamp(34px,7vw,72px);letter-spacing:-.05em;margin:0 auto;max-width:16ch}
+.close p{color:var(--ink-2);margin:20px auto 0;max-width:46ch;font-size:16.5px}
+.close .btn{margin-top:32px}
+footer{border-top:1px solid var(--line);padding:34px 0 48px;color:var(--dim);font-size:13px;background:var(--bg-2)}
+footer .f{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center}
+footer a{color:var(--mut)}
+.tag{position:fixed;right:12px;bottom:12px;z-index:60;background:var(--gold);color:#100C04;
+  font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:99px}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav"><div class="wrap nav-in">
+  <a class="brand" href="#">
+    <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#C9CCD2"/>
+      <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#6B6E76"/>
+      <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#F4F4F5"/>
+    </svg><span>Stack</span></a>
+  <a class="lk" href="#who">Who it's for</a>
+  <a class="lk" href="#library">Library</a>
+  <a class="lk" href="#plus">Plus</a>
+  <a class="btn sm" href="#get">Get the app</a>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-copy">
+    <span class="eyebrow">Vitamins · Supplements · Peptides · GLP-1 · TRT</span>
+    <h1>Your whole stack, <em>in one place.</em></h1>
+    <p class="say">Every vitamin, capsule, peptide and shot — one calm logbook that remembers each dose, each refill, and what's still working in you between them.</p>
+    <div class="hero-act">
+      <a class="btn lg" href="#get">Get the app — free</a>
+      <a class="btn lg out" href="#plus">See what Plus adds</a>
+    </div>
+    <p class="hero-note">Free on Android · iOS next · No ads, no cap on what you track.</p>
+  </div>
+
+  <div class="stage" aria-hidden="true">
+    <div class="float f-streak"><div class="fk">Streak</div><div class="fv tnum">18 days</div></div>
+    <div class="float f-sys"><div class="fk">In system now</div>
+      <div class="bars"><i style="height:60%"></i><i style="height:90%"></i><i style="height:45%"></i><i style="height:72%"></i><i style="height:38%"></i></div>
+    </div>
+    <div class="device"><div class="screen">
+      <div class="sbar"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shead">
+        <div class="k">Today · Tuesday</div>
+        <h4>Your stack</h4>
+        <div class="prog"><b class="tnum">5 / 7 taken</b><div class="bar"><i style="width:71%"></i></div></div>
+      </div>
+      <div class="slist">
+        <div class="li done"><span class="ic">D</span><div class="nm"><b>Vitamin D3</b><span>5,000 IU · with breakfast</span></div><span class="tt">8:10 ✓</span></div>
+        <div class="li done"><span class="ic">O</span><div class="nm"><b>Omega-3</b><span>2 g EPA/DHA</span></div><span class="tt">8:10 ✓</span></div>
+        <div class="li done"><span class="ic">C</span><div class="nm"><b>Creatine</b><span>5 g mono</span></div><span class="tt">8:12 ✓</span></div>
+        <div class="li done"><span class="ic">T</span><div class="nm"><b>Testosterone</b><span>0.4 mL · left delt</span></div><span class="tt">9:00 ✓</span></div>
+        <div class="li done"><span class="ic">B</span><div class="nm"><b>BPC-157</b><span>250 mcg SubQ</span></div><span class="tt">9:02 ✓</span></div>
+        <div class="li next"><span class="ic">S</span><div class="nm"><b>Semaglutide</b><span>1.0 mg · weekly</span></div><span class="tt">8:00 PM</span></div>
+        <div class="li"><span class="ic">M</span><div class="nm"><b>Magnesium</b><span>400 mg glycinate</span></div><span class="tt">10:00 PM</span></div>
+      </div>
+    </div></div>
+  </div>
+</div></section>
+
+<div class="strip"><div class="wrap strip-in">
+  <span><i></i>Free to track — no compound caps</span>
+  <span><i></i>Encrypted on your device</span>
+  <span><i></i>112 cited compound pages</span>
+  <span><i></i>No ads, ever</span>
+</div></div>
+
+<!-- PROBLEM BAND -->
+<section class="prob">
+  <div class="prob-bg"><img src="../assets/idea-drawer.jpg" alt="A drawer crowded with supplement and vitamin bottles" /></div>
+  <div class="prob-in"><div class="wrap q">
+    <h2>The drawer knows. You don't.</h2>
+    <p>Six bottles, a pen, a vial, three different schedules. Nobody keeps that straight from memory — so doses slip, refills sneak up, and you're never quite sure what's working. Stack holds all of it in one place.</p>
+  </div></div>
+</section>
+
+<!-- PERSONAS -->
+<section class="sec" id="who"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Who it's for</span>
+    <h2>Built for the stack you're actually running.</h2>
+    <p>Not a pill reminder. A ledger that handles bottles, vials, titrations, cycles and sites — whatever your stack looks like.</p>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-t="4">Supplements &amp; vitamins</button>
+    <button class="tab" role="tab" aria-selected="false" data-t="2">On a GLP-1</button>
+    <button class="tab" role="tab" aria-selected="false" data-t="1">On TRT</button>
+    <button class="tab" role="tab" aria-selected="false" data-t="3">Stacking peptides</button>
+  </div>
+
+  <div class="panes">
+    <div class="pane" data-p="4" data-on>
+      <div>
+        <h3>Twelve bottles, actually taken.</h3>
+        <p>The boring win: a stack you finish. Reminders that land, a streak worth keeping, and a refill date so you're never out of the one that matters.</p>
+        <div class="caps"><span class="cap">Reminders</span><span class="cap">Streaks</span><span class="cap">Refill dates</span><span class="cap">Label scan</span></div>
+      </div>
+      <div class="phones">
+        <div class="phone p1"><div class="pscr">
+          <div class="pcap">Today</div><h5>Morning</h5>
+          <div class="prow ok"><span class="pic">C</span><b>Creatine</b><span class="tt">✓</span></div>
+          <div class="prow ok"><span class="pic">O</span><b>Omega-3</b><span class="tt">✓</span></div>
+          <div class="prow"><span class="pic">Z</span><b>Zinc</b><span class="tt">PM</span></div>
+          <div class="pstreak"><span>Streak</span><b class="tnum">31</b></div>
+        </div></div>
+        <div class="phone p2"><div class="pscr">
+          <div class="pcap">Stash</div><h5>Low</h5>
+          <div class="prow"><b>Vitamin D3</b><span class="tt">≈6</span></div>
+          <div style="height:6px;border-radius:99px;background:#1F202A;overflow:hidden;margin-top:6px"><i style="display:block;height:100%;width:14%;background:#E6B45A"></i></div>
+          <p style="font-size:10px;color:var(--dim);margin:10px 0 0">Reorder this week</p>
+        </div></div>
+        <div class="phone p3"><div class="pscr">
+          <div class="pcap">Month</div><h5>Adherence</h5>
+          <div style="font-size:30px;font-weight:800;color:#E6B45A;letter-spacing:-.04em">94<span style="font-size:14px">%</span></div>
+          <p style="font-size:10px;color:var(--dim);margin:8px 0 0">of scheduled doses</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pane" data-p="2">
+      <div>
+        <h3>Titration, without the sticky note.</h3>
+        <p>Weekly shot, climbing dose, and a pen that has to last. Stack keeps the schedule, counts what's left, and remembers which side you used last time.</p>
+        <div class="caps"><span class="cap">Titration steps</span><span class="cap">Refill date</span><span class="cap">Weight trend</span><span class="cap">Site rotation</span></div>
+      </div>
+      <div class="phones">
+        <div class="phone p1"><div class="pscr">
+          <div class="pcap">This week</div><h5>Thursday</h5>
+          <div class="prow ok"><span class="pic">S</span><b>Semaglutide</b><span class="tt">8:00 ✓</span></div>
+          <div class="prow"><span class="pic">M</span><b>Magnesium</b><span class="tt">10 PM</span></div>
+          <div class="pstreak"><span>On schedule</span><b class="tnum">9w</b></div>
+        </div></div>
+        <div class="phone p2"><div class="pscr">
+          <div class="pcap">Dose</div><h5>Step up</h5>
+          <div class="prow"><b>0.25 mg</b><span class="tt">wk 1–4</span></div>
+          <div class="prow"><b>0.5 mg</b><span class="tt">wk 5–8</span></div>
+          <div class="prow ok"><b>1.0 mg</b><span class="tt">now</span></div>
+        </div></div>
+        <div class="phone p3"><div class="pscr">
+          <div class="pcap">Supply</div><h5>Pen</h5>
+          <div class="prow"><b>Semaglutide</b><span class="tt">≈4</span></div>
+          <div style="height:6px;border-radius:99px;background:#1F202A;overflow:hidden;margin-top:6px"><i style="display:block;height:100%;width:22%;background:#E6B45A"></i></div>
+          <p style="font-size:10px;color:var(--dim);margin:10px 0 0">Refill by Aug 2</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pane" data-p="1">
+      <div>
+        <h3>Same ester, every week, no drift.</h3>
+        <p>Log the shot, rotate the site, and watch the level hold instead of sawtoothing. Stack models what's still in you from the half-life, so you can see steady state rather than hope for it.</p>
+        <div class="caps"><span class="cap">Site rotation</span><span class="cap">In-system curve</span><span class="cap">Bloodwork</span><span class="cap">Vial math</span></div>
+      </div>
+      <div class="phones">
+        <div class="phone p1"><div class="pscr">
+          <div class="pcap">Today</div><h5>Tuesday</h5>
+          <div class="prow ok"><span class="pic">T</span><b>Test Cyp.</b><span class="tt">9:00 ✓</span></div>
+          <div class="prow ok"><span class="pic">B</span><b>BPC-157</b><span class="tt">7:00 ✓</span></div>
+          <div class="prow"><span class="pic">D</span><b>Vit D3</b><span class="tt">9 PM</span></div>
+          <div class="pstreak"><span>Streak</span><b class="tnum">12</b></div>
+        </div></div>
+        <div class="phone p2"><div class="pscr">
+          <div class="pcap">In system</div><h5>Level</h5>
+          <svg viewBox="0 0 160 96" width="100%">
+            <path d="M4,86 C24,68 32,54 44,60 C60,68 64,40 84,44 C104,48 106,28 156,26 L156,90 L4,90 Z" fill="rgba(230,180,90,.14)"/>
+            <path d="M4,86 C24,68 32,54 44,60 C60,68 64,40 84,44 C104,48 106,28 156,26" fill="none" stroke="#E6B45A" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="84" cy="44" r="2.6" fill="#E6B45A"/>
+          </svg>
+          <p style="font-size:10px;color:var(--dim);margin:8px 0 0">Steady state, held</p>
+        </div></div>
+        <div class="phone p3"><div class="pscr">
+          <div class="pcap">Supply</div><h5>Vials</h5>
+          <div class="prow"><b>Test Cyp.</b><span class="tt">≈9</span></div>
+          <div style="height:6px;border-radius:99px;background:#1F202A;overflow:hidden;margin-top:6px"><i style="display:block;height:100%;width:36%;background:#E6B45A"></i></div>
+          <div class="prow" style="margin-top:8px"><b>BPC-157</b><span class="tt">≈22</span></div>
+          <div style="height:6px;border-radius:99px;background:#1F202A;overflow:hidden;margin-top:6px"><i style="display:block;height:100%;width:71%;background:#E6B45A"></i></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pane" data-p="3">
+      <div>
+        <h3>Six compounds, three schedules, one page.</h3>
+        <p>Reconstitution math, per-compound timing and overlapping half-lives — the stuff a checklist app was never built for. Group them into a protocol you can pause together.</p>
+        <div class="caps"><span class="cap">Reconstitution</span><span class="cap">Protocols</span><span class="cap">Overlap</span><span class="cap">Cycles</span></div>
+      </div>
+      <div class="phones">
+        <div class="phone p1"><div class="pscr">
+          <div class="pcap">Protocol</div><h5>Recovery</h5>
+          <div class="prow ok"><span class="pic">B</span><b>BPC-157</b><span class="tt">AM ✓</span></div>
+          <div class="prow ok"><span class="pic">T</span><b>TB-500</b><span class="tt">AM ✓</span></div>
+          <div class="prow"><span class="pic">G</span><b>GHK-Cu</b><span class="tt">PM</span></div>
+        </div></div>
+        <div class="phone p2"><div class="pscr">
+          <div class="pcap">Calculator</div><h5>Draw to</h5>
+          <div style="font-size:30px;font-weight:800;color:#E6B45A;letter-spacing:-.04em">10<span style="font-size:13px;color:var(--mut)"> u</span></div>
+          <p style="font-size:10px;color:var(--dim);margin:8px 0 0">5 mg + 2 mL · 250 mcg</p>
+        </div></div>
+        <div class="phone p3"><div class="pscr">
+          <div class="pcap">Overlap</div><h5>In system</h5>
+          <svg viewBox="0 0 160 90" width="100%">
+            <path d="M4,74 C30,50 46,64 70,44 C96,24 120,52 156,34" fill="none" stroke="#E6B45A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M4,84 C34,72 54,78 78,64 C104,50 124,66 156,58" fill="none" stroke="#94959E" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 3"/>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- STATS -->
+<section class="stats" id="library"><div class="wrap stats-in">
+  <div class="stat"><div class="n tnum">112</div><div class="l">Compounds with a plain-English page — cited, free to read, no signup.</div></div>
+  <div class="stat"><div class="n tnum">0</div><div class="l">Caps on how much you track. Every compound, every schedule, on the free tier.</div></div>
+  <div class="stat"><div class="n tnum">100%</div><div class="l">On-device by default. Cloud backup exists and stays opt-in.</div></div>
+</div></section>
+
+<!-- PLUS -->
+<section class="sec" id="plus"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">Free vs Plus</span>
+    <h2>Free tracks it. Plus reads it.</h2>
+    <p>The whole logbook is free. Plus is the insight layer — bought here on the web, unlocked in the app the moment you sign in.</p>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <div class="kind">Free</div>
+      <div class="price tnum">$0</div>
+      <p class="sub">The full logbook. Yours to keep.</p>
+      <ul>
+        <li>Every compound — no caps</li>
+        <li>Reminders &amp; supply projection</li>
+        <li>Injection-site rotation</li>
+        <li>Streaks, weight trend, label scan</li>
+      </ul>
+      <a class="btn out" href="#get">Get the app free</a>
+    </div>
+    <div class="plan hot">
+      <div class="kind">Plus</div>
+      <div class="price tnum">$9.99<small>/mo</small></div>
+      <p class="sub">Or $49.99/year · $124.99 once for Lifetime.</p>
+      <ul>
+        <li>In-system level curves</li>
+        <li>Bloodwork ranges &amp; full history</li>
+        <li>Doctor-ready report</li>
+        <li>Automatic encrypted cloud backup</li>
+      </ul>
+      <a class="btn" href="../../pricing/">Get Plus</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- CLOSE -->
+<section class="close" id="get">
+  <div class="close-in"><div class="wrap">
+    <h2>Keep the whole stack in one place.</h2>
+    <p>Free on Android, iOS after. No ads, no data selling, no cap on what you track.</p>
+    <a class="btn lg" href="#">Get Stack — free</a>
+  </div></div>
+</section>
+
+<footer><div class="wrap f">
+  <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span><span>·</span><a href="../../privacy.html">Privacy</a><span>·</span><a href="../../terms.html">Terms</a>
+  <span style="margin-left:auto">Nothing here is medical advice.</span>
+</div></footer>
+
+<div class="tag">Mockup F · Instrument+</div>
+<script>
+(function(){
+  var n=document.getElementById('nav');
+  addEventListener('scroll',function(){n.classList.toggle('on',scrollY>8)},{passive:true});
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected','false')});
+    t.setAttribute('aria-selected','true');
+    document.querySelectorAll('.pane').forEach(function(p){p.removeAttribute('data-on')});
+    var p=document.querySelector('.pane[data-p="'+t.dataset.t+'"]'); if(p)p.setAttribute('data-on','');
+  })});
+})();
+</script>
+</body>
+</html>

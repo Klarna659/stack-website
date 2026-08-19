@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mockup G — Instrument, Shotsy-modeled | Stack</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<style>
+@font-face{font-family:"Inter";src:url("../../assets/fonts/inter-subset.woff2") format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  /* mono.css dark tokens, verbatim */
+  --bg:#0B0B0F; --bg-soft:#101015; --panel:#18181E; --panel-2:#1E1E25;
+  --line:#2A2A30; --line-soft:#232329;
+  --ink:#F4F4F5; --ink-2:#CBCBD0; --mut:#A0A2AA; --dim:#8A8C94;
+  --gold:#E6B45A; --gold-fill:rgba(230,180,90,.14); --gold-line:rgba(230,180,90,.30);
+  --brand-1:#C9CCD2; --brand-2:#6B6E76; --brand-3:#F4F4F5;
+  --radius:18px; --radius-sm:12px;
+  --gut:18px; --nav-h:58px;
+  --sy:clamp(64px,10vw,120px);
+  color-scheme:dark;
+}
+@media(min-width:700px){:root{--gut:32px}}
+@media(min-width:1100px){:root{--gut:48px}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.62 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 var(--gut)}
+.wrap-prose{max-width:820px}
+h1,h2,h3,h4{margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.06;text-wrap:balance}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.section{padding:var(--sy) 0}
+.section-head{max-width:640px;margin:0 auto var(--sy) auto;padding-bottom:0}
+.center{text-align:center}
+.center .section-head{margin-bottom:clamp(40px,5vw,64px)}
+h2{font-size:clamp(28px,4.2vw,46px);letter-spacing:-.04em}
+.lead{color:var(--mut);font-size:clamp(16px,1.8vw,18.5px);line-height:1.6;margin:16px 0 0}
+.hairline{width:34px;height:2px;background:var(--gold);border-radius:2px;margin-bottom:20px}
+.center .hairline{margin-left:auto;margin-right:auto}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font:inherit;font-weight:700;
+  border-radius:10px;padding:13px 22px;min-height:50px;border:1px solid var(--line);
+  background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s,transform .15s;white-space:nowrap}
+.btn:hover{border-color:var(--dim);transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:#0A0B0E;border-color:var(--ink)}
+.btn-primary:hover{background:#fff;border-color:#fff}
+.btn-lg{min-height:56px;padding:15px 26px;font-size:16.5px}
+.link-more{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:650;font-size:15px;border-bottom:1px solid var(--line-soft);padding-bottom:2px;transition:.18s}
+.link-more:hover{border-color:var(--gold-line);color:var(--gold)}
+
+/* store badge (from live site) */
+.store-badge{display:inline-flex;align-items:center;gap:11px;background:var(--ink);color:#0A0B0E;
+  border:none;border-radius:10px;padding:0 20px;min-height:56px;font:inherit;cursor:pointer;transition:.15s}
+.store-badge:hover{background:#fff;transform:translateY(-1px)}
+.store-badge svg{width:22px;height:22px}
+.sb-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.05}
+.sb-top{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.sb-main{font-size:17px;font-weight:800;letter-spacing:-.02em}
+
+/* ---------------- nav ---------------- */
+.nav{position:sticky;top:0;z-index:60;background:rgba(11,11,15,.72);backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+.nav.on{border-bottom-color:var(--line);background:rgba(11,11,15,.95)}
+.nav-in{display:flex;align-items:center;gap:14px;height:var(--nav-h)}
+@media(min-width:900px){:root{--nav-h:64px}}
+.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.02em;margin-right:auto}
+.nav-links{display:none;gap:26px}
+.nav-links a{font-size:14.5px;font-weight:600;color:var(--mut);transition:.18s}
+.nav-links a:hover{color:var(--ink)}
+@media(min-width:900px){.nav-links{display:flex}}
+.nav-signin{display:none;font-size:14.5px;font-weight:600;color:var(--mut)}
+@media(min-width:900px){.nav-signin{display:inline}}
+.nav-cta{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:#0A0B0E;
+  font-weight:700;font-size:14px;border-radius:8px;padding:9px 15px;min-height:40px;white-space:nowrap}
+.nav-cta:hover{background:#fff}
+.nav-menu{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--line);
+  border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
+@media(min-width:900px){.nav-menu{display:none}}
+.drawer{display:none;border-bottom:1px solid var(--line);background:var(--panel)}
+.drawer.open{display:block}
+.drawer a{display:block;padding:14px 0;font-weight:600;color:var(--ink-2);border-top:1px solid var(--line-soft)}
+.drawer a:first-child{border-top:0}
+
+/* ---------------- hero ---------------- */
+.hero{position:relative;overflow:hidden;padding:clamp(44px,7vw,88px) 0 clamp(52px,7vw,92px)}
+.hero::before{content:"";position:absolute;z-index:0;top:-16%;right:-10%;width:min(720px,88vw);height:min(720px,88vw);
+  border-radius:50%;background:radial-gradient(circle,rgba(230,180,90,.15),rgba(230,180,90,.04) 44%,transparent 68%);pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;gap:clamp(36px,6vw,56px);align-items:center}
+@media(min-width:940px){.hero-grid{grid-template-columns:1.03fr .97fr}}
+.hero .eyebrow{display:block;margin-bottom:18px;color:var(--gold)}
+.hero h1{font-size:clamp(40px,7.6vw,76px);letter-spacing:-.048em;line-height:.99;max-width:15ch}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .say{margin:20px 0 0;font-size:clamp(16px,1.9vw,19px);color:var(--ink-2);max-width:48ch;line-height:1.58}
+.hero-act{display:flex;flex-direction:column;gap:12px;margin-top:30px;align-items:stretch}
+@media(min-width:560px){.hero-act{flex-direction:row;align-items:center}}
+.trust{margin:22px 0 0;font-size:13px;color:var(--dim);line-height:1.7}
+.trust b{color:var(--mut);font-weight:600}
+
+/* hero device */
+.stage{position:relative;just-self:center;width:100%;max-width:410px}
+.stage .float{position:absolute;z-index:3;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:9px 13px;box-shadow:0 24px 50px -30px #000}
+.stage .float .fk{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.stage .float .fv{font-size:15px;font-weight:800;letter-spacing:-.02em;margin-top:3px}
+.stage .float.f-streak{top:-18px;left:-22px;border-color:var(--gold-line)}
+.stage .float.f-streak .fv{color:var(--gold)}
+.stage .float.f-sys{bottom:-18px;right:-20px}
+.stage .float.f-sys .bars{display:flex;align-items:flex-end;gap:3px;height:20px;margin-top:5px}
+.stage .float.f-sys .bars i{width:5px;background:var(--gold);border-radius:1px;opacity:.9}
+@media(max-width:620px){.stage .float{display:none}}
+.device{position:relative;z-index:2;background:linear-gradient(180deg,#17181E,#101116);
+  border:1px solid #2A2B36;border-radius:34px;padding:12px;box-shadow:0 60px 120px -50px #000}
+.screen{background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:24px;overflow:hidden}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px 4px;font-size:11px;font-weight:700;color:var(--mut)}
+.sbar .dots{display:flex;gap:4px}.sbar .dots i{width:4px;height:4px;border-radius:50%;background:var(--dim)}
+.shead{padding:6px 18px 13px;border-bottom:1px solid var(--line-soft)}
+.shead .k{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.shead h4{margin:5px 0 0;font-size:22px;font-weight:800;letter-spacing:-.03em}
+.shead .prog{margin-top:12px;display:flex;align-items:center;gap:10px}
+.shead .prog b{font-size:12px;color:var(--gold);font-weight:700;flex:none}
+.shead .bar{flex:1;height:5px;border-radius:99px;background:#26262d;overflow:hidden}
+.shead .bar i{display:block;height:100%;background:var(--gold)}
+.slist{padding:5px 12px 12px}
+.li{display:flex;align-items:center;gap:11px;padding:10px 6px;border-bottom:1px solid var(--line-soft)}
+.li:last-child{border-bottom:0}
+.li .ic{width:29px;height:29px;border-radius:8px;background:var(--panel);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--mut);flex:none}
+.li .nm{min-width:0}
+.li .nm b{display:block;font-size:14px;font-weight:650;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .nm span{font-size:11px;color:var(--dim)}
+.li .tt{margin-left:auto;font-size:12px;color:var(--dim);flex:none;font-variant-numeric:tabular-nums;text-align:right}
+.li.done .ic{color:var(--gold);border-color:var(--gold-line);background:var(--gold-fill)}
+.li.done .tt{color:var(--gold)}
+.li.next{background:linear-gradient(90deg,var(--gold-fill),transparent);border-radius:10px}
+.chip-site{display:inline-block;font-size:9.5px;font-weight:700;color:var(--gold);border:1px solid var(--gold-line);border-radius:99px;padding:1px 6px;margin-top:2px}
+
+/* ---------------- authority / cited ---------------- */
+.two{display:grid;gap:20px}
+@media(min-width:860px){.two{grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:clamp(20px,3vw,30px)}
+.doc .dk{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.doc h4{font-size:20px;margin:8px 0 10px}
+.doc p{color:var(--ink-2);font-size:14.5px;line-height:1.6;margin:0 0 16px}
+.src{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
+.src-list{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
+.src-list li{font-size:12.5px;color:var(--mut);padding-left:16px;position:relative;line-height:1.45}
+.src-list li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.6}
+.comp{display:flex;flex-direction:column}
+.comp .badge{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-line);border-radius:99px;padding:5px 11px;margin-bottom:16px}
+.comp h4{font-size:22px;margin:0 0 10px}
+.comp p{color:var(--ink-2);font-size:15px;line-height:1.6;margin:0 0 8px}
+.comp .cite{color:var(--dim);font-size:13px;margin:0 0 auto}
+.comp .link-more{margin-top:22px;align-self:flex-start}
+
+/* ---------------- problem band ---------------- */
+.prob{position:relative;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.prob-bg{position:absolute;inset:0;z-index:0}
+.prob-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;
+  filter:grayscale(1) brightness(.42) contrast(1.08)}
+.prob-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--bg) 6%,rgba(11,11,15,.86) 42%,rgba(11,11,15,.5) 100%)}
+.prob-in{position:relative;z-index:1;padding:clamp(60px,9vw,112px) 0}
+.prob-in .q{max-width:30ch}
+.prob-in h2{font-size:clamp(26px,4.4vw,44px)}
+.prob-in p{color:var(--ink-2);font-size:16.5px;margin:16px 0 26px;max-width:42ch;line-height:1.6}
+.segs{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:560px){.segs{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.segs{grid-template-columns:repeat(4,1fr)}}
+.seg{border:1px solid var(--line);border-radius:12px;background:rgba(24,24,30,.72);padding:16px 16px 18px;backdrop-filter:blur(4px)}
+.seg b{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.seg span{display:block;font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.45}
+
+/* ---------------- comparison ---------------- */
+.cmp{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.cmp-row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-soft)}
+.cmp-row:first-child{border-top:0}
+.cmp-h{background:var(--panel-2)}
+.cmp-h .cell{font-weight:700;font-size:13px;letter-spacing:.02em}
+.cmp .cell{padding:15px 16px;font-size:14px;line-height:1.45}
+.cmp .cell.old{color:var(--mut);border-right:1px solid var(--line-soft)}
+.cmp .cell.new{color:var(--ink);position:relative}
+.cmp .cell.new::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;background:var(--gold);opacity:.55}
+.cmp .cell.new{padding-left:20px}
+.cmp-h .cell.old{color:var(--dim);text-transform:uppercase;letter-spacing:.1em;font-size:11px}
+.cmp-h .cell.new{color:var(--ink)}
+.cmp-h .cell.new::before{display:none}
+
+/* ---------------- compounds chips ---------------- */
+.chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;max-width:820px;margin:0 auto}
+.chip{font-size:14px;font-weight:600;color:var(--ink-2);border:1px solid var(--line);border-radius:99px;
+  padding:9px 16px;transition:.18s;background:var(--panel)}
+.chip:hover{border-color:var(--dim);color:var(--ink)}
+.chip.more{color:var(--gold);border-color:var(--gold-line)}
+
+/* ---------------- features ---------------- */
+.feat{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:640px){.feat{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.feat{grid-template-columns:repeat(3,1fr)}}
+.fcard{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:24px 22px 26px;position:relative}
+.fic{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center;color:var(--mut);margin-bottom:16px}
+.fic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.fcard h4{font-size:16.5px;letter-spacing:-.02em}
+.fcard p{color:var(--mut);font-size:13.8px;line-height:1.55;margin:9px 0 0}
+.plus-tag{position:absolute;top:22px;right:22px;font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold-line);border-radius:99px;padding:3px 8px}
+
+/* ---------------- walkthrough ---------------- */
+.flow{display:grid;gap:16px;grid-template-columns:1fr;max-width:960px;margin:0 auto}
+@media(min-width:760px){.flow{grid-template-columns:repeat(3,1fr);gap:18px}}
+.step{text-align:left}
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;min-height:188px}
+.mini .mk{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.mini h5{margin:6px 0 12px;font-size:15px;font-weight:800;letter-spacing:-.02em}
+.mini .field{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--mut)}
+.mini .res{margin-top:8px;display:flex;align-items:center;gap:9px;padding:9px 4px;font-size:12.5px;border-bottom:1px solid var(--line-soft)}
+.mini .res .ic{width:22px;height:22px;border-radius:6px;background:var(--panel-2);border:1px solid var(--line);display:grid;place-items:center;font-size:9px;font-weight:800;color:var(--mut)}
+.mini .res .tt{margin-left:auto;color:var(--dim)}
+.mini .confirm{margin-top:12px;background:var(--gold-fill);border:1px solid var(--gold-line);border-radius:9px;padding:9px;text-align:center;font-size:12px;font-weight:700;color:var(--gold)}
+.step .cap{margin-top:14px}
+.step .cap b{font-size:15px;font-weight:700}
+.step .cap span{display:block;font-size:13px;color:var(--mut);margin-top:3px;line-height:1.45}
+.step .num{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.1em}
+
+/* ---------------- is / isn't + privacy ---------------- */
+.list-ii{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:12px}
+.list-ii li{font-size:14.5px;color:var(--ink-2);padding-left:26px;position:relative;line-height:1.5}
+.list-ii li .m{position:absolute;left:0;top:1px;font-weight:800;font-size:13px}
+.list-ii li.is .m{color:var(--gold)}
+.list-ii li.isnt .m{color:var(--dim)}
+.priv p{font-size:14.5px;color:var(--ink-2);line-height:1.62;margin:0}
+.priv .g{color:var(--ink);font-weight:600}
+.med{font-size:12.5px;color:var(--dim);margin:22px 0 0;padding-top:18px;border-top:1px solid var(--line-soft)}
+
+/* ---------------- plans ---------------- */
+.plans{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:780px){.plans{grid-template-columns:1fr 1fr}}
+.plan{border:1px solid var(--line);border-radius:var(--radius);padding:clamp(24px,3vw,32px);background:var(--panel);display:flex;flex-direction:column}
+.plan.hot{border-color:var(--gold-line);background:linear-gradient(180deg,rgba(230,180,90,.055),transparent 55%),var(--panel)}
+.plan .kind{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.plan.hot .kind{color:var(--gold)}
+.plan .price{font-size:clamp(34px,5vw,46px);font-weight:800;letter-spacing:-.045em;margin:12px 0 4px}
+.plan .price small{font-size:14px;font-weight:600;color:var(--mut);letter-spacing:0}
+.plan .sub{color:var(--dim);font-size:13px;margin:0 0 20px}
+.plan ul{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:11px}
+.plan li{font-size:14px;color:var(--ink-2);padding-left:22px;position:relative;line-height:1.45}
+.plan li::before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:2px;border:1.5px solid var(--dim)}
+.plan.hot li::before{border-color:var(--gold);background:var(--gold-fill)}
+.plan .btn{margin-top:auto;width:100%}
+.paywall-note{text-align:center;color:var(--dim);font-size:13px;margin:20px 0 0}
+.paywall-note b{color:var(--mut);font-weight:600}
+
+/* ---------------- faq ---------------- */
+.faq{max-width:820px;margin:0 auto;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;font-size:16px;font-weight:650;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:6px;top:18px;font-size:22px;font-weight:400;color:var(--mut);transition:.2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .ans{color:var(--mut);font-size:14.5px;line-height:1.62;padding:0 40px 22px 0;margin:0}
+
+/* ---------------- download ---------------- */
+.dl{text-align:center;background:radial-gradient(120% 90% at 50% 0%,rgba(230,180,90,.07),transparent 55%)}
+.dl h2{max-width:16ch;margin:0 auto}
+.dl p{color:var(--ink-2);margin:18px auto 0;max-width:44ch;font-size:16.5px}
+.dl-act{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;align-items:center;margin-top:34px}
+.qr{width:118px;height:118px;border-radius:14px;border:1px solid var(--line);background:var(--panel);padding:12px;flex:none}
+.qr svg{width:100%;height:100%}
+.dl-note{margin-top:22px}
+.dl-sub{display:block;color:var(--dim);font-size:13px;margin-top:24px}
+
+/* ---------------- footer ---------------- */
+footer{border-top:1px solid var(--line);background:var(--bg-soft);padding:clamp(48px,7vw,72px) 0 40px}
+.f-top{display:grid;gap:34px;grid-template-columns:1fr}
+@media(min-width:760px){.f-top{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.f-brand .fw{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px}
+.f-brand p{color:var(--mut);font-size:13.5px;line-height:1.55;margin:14px 0 0;max-width:34ch}
+.f-col h5{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 14px}
+.f-col a{display:block;color:var(--mut);font-size:14px;padding:5px 0;transition:.15s}
+.f-col a:hover{color:var(--ink)}
+.f-bot{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;font-size:12.5px;color:var(--dim)}
+.f-bot a{color:var(--mut)}
+.f-legal{max-width:70ch;line-height:1.55}
+
+.tag{position:fixed;right:12px;bottom:12px;z-index:80;background:var(--gold);color:#100C04;
+  font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border-radius:99px}
+
+.mark3 ellipse:nth-child(1){fill:var(--brand-1)}
+.mark3 ellipse:nth-child(2){fill:var(--brand-2)}
+.mark3 ellipse:nth-child(3){fill:var(--brand-3)}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav"><div class="wrap nav-in">
+  <a class="brand" href="#top">
+    <svg class="mark3" width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+      <ellipse cx="20" cy="13" rx="13" ry="3.4"/><ellipse cx="20" cy="21" rx="13" ry="3.4"/><ellipse cx="20" cy="29" rx="13" ry="3.4"/>
+    </svg><span>Stack</span></a>
+  <nav class="nav-links">
+    <a href="../../compounds/">Library</a>
+    <a href="../../guides/">Guides</a>
+    <a href="../../pricing/">Pricing</a>
+    <a href="../../creators.html">Creators</a>
+  </nav>
+  <a class="nav-signin" href="../../account/">Sign in</a>
+  <a class="nav-cta" href="#download">Get the app</a>
+  <button class="nav-menu" id="navMenu" aria-label="Menu" aria-expanded="false">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</div>
+<div class="drawer" id="drawer"><div class="wrap">
+  <a href="../../compounds/">Library</a>
+  <a href="../../guides/">Guides</a>
+  <a href="../../pricing/">Pricing</a>
+  <a href="../../creators.html">Creators</a>
+  <a href="../../account/">Sign in</a>
+</div></div>
+</header>
+
+<main id="top">
+
+<!-- ===== HERO ===== -->
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <span class="eyebrow">A calm logbook for your whole protocol</span>
+    <h1>Your whole stack, <em>in one place.</em></h1>
+    <p class="say">Every vitamin, capsule, peptide and shot — one quiet logbook that remembers each dose, each refill, and what's still working in you between them. Not a pill reminder: a ledger built for bottles, vials, titrations, cycles and injection sites, whatever your stack looks like.</p>
+    <div class="hero-act">
+      <button class="store-badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
+        <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
+      </button>
+      <a class="btn btn-lg" href="../../pricing/">See what Plus adds</a>
+    </div>
+    <p class="trust"><b>Free on Android</b> · iOS next · No ads · Encrypted on your device · No cap on what you track</p>
+  </div>
+
+  <div class="stage" aria-hidden="true">
+    <div class="float f-streak"><div class="fk">Streak</div><div class="fv tnum">18 days</div></div>
+    <div class="float f-sys"><div class="fk">In system now</div>
+      <div class="bars"><i style="height:60%"></i><i style="height:90%"></i><i style="height:46%"></i><i style="height:74%"></i><i style="height:38%"></i></div>
+    </div>
+    <div class="device"><div class="screen">
+      <div class="sbar"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shead">
+        <div class="k">Today · Tuesday</div>
+        <h4>Your stack</h4>
+        <div class="prog"><b class="tnum">4 / 6 taken</b><div class="bar"><i style="width:67%"></i></div></div>
+      </div>
+      <div class="slist">
+        <div class="li done"><span class="ic">D</span><div class="nm"><b>Vitamin D3</b><span>5,000 IU · with breakfast</span></div><span class="tt">8:10 ✓</span></div>
+        <div class="li done"><span class="ic">C</span><div class="nm"><b>Creatine</b><span>5 g mono</span></div><span class="tt">8:12 ✓</span></div>
+        <div class="li done"><span class="ic">T</span><div class="nm"><b>Testosterone</b><span>0.4 mL <span class="chip-site">R delt</span></span></div><span class="tt">9:00 ✓</span></div>
+        <div class="li done"><span class="ic">B</span><div class="nm"><b>BPC-157</b><span>250 mcg SubQ</span></div><span class="tt">9:02 ✓</span></div>
+        <div class="li"><span class="ic">M</span><div class="nm"><b>Magnesium</b><span>400 mg glycinate</span></div><span class="tt">10:00 PM</span></div>
+        <div class="li next"><span class="ic">S</span><div class="nm"><b>Semaglutide</b><span>1.0 mg weekly · ≈10 left · refill Jul 3</span></div><span class="tt">Thu</span></div>
+      </div>
+    </div></div>
+  </div>
+</div></section>
+
+<!-- ===== 1 · CITED RESEARCH (authority) ===== -->
+<section class="section" id="library"><div class="wrap">
+  <div class="section-head" style="margin-left:0;margin-bottom:clamp(32px,4vw,48px)">
+    <div class="hairline"></div>
+    <span class="eyebrow">Built on cited research</span>
+    <h2 style="margin-top:14px">Built on cited research, not marketing.</h2>
+    <p class="lead">112 compounds, each with a plain-English page and peer-reviewed sources — free to read, no login. The same reference that powers the app is open on the web before you ever install.</p>
+  </div>
+  <div class="two">
+    <div class="card doc">
+      <div class="dk">Library · compound page</div>
+      <h4>Semaglutide</h4>
+      <p>A GLP-1 receptor agonist taken weekly. Slows gastric emptying and blunts appetite; dose is titrated up over weeks to limit nausea. Half-life ≈ 7 days, so levels build toward steady state over the first month.</p>
+      <div class="src">Sources</div>
+      <ul class="src-list">
+        <li>Wilding JPH et al. <em>N Engl J Med</em> 2021;384:989–1002.</li>
+        <li>FDA prescribing information, 2024 revision.</li>
+        <li>Knudsen &amp; Lau. <em>Front Endocrinol</em> 2019;10:155.</li>
+      </ul>
+      <a class="link-more" href="../../compounds/">Read the full library →</a>
+    </div>
+    <div class="card comp">
+      <span class="badge">Free reference</span>
+      <h4>The Machine</h4>
+      <p>A cited reference on the compounds people actually run — peptides, androgens, GLP-1s and the supporting cast — written to be read, not sold.</p>
+      <p class="cite">Every compound cited to peer-reviewed literature. No sourcing, no doses, no advice.</p>
+      <a class="link-more" href="../../compounds/">Read it free →</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== 2 · PROBLEM BAND ===== -->
+<section class="prob">
+  <div class="prob-bg"><img src="../assets/idea-drawer.jpg" alt="A drawer crowded with supplement and vitamin bottles" /></div>
+  <div class="prob-in"><div class="wrap">
+    <div class="q">
+      <h2>The drawer knows. You don't.</h2>
+      <p>Six bottles, a pen, a vial, three different schedules. Nobody keeps that straight from memory — so doses slip, refills sneak up, and you're never quite sure what's working. Stack holds all of it in one place.</p>
+    </div>
+    <div class="segs">
+      <div class="seg"><b>Starting a protocol</b><span>Set it up once; Stack handles the schedule and the reminders.</span></div>
+      <div class="seg"><b>Titrating a dose</b><span>Step-up plans that remember where you are this week.</span></div>
+      <div class="seg"><b>Running a cycle</b><span>Group compounds, track overlap, pause the whole thing together.</span></div>
+      <div class="seg"><b>Tracking bloodwork &amp; weight</b><span>See labs and trend lines beside the doses that moved them.</span></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===== 3 · COMPARISON ===== -->
+<section class="section"><div class="wrap">
+  <div class="section-head" style="margin-left:0;margin-bottom:clamp(28px,3.5vw,40px)">
+    <div class="hairline"></div>
+    <span class="eyebrow">Why Stack</span>
+    <h2 style="margin-top:14px">Compared to how you track it now.</h2>
+    <p class="lead">You don't need another app to beat — just the notes, the spreadsheet, and the memory you're using today.</p>
+  </div>
+  <div class="cmp">
+    <div class="cmp-row cmp-h">
+      <div class="cell old">Notes · spreadsheet · memory</div>
+      <div class="cell new">Stack</div>
+    </div>
+    <div class="cmp-row"><div class="cell old">Retype every dose by hand</div><div class="cell new">Two taps, logged with the time</div></div>
+    <div class="cmp-row"><div class="cell old">Re-read old entries to see what's working</div><div class="cell new">An instant in-system curve</div></div>
+    <div class="cmp-row"><div class="cell old">Find out you're out when you're out</div><div class="cell new">“≈10 doses left · refill Jul 3”</div></div>
+    <div class="cmp-row"><div class="cell old">Guess which side you pinned last</div><div class="cell new">A body-map that picks the next safe site</div></div>
+    <div class="cmp-row"><div class="cell old">Copy-paste to share with a doctor</div><div class="cell new">CSV export + a doctor-ready report</div></div>
+    <div class="cmp-row"><div class="cell old">Hope the cloud kept a copy</div><div class="cell new">Encrypted backup, opt-in, one tap</div></div>
+  </div>
+</div></section>
+
+<!-- ===== 4 · SUPPORTED COMPOUNDS ===== -->
+<section class="section center"><div class="wrap">
+  <div class="section-head">
+    <div class="hairline"></div>
+    <span class="eyebrow">Supported compounds</span>
+    <h2 style="margin-top:14px">Whatever's in your stack, it's already here.</h2>
+    <p class="lead">From a daily multivitamin to a weekly shot — 112 compounds and counting, each with a cited page.</p>
+  </div>
+  <div class="chips">
+    <a class="chip" href="../../compounds/">Vitamin D3</a>
+    <a class="chip" href="../../compounds/">Creatine</a>
+    <a class="chip" href="../../compounds/">Magnesium</a>
+    <a class="chip" href="../../compounds/">Omega-3</a>
+    <a class="chip" href="../../compounds/">NAD+</a>
+    <a class="chip" href="../../compounds/">BPC-157</a>
+    <a class="chip" href="../../compounds/">TB-500</a>
+    <a class="chip" href="../../compounds/">Semaglutide</a>
+    <a class="chip" href="../../compounds/">Tirzepatide</a>
+    <a class="chip" href="../../compounds/">Retatrutide</a>
+    <a class="chip" href="../../compounds/">Testosterone</a>
+    <a class="chip more" href="../../compounds/">+112 more →</a>
+  </div>
+</div></section>
+
+<!-- ===== 5 · FEATURES ===== -->
+<section class="section" id="features"><div class="wrap">
+  <div class="section-head center" style="margin-left:auto;margin-right:auto">
+    <div class="hairline"></div>
+    <span class="eyebrow">Features</span>
+    <h2 style="margin-top:14px">The parts that do the quiet work.</h2>
+    <p class="lead">Six things Stack handles so you don't have to think about them.</p>
+  </div>
+  <div class="feat">
+    <div class="fcard">
+      <div class="fic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg></div>
+      <h4>Supply projection</h4>
+      <p>“≈10 doses left · refill Jul 3” — you see run-out before it happens, and the cost per dose.</p>
+    </div>
+    <div class="fcard">
+      <span class="plus-tag">Plus</span>
+      <div class="fic"><svg viewBox="0 0 24 24"><path d="M3 17c3-1 4-9 7-9s4 6 7 4 4-6 4-6"/></svg></div>
+      <h4>In-system level curves</h4>
+      <p>Modeled from half-life, so you see steady state instead of guessing what's still active.</p>
+    </div>
+    <div class="fcard">
+      <div class="fic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c1.5-4 4-6 7-6s5.5 2 7 6"/></svg></div>
+      <h4>Injection-site rotation</h4>
+      <p>A body-map that remembers where you pinned and picks the next safe site.</p>
+    </div>
+    <div class="fcard">
+      <div class="fic"><svg viewBox="0 0 24 24"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"/><path d="M7 3h10"/></svg></div>
+      <h4>Reconstitution calculator</h4>
+      <p>Vial mg + water mL to exact syringe units. No pen-and-paper math.</p>
+    </div>
+    <div class="fcard">
+      <div class="fic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg></div>
+      <h4>Label scan</h4>
+      <p>Point the camera at a vial; Stack reads strength and size on-device.</p>
+    </div>
+    <div class="fcard">
+      <div class="fic"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.6H21l-5.3 4 2 6.4L12 15l-5.7 4 2-6.4-5.3-4h6.6z"/></svg></div>
+      <h4>Streaks &amp; refill alerts</h4>
+      <p>The boring win: a stack you finish, on a schedule you own.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== 6 · WALKTHROUGH ===== -->
+<section class="section center"><div class="wrap">
+  <div class="section-head">
+    <div class="hairline"></div>
+    <span class="eyebrow">How it works</span>
+    <h2 style="margin-top:14px">See exactly how it works.</h2>
+    <p class="lead">Home to logged dose in under a minute — no account needed to look.</p>
+  </div>
+  <div class="flow">
+    <div class="step">
+      <div class="mini">
+        <div class="mk">Add</div><h5>Add a compound</h5>
+        <div class="field"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Semaglutide</div>
+        <div class="res"><span class="ic">S</span><b style="font-size:12.5px;font-weight:650">Semaglutide</b><span class="tt">GLP-1</span></div>
+        <div class="res"><span class="ic">T</span><b style="font-size:12.5px;font-weight:650">Tirzepatide</b><span class="tt">GLP-1</span></div>
+      </div>
+      <div class="cap"><span class="num">01</span><b>Search, tap, done</b><span>112 compounds with the schedule and units pre-filled.</span></div>
+    </div>
+    <div class="step">
+      <div class="mini">
+        <div class="mk">Log</div><h5>Log today's dose</h5>
+        <div class="res"><span class="ic">S</span><b style="font-size:12.5px;font-weight:650">Semaglutide</b><span class="tt">1.0 mg</span></div>
+        <div class="confirm">Logged · 9:02 AM ✓</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--dim)">Site: right delt · next Thu</div>
+      </div>
+      <div class="cap"><span class="num">02</span><b>One tap to log</b><span>Time, site and supply update themselves.</span></div>
+    </div>
+    <div class="step">
+      <div class="mini">
+        <div class="mk">See</div><h5>See the curve</h5>
+        <svg viewBox="0 0 180 96" width="100%" style="margin-top:6px">
+          <path d="M4,86 C24,70 34,54 48,58 C66,64 70,40 92,44 C114,48 118,28 176,24 L176,92 L4,92 Z" fill="rgba(230,180,90,.14)"/>
+          <path d="M4,86 C24,70 34,54 48,58 C66,64 70,40 92,44 C114,48 118,28 176,24" fill="none" stroke="#E6B45A" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="92" cy="44" r="2.8" fill="#E6B45A"/>
+        </svg>
+        <div style="margin-top:8px;font-size:11px;color:var(--dim)">Steady state, held</div>
+      </div>
+      <div class="cap"><span class="num">03</span><b>Watch it build</b><span>Levels modeled from half-life — not a guess.</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== 7 · IS / ISN'T + PRIVACY ===== -->
+<section class="section"><div class="wrap">
+  <div class="section-head" style="margin-left:0;margin-bottom:clamp(28px,3.5vw,40px)">
+    <div class="hairline"></div>
+    <span class="eyebrow">Straight edges</span>
+    <h2 style="margin-top:14px">What Stack is. What it isn't.</h2>
+    <p class="lead">We'd rather tell you the edges up front.</p>
+  </div>
+  <div class="two">
+    <div class="card">
+      <ul class="list-ii">
+        <li class="is"><span class="m">Is</span> A private logbook for everything you take</li>
+        <li class="is"><span class="m">Is</span> An educational reference, cited to the literature</li>
+        <li class="is"><span class="m">Is</span> A calculator, a schedule, a report you can hand your doctor</li>
+        <li class="isnt"><span class="m">Not</span> Medical advice, a diagnosis, or a recommendation</li>
+        <li class="isnt"><span class="m">Not</span> A prescription or an endorsement of any compound</li>
+        <li class="isnt"><span class="m">Not</span> A measurement — curves are modeled estimates from half-life</li>
+      </ul>
+    </div>
+    <div class="card priv">
+      <div class="dk" style="font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:14px">Your data</div>
+      <p><span class="g">Encrypted on your device.</span> Cloud backup is opt-in — off by default. Email-only sign-in, so your account never sees what you track. Export everything as CSV anytime. Delete your account and everything goes with it, permanently. No ads, ever. We never sell your data, and never train on it.</p>
+      <p class="med">Stack is a logging and education tool. Nothing here is medical advice — talk to a qualified professional about your protocol.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== 8 · FREE vs PLUS ===== -->
+<section class="section" id="pricing"><div class="wrap">
+  <div class="section-head center" style="margin-left:auto;margin-right:auto">
+    <div class="hairline"></div>
+    <span class="eyebrow">Free vs Plus</span>
+    <h2 style="margin-top:14px">Free tracks it. Plus reads it.</h2>
+    <p class="lead">The whole logbook is free — no cap on what you track. Plus is the insight layer: bought here on the web, unlocked in the app the moment you sign in with the same email.</p>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <div class="kind">Free</div>
+      <div class="price tnum">$0</div>
+      <p class="sub">The full logbook. Yours to keep.</p>
+      <ul>
+        <li>Every compound — no caps</li>
+        <li>Reminders &amp; supply projection</li>
+        <li>Injection-site rotation</li>
+        <li>Streaks, weight trend, label scan</li>
+        <li>3 Sage questions a day</li>
+      </ul>
+      <a class="btn" href="#download">Get the app free</a>
+    </div>
+    <div class="plan hot">
+      <div class="kind">Plus</div>
+      <div class="price tnum">$9.99<small>/mo</small></div>
+      <p class="sub">Or $49.99/year · $124.99 once for Lifetime.</p>
+      <ul>
+        <li>In-system half-life curves</li>
+        <li>Bloodwork ranges &amp; full history</li>
+        <li>Unlimited Sage</li>
+        <li>Doctor-ready report</li>
+        <li>Encrypted cloud backup</li>
+      </ul>
+      <a class="btn btn-primary" href="../../pricing/">See full pricing</a>
+    </div>
+  </div>
+  <p class="paywall-note"><b>Your export and your data are never behind a paywall.</b></p>
+</div></section>
+
+<!-- ===== 9 · FAQ ===== -->
+<section class="section"><div class="wrap">
+  <div class="section-head center" style="margin-left:auto;margin-right:auto;margin-bottom:clamp(28px,3.5vw,40px)">
+    <div class="hairline"></div>
+    <span class="eyebrow">FAQ</span>
+    <h2 style="margin-top:14px">Questions people ask before they start.</h2>
+  </div>
+  <div class="faq">
+    <details open><summary>Is my data private?</summary><p class="ans">Yes. Your health data is encrypted and lives on your device by default. Cloud backup is opt-in. We never sell it, and never train on it. You can export everything as CSV, and deleting your account deletes all of it, permanently.</p></details>
+    <details><summary>Do I need a prescription or a doctor's sign-off?</summary><p class="ans">No. Stack is a personal tracking and education tool, not medical advice. What you track and how you use it is between you and your clinician.</p></details>
+    <details><summary>What does it cost?</summary><p class="ans">Free to track, with no cap on compounds. Plus is $9.99/month, $49.99/year, or $124.99 once for Lifetime, and adds the insight layer — curves, bloodwork, unlimited Sage, cloud backup and a doctor-ready report.</p></details>
+    <details><summary>What happens to my data if I stop paying?</summary><p class="ans">It stays yours. Your logbook and export are never behind a paywall — if Plus lapses you keep your history and can export it anytime.</p></details>
+    <details><summary>Can I use it offline?</summary><p class="ans">Yes. Stack works offline; backup only syncs if you opt in and you're online.</p></details>
+    <details><summary>Which compounds are supported?</summary><p class="ans">112 and counting — from vitamins and supplements to peptides, GLP-1s and TRT — each with a free, cited page in the <a href="../../compounds/" style="color:var(--ink);border-bottom:1px solid var(--gold-line)">Library</a>.</p></details>
+    <details><summary>Is it accurate?</summary><p class="ans">In-system curves are modeled estimates from published half-lives, not measurements — a way to see trends, never a diagnosis.</p></details>
+    <details><summary>What is Sage?</summary><p class="ans">Sage is the optional in-app assistant. It answers your questions in neutral terms and never prescribes or recommends. Free includes 3 questions a day; Plus is unlimited.</p></details>
+    <details><summary>When is iOS coming?</summary><p class="ans">Android first, iOS after. Drop your email on the app page and we'll tell you the day iOS is live.</p></details>
+  </div>
+</div></section>
+
+<!-- ===== 10 · DOWNLOAD ===== -->
+<section class="section dl" id="download"><div class="wrap">
+  <div class="hairline" style="margin:0 auto 20px"></div>
+  <h2>Keep the whole stack in one place.</h2>
+  <p>Free on Android, iOS after. No ads, no data selling, no cap on what you track.</p>
+  <div class="dl-act">
+    <div class="qr" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="var(--panel)"/>
+        <g fill="var(--ink)">
+          <rect x="6" y="6" width="26" height="26"/><rect x="12" y="12" width="14" height="14" fill="var(--panel)"/><rect x="16" y="16" width="6" height="6" fill="var(--ink)"/>
+          <rect x="68" y="6" width="26" height="26"/><rect x="74" y="12" width="14" height="14" fill="var(--panel)"/><rect x="78" y="16" width="6" height="6" fill="var(--ink)"/>
+          <rect x="6" y="68" width="26" height="26"/><rect x="12" y="74" width="14" height="14" fill="var(--panel)"/><rect x="16" y="78" width="6" height="6" fill="var(--ink)"/>
+          <rect x="40" y="8" width="6" height="6"/><rect x="52" y="8" width="6" height="6"/><rect x="40" y="20" width="6" height="6"/><rect x="60" y="18" width="6" height="6"/>
+          <rect x="40" y="40" width="6" height="6"/><rect x="50" y="46" width="6" height="6"/><rect x="62" y="40" width="6" height="6"/><rect x="72" y="50" width="6" height="6"/><rect x="84" y="44" width="6" height="6"/>
+          <rect x="40" y="62" width="6" height="6"/><rect x="52" y="70" width="6" height="6"/><rect x="44" y="82" width="6" height="6"/><rect x="64" y="66" width="6" height="6"/><rect x="76" y="72" width="6" height="6"/><rect x="86" y="82" width="6" height="6"/><rect x="68" y="84" width="6" height="6"/>
+        </g>
+      </svg>
+    </div>
+    <button class="store-badge">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
+      <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
+    </button>
+  </div>
+  <a class="link-more dl-note" href="../../pricing/">See what Plus adds →</a>
+  <span class="dl-sub">Stack is a logging and education tool. Nothing here is medical advice.</span>
+</div></section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer><div class="wrap">
+  <div class="f-top">
+    <div class="f-brand">
+      <div class="fw">
+        <svg class="mark3" width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
+          <ellipse cx="20" cy="13" rx="13" ry="3.4"/><ellipse cx="20" cy="21" rx="13" ry="3.4"/><ellipse cx="20" cy="29" rx="13" ry="3.4"/>
+        </svg><span>Stack</span>
+      </div>
+      <p>One calm logbook for your whole protocol. Track it, understand it, keep it private.</p>
+    </div>
+    <div class="f-col">
+      <h5>Product</h5>
+      <a href="../../compounds/">Library</a>
+      <a href="../../guides/">Guides</a>
+      <a href="../../pricing/">Pricing</a>
+      <a href="../../tools/reconstitution/">Reconstitution calculator</a>
+      <a href="../../stacks/">Shared stacks</a>
+    </div>
+    <div class="f-col">
+      <h5>Earn</h5>
+      <a href="../../creators.html">Creator program</a>
+      <a href="../../referral.html">Referral program</a>
+      <a href="../../about/">About &amp; sourcing</a>
+    </div>
+    <div class="f-col">
+      <h5>Legal</h5>
+      <a href="../../privacy.html">Privacy</a>
+      <a href="../../terms.html">Terms</a>
+      <a href="../../data-deletion.html">Data deletion</a>
+      <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span>
+    <span class="f-legal">Stack is a logging and education tool. It does not provide medical advice, diagnosis, treatment, or endorsement. Talk to a qualified professional about your protocol.</span>
+  </div>
+</div></footer>
+
+<div class="tag">Mockup G · Shotsy-modeled</div>
+<script>
+(function(){
+  var n=document.getElementById('nav');
+  addEventListener('scroll',function(){n.classList.toggle('on',scrollY>8)},{passive:true});
+  var m=document.getElementById('navMenu'),d=document.getElementById('drawer');
+  m.addEventListener('click',function(){var o=d.classList.toggle('open');m.setAttribute('aria-expanded',o)});
+  d.addEventListener('click',function(e){if(e.target.tagName==='A'){d.classList.remove('open');m.setAttribute('aria-expanded','false')}});
+})();
+</script>
+</body>
+</html>
