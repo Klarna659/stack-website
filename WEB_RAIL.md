@@ -53,9 +53,9 @@ reconcile — avoid unless RC Web Billing is unavailable.
 
 | Product | id | Price |
 |---|---|---|
-| Plus monthly | `stack_plus_monthly` | $9.99 / mo |
-| Plus annual  | `stack_plus_annual`  | $49.99 / yr (save 58%) |
-| Lifetime     | `stack_lifetime`     | $124.99 once |
+| Plus monthly | `stack_plus_monthly` | $4.99 / mo |
+| Plus annual  | `stack_plus_annual`  | $50 / yr (save 16%) |
+| Lifetime     | `stack_lifetime`     | $75 once |
 
 Entitlements: `plus` (← monthly + annual), `lifetime` (← lifetime).
 
