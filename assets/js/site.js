@@ -179,11 +179,11 @@
   var gallery = document.getElementById("gallery");
   if (gallery) {
     var shots = [
-      ["assets/img/screens/today.png", "Today screen — protocol ledger with check-rings"],
+      ["assets/img/screens/today.png", "Today — what's due, what's active, and the streak"],
       ["assets/img/screens/stack.png", "Your stack — compounds grouped by category"],
-      ["assets/img/screens/trends.png", "Charts — weight, lifts, adherence and bloodwork"],
-      ["assets/img/screens/tools.png", "Tools — calculators, reports and backups"],
-      ["assets/img/screens/share.png", "Flex card — share your stack as an image"]
+      ["assets/img/screens/supply.png", "Inventory — what's left in every vial, and when it runs out"],
+      ["assets/img/screens/trends.png", "Charts — weight, lifts, bloodwork and body composition"],
+      ["assets/img/screens/tools.png", "Tools — calculators, reports and backups"]
     ];
     shots.forEach(function (s) {
       var btn = document.createElement("button");
@@ -192,7 +192,7 @@
       img.src = s[0];
       img.alt = s[1];
       img.loading = "lazy";
-      img.width = 1080; img.height = 2400;
+      img.width = 1080; img.height = 2260;
       btn.appendChild(img);
       btn.addEventListener("click", function () { openLB(s[0], s[1]); });
       gallery.appendChild(btn);
