@@ -79,6 +79,35 @@
   </style>
 </head>
 <body>
+<!-- Compound glyph sprite. Same geometry as the app's core/design/compound_glyph.dart,
+     so the phone mock below draws the marks the product actually draws. It used to
+     show letter avatars (D, C, T…), which is a pattern the app has never had. -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <g id="g-vial">
+      <rect x="9" y="3.4" width="6" height="3" rx=".9" fill="currentColor" stroke="none"/>
+      <rect x="8.2" y="6.4" width="7.6" height="13.4" rx="1.8"/>
+      <path d="M8.2 12.6H15.8"/>
+    </g>
+    <g id="g-capsule" transform="rotate(-45 12 12)">
+      <rect x="8.9" y="3.8" width="6.2" height="16.4" rx="3.1"/>
+      <path d="M8.9 12.4h6.2"/>
+    </g>
+    <g id="g-pen">
+      <rect x="10.7" y="2.4" width="2.6" height="1.8" rx=".9" fill="currentColor" stroke="none"/>
+      <rect x="10.1" y="4.2" width="3.8" height="13.4" rx="1.9"/>
+      <rect x="11.1" y="6.6" width="1.8" height="2.6" rx=".5"/>
+      <path d="M10.1 12.4h3.8"/>
+      <rect x="11.1" y="17.6" width="1.8" height="1.8" rx=".4"/>
+      <path d="M12 19.4v2"/>
+    </g>
+    <g id="g-syringe">
+      <path d="M10 3.2h4M12 3.2v3.2M8.6 6.4h6.8"/>
+      <rect x="9.8" y="6.4" width="4.4" height="11" rx=".8"/>
+      <path d="M9.8 10h1.6M9.8 12.6h1.6M12 17.4v3.6"/>
+    </g>
+  </defs>
+</svg>
 
   <header class="nav" id="nav">
     <div class="container nav-inner">
@@ -150,12 +179,12 @@
               <div class="scr-meta">Today · Tuesday</div>
               <h3>Your stack</h3>
               <span class="scr-pill"><span class="d"></span>4 of 6 logged</span>
-              <div class="scr-row done"><span class="ico">D</span><b>Vitamin D3</b><span class="ti">8:10 ✓</span></div>
-              <div class="scr-row done"><span class="ico">C</span><b>Creatine 5 g</b><span class="ti">8:12 ✓</span></div>
-              <div class="scr-row done"><span class="ico">T</span><b>Testosterone</b><span class="ti">9:00 ✓</span></div>
-              <div class="scr-row done"><span class="ico">B</span><b>BPC-157</b><span class="ti">9:02 ✓</span></div>
-              <div class="scr-row"><span class="ico">S</span><b>Semaglutide</b><span class="ti">weekly</span></div>
-              <div class="scr-row"><span class="ico">M</span><b>Magnesium</b><span class="ti">10:00 PM</span></div>
+              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-capsule"/></svg></span><b>Vitamin D3</b><span class="ti">8:10 ✓</span></div>
+              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-capsule"/></svg></span><b>Creatine 5 g</b><span class="ti">8:12 ✓</span></div>
+              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-syringe"/></svg></span><b>Testosterone</b><span class="ti">9:00 ✓</span></div>
+              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-vial"/></svg></span><b>BPC-157</b><span class="ti">9:02 ✓</span></div>
+              <div class="scr-row"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-pen"/></svg></span><b>Semaglutide</b><span class="ti">weekly</span></div>
+              <div class="scr-row"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-capsule"/></svg></span><b>Magnesium</b><span class="ti">10:00 PM</span></div>
             </div>
           </div>
         </div>

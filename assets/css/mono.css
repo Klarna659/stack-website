@@ -353,6 +353,14 @@ h1, h2, h3, h4 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-heig
   display: grid; place-items: center;
   font-size: 12px; font-weight: 800; color: var(--mut);
 }
+/* The compound glyph inside the mock row's tile. Stroked, never filled, and
+   sized so it reads as an object rather than a badge — the same restraint the
+   app uses, where colour belongs to the compound tick and not to the glyph. */
+.scr-row .ico .cg {
+  width: 17px; height: 17px;
+  fill: none; stroke: currentColor;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
 .scr-row b { font-weight: 650; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .scr-row .ti { margin-left: auto; font-size: 12.5px; color: var(--dim); flex: none; }
 /* A landed dose = an earned check: the tick rides the gold thread. */
