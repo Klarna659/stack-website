@@ -6,3 +6,8 @@ tools/__pycache__/
 # Internal ops handoff (local only)
 /DOMAIN_SETUP_HANDOFF.md
 /HANDOFF.md
+
+# FLUX candidate pool for the hero — 1.5 MB PNGs each. Only the shipped
+# JPEGs in assets/img/hero/ are versioned; regenerate the pool with
+# tools/gen_hero.py if you want to pick a different one.
+tools/hero_pool/

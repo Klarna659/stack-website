@@ -1,0 +1,291 @@
+"""Generate the landing page's hero background locally with FLUX.
+
+Same machine, same model and same sampler settings the app's grounds were made
+with (`dose_tracker/tools/gen_backgrounds.py`), so the site and the app come out
+of one image pipeline rather than two. Original images on Sim's own 5070 Ti —
+no licence, no attribution, no stock tell.
+
+WHAT IS DIFFERENT FROM THE APP'S GROUNDS
+----------------------------------------
+The app's grounds are 768x1664 portrait, composed against a mask of where the
+phone UI leaves the photograph visible. A web hero has the opposite problem: it
+is a wide letterbox on a desktop and a tall crop on a phone, and it has to hold
+big type in the middle of the frame in both.
+
+The composition rule survives the change, though, and for the same reason: LOW
+horizon, subject in the bottom third, a vast empty gradient sky above it. The
+empty sky is what the headline sits on, and an unbroken gradient is the best
+possible thing to put 60px of white on. Centre-cropping that to portrait on a
+phone still leaves sky over subject, which is why it works in both shapes.
+
+Generated at 1920x1080 — about 2MP, near the top of what flux-dev stays
+coherent at — then Lanczos-upscaled to 3840x2160. These are smooth atmospheric
+gradients with no fine texture to invent, so the upscale is invisible and the
+4K JPEG still lands small.
+
+    python tools/gen_hero.py            generate the whole pool
+    python tools/gen_hero.py ridge      just one
+    python tools/gen_hero.py --ship ridge_a=hero
+"""
+import io
+import json
+import os
+import sys
+import time
+import urllib.error
+import urllib.request
+
+BASE = "http://127.0.0.1:8188"
+COMFY_OUT = r"C:\AI\ComfyUI_windows_portable\ComfyUI\output"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+POOL = os.path.join(ROOT, "tools", "hero_pool")
+DEST = os.path.join(ROOT, "assets", "img", "hero")
+
+W, H = 1920, 1080          # generate here
+UP_W, UP_H = 3840, 2160    # ship here
+
+# flux-dev at cfg 1.0 ignores the negative conditioning entirely — it is wired
+# up because the sampler wants the input, not because it does anything. Every
+# exclusion that matters has to be stated positively in the prompt itself.
+NEGATIVE = ("text, watermark, people, buildings, oversaturated, hdr, "
+            "blown highlights, lens flare, cluttered")
+
+COMMON = (
+    "minimalist landscape photograph, LOW horizon about two thirds down the "
+    "frame, the subject occupying only the bottom third, a vast empty "
+    "gradient sky filling the entire upper two thirds with no clouds and no "
+    "detail, blue hour, the sun already below the horizon, soft even light, "
+    "detail retained in the shadows, no crushed blacks, deserted, no text, "
+    "subtle film grain, muted desaturated palette, calm minimal and expensive, "
+    "shot on medium format, wide cinematic framing"
+)
+
+HEROES = {
+    "ridge": ("a distant mountain range along the bottom third of the frame, "
+              "its ridgeline catching the last cold light, receding layers of "
+              "haze between the ranges, " + COMMON),
+    "coast": ("a low dark headland and its reflection along the bottom third "
+              "of the frame in vast still water, glassy and unbroken, " + COMMON),
+    "dune": ("the long crests of desert dunes along the bottom third of the "
+             "frame, raking light along their edges, " + COMMON),
+    "cloud": ("a low flat bank of cloud lying along the bottom third of the "
+              "frame, lit faintly from within by the afterglow, " + COMMON),
+    "valley": ("a wide valley floor in mist along the bottom third of the "
+               "frame, one soft ridge behind it, " + COMMON),
+}
+
+# Two seeds each — the composition rule is strict enough that one draw is often
+# nearly right and the other is the one you keep.
+SEEDS = {"ridge": (604118, 118207), "coast": (330415, 907712),
+         "dune": (229740, 441903), "cloud": (471692, 550118),
+         "valley": (693351, 812440)}
+
+
+def graph(prompt, seed):
+    return {
+        "1": {"class_type": "CheckpointLoaderSimple",
+              "inputs": {"ckpt_name": "flux1-dev-fp8.safetensors"}},
+        "2": {"class_type": "CLIPTextEncode",
+              "inputs": {"text": prompt, "clip": ["1", 1]}},
+        "3": {"class_type": "CLIPTextEncode",
+              "inputs": {"text": NEGATIVE, "clip": ["1", 1]}},
+        "4": {"class_type": "EmptyLatentImage",
+              "inputs": {"width": W, "height": H, "batch_size": 1}},
+        "5": {"class_type": "KSampler",
+              "inputs": {"seed": seed, "steps": 28, "cfg": 1.0,
+                         "sampler_name": "euler", "scheduler": "simple",
+                         "denoise": 1.0, "model": ["1", 0], "positive": ["2", 0],
+                         "negative": ["3", 0], "latent_image": ["4", 0]}},
+        "6": {"class_type": "VAEDecode",
+              "inputs": {"samples": ["5", 0], "vae": ["1", 2]}},
+        "7": {"class_type": "SaveImage",
+              "inputs": {"filename_prefix": "stackhero", "images": ["6", 0]}},
+    }
+
+
+def submit(g):
+    data = json.dumps({"prompt": g}).encode()
+    req = urllib.request.Request(BASE + "/prompt", data=data,
+                                 headers={"Content-Type": "application/json"})
+    try:
+        return json.load(urllib.request.urlopen(req, timeout=60))["prompt_id"]
+    except urllib.error.HTTPError as e:
+        print("REJECTED:", e.read().decode()[:1200], flush=True)
+        raise
+
+
+def wait(pid, timeout=1800):
+    t0 = time.time()
+    while time.time() - t0 < timeout:
+        try:
+            h = json.load(urllib.request.urlopen(
+                "%s/history/%s" % (BASE, pid), timeout=30))
+        except Exception:
+            time.sleep(2)
+            continue
+        if pid in h:
+            node = h[pid]
+            if node.get("outputs"):
+                return node
+            for m in node.get("status", {}).get("messages", []):
+                if m and m[0] in ("execution_error", "execution_interrupted"):
+                    print("EXEC ERROR:", json.dumps(m)[:1200], flush=True)
+                    return None
+        time.sleep(2)
+    raise TimeoutError(pid)
+
+
+def collect(hist):
+    for _, out in (hist.get("outputs") or {}).items():
+        for it in out.get("images", []):
+            src = os.path.join(COMFY_OUT, it.get("subfolder", ""), it["filename"])
+            if os.path.exists(src):
+                return src
+    return None
+
+
+def sky_flatness(path):
+    """How empty the top two thirds are.
+
+    The headline sits there, so detail up there is not atmosphere, it is noise
+    competing with 60px of white type. Reported as the mean absolute row-to-row
+    luminance step across the upper 62% — lower is better.
+    """
+    from PIL import Image, ImageStat
+    im = Image.open(path).convert("L")
+    w, h = im.size
+    top = im.crop((0, 0, w, int(h * 0.62))).resize((160, 160))
+    px = list(top.getdata())
+    rows = [sum(px[r * 160:(r + 1) * 160]) / 160.0 for r in range(160)]
+    steps = [abs(rows[i + 1] - rows[i]) for i in range(len(rows) - 1)]
+    detail = ImageStat.Stat(top).stddev[0]
+    return {"row_step": round(sum(steps) / len(steps), 3),
+            "sky_stddev": round(detail, 2)}
+
+
+def tone(path):
+    """Mean luminance of the whole frame, 0-1. The app targets 0.34."""
+    from PIL import Image, ImageStat
+    im = Image.open(path).convert("L").resize((240, 135))
+    return round(ImageStat.Stat(im).mean[0] / 255.0, 3)
+
+
+def generate(names):
+    os.makedirs(POOL, exist_ok=True)
+    made = []
+    for name in names:
+        for i, seed in enumerate(SEEDS[name]):
+            tag = "%s_%s" % (name, "ab"[i])
+            out = os.path.join(POOL, tag + ".png")
+            if os.path.exists(out):
+                print("skip", tag, flush=True)
+                made.append(out)
+                continue
+            t0 = time.time()
+            pid = submit(graph(HEROES[name], seed))
+            hist = wait(pid)
+            src = collect(hist) if hist else None
+            if not src:
+                print("FAILED", tag, flush=True)
+                continue
+            from PIL import Image
+            Image.open(src).save(out)
+            print("%-10s %5.0fs  tone %.3f  %s"
+                  % (tag, time.time() - t0, tone(out), sky_flatness(out)),
+                  flush=True)
+            made.append(out)
+    return made
+
+
+def ship(pairs):
+    """Upscale a chosen pool image to 4K and write the responsive set."""
+    from PIL import Image
+    os.makedirs(DEST, exist_ok=True)
+    for pair in pairs:
+        tag, name = pair.split("=")
+        src = os.path.join(POOL, tag + ".png")
+        im = Image.open(src).convert("RGB")
+        big = im.resize((UP_W, UP_H), Image.LANCZOS)
+        # Three widths. A phone has no business downloading 4K to put a scrim
+        # over it, and srcset means it does not have to.
+        for w, q, suffix in ((UP_W, 88, ""), (1920, 86, "-1920"), (960, 84, "-960")):
+            out = os.path.join(DEST, "%s%s.jpg" % (name, suffix))
+            (big if w == UP_W else big.resize(
+                (w, round(UP_H * w / UP_W)), Image.LANCZOS)
+             ).save(out, "JPEG", quality=q, optimize=True, progressive=True)
+            print("%-28s %6.1f KB  %sx%s"
+                  % (os.path.basename(out), os.path.getsize(out) / 1024.0,
+                     w, round(UP_H * w / UP_W)), flush=True)
+
+
+def main():
+    args = [a for a in sys.argv[1:]]
+    if args and args[0] == "--ship":
+        ship(args[1:])
+        return
+    if args and args[0] == "--rank":
+        for f in sorted(os.listdir(POOL)):
+            if f.endswith(".png"):
+                p = os.path.join(POOL, f)
+                print("%-12s tone %.3f  %s" % (f[:-4], tone(p), sky_flatness(p)))
+        return
+    generate(args or list(HEROES))
+
+
+if __name__ == "__main__":
+    main()
+
+
+def headline_contrast(path, band=(0.30, 0.72)):
+    """WCAG ratio for white type over the scrimmed hero band.
+
+    The hero's headline sits in the vertical middle of the stage, which on this
+    page is roughly 30-72% down. The page paints a gradient scrim over the
+    photograph before any type lands on it, so measuring the raw image is
+    meaningless — this composites the same scrim first, then reports the ratio
+    against the BRIGHTEST row in the band, which is the row that has to hold.
+
+    3.0:1 is the WCAG floor for large text (>=24px). The headline is 40-80px.
+    """
+    from PIL import Image
+    im = Image.open(path).convert("RGB")
+    w, h = im.size
+    im = im.resize((160, round(160 * h / w)))
+    W, H = im.size
+    px = im.load()
+    worst = None
+    for y in range(int(H * band[0]), int(H * band[1])):
+        t = y / float(H)
+        a = scrim_alpha_at_page(t)
+        lum = 0.0
+        for x in range(0, W, 2):
+            r, g, b = px[x, y]
+            r, g, b = r * (1 - a), g * (1 - a), b * (1 - a)
+            lum += luminance(r, g, b)
+        lum /= len(range(0, W, 2))
+        ratio = 1.05 / (lum + 0.05)
+        if worst is None or ratio < worst:
+            worst = ratio
+    return round(worst, 2)
+
+
+# The page's own scrim stops, mirrored from landing-v2.html.
+PAGE_STOPS = [0.00, 0.26, 0.48, 0.72, 0.92, 1.00]
+PAGE_ALPHAS = [0.34, 0.30, 0.26, 0.42, 0.90, 1.00]
+
+
+def scrim_alpha_at_page(t):
+    for i in range(len(PAGE_STOPS) - 1):
+        if PAGE_STOPS[i] <= t <= PAGE_STOPS[i + 1]:
+            f = (t - PAGE_STOPS[i]) / (PAGE_STOPS[i + 1] - PAGE_STOPS[i])
+            return PAGE_ALPHAS[i] + (PAGE_ALPHAS[i + 1] - PAGE_ALPHAS[i]) * f
+    return PAGE_ALPHAS[-1]
+
+
+def _chan(c):
+    s = c / 255.0
+    return s / 12.92 if s <= 0.03928 else ((s + 0.055) / 1.055) ** 2.4
+
+
+def luminance(r, g, b):
+    return 0.2126 * _chan(r) + 0.7152 * _chan(g) + 0.0722 * _chan(b)

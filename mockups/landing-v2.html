@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stack — landing v2</title>
+<meta name="robots" content="noindex" />
+
+<!-- Inter + IBM Plex Mono, the two faces the app's v9 design system uses.
+     BEFORE SHIP: subset both into assets/fonts/ and drop this link. The live
+     site bundles Inter locally on purpose — a page that sells privacy should
+     not call Google on load. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<script>document.documentElement.className += " js";</script>
+
+<style>
+/* ============================================================================
+   LANDING v2 — a gateway, not a manual.
+
+   The brief changed and the page got much shorter with it. This is not a
+   document about the product; it is a door to the store. Six sections:
+
+       hero → screens → reviews → library → the short version → download
+
+   What went, and why: the supply / levels / rotation deep-dives (the screens
+   say it faster than paragraphs can), the derived-palette section (a lovely
+   piece of engineering and not a reason anyone downloads an app), and the
+   feature explanations generally. If a thing cannot be said in a caption under
+   a phone, it does not belong on the front door.
+
+   Tokens are still lifted from the app's docs/design/mockups/v9.css, so the
+   site and the product are visibly one thing.
+   ========================================================================= */
+:root{
+  --accent:#2D85BE;       /* derived from the ground by palette.py — 4.67:1 */
+  --band:#2C3C47;         /* sampled from the ground's own sky */
+  --star:#E8B54B;
+
+  /* v9.css, verbatim */
+  --page:#0E1114; --page-2:#161A1F; --page-ink:#EFEFED; --page-mut:#8D9299;
+  --page-line:#242A31; --bad:#FF6B6B;
+  --ink:#FFFFFF; --ink2:rgba(255,255,255,.86); --mut:rgba(255,255,255,.60);
+  --cline:rgba(255,255,255,.22); --rline:rgba(255,255,255,.09);
+  --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.34,1.4,.5,1);
+
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --gut:20px; --maxw:1160px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+
+/* ── the three layers, straight from the app ──────────────────────────── */
+.stage{position:relative;overflow:hidden;isolation:isolate}
+.ground{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 46%;z-index:0;animation:drift 52s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.02)}to{transform:scale(1.09) translateY(-1.2%)}}
+.scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(0,0,0,.34) 0%, rgba(0,0,0,.30) 26%, rgba(0,0,0,.26) 48%,
+    rgba(0,0,0,.42) 72%, rgba(14,17,20,.90) 92%, var(--page) 100%)}
+.band{position:absolute;left:0;right:0;top:0;height:24%;z-index:1;opacity:.94;
+  pointer-events:none;
+  background:linear-gradient(180deg,var(--band) 0%,var(--band) 52%,transparent 100%)}
+.stage > .layer{position:relative;z-index:2;color:var(--ink)}
+
+/* ── nav ──────────────────────────────────────────────────────────────── */
+.nav{position:relative;z-index:30}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:600;
+  letter-spacing:-.02em;font-size:16.5px;color:var(--ink)}
+.nav-a{display:none}
+@media(min-width:900px){
+  .nav-a{display:flex;gap:30px;font-size:14px;color:var(--ink2)}
+  .nav-a a{text-decoration:none;opacity:.85;transition:opacity .2s var(--ease)}
+  .nav-a a:hover{opacity:1}}
+
+/* ── buttons ──────────────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--sans);font-size:15px;font-weight:600;padding:13px 22px;
+  border-radius:99px;border:.6px solid var(--cline);background:rgba(255,255,255,.11);
+  color:var(--ink);text-decoration:none;cursor:pointer;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  transition:background .22s var(--ease),transform .22s var(--spring),
+             box-shadow .22s var(--ease)}
+.btn:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.btn:active{transform:scale(.96)}
+.btn-solid{background:var(--ink);color:#0B0D10;border-color:var(--ink);
+  box-shadow:0 8px 30px rgba(0,0,0,.28)}
+.btn-solid:hover{background:#fff;box-shadow:0 12px 38px rgba(0,0,0,.36)}
+.btn-sm{padding:9px 16px;font-size:13.5px}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn svg{width:18px;height:18px;flex:none}
+.on-page .btn{background:var(--page-2);border-color:var(--page-line);
+  color:var(--page-ink);backdrop-filter:none}
+.on-page .btn:hover{background:var(--page-line)}
+.on-page .btn-solid{background:var(--page-ink);color:var(--page);border-color:var(--page-ink)}
+.on-page .btn-solid:hover{background:#fff}
+
+/* ── type ─────────────────────────────────────────────────────────────── */
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mut);margin:0 0 16px}
+.on-page .eyebrow{color:var(--page-mut)}
+h1{font-size:clamp(40px,10.4vw,80px);font-weight:600;letter-spacing:-.034em;
+  line-height:1.02;margin:0 0 16px;text-wrap:balance}
+.statement{font-size:clamp(17px,4.6vw,22px);font-weight:400;color:var(--ink2);
+  line-height:1.45;margin:0 auto 32px;max-width:32ch}
+h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
+  line-height:1.1;margin:0 0 14px;text-wrap:balance}
+.lede{font-size:16.5px;line-height:1.6;color:var(--page-mut);max-width:52ch;margin:0}
+.stage .lede{color:var(--mut)}
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+/* A 4K photograph needs height or it is a texture strip. The hero holds most
+   of the first screen on a phone and a comfortable band on a desktop. */
+.hero-stage{min-height:86svh;min-height:86vh;display:flex;flex-direction:column}
+@media(min-width:900px){.hero-stage{min-height:760px}}
+.hero-stage > .layer{flex:1;display:flex;flex-direction:column}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:56px 0 72px;text-align:center}
+@media(min-width:900px){.hero{padding:80px 0 96px}}
+.acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+
+/* Social proof sits directly under the buttons — the one placement that
+   reliably lifts conversion on health apps, and where Shotsy puts its badges. */
+.rating{display:inline-flex;align-items:center;gap:11px;flex-wrap:wrap;
+  justify-content:center;font-size:13.5px;color:var(--ink2)}
+.stars{display:inline-flex;gap:2.5px}
+.stars svg{width:15px;height:15px;fill:var(--star)}
+.rating b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.rating .sep{opacity:.4}
+
+/* ── sections ─────────────────────────────────────────────────────────── */
+.sec{padding:76px 0}
+@media(min-width:900px){.sec{padding:112px 0}}
+.sec-head{max-width:56ch;margin:0 0 40px}
+.sec-head.mid{margin-left:auto;margin-right:auto;text-align:center}
+
+/* ── the screens: an App Store shelf ──────────────────────────────────────
+   The shelf is its OWN full-bleed scroller, not a wide child of .wrap with
+   negative margins — that version overflowed the document by 5px at 390.
+   The padding does the aligning instead: the first phone lines up with the
+   container on a desktop and with the gutter on a phone. */
+.shelf{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:6px max(var(--gut), calc((100vw - var(--maxw)) / 2 + var(--gut))) 26px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.shelf::-webkit-scrollbar{display:none}
+.shot{flex:0 0 auto;scroll-snap-align:center;width:264px;
+  transition:transform .5s var(--ease),opacity .5s var(--ease)}
+@media(min-width:900px){.shot{width:286px}}
+.shot .cap{margin-top:16px;text-align:center}
+.shot .cap b{display:block;font-size:15.5px;font-weight:600;letter-spacing:-.015em}
+.shot .cap span{display:block;font-size:13px;color:var(--page-mut);margin-top:4px;
+  line-height:1.45}
+
+/* the device, at v9.css's proportions */
+.phone{border-radius:34px;padding:8px;background:#000;
+  box-shadow:0 2px 6px rgba(0,0,0,.5),0 26px 60px rgba(0,0,0,.55)}
+.screen{border-radius:27px;overflow:hidden;position:relative;height:520px;
+  background:#0B0D10;color:var(--ink)}
+.screen .sg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.screen .ss{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,.30) 34%,
+    rgba(0,0,0,.20) 62%,rgba(0,0,0,.14) 100%)}
+.screen .sb{position:absolute;left:0;right:0;top:0;height:26%;z-index:1;opacity:.94;
+  background:linear-gradient(180deg,var(--band) 0%,var(--band) 55%,transparent 100%)}
+.screen .sl{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+.statusbar{display:flex;justify-content:space-between;padding:11px 17px 0;
+  font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.statusbar span:last-child{letter-spacing:.1em;opacity:.9}
+.burger{padding:9px 15px 0}
+.burger i{display:block;width:16px;height:1.6px;background:var(--ink);
+  margin-bottom:4px;border-radius:2px}
+.days{display:flex;gap:4px;padding:6px 10px 0;overflow:hidden}
+.day{flex:0 0 auto;width:36px;text-align:center;padding:6px 0 7px;border-radius:13px}
+.day .dow{font-size:9px;font-weight:600;color:var(--mut);letter-spacing:.05em;margin-bottom:4px}
+.day .num{font-size:13px;font-weight:500;color:var(--ink2);font-variant-numeric:tabular-nums}
+.day.sel{background:rgba(255,255,255,.16)}
+.day.sel .dow,.day.sel .num{color:var(--ink)}
+.day.sel .num{font-weight:700}
+.shero{text-align:center;padding:14px 16px 0}
+.shero .greet{font-size:26px;font-weight:600;letter-spacing:-.026em;line-height:1.1}
+.shero .st{font-size:16px;font-weight:400;color:var(--ink2);margin-top:5px;
+  font-variant-numeric:tabular-nums}
+.shero .st b{color:var(--ink);font-weight:600}
+.shero .nt{font-size:11.5px;color:var(--mut);margin-top:5px}
+.scard{margin:15px 11px 0;border-radius:14px;background:rgba(0,0,0,.35);
+  border:.6px solid var(--cline);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);overflow:hidden}
+.sblock+.sblock{border-top:1px solid var(--rline)}
+.sbhead{display:flex;align-items:center;gap:8px;padding:9px 10px 9px 11px}
+.sblabel{flex:1;font-size:9.5px;font-weight:600;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink2)}
+.sbcount{font-size:10px;font-weight:600;color:var(--mut);font-variant-numeric:tabular-nums}
+.srow{display:flex;align-items:center;gap:9px;padding:7px 10px 7px 18px}
+.srow+.srow{border-top:1px solid var(--rline)}
+.chip{flex:none;width:25px;height:25px;border-radius:50%;background:rgba(255,255,255,.10);
+  display:grid;place-items:center}
+.chip svg{width:14px;height:14px;fill:none;stroke:var(--ink2);stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+.smain{flex:1;min-width:0}
+.sname{font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ssub{font-size:9.5px;color:var(--mut);margin-top:1px;font-variant-numeric:tabular-nums}
+.stick{flex:none;width:20px;height:20px;border-radius:50%;border:1.3px solid var(--cline);
+  display:grid;place-items:center}
+.stick svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.stick.on{background:var(--ink);border-color:var(--ink);color:#0B0D10}
+.srow.done .sname{color:var(--mut)}
+.srow.done .chip{background:rgba(255,255,255,.06)}
+.spanel{margin:15px 11px 0;padding:13px 13px 11px;border-radius:14px;
+  background:rgba(0,0,0,.35);border:.6px solid var(--cline);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.sptitle{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mut);margin-bottom:9px;
+  display:flex;justify-content:space-between;gap:8px}
+.bigstat{font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1;
+  font-variant-numeric:tabular-nums}
+.bigstat span{font-size:17px;color:var(--mut);margin-left:3px}
+.spfoot{display:flex;justify-content:space-between;font-size:9.5px;color:var(--mut);
+  margin-top:8px;font-variant-numeric:tabular-nums}
+.sup{display:grid;gap:11px}
+.sup .s+.s{border-top:1px solid var(--rline);padding-top:11px}
+.sup .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sup .nm{font-size:12px;font-weight:500}
+.sup .q{font-size:12px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.sup .track{height:3px;border-radius:2px;background:rgba(255,255,255,.12);
+  margin:8px 0 6px;overflow:hidden}
+.sup .fill{height:100%;border-radius:2px;background:var(--accent)}
+.sup .fx{font-size:9.5px;color:var(--mut);font-variant-numeric:tabular-nums}
+.bubble{max-width:84%;padding:8px 11px;border-radius:13px;font-size:11.5px;line-height:1.42}
+.bubble.them{background:rgba(255,255,255,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bubble.me{background:var(--ink);color:#0B0D10;align-self:flex-end;
+  border-bottom-right-radius:4px;font-weight:500}
+.sagebar{margin:auto 11px 46px;padding:11px 14px;border-radius:20px;
+  background:rgba(0,0,0,.42);border:.6px solid var(--cline);font-size:11.5px;color:var(--mut)}
+.chrome{position:absolute;left:0;right:0;bottom:0;height:52px;z-index:4}
+.dots{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:7px}
+.dots i{width:5.5px;height:5.5px;border-radius:50%;background:rgba(255,255,255,.32);display:block}
+.dots i.on{width:14px;border-radius:4px;background:var(--ink)}
+
+/* ── reviews ──────────────────────────────────────────────────────────── */
+.score{display:flex;gap:26px;align-items:center;flex-wrap:wrap;
+  padding:0 0 30px;border-bottom:1px solid var(--page-line);margin-bottom:34px}
+.score .big{font-size:60px;font-weight:600;letter-spacing:-.04em;line-height:1;
+  font-variant-numeric:tabular-nums}
+.score .meta{font-size:13.5px;color:var(--page-mut);line-height:1.5}
+.score .meta .stars{margin-bottom:5px}
+.revs{display:grid;gap:14px}
+@media(min-width:760px){.revs{grid-template-columns:repeat(3,1fr);gap:18px}}
+.rev{border:1px solid var(--page-line);border-radius:16px;padding:19px 19px 17px;
+  background:var(--page-2);transition:border-color .3s var(--ease),transform .3s var(--ease)}
+.rev:hover{border-color:#333A44;transform:translateY(-2px)}
+.rev .stars{margin-bottom:11px}
+.rev .stars svg{width:13px;height:13px}
+.rev p{font-size:14.5px;line-height:1.6;color:var(--page-ink);margin:0 0 14px}
+.rev .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--page-mut)}
+
+/* ── the short version: three lines, not a breakdown ──────────────────── */
+.three{display:grid;gap:0;border-top:1px solid var(--page-line)}
+@media(min-width:820px){.three{grid-template-columns:repeat(3,1fr);gap:0}}
+.three .t{padding:26px 0;border-bottom:1px solid var(--page-line)}
+@media(min-width:820px){
+  .three .t{padding:30px 30px 30px 0;border-bottom:0;border-right:1px solid var(--page-line)}
+  .three .t:last-child{border-right:0;padding-right:0}
+  .three .t+.t{padding-left:30px}}
+.three h3{font-size:17px;font-weight:600;letter-spacing:-.02em;margin:0 0 7px}
+.three p{font-size:14.5px;color:var(--page-mut);line-height:1.6;margin:0;max-width:34ch}
+
+/* ── library ──────────────────────────────────────────────────────────── */
+.libband{border-top:1px solid var(--page-line);border-bottom:1px solid var(--page-line);
+  background:var(--page-2)}
+.libgrid{display:grid;gap:26px;align-items:center}
+@media(min-width:880px){.libgrid{grid-template-columns:1fr 1fr;gap:56px}}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:13px;font-weight:500;padding:8px 14px;border-radius:99px;
+  border:1px solid var(--page-line);background:var(--page);text-decoration:none;
+  transition:border-color .2s var(--ease),transform .2s var(--ease)}
+.pill:hover{border-color:var(--accent);transform:translateY(-1px)}
+.pill.more{color:var(--accent);border-color:rgba(45,133,190,.42)}
+
+/* ── faq ──────────────────────────────────────────────────────────────── */
+.faq{border-top:1px solid var(--page-line);max-width:760px}
+.faq details{border-bottom:1px solid var(--page-line)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font-size:16px;font-weight:500;
+  display:flex;justify-content:space-between;gap:16px;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";width:10px;height:10px;flex:none;margin-top:6px;
+  border-right:1.6px solid var(--page-mut);border-bottom:1.6px solid var(--page-mut);
+  transform:rotate(45deg);transition:transform .42s var(--spring)}
+.faq details[open] summary::after{transform:rotate(-135deg)}
+.faq p{margin:0 0 20px;color:var(--page-mut);font-size:15px;line-height:1.66;max-width:60ch}
+
+/* ── close ────────────────────────────────────────────────────────────── */
+.close-stage{min-height:520px;display:flex;align-items:center}
+.close-stage .ground{object-position:50% 62%}
+.close{padding:92px 0 100px;text-align:center;width:100%}
+
+footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
+.fl{display:flex;flex-wrap:wrap;gap:9px 22px;margin-bottom:20px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase}
+.fl a{color:var(--page-mut);text-decoration:none;transition:color .2s var(--ease)}
+.fl a:hover{color:var(--page-ink)}
+.disc{line-height:1.65;max-width:72ch}
+
+/* ── motion ───────────────────────────────────────────────────────────────
+   Everything here is GATED ON .js, set by an inline script in <head>. Nothing
+   on this page may start at opacity:0 unless something is guaranteed to turn
+   it back on: if the script fails, an ad-blocker eats it, or the observer
+   never fires, an ungated version of these rules ships a blank page. With the
+   gate, no-JS simply gets the page with no animation, which is the correct
+   degradation. There is a watchdog at the bottom of the file for the same
+   reason from the other direction. */
+.js .an{opacity:0;transform:translateY(18px)}
+.js .an.in{opacity:1;transform:none;
+  transition:opacity .66s var(--ease),transform .66s var(--ease);
+  transition-delay:calc(var(--d,0) * 90ms)}
+/* The hero does not wait for a scroll — it plays on load. */
+.js .lift{opacity:0;transform:translateY(20px);
+  animation:lift .82s var(--ease) forwards;animation-delay:calc(var(--d,0) * 110ms + 120ms)}
+@keyframes lift{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+  .js .an,.js .lift{opacity:1 !important;transform:none !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <g id="vial"><rect x="9" y="3.4" width="6" height="3" rx=".9" fill="currentColor" stroke="none"/>
+    <rect x="8.2" y="6.4" width="7.6" height="13.4" rx="1.8"/><path d="M8.2 12.6H15.8"/></g>
+  <g id="cap" transform="rotate(-45 12 12)"><rect x="8.9" y="3.8" width="6.2" height="16.4" rx="3.1"/>
+    <path d="M8.9 12.4h6.2"/></g>
+  <g id="pen"><rect x="10.7" y="2.4" width="2.6" height="1.8" rx=".9" fill="currentColor" stroke="none"/>
+    <rect x="10.1" y="4.2" width="3.8" height="13.4" rx="1.9"/><path d="M10.1 12.4h3.8"/>
+    <rect x="11.1" y="17.6" width="1.8" height="1.8" rx=".4"/><path d="M12 19.4v2"/></g>
+  <g id="syr"><path d="M10 3.2h4M12 3.2v3.2M8.6 6.4h6.8"/><rect x="9.8" y="6.4" width="4.4" height="11" rx=".8"/>
+    <path d="M9.8 10h1.6M9.8 12.6h1.6M12 17.4v3.6"/></g>
+  <g id="star"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5-5.8-3.05-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></g>
+  <g id="play"><path d="M3 2.4v19.2c0 .55.33.9.77.9.2 0 .4-.08.55-.22L17.5 13.4 14.2 10 4.32 1.72A.83.83 0 0 0 3.77 1.5c-.44 0-.77.35-.77.9z" fill="currentColor" stroke="none"/></g>
+</defs></svg>
+
+<!-- ══════════════════════════════════════════════════════════ HERO ═══════ -->
+<section class="stage hero-stage">
+  <img class="ground" alt="" aria-hidden="true"
+       src="../assets/img/hero/hero-1920.jpg"
+       srcset="../assets/img/hero/hero-960.jpg 960w,
+               ../assets/img/hero/hero-1920.jpg 1920w,
+               ../assets/img/hero/hero.jpg 3840w"
+       sizes="100vw" />
+  <div class="scrim"></div>
+  <div class="band"></div>
+
+  <div class="layer">
+    <header class="nav">
+      <div class="wrap nav-in">
+        <a class="brand" href="/">
+          <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
+            <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="rgba(255,255,255,.45)"/>
+            <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="rgba(255,255,255,.72)"/>
+            <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#fff"/>
+          </svg>Stack</a>
+        <nav class="nav-a">
+          <a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+          <a href="/pricing/">Pricing</a><a href="/account/">Sign in</a>
+        </nav>
+        <a class="btn btn-sm" href="#get">Get the app</a>
+      </div>
+    </header>
+
+    <div class="wrap hero">
+      <p class="eyebrow lift" style="--d:0">Supplements &middot; peptides &middot; GLP-1 &middot; TRT</p>
+      <h1 class="lift" style="--d:1">Track everything<br />you take.</h1>
+      <p class="statement lift" style="--d:2">One quiet app for your whole stack. Free, private,
+        and built for people taking more than one thing.</p>
+      <div class="acts lift" style="--d:3">
+        <a class="btn btn-solid" href="#get" id="get">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#play"/></svg>Get it on Google Play</a>
+        <a class="btn" href="#screens">See it</a>
+      </div>
+
+      <!-- ⚠ PLACEHOLDER SOCIAL PROOF. Nothing here is real yet. Wire the score
+           and the count to the live Play listing at launch and never type a
+           number in by hand. -->
+      <div class="rating lift" style="--d:4">
+        <span class="stars" role="img" aria-label="4.9 out of 5 stars">
+          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
+        </span>
+        <span><b>4.9</b> on Google Play</span>
+        <span class="sep">&middot;</span>
+        <span>Free, no compound limit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="on-page">
+
+<!-- ═════════════════════════════════════════════════════════ SCREENS ════ -->
+<section class="sec" id="screens">
+  <div class="wrap">
+    <div class="sec-head mid an">
+      <p class="eyebrow">A look inside</p>
+      <h2>Everything, on one screen.</h2>
+      <p class="lede" style="margin:0 auto">Swipe through the app.</p>
+    </div>
+  </div>
+
+  <div class="shelf an" id="shelf">
+
+    <!-- 1 · TODAY -->
+    <figure class="shot" style="margin:0">
+      <div class="phone"><div class="screen">
+        <img class="sg" src="../assets/img/grounds/ridge.jpg" alt="" aria-hidden="true" />
+        <div class="ss"></div><div class="sb"></div>
+        <div class="sl">
+          <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+          <div class="burger"><i></i><i></i><i></i></div>
+          <div class="days">
+            <div class="day"><div class="dow">SUN</div><div class="num">28</div></div>
+            <div class="day"><div class="dow">MON</div><div class="num">29</div></div>
+            <div class="day sel"><div class="dow">TUE</div><div class="num">30</div></div>
+            <div class="day"><div class="dow">WED</div><div class="num">31</div></div>
+            <div class="day"><div class="dow">THU</div><div class="num">01</div></div>
+            <div class="day"><div class="dow">FRI</div><div class="num">02</div></div>
+          </div>
+          <div class="shero">
+            <div class="greet">Good morning</div>
+            <div class="st"><b>4</b> of 6 logged</div>
+            <div class="nt">Next &middot; magnesium at 10:00 PM</div>
+          </div>
+          <div class="scard">
+            <div class="sblock">
+              <div class="sbhead"><span class="sblabel">Morning</span><span class="sbcount">4 of 4</span></div>
+              <div class="srow done"><span class="chip"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span>
+                <span class="smain"><span class="sname">Vitamin D3</span><span class="ssub">5000 IU &middot; 8:10</span></span>
+                <span class="stick on"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+              <div class="srow done"><span class="chip"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span>
+                <span class="smain"><span class="sname">Creatine</span><span class="ssub">5 g &middot; 8:12</span></span>
+                <span class="stick on"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+              <div class="srow done"><span class="chip"><svg viewBox="0 0 24 24"><use href="#syr"/></svg></span>
+                <span class="smain"><span class="sname">Testosterone cyp.</span><span class="ssub">right delt &middot; 9:00</span></span>
+                <span class="stick on"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+              <div class="srow done"><span class="chip"><svg viewBox="0 0 24 24"><use href="#vial"/></svg></span>
+                <span class="smain"><span class="sname">BPC-157</span><span class="ssub">250 mcg &middot; 9:02</span></span>
+                <span class="stick on"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+            </div>
+            <div class="sblock">
+              <div class="sbhead"><span class="sblabel">Night</span><span class="sbcount">0 of 1</span></div>
+              <div class="srow"><span class="chip"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span>
+                <span class="smain"><span class="sname">Magnesium</span><span class="ssub">400 mg &middot; 10:00 PM</span></span>
+                <span class="stick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+            </div>
+          </div>
+          <div class="chrome"><div class="dots"><i class="on"></i><i></i><i></i><i></i></div></div>
+        </div>
+      </div></div>
+      <figcaption class="cap"><b>Two taps to log</b>
+        <span>The whole day in the order you take it.</span></figcaption>
+    </figure>
+
+    <!-- 2 · LEVELS -->
+    <figure class="shot" style="margin:0">
+      <div class="phone"><div class="screen">
+        <img class="sg" src="../assets/img/grounds/ridge.jpg" alt="" aria-hidden="true" />
+        <div class="ss"></div><div class="sb"></div>
+        <div class="sl">
+          <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+          <div class="burger"><i></i><i></i><i></i></div>
+          <div class="shero" style="text-align:left;padding-left:18px">
+            <div class="greet" style="font-size:23px">In your system</div>
+            <div class="nt" style="margin-top:4px">Testosterone cypionate</div>
+          </div>
+          <div class="spanel">
+            <div class="sptitle"><span>Relative level</span><span>4 weeks</span></div>
+            <div class="bigstat">82<span>%</span></div>
+            <svg viewBox="0 0 300 118" style="width:100%;height:auto;margin-top:8px" role="img"
+                 aria-label="A modelled relative-level curve rising toward a steady state.">
+              <line x1="0" y1="26" x2="300" y2="26" stroke="rgba(255,255,255,.09)"/>
+              <line x1="0" y1="60" x2="300" y2="60" stroke="rgba(255,255,255,.09)"/>
+              <line x1="0" y1="94" x2="300" y2="94" stroke="rgba(255,255,255,.09)"/>
+              <path d="M5,104 C36,84 50,68 76,74 C104,81 112,50 143,55 C176,60 176,38 212,41 C250,45 253,30 296,29 L296,104 Z"
+                    fill="#2D85BE" opacity=".18"/>
+              <path d="M5,104 C36,84 50,68 76,74 C104,81 112,50 143,55 C176,60 176,38 212,41 C250,45 253,30 296,29"
+                    fill="none" stroke="#2D85BE" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="143" cy="55" r="3" fill="#0B0D10" stroke="#2D85BE" stroke-width="1.8"/>
+              <circle cx="212" cy="41" r="3" fill="#0B0D10" stroke="#2D85BE" stroke-width="1.8"/>
+            </svg>
+            <div class="spfoot"><span>Modelled from half-life</span><span>Estimate</span></div>
+          </div>
+          <div class="spanel">
+            <div class="sptitle"><span>Also active</span><span>3</span></div>
+            <div class="sup">
+              <div class="s"><div class="top"><span class="nm">BPC-157</span><span class="q">64%</span></div></div>
+              <div class="s"><div class="top"><span class="nm">Semaglutide</span><span class="q">41%</span></div></div>
+            </div>
+          </div>
+          <div class="chrome"><div class="dots"><i></i><i class="on"></i><i></i><i></i></div></div>
+        </div>
+      </div></div>
+      <figcaption class="cap"><b>See what is still in you</b>
+        <span>A curve modelled from each compound's half-life.</span></figcaption>
+    </figure>
+
+    <!-- 3 · SUPPLY -->
+    <figure class="shot" style="margin:0">
+      <div class="phone"><div class="screen">
+        <img class="sg" src="../assets/img/grounds/ridge.jpg" alt="" aria-hidden="true" />
+        <div class="ss"></div><div class="sb"></div>
+        <div class="sl">
+          <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+          <div class="burger"><i></i><i></i><i></i></div>
+          <div class="shero" style="text-align:left;padding-left:18px">
+            <div class="greet" style="font-size:23px">Supply</div>
+            <div class="nt" style="margin-top:4px">One refill coming up</div>
+          </div>
+          <div class="spanel">
+            <div class="sptitle"><span>Projected</span><span>Today</span></div>
+            <div class="sup">
+              <div class="s"><div class="top"><span class="nm">Semaglutide</span><span class="q">3 doses</span></div>
+                <div class="track"><div class="fill" style="width:13%"></div></div>
+                <div class="fx">Runs out Jul 4 &middot; $8.20 / dose</div></div>
+              <div class="s"><div class="top"><span class="nm">Testosterone cyp.</span><span class="q">9 doses</span></div>
+                <div class="track"><div class="fill" style="width:36%"></div></div>
+                <div class="fx">Runs out Jul 21 &middot; $0.74 / dose</div></div>
+              <div class="s"><div class="top"><span class="nm">BPC-157</span><span class="q">22 doses</span></div>
+                <div class="track"><div class="fill" style="width:71%"></div></div>
+                <div class="fx">Runs out Aug 6 &middot; $0.41 / dose</div></div>
+              <div class="s"><div class="top"><span class="nm">Vitamin D3</span><span class="q">61 doses</span></div>
+                <div class="track"><div class="fill" style="width:88%"></div></div>
+                <div class="fx">Runs out Oct 30 &middot; $0.03 / dose</div></div>
+            </div>
+          </div>
+          <div class="chrome"><div class="dots"><i></i><i></i><i class="on"></i><i></i></div></div>
+        </div>
+      </div></div>
+      <figcaption class="cap"><b>Never caught empty</b>
+        <span>It counts what is left and names the refill date.</span></figcaption>
+    </figure>
+
+    <!-- 4 · ROTATION -->
+    <figure class="shot" style="margin:0">
+      <div class="phone"><div class="screen">
+        <img class="sg" src="../assets/img/grounds/ridge.jpg" alt="" aria-hidden="true" />
+        <div class="ss"></div><div class="sb"></div>
+        <div class="sl">
+          <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+          <div class="burger"><i></i><i></i><i></i></div>
+          <div class="shero" style="text-align:left;padding-left:18px">
+            <div class="greet" style="font-size:23px">Rotation</div>
+            <div class="nt" style="margin-top:4px">Next &middot; right abdomen</div>
+          </div>
+          <div class="spanel" style="text-align:center">
+            <div class="sptitle"><span>Injection sites</span><span>6 tracked</span></div>
+            <svg viewBox="0 0 120 200" style="width:104px;height:auto;margin:4px auto 0" role="img"
+                 aria-label="Body map with recently used sites resting and one highlighted as next.">
+              <g fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" stroke-width="1.5">
+                <circle cx="60" cy="17" r="10"/><rect x="44" y="30" width="32" height="58" rx="11"/>
+                <rect x="29" y="32" width="12" height="44" rx="6"/><rect x="79" y="32" width="12" height="44" rx="6"/>
+                <rect x="45" y="90" width="13" height="76" rx="6.5"/><rect x="62" y="90" width="13" height="76" rx="6.5"/>
+              </g>
+              <circle cx="36" cy="41" r="5.5" fill="rgba(255,255,255,.34)"/>
+              <circle cx="84" cy="41" r="5.5" fill="rgba(255,255,255,.34)"/>
+              <circle cx="52" cy="58" r="5.5" fill="rgba(255,255,255,.34)"/>
+              <circle cx="68" cy="58" r="6" fill="#2D85BE" stroke="rgba(45,133,190,.34)" stroke-width="7"/>
+              <circle cx="51" cy="122" r="5.5" fill="none" stroke="rgba(255,255,255,.20)" stroke-width="2"/>
+              <circle cx="69" cy="122" r="5.5" fill="rgba(255,255,255,.34)"/>
+            </svg>
+            <div class="spfoot" style="justify-content:center;gap:14px">
+              <span>Resting &middot; 4</span><span>Clear &middot; 1</span></div>
+          </div>
+          <div class="chrome"><div class="dots"><i></i><i></i><i></i><i class="on"></i></div></div>
+        </div>
+      </div></div>
+      <figcaption class="cap"><b>It remembers where you pinned</b>
+        <span>The map keeps the rotation honest for you.</span></figcaption>
+    </figure>
+
+    <!-- 5 · SAGE -->
+    <figure class="shot" style="margin:0">
+      <div class="phone"><div class="screen">
+        <img class="sg" src="../assets/img/grounds/ridge.jpg" alt="" aria-hidden="true" />
+        <div class="ss"></div><div class="sb"></div>
+        <div class="sl">
+          <div class="statusbar"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+          <div class="burger"><i></i><i></i><i></i></div>
+          <div class="shero" style="text-align:left;padding-left:18px">
+            <div class="greet" style="font-size:23px">Sage</div>
+            <div class="nt" style="margin-top:4px">Ask it to do things</div>
+          </div>
+          <div class="spanel" style="display:flex;flex-direction:column;gap:8px">
+            <div class="bubble me">Log my test shot, left glute</div>
+            <div class="bubble them">Logged &mdash; testosterone cypionate, left glute, 9:04. Undo?</div>
+            <div class="bubble me">Push tomorrow's BPC to Friday</div>
+            <div class="bubble them">Moved BPC-157 from Wed 3 Sep to Fri 5 Sep. One dose affected.</div>
+          </div>
+          <div class="sagebar">Say what you want done&hellip;</div>
+          <div class="chrome"><div class="dots"><i></i><i></i><i></i><i class="on"></i></div></div>
+        </div>
+      </div></div>
+      <figcaption class="cap"><b>Just tell it</b>
+        <span>Sage operates the app. It never prescribes.</span></figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ REVIEWS ════ -->
+<!-- ⚠ EVERY REVIEW BELOW IS PLACEHOLDER COPY. The layout is real; the words
+     are not. Replace at launch with verbatim text pulled from the live Play
+     listing, and pull the score and count from the listing too rather than
+     typing them. See the note in the review doc. -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head an" style="margin-bottom:30px">
+      <p class="eyebrow">Reviews</p>
+      <h2>What people say.</h2>
+    </div>
+
+    <div class="score an">
+      <div class="big">4.9</div>
+      <div class="meta">
+        <span class="stars" role="img" aria-label="4.9 out of 5">
+          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
+        </span>
+        <div>Google Play &middot; 128 ratings<br />Updated daily from the listing</div>
+      </div>
+    </div>
+
+    <div class="revs">
+      <article class="rev an" style="--d:0">
+        <span class="stars" role="img" aria-label="5 out of 5">
+          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
+        </span>
+        <p>&ldquo;I was running six things off a note on my phone and a mental list. First
+          morning with this and it was just&hellip; done. The refill warnings alone are worth it.&rdquo;</p>
+        <div class="who">Placeholder &mdash; Play review</div>
+      </article>
+      <article class="rev an" style="--d:1">
+        <span class="stars" role="img" aria-label="5 out of 5">
+          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
+        </span>
+        <p>&ldquo;Every other tracker assumes you take one thing. This one assumes you take
+          six, which is the actual situation. The rotation map ended an argument I have with
+          myself weekly.&rdquo;</p>
+        <div class="who">Placeholder &mdash; Play review</div>
+      </article>
+      <article class="rev an" style="--d:2">
+        <span class="stars" role="img" aria-label="5 out of 5">
+          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
+        </span>
+        <p>&ldquo;Took my last labs to my doctor with the export from this and he asked what
+          app it was. Never had that happen with a spreadsheet.&rdquo;</p>
+        <div class="who">Placeholder &mdash; Play review</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ THE SHORT VERSION ══ -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="three an">
+      <div class="t"><h3>Free, with no cap</h3>
+        <p>Track as many compounds as you actually take. Reminders, supply and rotation cost
+          nothing, permanently.</p></div>
+      <div class="t"><h3>Private by default</h3>
+        <p>Encrypted on your phone. Cloud backup is off until you turn it on, and the account
+          only ever knows your email.</p></div>
+      <div class="t"><h3>It never prescribes</h3>
+        <p>Stack records and explains. It will not recommend a compound or a dose, and nothing
+          here is medical advice.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ LIBRARY ════ -->
+<section class="libband">
+  <div class="wrap sec" style="padding-top:64px;padding-bottom:64px">
+    <div class="libgrid">
+      <div class="an">
+        <p class="eyebrow">Free to read</p>
+        <h2>112 compounds, explained.</h2>
+        <p class="lede">Plain-English pages, cited to public sources, no account. Read one
+          before you download anything.</p>
+      </div>
+      <div class="an" style="--d:1">
+        <div class="pills">
+          <a class="pill" href="/compounds/semaglutide/">Semaglutide</a>
+          <a class="pill" href="/compounds/tirzepatide/">Tirzepatide</a>
+          <a class="pill" href="/compounds/testosterone-cypionate/">Testosterone</a>
+          <a class="pill" href="/compounds/bpc-157/">BPC-157</a>
+          <a class="pill" href="/compounds/retatrutide/">Retatrutide</a>
+          <a class="pill" href="/compounds/creatine-monohydrate/">Creatine</a>
+          <a class="pill" href="/compounds/nmn/">NMN</a>
+          <a class="pill more" href="/compounds/">All 112 &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════ FAQ ════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head an" style="margin-bottom:24px">
+      <p class="eyebrow">Before you ask</p>
+    </div>
+    <div class="faq an">
+      <details><summary>Is it free?</summary>
+        <p>Yes, with no cap on compounds. Tracking, reminders, supply projection and rotation
+        cost nothing. Plus adds the in-system levels, bloodwork ranges, full trends, a
+        doctor-ready report and cloud backup.</p></details>
+      <details><summary>Do I need an account?</summary>
+        <p>No. Everything on the phone works without one. An account is email-only and exists
+        so a Plus purchase follows you to a new device.</p></details>
+      <details><summary>What can I track?</summary>
+        <p>Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and
+        TRT &mdash; alongside habits, weight, lifts and bloodwork.</p></details>
+      <details><summary>Is it on iPhone?</summary>
+        <p>Android first, iOS after. Leave an email and we will tell you the day it lands.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════ CLOSE ════ -->
+<section class="stage close-stage">
+  <img class="ground" alt="" aria-hidden="true"
+       src="../assets/img/hero/hero-1920.jpg"
+       srcset="../assets/img/hero/hero-960.jpg 960w,
+               ../assets/img/hero/hero-1920.jpg 1920w"
+       sizes="100vw" />
+  <div class="scrim"></div>
+  <div class="layer" style="width:100%">
+    <div class="wrap close">
+      <h2 class="an" style="max-width:15ch;margin:0 auto 14px">Get it on your phone.</h2>
+      <p class="statement an" style="--d:1">Free to track. Private by default.</p>
+      <div class="acts an" style="--d:2">
+        <a class="btn btn-solid" href="#get">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#play"/></svg>Get it on Google Play</a>
+        <a class="btn" href="/pricing/">See Plus</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fl">
+      <a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/tools/reconstitution/">Calculator</a><a href="/pricing/">Pricing</a>
+      <a href="/account/">Sign in</a><a href="/about/">About</a>
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      <a href="/data-deletion.html">Data deletion</a>
+    </div>
+    <p class="disc">Stack is a logging tool and an educational reference. Nothing on this site is
+      medical advice, a recommendation, or an endorsement of any compound. Always talk to a
+      clinician about anything you take.</p>
+  </div>
+</footer>
+
+<script>
+/* Scroll reveals, on the app's own ease. Everything is already visible under
+   prefers-reduced-motion, so this becomes a no-op there. */
+(function(){
+  var els = [].slice.call(document.querySelectorAll('.an'));
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(e){ e.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:.05});
+  els.forEach(function(e){ io.observe(e); });
+
+  /* Watchdog. If the observer has not revealed anything a couple of seconds
+     after load — a tab restored in the background, a throttled renderer, a
+     browser quirk — show everything rather than leaving the page blank. An
+     animation is worth having; it is not worth a white screen. */
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      if (!document.querySelector('.an.in')) {
+        els.forEach(function(e){ e.classList.add('in'); });
+      }
+    }, 2200);
+  });
+})();
+
+/* The shelf: the phone under the pointer sits forward, the rest fall back a
+   little. Cheap, and it is what makes a row of screenshots read as a carousel
+   rather than as a row of screenshots. */
+(function(){
+  var shelf = document.getElementById('shelf');
+  if (!shelf || !('IntersectionObserver' in window)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var shots = [].slice.call(shelf.querySelectorAll('.shot'));
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var on = e.intersectionRatio > 0.86;
+      e.target.style.transform = on ? 'scale(1)' : 'scale(.955)';
+      e.target.style.opacity = on ? '1' : '.72';
+    });
+  }, {root: shelf, threshold:[0,.5,.86,1]});
+  shots.forEach(function(s){ io.observe(s); });
+})();
+</script>
+
+</body>
+</html>
