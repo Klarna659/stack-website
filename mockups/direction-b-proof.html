@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stack — direction B · Proof, not promises</title>
+<meta name="robots" content="noindex" />
+<style>
+/* ============================================================================
+   DIRECTION B — "Proof, not promises"
+   The problem this direction solves: every landing page we researched wins on
+   social proof (Shotsy "1M+ downloads / 4.8 stars", MyFitnessPal "5.5 million
+   5-star reviews", Ro "3,000,000+ members", Levels "100,000+ lives changed").
+   Stack has not launched. It has none of that, and inventing it is off the
+   table. So this direction substitutes DEMONSTRATION for social proof: the
+   page does something useful before you download anything. The reconstitution
+   calculator in the hero is real and it works.
+
+   ── THE ONE COLOUR DECISION ────────────────────────────────────────────────
+   Accent is unsettled — it will be derived per-person from the background
+   photo they choose. Everything reads from --accent. Four lines to change.
+   Default is near-monochrome on purpose: this has to hold up with no hue.
+   ========================================================================= */
+:root{
+  --accent:      #C8C4BA;
+  --accent-ink:  #0B0B0E;
+  --accent-soft: rgba(200,196,186,.12);
+  --accent-line: rgba(200,196,186,.30);
+
+  --ground-photo: none;      /* ← the FLUX ground drops in here */
+
+  --bg:     #09090C;
+  --bg-2:   #0F0F13;
+  --panel:  #131318;
+  --line:   #23232A;
+  --line-2: #1A1A20;
+  --ink:    #F2F2F3;
+  --ink-2:  #BFBFC6;
+  --mut:    #8B8B94;
+  --dim:    #6A6A73;
+
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --gut: 20px;
+  --maxw: 1120px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;
+  line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit}
+svg{max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ── ground ──────────────────────────────────────────────────────────────── */
+.ground{position:relative;overflow:hidden}
+.ground::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:var(--ground-photo);background-size:cover;background-position:50% 25%;
+  background-color:#09090C;box-shadow:inset 0 0 240px 70px #09090C}
+.ground::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(90% 60% at 12% 0%, rgba(255,255,255,.06), transparent 60%),
+    linear-gradient(180deg, rgba(9,9,12,.42) 0%, rgba(9,9,12,.88) 68%, var(--bg) 100%)}
+.ground > *{position:relative;z-index:2}
+.grain{position:absolute;inset:0;z-index:1;opacity:.15;pointer-events:none;mix-blend-mode:overlay}
+
+/* ── nav ─────────────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);
+  background:rgba(9,9,12,.74);border-bottom:1px solid var(--line-2)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:650;letter-spacing:-.02em}
+.nav-a{display:none}
+@media(min-width:820px){.nav-a{display:flex;gap:26px;font-size:14px;color:var(--mut)}
+  .nav-a a{text-decoration:none}.nav-a a:hover{color:var(--ink)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);
+  background:transparent;color:var(--ink);padding:11px 16px;border-radius:9px;font:inherit;
+  font-size:14.5px;font-weight:600;text-decoration:none;cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--dim)}
+.btn-p{background:var(--ink);color:#09090C;border-color:var(--ink);font-weight:680}
+.btn-p:hover{background:#fff;border-color:#fff}
+.btn-sm{padding:8px 13px;font-size:13.5px}
+
+/* ── hero: claim on the left, working instrument on the right ────────────── */
+.hero{padding:44px 0 40px}
+@media(min-width:900px){.hero{padding:80px 0 72px}}
+.hgrid{display:grid;gap:34px}
+@media(min-width:900px){.hgrid{grid-template-columns:1.02fr .98fr;gap:56px;align-items:start}}
+.kick{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:640;margin:0 0 16px}
+h1{font-size:clamp(31px,8.4vw,54px);line-height:1.05;letter-spacing:-.035em;font-weight:700;
+  margin:0 0 16px;max-width:16ch}
+.sub{font-size:clamp(16px,4.2vw,18.5px);line-height:1.55;color:var(--ink-2);margin:0 0 26px;max-width:42ch}
+.cta{display:flex;flex-direction:column;gap:10px;max-width:330px}
+@media(min-width:520px){.cta{flex-direction:row;max-width:none}}
+.cta .btn{width:100%}
+@media(min-width:520px){.cta .btn{width:auto}}
+
+/* ── the calculator: this is the whole idea of direction B ───────────────── */
+.calc{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.calc-h{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:13px 16px;border-bottom:1px solid var(--line-2);background:var(--bg-2)}
+.calc-h .t{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);font-weight:660}
+.calc-h .live{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+  font-weight:660;display:flex;align-items:center;gap:6px}
+.calc-h .live i{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.calc-b{padding:18px 16px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.f label{display:block;font-size:12px;color:var(--mut);margin-bottom:6px;letter-spacing:.01em}
+.f .inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:9px;background:var(--bg-2);
+  transition:border-color .15s}
+.f .inp:focus-within{border-color:var(--accent-line)}
+.f input{width:100%;border:0;background:transparent;color:var(--ink);font:inherit;font-size:16px;
+  font-weight:640;font-variant-numeric:tabular-nums;padding:11px 0 11px 12px;outline:0;min-width:0}
+.f .u{font-size:12.5px;color:var(--dim);padding:0 12px 0 6px;flex:none}
+.calc-out{margin-top:6px;border-top:1px solid var(--line-2);padding-top:16px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.calc-out .lab{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);
+  font-weight:660;margin-bottom:8px}
+.calc-out .big{font-size:clamp(34px,10vw,46px);font-weight:700;letter-spacing:-.045em;line-height:1;
+  color:var(--accent);font-variant-numeric:tabular-nums}
+.calc-out .big small{font-size:15px;font-weight:600;letter-spacing:0;color:var(--mut);margin-left:8px}
+.calc-out .aside{font-size:12.5px;color:var(--dim);line-height:1.5;text-align:right;min-width:130px}
+/* syringe barrel, drawn to the answer */
+.syr{margin-top:16px}
+.syr svg{display:block;width:100%;height:auto}
+.calc-f{padding:12px 16px;border-top:1px solid var(--line-2);background:var(--bg-2);
+  font-size:12px;color:var(--dim);line-height:1.5;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.calc-f a{color:var(--mut);text-decoration:underline;text-underline-offset:3px}
+
+/* ── the proof ledger ────────────────────────────────────────────────────── */
+.ledger{border-top:1px solid var(--line-2)}
+.lrow{padding:26px 0;border-bottom:1px solid var(--line-2);display:grid;gap:8px}
+@media(min-width:820px){.lrow{grid-template-columns:190px 1fr 170px;gap:32px;align-items:baseline;padding:30px 0}}
+.lrow .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:640}
+.lrow .v{font-size:16px;line-height:1.6;color:var(--ink-2);max-width:56ch}
+.lrow .v b{color:var(--ink);font-weight:640}
+.lrow .go{font-size:14px}
+.lrow .go a{color:var(--ink);text-decoration:underline;text-underline-offset:4px;
+  text-decoration-color:var(--line);white-space:nowrap}
+.lrow .go a:hover{text-decoration-color:var(--accent)}
+
+.sec{padding:56px 0;border-bottom:1px solid var(--line-2)}
+@media(min-width:820px){.sec{padding:84px 0}}
+.sec h2{font-size:clamp(24px,6vw,36px);line-height:1.14;letter-spacing:-.03em;font-weight:680;
+  margin:0 0 15px;max-width:22ch}
+.sec .lede{font-size:16px;color:var(--ink-2);line-height:1.62;margin:0 0 8px;max-width:58ch}
+.eyebrow{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
+  font-weight:640;margin:0 0 14px}
+
+/* ── the wedge: one day, six compounds ───────────────────────────────────── */
+.wedge{display:grid;gap:26px;margin-top:30px}
+@media(min-width:900px){.wedge{grid-template-columns:1fr 1fr;gap:20px}}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px 18px 20px}
+.card.dim{background:transparent;border-style:dashed;border-color:var(--line-2)}
+.card .ct{font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:660;
+  color:var(--mut);margin-bottom:16px;display:flex;justify-content:space-between;gap:10px}
+.card.dim .ct{color:var(--dim)}
+.ln{display:flex;align-items:center;gap:11px;padding:10px 0;border-top:1px solid var(--line-2);font-size:14.5px}
+.ln:first-of-type{border-top:0}
+.ln .g{width:24px;height:24px;flex:none;border-radius:6px;background:var(--bg-2);display:grid;place-items:center;color:var(--mut)}
+.ln .g svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ln b{font-weight:550;flex:1;letter-spacing:-.01em}
+.ln .t{font-size:12.5px;color:var(--dim)}
+.ln.on .g{color:var(--accent);background:var(--accent-soft)}
+.ln.on .t{color:var(--accent)}
+.ln.ghost{opacity:.34}
+.ln.ghost .t{font-style:italic}
+.card .foot{font-size:13px;color:var(--dim);margin-top:16px;line-height:1.55;border-top:1px solid var(--line-2);padding-top:14px}
+.card.dim .foot{color:var(--mut)}
+
+/* ── three moments (compressed) ──────────────────────────────────────────── */
+.mo{display:grid;gap:34px;margin-top:32px}
+@media(min-width:900px){.mo{grid-template-columns:repeat(3,1fr);gap:38px}}
+.mo .m h3{font-size:19px;font-weight:660;letter-spacing:-.02em;margin:0 0 10px;line-height:1.25}
+.mo .m p{font-size:14.5px;color:var(--ink-2);line-height:1.62;margin:0}
+.mo .m .num{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.08em;
+  border-bottom:1px solid var(--line-2);padding-bottom:12px;margin-bottom:14px;display:block}
+
+/* ── pricing ─────────────────────────────────────────────────────────────── */
+.plans{display:grid;gap:14px;margin-top:26px}
+@media(min-width:760px){.plans{grid-template-columns:1fr 1fr;gap:18px}}
+.plan{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--panel)}
+.plan.hi{border-color:var(--accent-line)}
+.plan h3{margin:0;font-size:13.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);font-weight:650}
+.plan .amt{font-size:32px;font-weight:700;letter-spacing:-.035em;margin:12px 0 6px}
+.plan .amt.hi{color:var(--accent)}
+.plan .d{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin:0 0 20px}
+.plan .btn{width:100%}
+
+/* ── faq ─────────────────────────────────────────────────────────────────── */
+.faq{border-top:1px solid var(--line-2);margin-top:10px}
+.faq details{border-bottom:1px solid var(--line-2)}
+.faq summary{cursor:pointer;list-style:none;padding:17px 0;font-size:16px;font-weight:580;
+  display:flex;justify-content:space-between;gap:16px;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--mut);font-weight:400;font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"\2013"}
+.faq p{margin:0 0 18px;color:var(--ink-2);font-size:15px;line-height:1.65;max-width:62ch}
+
+.close{padding:70px 0 78px;text-align:center}
+.close h2{font-size:clamp(26px,6.8vw,40px);letter-spacing:-.035em;line-height:1.1;font-weight:700;
+  margin:0 auto 15px;max-width:18ch}
+.close p{color:var(--ink-2);margin:0 auto 26px;max-width:44ch}
+.close .cta{margin:0 auto;justify-content:center;max-width:330px}
+@media(min-width:520px){.close .cta{max-width:none;display:inline-flex}}
+
+footer{border-top:1px solid var(--line-2);padding:34px 0 46px;color:var(--dim);font-size:13px}
+.fl{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:20px}
+.fl a{color:var(--mut);text-decoration:none}
+.fl a:hover{color:var(--ink)}
+.disc{line-height:1.6;max-width:70ch}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/></filter>
+  <g id="vial"><rect x="9" y="3.4" width="6" height="3" rx=".9" fill="currentColor" stroke="none"/>
+    <rect x="8.2" y="6.4" width="7.6" height="13.4" rx="1.8"/><path d="M8.2 12.6H15.8"/></g>
+  <g id="cap" transform="rotate(-45 12 12)"><rect x="8.9" y="3.8" width="6.2" height="16.4" rx="3.1"/>
+    <path d="M8.9 12.4h6.2"/></g>
+  <g id="pen"><rect x="10.7" y="2.4" width="2.6" height="1.8" rx=".9" fill="currentColor" stroke="none"/>
+    <rect x="10.1" y="4.2" width="3.8" height="13.4" rx="1.9"/><path d="M10.1 12.4h3.8"/>
+    <rect x="11.1" y="17.6" width="1.8" height="1.8" rx=".4"/><path d="M12 19.4v2"/></g>
+  <g id="syr"><path d="M10 3.2h4M12 3.2v3.2M8.6 6.4h6.8"/><rect x="9.8" y="6.4" width="4.4" height="11" rx=".8"/>
+    <path d="M9.8 10h1.6M9.8 12.6h1.6M12 17.4v3.6"/></g>
+</defs></svg>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
+        <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#8A8C94"/>
+        <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#4A4A52"/>
+        <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#F2F2F3"/>
+      </svg>Stack</a>
+    <nav class="nav-a"><a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/pricing/">Pricing</a><a href="/account/">Sign in</a></nav>
+    <a class="btn btn-sm btn-p" href="#get">Get the app</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════ HERO ═══════ -->
+<section class="ground hero">
+  <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <div class="wrap hgrid">
+    <div>
+      <p class="kick">Dose tracking for a whole protocol</p>
+      <h1>Use it before you download it.</h1>
+      <p class="sub">This is the reconstitution maths from inside the app, running on this page.
+        No sign-up, no install, no email. If it is useful here, the rest of it is the same idea
+        applied to every dose you take.</p>
+      <div class="cta" id="get">
+        <a class="btn btn-p" href="#get">Get it on Google Play</a>
+        <a class="btn" href="/compounds/">Read the library</a>
+      </div>
+    </div>
+
+    <!-- the working instrument -->
+    <div class="calc">
+      <div class="calc-h">
+        <span class="t">Reconstitution</span>
+        <span class="live"><i></i>Live</span>
+      </div>
+      <div class="calc-b">
+        <div class="frow">
+          <div class="f"><label for="mg">Vial strength</label>
+            <div class="inp"><input id="mg" type="number" inputmode="decimal" value="10" min="0" step="any" /><span class="u">mg</span></div></div>
+          <div class="f"><label for="ml">Water added</label>
+            <div class="inp"><input id="ml" type="number" inputmode="decimal" value="2" min="0" step="any" /><span class="u">mL</span></div></div>
+        </div>
+        <div class="frow">
+          <div class="f"><label for="dose">Dose you want</label>
+            <div class="inp"><input id="dose" type="number" inputmode="decimal" value="250" min="0" step="any" /><span class="u">mcg</span></div></div>
+          <div class="f"><label for="syrsize">Syringe</label>
+            <div class="inp"><input id="syrsize" type="number" inputmode="decimal" value="100" min="1" step="any" /><span class="u">units</span></div></div>
+        </div>
+
+        <div class="calc-out">
+          <div>
+            <div class="lab">Draw to</div>
+            <div class="big tnum" id="units">5<small>units</small></div>
+          </div>
+          <div class="aside" id="aside">5&nbsp;mg/mL &middot; 0.05&nbsp;mL<br>40 doses in the vial</div>
+        </div>
+
+        <div class="syr">
+          <svg viewBox="0 0 460 54" role="img" aria-label="A U-100 insulin syringe drawn with the plunger set to the calculated units.">
+            <rect x="30" y="16" width="384" height="22" rx="4" fill="#0F0F13" stroke="#23232A" stroke-width="1.5"/>
+            <rect id="fill" x="31.5" y="17.5" width="9.6" height="19" rx="3" fill="#C8C4BA" opacity=".82"/>
+            <g stroke="#3A3A44" stroke-width="1.4" id="ticks"></g>
+            <path d="M414 27h30" stroke="#23232A" stroke-width="1.5"/>
+            <path d="M444 22v10" stroke="#23232A" stroke-width="1.5"/>
+            <rect x="16" y="10" width="14" height="34" rx="3" fill="#0F0F13" stroke="#23232A" stroke-width="1.5"/>
+            <text x="30" y="51" fill="#6A6A73" font-size="9" font-family="ui-monospace,monospace">0</text>
+            <text id="lbl-mid" x="222" y="51" fill="#6A6A73" font-size="9" font-family="ui-monospace,monospace" text-anchor="middle">50</text>
+            <text id="lbl-end" x="414" y="51" fill="#6A6A73" font-size="9" font-family="ui-monospace,monospace" text-anchor="end">100</text>
+          </svg>
+        </div>
+      </div>
+      <div class="calc-f">
+        <span>Arithmetic, not advice. It converts the numbers you enter &mdash; it does not suggest a dose.</span>
+        <a href="/tools/reconstitution/">Full calculator</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ THE PROOF LEDGER ══ -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="ledger" style="margin-top:0">
+      <div class="lrow">
+        <div class="k">Verifiable</div>
+        <div class="v"><b>112 compound pages, cited to public sources.</b> What each one is, how it
+          works, half-life, storage, and what matters when you track it. Free, no account, indexed
+          &mdash; you can check our work before you trust the app with anything.</div>
+        <div class="go"><a href="/compounds/">Open the library &rarr;</a></div>
+      </div>
+      <div class="lrow">
+        <div class="k">Verifiable</div>
+        <div class="v"><b>The tools run on the web.</b> The calculator above is not a picture of a
+          feature. It is the feature, on a page, with nothing installed.</div>
+        <div class="go"><a href="/tools/reconstitution/">Full calculator &rarr;</a></div>
+      </div>
+      <div class="lrow">
+        <div class="k">Verifiable</div>
+        <div class="v"><b>The privacy claims are written down, in specifics.</b> Encrypted on the
+          device. Cloud backup off by default. Email-only sign-in that never sees a compound name.
+          Export on any plan. Delete and it is gone.</div>
+        <div class="go"><a href="/privacy.html">Read the policy &rarr;</a></div>
+      </div>
+      <div class="lrow" style="border-bottom:0">
+        <div class="k">Not yet</div>
+        <div class="v"><b>No download count, no star rating, no testimonials.</b> Stack has not
+          launched. When there are real numbers they will go here, and not a day before.</div>
+        <div class="go"><a href="#get">Be early &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ THE WEDGE ═══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Why not just use a shot tracker</p>
+    <h2>Most of these apps track one drug. You are not taking one drug.</h2>
+    <p class="lede">A GLP-1 tracker handles the pen. It has nothing to say about the capsules at
+      breakfast, the peptide at nine, or the magnesium at ten &mdash; and no idea that three of them
+      overlap. Stack starts from the assumption that there are six.</p>
+    <div class="wedge">
+      <div class="card dim">
+        <div class="ct"><span>A single-compound tracker</span><span class="tnum">1 of 6</span></div>
+        <div class="ln ghost"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span><b>Vitamin D3</b><span class="t">not tracked</span></div>
+        <div class="ln ghost"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span><b>Creatine</b><span class="t">not tracked</span></div>
+        <div class="ln ghost"><span class="g"><svg viewBox="0 0 24 24"><use href="#syr"/></svg></span><b>Testosterone cyp.</b><span class="t">not tracked</span></div>
+        <div class="ln ghost"><span class="g"><svg viewBox="0 0 24 24"><use href="#vial"/></svg></span><b>BPC-157</b><span class="t">not tracked</span></div>
+        <div class="ln on"><span class="g"><svg viewBox="0 0 24 24"><use href="#pen"/></svg></span><b>Semaglutide</b><span class="t">Thursday</span></div>
+        <div class="ln ghost"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span><b>Magnesium</b><span class="t">not tracked</span></div>
+        <div class="foot">The other five live in notes, a spreadsheet, and your memory.</div>
+      </div>
+      <div class="card">
+        <div class="ct"><span>Stack</span><span class="tnum">6 of 6</span></div>
+        <div class="ln on"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span><b>Vitamin D3</b><span class="t tnum">8:10</span></div>
+        <div class="ln on"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span><b>Creatine &middot; 5 g</b><span class="t tnum">8:12</span></div>
+        <div class="ln on"><span class="g"><svg viewBox="0 0 24 24"><use href="#syr"/></svg></span><b>Testosterone cyp.</b><span class="t tnum">9:00</span></div>
+        <div class="ln on"><span class="g"><svg viewBox="0 0 24 24"><use href="#vial"/></svg></span><b>BPC-157</b><span class="t tnum">9:02</span></div>
+        <div class="ln"><span class="g"><svg viewBox="0 0 24 24"><use href="#pen"/></svg></span><b>Semaglutide</b><span class="t">Thursday</span></div>
+        <div class="ln"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span><b>Magnesium</b><span class="t tnum">10:00 PM</span></div>
+        <div class="foot">One list, one set of reminders, one supply count, one curve that knows
+          all four injectables overlap.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ THREE MOMENTS ════ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">What that buys you</p>
+    <h2>Three things a spreadsheet will never do.</h2>
+    <div class="mo">
+      <div class="m">
+        <span class="num">01 / SUPPLY</span>
+        <h3>It knows you go dry on the 21st.</h3>
+        <p>Every logged dose draws the vial down, so the refill date arrives three weeks
+          early instead of on the morning you needed it.</p>
+      </div>
+      <div class="m">
+        <span class="num">02 / ROTATION</span>
+        <h3>It remembers which side you used.</h3>
+        <p>A body map keeps the rotation honest, greys out what is still resting, and
+          hands you the next site.</p>
+      </div>
+      <div class="m">
+        <span class="num">03 / LEVELS</span>
+        <h3>It shows what has not cleared yet.</h3>
+        <p>A relative curve modelled from published half-lives, so overlapping doses stop
+          being something you carry in your head. A model, not a measurement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ EDGES ═══════ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">The edges</p>
+    <h2>It will not tell you what to take.</h2>
+    <p class="lede">Stack records and explains. It will not suggest a compound, recommend a dose,
+      or read a lab result and pronounce on it. The curve is a model built from published
+      half-lives, not a measurement of your blood. Nothing in the app or on this site is medical
+      advice, and the one thing we will always tell you to do is talk to a clinician. We would
+      rather you knew that here than on the fourth screen.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ PRICING ═══════ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Pricing</p>
+    <h2>The logbook is free. The reading of it is not.</h2>
+    <p class="lede">Everything you need to keep an honest record costs nothing and always will,
+      with no cap on compounds.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3><div class="amt tnum">$0</div>
+        <p class="d">Every compound, every reminder, supply projection, injection rotation, streaks,
+          weight trend, label scanning, and three questions a week for Sage.</p>
+        <a class="btn" href="#get">Get the app</a>
+      </div>
+      <div class="plan hi">
+        <h3>Plus</h3><div class="amt hi">Upgrade</div>
+        <p class="d">The full in-system level screen, bloodwork ranges, the whole trend history, a
+          doctor-ready report, unlimited Sage, and automatic encrypted backup. Monthly, yearly, or a
+          one-time lifetime unlock.</p>
+        <a class="btn btn-p" href="/pricing/">See Plus</a>
+      </div>
+    </div>
+    <p style="font-size:13.5px;color:var(--dim);margin-top:20px">Never a paywall on your own data.
+      Export a full encrypted backup on any plan.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FAQ ═══════ -->
+<section class="sec">
+  <div class="wrap">
+    <h2>Before you ask.</h2>
+    <div class="faq">
+      <details><summary>Is it actually free?</summary>
+        <p>Yes, and there is no compound limit. Tracking, reminders, supply projection, rotation,
+        streaks and weight trends cost nothing. Plus adds the insight layer.</p></details>
+      <details><summary>Do I need an account?</summary>
+        <p>No. Everything on the phone works without one. An account is email-only and exists so a
+        Plus purchase follows you to a new device &mdash; it never learns what you take.</p></details>
+      <details><summary>What can I track?</summary>
+        <p>Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and TRT
+        &mdash; alongside habits, weight, lifts and bloodwork.</p></details>
+      <details><summary>Will it tell me what to take?</summary>
+        <p>No, and it is built not to. Stack records and explains. It never recommends a compound
+        or a dose.</p></details>
+      <details><summary>When does it launch?</summary>
+        <p>Android first, iOS after. Leave an email and we will tell you the day it is live.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="ground close">
+  <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <div class="wrap">
+    <h2>You have already used part of it.</h2>
+    <p>The rest is the same idea applied to every dose you take.</p>
+    <div class="cta"><a class="btn btn-p" href="#get">Get it on Google Play</a>
+      <a class="btn" href="/pricing/">See what Plus adds</a></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fl">
+      <a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/tools/reconstitution/">Calculator</a><a href="/pricing/">Pricing</a>
+      <a href="/account/">Sign in</a><a href="/about/">About</a>
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      <a href="/data-deletion.html">Data deletion</a>
+    </div>
+    <p class="disc">Stack is a logging tool and an educational reference. Nothing on this site is
+      medical advice, a recommendation, or an endorsement of any compound. Always talk to a
+      clinician about anything you take.</p>
+  </div>
+</footer>
+
+<script>
+/* The calculator. Plain arithmetic — mg/mL concentration, then volume, then
+   units on the barrel. It converts what is typed; it never suggests a dose. */
+(function(){
+  var mg = document.getElementById('mg'),
+      ml = document.getElementById('ml'),
+      dose = document.getElementById('dose'),
+      syrsize = document.getElementById('syrsize'),
+      out = document.getElementById('units'),
+      aside = document.getElementById('aside'),
+      fill = document.getElementById('fill'),
+      ticks = document.getElementById('ticks'),
+      lblMid = document.getElementById('lbl-mid'),
+      lblEnd = document.getElementById('lbl-end');
+
+  var X0 = 31.5, X1 = 412.5;          /* barrel interior, in viewBox units */
+
+  function num(el){ var v = parseFloat(el.value); return isFinite(v) ? v : 0; }
+  function fmt(n, d){ return n.toFixed(d).replace(/\.?0+$/, '') || '0'; }
+
+  function drawTicks(cap){
+    var step = cap <= 30 ? 5 : 10, s = '';
+    for (var u = 0; u <= cap; u += step){
+      var x = X0 + (X1 - X0) * (u / cap);
+      var tall = (u % (step * 2) === 0);
+      s += '<path d="M' + x.toFixed(1) + ' ' + (tall ? 20 : 24) + 'V34"/>';
+    }
+    ticks.innerHTML = s;
+    lblMid.textContent = fmt(cap / 2, 0);
+    lblEnd.textContent = fmt(cap, 0);
+  }
+
+  function run(){
+    var strength = num(mg), water = num(ml), want = num(dose) / 1000, cap = num(syrsize) || 100;
+    var conc = water > 0 ? strength / water : 0;                 /* mg per mL */
+    var vol  = conc > 0 ? want / conc : 0;                       /* mL */
+    var units = vol * 100;                                       /* U-100 syringe */
+    var doses = want > 0 ? Math.floor(strength / want) : 0;
+
+    out.innerHTML = (units > 0 ? fmt(units, 2) : '&mdash;') + '<small>units</small>';
+
+    var over = units > cap;
+    aside.innerHTML = (conc > 0 ? fmt(conc, 2) + '&nbsp;mg/mL' : '&mdash;') +
+      ' &middot; ' + (vol > 0 ? fmt(vol, 3) + '&nbsp;mL' : '&mdash;') + '<br>' +
+      (over
+        ? '<span style="color:#C8C4BA">More than one syringe at this size</span>'
+        : (doses > 0 ? doses + ' doses in the vial' : 'Enter a dose'));
+
+    drawTicks(cap);
+    var frac = cap > 0 ? Math.max(0, Math.min(1, units / cap)) : 0;
+    var w = Math.max(2, (X1 - X0) * frac);
+    fill.setAttribute('width', w.toFixed(1));
+    fill.setAttribute('opacity', over ? '.35' : '.82');
+  }
+
+  [mg, ml, dose, syrsize].forEach(function(el){
+    el.addEventListener('input', run);
+  });
+  run();
+})();
+</script>
+
+</body>
+</html>

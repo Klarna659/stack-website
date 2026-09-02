@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stack — direction A · A day in it</title>
+<meta name="robots" content="noindex" />
+<style>
+/* ============================================================================
+   DIRECTION A — "A day in it"
+   Modelled on Oura / Zero / Levels: the product is shown as a sequence of
+   moments, not a grid of capabilities. There is no feature grid on this page
+   at all. Every capability appears as the answer to a moment in a real day.
+
+   ── THE ONE COLOUR DECISION ────────────────────────────────────────────────
+   The accent is NOT settled. In the app it will be derived from whichever
+   background photo the person picks, so it differs per person. Everything
+   below reads from --accent. Change these four lines and the whole page
+   follows. The default is deliberately near-monochrome: the page has to hold
+   up with no hue at all, and it does.
+   ========================================================================= */
+:root{
+  --accent:       #CFCBC2;                    /* near-neutral bone */
+  --accent-ink:   #0B0B0E;                    /* text sitting ON the accent */
+  --accent-soft:  rgba(207,203,194,.13);
+  --accent-line:  rgba(207,203,194,.26);
+
+  /* ── THE GROUND ──────────────────────────────────────────────────────────
+     Dark, with a scrim. The photograph goes in --ground-photo when the real
+     ones are picked; the CSS below already assumes a scrim sits over it, so
+     dropping a photo in changes nothing about legibility. */
+  --ground-photo: none;
+
+  --bg:      #0A0A0D;
+  --bg-2:    #101014;
+  --panel:   #15151A;
+  --line:    #24242B;
+  --line-2:  #1C1C22;
+  --ink:     #F3F3F4;
+  --ink-2:   #C2C2C8;
+  --mut:     #8E8E97;
+  --dim:     #6E6E77;
+
+  /* Typeface is unpicked for the same reason the colour is. One stack, one
+     place to change it. */
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --gut: 20px;
+  --maxw: 1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;               /* tabular figures, everywhere */
+}
+img,svg{max-width:100%}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.tnum{font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+/* ── the photographic ground + scrim ─────────────────────────────────────── */
+.ground{position:relative;overflow:hidden;background:var(--bg)}
+.ground::before{                                   /* the photo slot */
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:var(--ground-photo);background-size:cover;background-position:50% 30%;
+  background-color:#0A0A0D;
+  box-shadow:inset 0 0 200px 60px #0A0A0D;
+}
+.ground::after{                                    /* the scrim */
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(120% 70% at 78% -8%, rgba(255,255,255,.07), transparent 58%),
+    linear-gradient(180deg, rgba(10,10,13,.35) 0%, rgba(10,10,13,.86) 62%, var(--bg) 100%);
+}
+.ground > *{position:relative;z-index:2}
+/* film grain, code-drawn so there is nothing to load */
+.grain{position:absolute;inset:0;z-index:1;opacity:.16;pointer-events:none;mix-blend-mode:overlay}
+
+/* ── nav ─────────────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);
+  background:rgba(10,10,13,.72);border-bottom:1px solid var(--line-2)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:650;letter-spacing:-.02em}
+.brand svg{display:block}
+.nav-a{display:none}
+@media(min-width:820px){
+  .nav-a{display:flex;gap:26px;font-size:14px;color:var(--mut)}
+  .nav-a a{text-decoration:none}
+  .nav-a a:hover{color:var(--ink)}
+}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid var(--line);background:transparent;color:var(--ink);
+  padding:11px 16px;border-radius:10px;font:inherit;font-size:14.5px;font-weight:600;
+  text-decoration:none;cursor:pointer;transition:border-color .15s,background .15s}
+.btn:hover{border-color:var(--dim)}
+.btn-p{background:var(--ink);color:#0A0A0D;border-color:var(--ink);font-weight:680}
+.btn-p:hover{background:#fff;border-color:#fff}
+.btn-sm{padding:8px 13px;font-size:13.5px;border-radius:9px}
+
+/* ── hero ────────────────────────────────────────────────────────────────── */
+.hero{padding:52px 0 46px}
+@media(min-width:820px){.hero{padding:96px 0 84px}}
+.kicker{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
+  font-weight:640;margin:0 0 18px}
+h1{font-size:clamp(34px,9.2vw,62px);line-height:1.03;letter-spacing:-.035em;
+  font-weight:700;margin:0 0 18px;max-width:15ch}
+.sub{font-size:clamp(16.5px,4.4vw,20px);line-height:1.5;color:var(--ink-2);margin:0 0 30px;max-width:40ch}
+.cta{display:flex;flex-direction:column;gap:11px;max-width:340px}
+@media(min-width:560px){.cta{flex-direction:row;max-width:none;align-items:center}}
+.cta .btn{width:100%}
+@media(min-width:560px){.cta .btn{width:auto}}
+
+/* The proof row. NOT invented social proof — three things that are true today
+   and that a visitor can verify by clicking. */
+.proof{display:flex;gap:0;margin-top:34px;border-top:1px solid var(--line-2);
+  flex-direction:column}
+@media(min-width:640px){.proof{flex-direction:row;border-top:0}}
+.pf{padding:16px 0;border-bottom:1px solid var(--line-2);flex:1}
+@media(min-width:640px){.pf{border-bottom:0;border-top:1px solid var(--line);padding:18px 22px 0 0}}
+.pf .n{font-size:22px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.pf .l{font-size:13px;color:var(--mut);margin-top:6px;line-height:1.4}
+.pf a{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+
+/* ── the day ─────────────────────────────────────────────────────────────── */
+.day{border-top:1px solid var(--line-2)}
+.moment{padding:56px 0;border-bottom:1px solid var(--line-2)}
+@media(min-width:820px){
+  .moment{padding:92px 0;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .moment.flip .m-fig{order:-1}
+}
+.m-when{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--mut);
+  font-weight:640;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.m-when::after{content:"";height:1px;flex:1;background:var(--line-2)}
+.moment h2{font-size:clamp(25px,6.4vw,38px);line-height:1.12;letter-spacing:-.03em;
+  font-weight:680;margin:0 0 14px;max-width:18ch}
+.moment p{font-size:16px;line-height:1.6;color:var(--ink-2);margin:0;max-width:44ch}
+.m-fig{margin-top:28px}
+@media(min-width:820px){.m-fig{margin-top:0}}
+.m-note{font-size:13px;color:var(--dim);margin-top:14px;line-height:1.5}
+
+/* The figures are all code-drawn. NO app screenshots: the screens are being
+   redesigned right now, and anything pasted here is stale within the week.
+   These are diagrams of behaviour, which stays true. */
+.fig{border:1px solid var(--line);border-radius:14px;background:var(--panel);
+  padding:16px;overflow:hidden}
+.fig-h{display:flex;justify-content:space-between;align-items:baseline;
+  font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+  font-weight:640;margin-bottom:14px}
+
+/* log rows */
+.lrow{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line-2)}
+.lrow:first-of-type{border-top:0}
+.lrow .g{width:26px;height:26px;flex:none;border-radius:7px;background:var(--bg-2);
+  display:grid;place-items:center;color:var(--mut)}
+.lrow .g svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.lrow b{font-weight:560;font-size:14.5px;flex:1;letter-spacing:-.01em}
+.lrow .t{font-size:12.5px;color:var(--dim)}
+.lrow.done .g{color:var(--accent);background:var(--accent-soft)}
+.lrow.done .t{color:var(--accent)}
+.tick{width:13px;height:13px;flex:none;stroke:var(--accent);stroke-width:2.6;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* body map */
+.map{display:flex;gap:22px;align-items:center;justify-content:center;padding:6px 0}
+.map svg{flex:none}
+.mkey{display:grid;gap:9px;font-size:12.5px;color:var(--mut)}
+.mkey .r{display:flex;align-items:center;gap:9px}
+.mkey i{width:9px;height:9px;border-radius:50%;background:var(--line);flex:none}
+.mkey i.used{background:var(--dim)}
+.mkey i.next{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+
+/* supply bars */
+.sup{display:grid;gap:14px}
+.sup .s{border-top:1px solid var(--line-2);padding-top:13px}
+.sup .s:first-child{border-top:0;padding-top:0}
+.sup .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sup .nm{font-size:14.5px;font-weight:560;letter-spacing:-.01em}
+.sup .q{font-size:14px;font-weight:700;color:var(--accent)}
+.sup .track{height:5px;border-radius:3px;background:var(--bg-2);margin:10px 0 7px;overflow:hidden}
+.sup .fill{height:100%;border-radius:3px;background:var(--accent);opacity:.85}
+.sup .fx{font-size:12.5px;color:var(--dim)}
+
+/* curve */
+.curve svg{display:block;width:100%;height:auto}
+.c-grid{stroke:var(--line-2);stroke-width:1}
+.c-area{fill:var(--accent-soft)}
+.c-line{stroke:var(--accent);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.c-dot{fill:var(--bg);stroke:var(--accent);stroke-width:2}
+.c-key{display:flex;gap:18px;font-size:12px;color:var(--mut);margin-top:12px}
+.c-key span{display:flex;align-items:center;gap:7px}
+.c-key i{width:14px;height:2px;background:var(--accent);border-radius:2px}
+.c-key i.d{width:8px;height:8px;border-radius:50%;background:transparent;border:2px solid var(--accent)}
+
+/* privacy figure */
+.priv{display:grid;gap:0}
+.priv .p{display:flex;gap:13px;padding:14px 0;border-top:1px solid var(--line-2);font-size:14.5px;
+  color:var(--ink-2);line-height:1.5}
+.priv .p:first-child{border-top:0}
+.priv .p svg{width:17px;height:17px;flex:none;margin-top:3px;stroke:var(--accent);
+  stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.priv .p b{color:var(--ink);font-weight:620}
+
+/* ── plain sections ──────────────────────────────────────────────────────── */
+.sec{padding:60px 0;border-bottom:1px solid var(--line-2)}
+@media(min-width:820px){.sec{padding:88px 0}}
+.sec h2{font-size:clamp(25px,6.2vw,38px);line-height:1.12;letter-spacing:-.03em;
+  font-weight:680;margin:0 0 16px;max-width:20ch}
+.sec .lede{font-size:16px;color:var(--ink-2);line-height:1.62;margin:0 0 26px;max-width:56ch}
+
+/* edges — prose, not a two-column checklist */
+.edges p{font-size:16px;line-height:1.68;color:var(--ink-2);max-width:60ch;margin:0 0 16px}
+.edges strong{color:var(--ink);font-weight:620}
+
+/* library */
+.lib{display:grid;gap:10px;margin-top:24px}
+@media(min-width:640px){.lib{grid-template-columns:1fr 1fr}}
+.lcard{border:1px solid var(--line);border-radius:12px;padding:15px 16px;text-decoration:none;
+  display:block;transition:border-color .15s}
+.lcard:hover{border-color:var(--dim)}
+.lcard .nm{font-weight:600;font-size:15px;letter-spacing:-.01em}
+.lcard .fx{font-size:12.5px;color:var(--mut);margin-top:5px}
+
+/* pricing — two plans, no tick lists */
+.plans{display:grid;gap:14px;margin-top:26px}
+@media(min-width:760px){.plans{grid-template-columns:1fr 1fr;gap:18px}}
+.plan{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--panel)}
+.plan.hi{border-color:var(--accent-line)}
+.plan h3{margin:0;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut);font-weight:640}
+.plan .amt{font-size:32px;font-weight:700;letter-spacing:-.035em;margin:12px 0 6px}
+.plan .amt.hi{color:var(--accent)}
+.plan .d{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin:0 0 20px}
+.plan .btn{width:100%}
+
+/* faq */
+.faq{border-top:1px solid var(--line-2);margin-top:8px}
+.faq details{border-bottom:1px solid var(--line-2)}
+.faq summary{cursor:pointer;list-style:none;padding:17px 0;font-size:16px;font-weight:580;
+  display:flex;justify-content:space-between;gap:16px;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--mut);font-weight:400;font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"\2013"}
+.faq p{margin:0 0 18px;color:var(--ink-2);font-size:15px;line-height:1.65;max-width:62ch}
+
+/* close */
+.close{padding:72px 0 80px;text-align:center}
+.close h2{font-size:clamp(27px,7vw,42px);letter-spacing:-.035em;line-height:1.1;
+  font-weight:700;margin:0 auto 16px;max-width:16ch}
+.close p{color:var(--ink-2);margin:0 auto 28px;max-width:44ch}
+.close .cta{margin:0 auto;justify-content:center;max-width:340px}
+@media(min-width:560px){.close .cta{max-width:none;display:inline-flex}}
+
+footer{border-top:1px solid var(--line-2);padding:34px 0 46px;color:var(--dim);font-size:13px}
+.fl{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:20px}
+.fl a{color:var(--mut);text-decoration:none}
+.fl a:hover{color:var(--ink)}
+.disc{line-height:1.6;max-width:70ch}
+</style>
+</head>
+<body>
+
+<!-- code-drawn film grain + the app's own compound glyphs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/></filter>
+  <g id="vial"><rect x="9" y="3.4" width="6" height="3" rx=".9" fill="currentColor" stroke="none"/>
+    <rect x="8.2" y="6.4" width="7.6" height="13.4" rx="1.8"/><path d="M8.2 12.6H15.8"/></g>
+  <g id="cap" transform="rotate(-45 12 12)"><rect x="8.9" y="3.8" width="6.2" height="16.4" rx="3.1"/>
+    <path d="M8.9 12.4h6.2"/></g>
+  <g id="pen"><rect x="10.7" y="2.4" width="2.6" height="1.8" rx=".9" fill="currentColor" stroke="none"/>
+    <rect x="10.1" y="4.2" width="3.8" height="13.4" rx="1.9"/><path d="M10.1 12.4h3.8"/>
+    <rect x="11.1" y="17.6" width="1.8" height="1.8" rx=".4"/><path d="M12 19.4v2"/></g>
+  <g id="syr"><path d="M10 3.2h4M12 3.2v3.2M8.6 6.4h6.8"/><rect x="9.8" y="6.4" width="4.4" height="11" rx=".8"/>
+    <path d="M9.8 10h1.6M9.8 12.6h1.6M12 17.4v3.6"/></g>
+</defs></svg>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
+        <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#8A8C94"/>
+        <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#4A4A52"/>
+        <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#F3F3F4"/>
+      </svg>Stack</a>
+    <nav class="nav-a">
+      <a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/pricing/">Pricing</a><a href="/account/">Sign in</a>
+    </nav>
+    <a class="btn btn-sm btn-p" href="#get">Get the app</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════ HERO ═══════ -->
+<section class="ground hero">
+  <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <div class="wrap">
+    <p class="kicker">A logbook for people who take more than one thing</p>
+    <h1>Six things a day. One place that remembers all of them.</h1>
+    <p class="sub">Stack keeps the whole protocol &mdash; the capsules, the peptides, the pen,
+      the shot &mdash; with the times, the refill dates, and what is still working in you between doses.</p>
+
+    <div class="cta" id="get">
+      <a class="btn btn-p" href="#get">Get it on Google Play</a>
+      <a class="btn" href="/tools/reconstitution/">Try the calculator first</a>
+    </div>
+
+    <div class="proof">
+      <div class="pf"><div class="n tnum">112</div>
+        <div class="l">compound pages, each cited to public sources.
+          <a href="/compounds/">Read one before you download</a>.</div></div>
+      <div class="pf"><div class="n">No cap</div>
+        <div class="l">Track as many compounds as you actually take. Free, permanently.</div></div>
+      <div class="pf"><div class="n">On device</div>
+        <div class="l">Encrypted on your phone; cloud backup is off until you turn it on.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ DAY ═══════ -->
+<section class="day">
+  <div class="wrap">
+
+    <article class="moment">
+      <div>
+        <p class="m-when">07:42</p>
+        <h2>Four things before you have put the kettle down.</h2>
+        <p>The morning block opens with what is due, in the order you take it. Tap the row,
+          it is logged with the real time. Nothing to type, nothing to scroll past, no screen
+          in between.</p>
+        <p class="m-note">One notification when doses land together, not four.</p>
+      </div>
+      <div class="m-fig">
+        <div class="fig">
+          <div class="fig-h"><span>Tuesday &middot; morning</span><span class="tnum">4 of 6</span></div>
+          <div class="lrow done"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span>
+            <b>Vitamin D3</b><span class="t tnum">8:10</span>
+            <svg class="tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div class="lrow done"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span>
+            <b>Creatine &middot; 5 g</b><span class="t tnum">8:12</span>
+            <svg class="tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div class="lrow done"><span class="g"><svg viewBox="0 0 24 24"><use href="#syr"/></svg></span>
+            <b>Testosterone cyp.</b><span class="t tnum">9:00</span>
+            <svg class="tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div class="lrow done"><span class="g"><svg viewBox="0 0 24 24"><use href="#vial"/></svg></span>
+            <b>BPC-157</b><span class="t tnum">9:02</span>
+            <svg class="tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div class="lrow"><span class="g"><svg viewBox="0 0 24 24"><use href="#pen"/></svg></span>
+            <b>Semaglutide</b><span class="t">Thursday</span></div>
+          <div class="lrow"><span class="g"><svg viewBox="0 0 24 24"><use href="#cap"/></svg></span>
+            <b>Magnesium</b><span class="t tnum">10:00 PM</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="moment flip">
+      <div>
+        <p class="m-when">09:00 &middot; the shot</p>
+        <h2>You should not have to remember which side you used.</h2>
+        <p>Stack does. It keeps the rotation honest, greys out anything still resting, and
+          hands you the next site before you have opened the drawer.</p>
+        <p class="m-note">Nothing here is a recommendation &mdash; it is a record of where you have already been.</p>
+      </div>
+      <div class="m-fig">
+        <div class="fig">
+          <div class="fig-h"><span>Rotation</span><span>Next &middot; right abdomen</span></div>
+          <div class="map">
+            <svg viewBox="0 0 120 200" width="112" role="img"
+                 aria-label="Body map: three sites marked as used and resting, one highlighted as next.">
+              <g fill="#101014" stroke="#24242B" stroke-width="1.5">
+                <circle cx="60" cy="17" r="10"/><rect x="44" y="30" width="32" height="58" rx="11"/>
+                <rect x="29" y="32" width="12" height="44" rx="6"/><rect x="79" y="32" width="12" height="44" rx="6"/>
+                <rect x="45" y="90" width="13" height="76" rx="6.5"/><rect x="62" y="90" width="13" height="76" rx="6.5"/>
+              </g>
+              <circle cx="36" cy="41" r="5.5" fill="#6E6E77"/>
+              <circle cx="84" cy="41" r="5.5" fill="#6E6E77"/>
+              <circle cx="52" cy="58" r="5.5" fill="#6E6E77"/>
+              <circle cx="68" cy="58" r="6" fill="#CFCBC2" stroke="rgba(207,203,194,.22)" stroke-width="7"/>
+              <circle cx="51" cy="122" r="5.5" fill="none" stroke="#24242B" stroke-width="2"/>
+              <circle cx="69" cy="122" r="5.5" fill="#6E6E77"/>
+            </svg>
+            <div class="mkey">
+              <div class="r"><i class="next"></i>Next up</div>
+              <div class="r"><i class="used"></i>Resting</div>
+              <div class="r"><i></i>Clear</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="moment">
+      <div>
+        <p class="m-when">Thursday</p>
+        <h2>It tells you you are running out three weeks early.</h2>
+        <p>Every logged dose draws the vial down. Stack counts what is left, works out the
+          date you go dry, and puts a cost per dose next to it &mdash; so ordering is a decision
+          you make, not an emergency you discover.</p>
+      </div>
+      <div class="m-fig">
+        <div class="fig">
+          <div class="fig-h"><span>Supply</span><span>Projected</span></div>
+          <div class="sup">
+            <div class="s">
+              <div class="top"><span class="nm">Testosterone cyp.</span><span class="q tnum">9 doses</span></div>
+              <div class="track"><div class="fill" style="width:36%"></div></div>
+              <div class="fx tnum">Refill by Jul 21 &middot; $0.74 per dose</div>
+            </div>
+            <div class="s">
+              <div class="top"><span class="nm">BPC-157</span><span class="q tnum">22 doses</span></div>
+              <div class="track"><div class="fill" style="width:71%"></div></div>
+              <div class="fx tnum">Refill by Aug 6 &middot; $0.41 per dose</div>
+            </div>
+            <div class="s">
+              <div class="top"><span class="nm">Semaglutide</span><span class="q tnum">3 doses</span></div>
+              <div class="track"><div class="fill" style="width:13%"></div></div>
+              <div class="fx tnum">Refill by Jul 4 &middot; $8.20 per dose</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="moment flip">
+      <div>
+        <p class="m-when">Sunday</p>
+        <h2>What a checklist cannot tell you: what is still in you.</h2>
+        <p>A tick tells you that you took it. Stack also models what has not cleared &mdash; a
+          relative curve drawn from each compound's half-life, so overlapping doses stop
+          being something you hold in your head.</p>
+        <p class="m-note">A model, not a measurement. It is an estimate from published half-lives, and the screen says so.</p>
+      </div>
+      <div class="m-fig">
+        <div class="fig curve">
+          <div class="fig-h"><span>Testosterone &middot; relative level</span><span>4 weeks</span></div>
+          <svg viewBox="0 0 520 200" role="img"
+               aria-label="A modelled relative-level curve rising across four weeks toward a steady state, with three dose markers.">
+            <line class="c-grid" x1="0" y1="40" x2="520" y2="40"/>
+            <line class="c-grid" x1="0" y1="90" x2="520" y2="90"/>
+            <line class="c-grid" x1="0" y1="140" x2="520" y2="140"/>
+            <line class="c-grid" x1="0" y1="182" x2="520" y2="182"/>
+            <path class="c-area" d="M8,182 C60,146 84,118 128,130 C176,142 190,88 244,96 C300,104 300,68 360,74 C424,80 430,56 512,54 L512,182 Z"/>
+            <path class="c-line" d="M8,182 C60,146 84,118 128,130 C176,142 190,88 244,96 C300,104 300,68 360,74 C424,80 430,56 512,54"/>
+            <circle class="c-dot" cx="128" cy="130" r="4"/>
+            <circle class="c-dot" cx="244" cy="96" r="4"/>
+            <circle class="c-dot" cx="360" cy="74" r="4"/>
+          </svg>
+          <div class="c-key"><span><i></i>Modelled level</span><span><i class="d"></i>Dose logged</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="moment" style="border-bottom:0">
+      <div>
+        <p class="m-when">Any night</p>
+        <h2>Nobody needs to know what is in your stack.</h2>
+        <p>What you take is the most sensitive list on your phone. We built the app so that
+          we never hold it, and so that leaving is as easy as arriving.</p>
+      </div>
+      <div class="m-fig">
+        <div class="fig">
+          <div class="priv">
+            <div class="p"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span><b>Encrypted on the device.</b> Cloud backup exists and is off until you switch it on.</span></div>
+            <div class="p"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m4 6 8 6 8-6"/></svg>
+              <span><b>Sign-in knows your email and nothing else.</b> The account never sees a compound name.</span></div>
+            <div class="p"><svg viewBox="0 0 24 24"><path d="M12 3v13"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
+              <span><b>Export everything, on any plan.</b> Your own data is never behind a paywall.</span></div>
+            <div class="p"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6v14h12V6"/></svg>
+              <span><b>Delete the account and it goes.</b> Permanently, not archived.</span></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ EDGES ═══════ -->
+<section class="sec edges">
+  <div class="wrap">
+    <h2>What this is, and what it refuses to be.</h2>
+    <p>Stack is a logbook and a reference. It records what you took, when, where, and how
+      much of it is left, and it explains what each compound is using public, cited sources.</p>
+    <p><strong>It does not tell you what to take.</strong> It will not suggest a compound,
+      recommend a dose, or read a lab result and pronounce on it. The curve is a model built
+      from published half-lives, not a measurement of your blood. Nothing in the app or on
+      this site is medical advice, and the one thing we will always tell you to do is talk
+      to a clinician.</p>
+    <p>We would rather state that here than have you find it out on the fourth screen.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ LIBRARY ═══════ -->
+<section class="sec">
+  <div class="wrap">
+    <h2>Read the compound before you add it.</h2>
+    <p class="lede">Plain-English pages for 112 compounds &mdash; what it is, how it works,
+      half-life, storage, and what actually matters when you are tracking it. Summarised from
+      public sources, cited, free to read, no account.</p>
+    <div class="lib">
+      <a class="lcard" href="/compounds/semaglutide/"><div class="nm">Semaglutide</div><div class="fx tnum">GLP-1 &middot; t&frac12; &asymp; 7 days</div></a>
+      <a class="lcard" href="/compounds/testosterone-cypionate/"><div class="nm">Testosterone cypionate</div><div class="fx tnum">TRT ester &middot; t&frac12; &asymp; 8 days</div></a>
+      <a class="lcard" href="/compounds/bpc-157/"><div class="nm">BPC-157</div><div class="fx">Peptide &middot; injected</div></a>
+      <a class="lcard" href="/compounds/tirzepatide/"><div class="nm">Tirzepatide</div><div class="fx tnum">GLP-1 &middot; t&frac12; &asymp; 5 days</div></a>
+    </div>
+    <p style="margin-top:22px"><a class="btn" href="/compounds/">All 112 compounds</a>
+      <a class="btn" href="/guides/" style="margin-left:8px">Guides</a></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ PRICING ═══════ -->
+<section class="sec">
+  <div class="wrap">
+    <h2>The logbook is free. The reading of it is not.</h2>
+    <p class="lede">Everything you need to keep an honest record costs nothing and always will,
+      with no cap on compounds. Plus is the interpretation layer.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="amt tnum">$0</div>
+        <p class="d">Every compound, every reminder, supply projection, injection rotation,
+          streaks, weight trend, label scanning, and three questions a week for Sage.</p>
+        <a class="btn" href="#get">Get the app</a>
+      </div>
+      <div class="plan hi">
+        <h3>Plus</h3>
+        <div class="amt hi">Upgrade</div>
+        <p class="d">The full in-system level screen, bloodwork ranges, the whole trend history,
+          a doctor-ready report, unlimited Sage, and automatic encrypted backup. Monthly, yearly,
+          or a one-time lifetime unlock.</p>
+        <a class="btn btn-p" href="/pricing/">See Plus</a>
+      </div>
+    </div>
+    <p style="font-size:13.5px;color:var(--dim);margin-top:20px">
+      Never a paywall on your own data. Export a full encrypted backup on any plan.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FAQ ═══════ -->
+<section class="sec">
+  <div class="wrap">
+    <h2>Before you ask.</h2>
+    <div class="faq">
+      <details><summary>Is it actually free?</summary>
+        <p>Yes, and there is no compound limit. Tracking, reminders, supply projection,
+        rotation, streaks and weight trends cost nothing. Plus adds the insight layer.</p></details>
+      <details><summary>Do I need an account?</summary>
+        <p>No. Everything on the phone works without one. An account is email-only and exists
+        so a Plus purchase follows you to a new device &mdash; it never learns what you take.</p></details>
+      <details><summary>What can I track?</summary>
+        <p>Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and
+        TRT &mdash; alongside habits, weight, lifts and bloodwork.</p></details>
+      <details><summary>Will it tell me what to take?</summary>
+        <p>No, and it is built not to. Stack records and explains. It never recommends a
+        compound or a dose.</p></details>
+      <details><summary>When does it launch?</summary>
+        <p>Android first, iOS after. Leave an email and we will tell you the day it is live.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ CLOSE ═══════ -->
+<section class="ground close">
+  <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <div class="wrap">
+    <h2>Stop keeping it in your head.</h2>
+    <p>Free to track. Private by default. Built for a stack, not a single pill.</p>
+    <div class="cta"><a class="btn btn-p" href="#get">Get it on Google Play</a>
+      <a class="btn" href="/pricing/">See what Plus adds</a></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fl">
+      <a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/tools/reconstitution/">Calculator</a><a href="/pricing/">Pricing</a>
+      <a href="/account/">Sign in</a><a href="/about/">About</a>
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      <a href="/data-deletion.html">Data deletion</a>
+    </div>
+    <p class="disc">Stack is a logging tool and an educational reference. Nothing on this site
+      is medical advice, a recommendation, or an endorsement of any compound. Always talk to a
+      clinician about anything you take.</p>
+  </div>
+</footer>
+
+</body>
+</html>

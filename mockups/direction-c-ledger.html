@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stack — direction C · The ledger</title>
+<meta name="robots" content="noindex" />
+<style>
+/* ============================================================================
+   DIRECTION C — "The ledger"
+   The riskiest and the most differentiated. The reason a landing page reads as
+   generated is almost never the words: it is the GRAMMAR. Rounded cards in a
+   grid, an icon tile above every heading, a gradient blob behind the hero, a
+   three-up feature row. Every generated page is built from the same parts.
+
+   So this direction removes the parts. There is not one rounded card, not one
+   icon tile, and not one grid of features on this page. It is set like a
+   specification document: numbered sections, hairline rules, flush-left
+   figures, tabular numerals, and a great deal of air. Nothing decorates.
+
+   ── THE ONE COLOUR DECISION ────────────────────────────────────────────────
+   Accent is unsettled — derived per-person from the chosen background photo.
+   Four lines. Default near-monochrome; this direction barely uses hue at all,
+   which is the point: it holds up when the accent is nearly nothing.
+   ========================================================================= */
+:root{
+  --accent:      #CCC7BC;
+  --accent-soft: rgba(204,199,188,.11);
+  --accent-line: rgba(204,199,188,.28);
+
+  --ground-photo: none;      /* ← the FLUX ground drops in here */
+
+  --bg:     #08080A;
+  --bg-2:   #0D0D11;
+  --line:   #1F1F26;
+  --line-2: #17171C;
+  --ink:    #F4F4F5;
+  --ink-2:  #C6C6CC;
+  --mut:    #8A8A93;
+  --dim:    #66666F;
+
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --gut: 22px;
+  --maxw: 1000px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;
+  line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit}
+svg{max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+
+/* Everything on this page is square. One rule, stated once. */
+*{border-radius:0}
+
+/* ── ground ──────────────────────────────────────────────────────────────── */
+.ground{position:relative;overflow:hidden}
+.ground::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:var(--ground-photo);background-size:cover;background-position:50% 30%;
+  background-color:#08080A;box-shadow:inset 0 0 260px 80px #08080A}
+.ground::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg, rgba(8,8,10,.30) 0%, rgba(8,8,10,.85) 66%, var(--bg) 100%)}
+.ground > *{position:relative;z-index:2}
+.grain{position:absolute;inset:0;z-index:1;opacity:.17;pointer-events:none;mix-blend-mode:overlay}
+
+/* ── nav: a rule, a word, a link ─────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:40;background:rgba(8,8,10,.8);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line-2)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:54px;
+  font-size:13px;letter-spacing:.02em}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:660;
+  font-size:15px;letter-spacing:-.02em}
+.nav-a{display:none}
+@media(min-width:780px){.nav-a{display:flex;gap:24px;color:var(--mut)}
+  .nav-a a{text-decoration:none}.nav-a a:hover{color:var(--ink)}}
+.lnk{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--accent-line);
+  padding-bottom:2px;font-weight:600;white-space:nowrap}
+.lnk:hover{border-color:var(--accent)}
+
+/* ── hero ────────────────────────────────────────────────────────────────── */
+.hero{padding:66px 0 54px}
+@media(min-width:820px){.hero{padding:130px 0 96px}}
+.stamp{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--mut);
+  text-transform:uppercase;margin:0 0 26px;padding-bottom:14px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+h1{font-size:clamp(32px,8.6vw,60px);line-height:1.06;letter-spacing:-.04em;font-weight:640;
+  margin:0 0 24px;max-width:17ch}
+.lede{font-size:clamp(17px,4.6vw,21px);line-height:1.55;color:var(--ink-2);margin:0 0 34px;max-width:46ch}
+.acts{display:flex;gap:26px;flex-wrap:wrap;align-items:center;font-size:15px}
+
+/* ── the specification table: the only "stat" treatment on the page ─────── */
+.spec{margin-top:54px;border-top:1px solid var(--line)}
+.sp{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--line-2)}
+@media(min-width:640px){.sp{grid-template-columns:132px 1fr;gap:28px}}
+.sp .n{font-size:clamp(22px,5.6vw,28px);font-weight:660;letter-spacing:-.035em;line-height:1;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.sp .t{font-size:14.5px;color:var(--mut);line-height:1.5}
+.sp .t a{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+
+/* ── numbered sections ───────────────────────────────────────────────────── */
+.s{padding:54px 0;border-bottom:1px solid var(--line-2)}
+@media(min-width:820px){.s{padding:86px 0}}
+.s-n{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;color:var(--dim);
+  text-transform:uppercase;margin:0 0 20px;display:flex;align-items:center;gap:14px}
+.s-n::after{content:"";height:1px;flex:1;background:var(--line-2)}
+.s h2{font-size:clamp(24px,6vw,36px);line-height:1.15;letter-spacing:-.035em;font-weight:640;
+  margin:0 0 20px;max-width:22ch}
+.s p{font-size:16.5px;line-height:1.72;color:var(--ink-2);max-width:62ch;margin:0 0 18px}
+.s p:last-child{margin-bottom:0}
+.s p b{color:var(--ink);font-weight:640}
+.pull{font-size:clamp(19px,5.2vw,26px);line-height:1.35;letter-spacing:-.025em;color:var(--ink);
+  font-weight:560;max-width:24ch;margin:34px 0;padding-left:20px;border-left:2px solid var(--accent-line)}
+
+/* ── figures: no frame, no card. A rule above, a rule below, a caption. ─── */
+.f{margin:38px 0 0;border-top:1px solid var(--line);padding-top:20px}
+.f-h{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);display:flex;justify-content:space-between;gap:14px;margin-bottom:20px}
+.f-c{font-size:13px;color:var(--dim);line-height:1.55;margin-top:18px;padding-top:14px;
+  border-top:1px solid var(--line-2);max-width:56ch}
+
+/* log lines — rules only */
+.log .r{display:flex;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--line-2);
+  font-size:15px}
+.log .r:last-child{border-bottom:0}
+.log .r .w{font-family:var(--mono);font-size:12.5px;color:var(--dim);width:66px;flex:none}
+.log .r b{font-weight:540;flex:1;letter-spacing:-.01em}
+.log .r .s2{font-size:12.5px;color:var(--dim);font-family:var(--mono)}
+.log .r.on .w{color:var(--accent)}
+.log .r.on .s2{color:var(--accent)}
+
+/* curve */
+.curve svg{display:block;width:100%;height:auto}
+.cg{stroke:var(--line-2);stroke-width:1}
+.ca{fill:var(--accent-soft)}
+.cl{stroke:var(--accent);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cd{fill:var(--bg);stroke:var(--accent);stroke-width:2}
+.cx{font-family:var(--mono);font-size:10px;fill:#66666F}
+
+/* supply — a plain table */
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--dim);font-weight:500;padding:0 0 11px;border-bottom:1px solid var(--line)}
+.tbl th.r,.tbl td.r{text-align:right}
+.tbl td{padding:13px 0;border-bottom:1px solid var(--line-2);color:var(--ink-2)}
+.tbl td.nm{color:var(--ink);font-weight:540;letter-spacing:-.01em}
+.tbl td.q{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:640}
+.tbl td.d{font-family:var(--mono);font-size:13px;color:var(--dim)}
+.tbl tr:last-child td{border-bottom:0}
+
+/* the refusals — a numbered list, not a column of crosses */
+.ref{list-style:none;margin:26px 0 0;padding:0;counter-reset:r}
+.ref li{counter-increment:r;position:relative;padding:16px 0 16px 46px;border-bottom:1px solid var(--line-2);
+  font-size:16px;color:var(--ink-2);line-height:1.6;max-width:62ch}
+.ref li:last-child{border-bottom:0}
+.ref li::before{content:counter(r,decimal-leading-zero);position:absolute;left:0;top:18px;
+  font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.06em}
+.ref li b{color:var(--ink);font-weight:620}
+
+/* price — two rows in the same ledger grammar */
+.price{margin-top:28px;border-top:1px solid var(--line)}
+.pr{display:grid;gap:10px;padding:24px 0;border-bottom:1px solid var(--line-2)}
+@media(min-width:760px){.pr{grid-template-columns:150px 1fr 130px;gap:32px;align-items:start}}
+.pr .amt{font-size:26px;font-weight:660;letter-spacing:-.035em;line-height:1.1}
+.pr .amt small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--dim);font-weight:400;margin-top:7px}
+.pr .amt.hi{color:var(--accent)}
+.pr .d{font-size:15.5px;color:var(--ink-2);line-height:1.65;max-width:52ch}
+.pr .go{font-size:14.5px}
+
+/* faq */
+.faq{margin-top:14px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line-2)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font-size:16.5px;font-weight:560;
+  display:flex;justify-content:space-between;gap:16px;letter-spacing:-.015em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--dim);font-family:var(--mono);font-size:16px}
+.faq details[open] summary::after{content:"\2212"}
+.faq p{margin:0 0 20px;color:var(--ink-2);font-size:15.5px;line-height:1.7;max-width:62ch}
+
+/* close */
+.close{padding:84px 0 92px}
+.close h2{font-size:clamp(27px,7.2vw,44px);letter-spacing:-.04em;line-height:1.08;font-weight:640;
+  margin:0 0 20px;max-width:16ch}
+.close p{color:var(--ink-2);margin:0 0 30px;max-width:44ch;font-size:17px}
+
+footer{border-top:1px solid var(--line);padding:36px 0 48px;color:var(--dim);font-size:13px}
+.fl{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:22px;font-family:var(--mono);
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.fl a{color:var(--mut);text-decoration:none}
+.fl a:hover{color:var(--ink)}
+.disc{line-height:1.65;max-width:72ch}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/></filter>
+</defs></svg>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <svg width="24" height="24" viewBox="0 0 40 40" aria-hidden="true">
+        <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#8A8A93"/>
+        <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#48484F"/>
+        <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#F4F4F5"/>
+      </svg>Stack</a>
+    <nav class="nav-a"><a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/pricing/">Pricing</a><a href="/account/">Sign in</a></nav>
+    <a class="lnk" href="#get">Get the app</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════ HERO ═══════ -->
+<section class="ground hero">
+  <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <div class="wrap">
+    <p class="stamp"><span>Stack &mdash; a dose logbook</span><span>Android first &middot; iOS to follow</span></p>
+    <h1>A record of everything you take, kept properly.</h1>
+    <p class="lede">Most people running a protocol keep it in three places: a notes app,
+      a spreadsheet, and their memory. Two of those are lying to you.</p>
+    <p class="acts" id="get">
+      <a class="lnk" href="#get">Get it on Google Play</a>
+      <a class="lnk" href="/tools/reconstitution/" style="border-color:var(--line)">Try a tool first</a>
+    </p>
+
+    <div class="spec">
+      <div class="sp"><div class="n">112</div>
+        <div class="t">compound pages, cited to public sources, free to read without an account.
+          <a href="/compounds/">Open the library</a></div></div>
+      <div class="sp"><div class="n">No cap</div>
+        <div class="t">on how many compounds you track. The logbook does not meter you.</div></div>
+      <div class="sp"><div class="n">$0</div>
+        <div class="t">for tracking, reminders, supply projection and rotation. Permanently.</div></div>
+      <div class="sp"><div class="n">Off</div>
+        <div class="t">is the default for cloud backup. Your data is encrypted on the device until
+          you decide otherwise. <a href="/privacy.html">Read the policy</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 01 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">01 &mdash; The problem</p>
+    <h2>Six things a day is not a checklist problem.</h2>
+    <p>One pill in the morning is a habit. Six things across four schedules &mdash; a capsule at
+      eight, a shot at nine, a peptide twice a day, a pen on Thursdays &mdash; is a bookkeeping
+      problem, and the notes app was never built for it.</p>
+    <p>So the questions pile up. Did I already take the magnesium. Which side did I use last
+      time. How many are actually left in that vial. Is Tuesday's shot still doing anything by
+      Sunday. <b>Every one of those is answerable from a record you are already half-keeping.</b></p>
+
+    <div class="f log">
+      <div class="f-h"><span>Tuesday</span><span>4 of 6 logged</span></div>
+      <div class="r on"><span class="w">08:10</span><b>Vitamin D3</b><span class="s2">5000 IU</span></div>
+      <div class="r on"><span class="w">08:12</span><b>Creatine</b><span class="s2">5 g</span></div>
+      <div class="r on"><span class="w">09:00</span><b>Testosterone cypionate</b><span class="s2">right delt</span></div>
+      <div class="r on"><span class="w">09:02</span><b>BPC-157</b><span class="s2">250 mcg</span></div>
+      <div class="r"><span class="w">Thu</span><b>Semaglutide</b><span class="s2">due</span></div>
+      <div class="r"><span class="w">22:00</span><b>Magnesium glycinate</b><span class="s2">due</span></div>
+      <div class="f-c">One list, in the order you take it. Two taps and the time is real, not
+        remembered. One notification when doses land together, not four.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 02 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">02 &mdash; What the record buys you</p>
+    <h2>A tick says you took it. It cannot say what is still in you.</h2>
+    <p>Every dose you log draws its vial down and adds to a curve. From those two facts the app
+      answers the questions you were carrying: <b>when you run out, and what has not cleared yet.</b></p>
+
+    <div class="f curve">
+      <div class="f-h"><span>Testosterone &middot; relative level, modelled</span><span>4 weeks</span></div>
+      <svg viewBox="0 0 520 210" role="img"
+           aria-label="A modelled relative-level curve rising across four weeks toward a steady state, with three dose markers.">
+        <line class="cg" x1="0" y1="40" x2="520" y2="40"/>
+        <line class="cg" x1="0" y1="90" x2="520" y2="90"/>
+        <line class="cg" x1="0" y1="140" x2="520" y2="140"/>
+        <line class="cg" x1="0" y1="182" x2="520" y2="182"/>
+        <path class="ca" d="M8,182 C60,146 84,118 128,130 C176,142 190,88 244,96 C300,104 300,68 360,74 C424,80 430,56 512,54 L512,182 Z"/>
+        <path class="cl" d="M8,182 C60,146 84,118 128,130 C176,142 190,88 244,96 C300,104 300,68 360,74 C424,80 430,56 512,54"/>
+        <circle class="cd" cx="128" cy="130" r="3.8"/>
+        <circle class="cd" cx="244" cy="96" r="3.8"/>
+        <circle class="cd" cx="360" cy="74" r="3.8"/>
+        <text class="cx" x="128" y="200" text-anchor="middle">wk 1</text>
+        <text class="cx" x="244" y="200" text-anchor="middle">wk 2</text>
+        <text class="cx" x="360" y="200" text-anchor="middle">wk 3</text>
+        <text class="cx" x="490" y="200" text-anchor="middle">wk 4</text>
+      </svg>
+      <div class="f-c">Relative level, modelled from published half-lives. It is an estimate of
+        what has not cleared &mdash; not a measurement of your blood, and the screen says so where
+        you read it.</div>
+    </div>
+
+    <div class="f">
+      <div class="f-h"><span>Supply, projected from logged doses</span><span>Today</span></div>
+      <table class="tbl">
+        <thead><tr><th>Compound</th><th class="r">Left</th><th class="r">Runs out</th><th class="r">Per dose</th></tr></thead>
+        <tbody>
+          <tr><td class="nm">Semaglutide</td><td class="q r">3</td><td class="d r">Jul 4</td><td class="d r">$8.20</td></tr>
+          <tr><td class="nm">Testosterone cyp.</td><td class="q r">9</td><td class="d r">Jul 21</td><td class="d r">$0.74</td></tr>
+          <tr><td class="nm">BPC-157</td><td class="q r">22</td><td class="d r">Aug 6</td><td class="d r">$0.41</td></tr>
+          <tr><td class="nm">Vitamin D3</td><td class="q r">61</td><td class="d r">Oct 30</td><td class="d r">$0.03</td></tr>
+        </tbody>
+      </table>
+      <div class="f-c">You find out three weeks early, on a Thursday, instead of on the morning
+        you needed it. Injection sites work the same way &mdash; a map of where you have already
+        been, so the rotation stays honest without you keeping score.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 03 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">03 &mdash; What it will not do</p>
+    <h2>The refusals are the product.</h2>
+    <p>Anything that records what people take will eventually be asked to advise them. We decided
+      before we shipped where that line sits, and we would rather you read it here than find it
+      on the fourth screen.</p>
+    <ol class="ref">
+      <li><b>It will not recommend a compound.</b> Not by suggestion, not by ranking, not by
+        implication in a list of what other people take.</li>
+      <li><b>It will not recommend a dose,</b> or tell you to raise one, lower one, or hold.</li>
+      <li><b>It will not read a lab result and pronounce on it.</b> It will put your numbers next
+        to published reference ranges and leave the reading to you and a clinician.</li>
+      <li><b>It does not measure anything.</b> The level curve is a model built from published
+        half-lives. It is an estimate, labelled as one, every time it appears.</li>
+      <li><b>It is not medical advice</b> &mdash; not the app, not this site, not one word of the
+        library. Talk to a clinician about anything you take.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 04 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">04 &mdash; Where the data lives</p>
+    <h2>What you take is the most sensitive list on your phone.</h2>
+    <p>It is encrypted on the device. Cloud backup exists and is switched off until you switch it
+      on. Sign-in takes an email and nothing else, so the account never learns a compound name.
+      You can export the whole record on any plan &mdash; <b>your own data is never behind the
+      paywall</b> &mdash; and if you delete the account it is gone permanently, not archived.</p>
+    <p class="pull">We would rather hold nothing than promise to hold it carefully.</p>
+    <p>No ads. We do not sell data and we do not train on it. Analytics are anonymous and
+      aggregate and never include what you track.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 05 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">05 &mdash; The library</p>
+    <h2>Read the compound before you add it.</h2>
+    <p>Plain-English pages for 112 compounds: what it is, how it works, half-life, storage, and
+      what matters when you are tracking it. Summarised from public sources, cited, free, no
+      account, and no opinion about whether you should be taking it.</p>
+    <div class="f">
+      <div class="f-h"><span>A few of them</span><span>112 total</span></div>
+      <table class="tbl">
+        <tbody>
+          <tr><td class="nm"><a href="/compounds/semaglutide/" style="text-decoration:none">Semaglutide</a></td><td class="d r">GLP-1</td><td class="d r">t&frac12; &asymp; 7 d</td></tr>
+          <tr><td class="nm"><a href="/compounds/testosterone-cypionate/" style="text-decoration:none">Testosterone cypionate</a></td><td class="d r">TRT ester</td><td class="d r">t&frac12; &asymp; 8 d</td></tr>
+          <tr><td class="nm"><a href="/compounds/tirzepatide/" style="text-decoration:none">Tirzepatide</a></td><td class="d r">GLP-1</td><td class="d r">t&frac12; &asymp; 5 d</td></tr>
+          <tr><td class="nm"><a href="/compounds/bpc-157/" style="text-decoration:none">BPC-157</a></td><td class="d r">Peptide</td><td class="d r">injected</td></tr>
+        </tbody>
+      </table>
+      <div class="f-c"><a class="lnk" href="/compounds/" style="font-size:14px">All 112 compounds</a>
+        &nbsp;&nbsp;<a class="lnk" href="/guides/" style="font-size:14px;border-color:var(--line)">Guides</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 06 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">06 &mdash; What it costs</p>
+    <h2>The logbook is free. The reading of it is not.</h2>
+    <p>Everything you need to keep an honest record costs nothing and always will, with no cap on
+      compounds. Plus is the interpretation layer on top of it.</p>
+    <div class="price">
+      <div class="pr">
+        <div class="amt">$0<small>Free</small></div>
+        <div class="d">Every compound, every reminder, supply projection, injection rotation,
+          streaks, weight trend, label scanning, and three questions a week for Sage.</div>
+        <div class="go"><a class="lnk" href="#get">Get the app &rarr;</a></div>
+      </div>
+      <div class="pr">
+        <div class="amt hi">Plus<small>Monthly &middot; yearly &middot; lifetime</small></div>
+        <div class="d">The full in-system level screen, bloodwork ranges, the whole trend history,
+          a doctor-ready report, unlimited Sage, and automatic encrypted backup.</div>
+        <div class="go"><a class="lnk" href="/pricing/">See Plus &rarr;</a></div>
+      </div>
+      <div class="pr" style="border-bottom:0">
+        <div class="amt" style="font-size:19px;color:var(--mut)">Never<small>Paywalled</small></div>
+        <div class="d">Your own data. Export a full encrypted backup on any plan, including the
+          free one.</div>
+        <div class="go"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ 07 ═════════ -->
+<section class="s">
+  <div class="wrap">
+    <p class="s-n">07 &mdash; Before you ask</p>
+    <div class="faq">
+      <details><summary>Is it actually free?</summary>
+        <p>Yes, and there is no compound limit. Tracking, reminders, supply projection, rotation,
+        streaks and weight trends cost nothing. Plus adds the insight layer.</p></details>
+      <details><summary>Do I need an account?</summary>
+        <p>No. Everything on the phone works without one. An account is email-only and exists so a
+        Plus purchase follows you to a new device &mdash; it never learns what you take.</p></details>
+      <details><summary>What can I track?</summary>
+        <p>Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and TRT
+        &mdash; alongside habits, weight, lifts and bloodwork.</p></details>
+      <details><summary>Will it tell me what to take?</summary>
+        <p>No, and it is built not to. See section 03.</p></details>
+      <details><summary>When does it launch?</summary>
+        <p>Android first, iOS after. Leave an email and we will tell you the day it is live.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════ CLOSE ═══════ -->
+<section class="ground close">
+  <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <div class="wrap">
+    <h2>Keep the record. Stop keeping it in your head.</h2>
+    <p>Free to track. Private by default. Built for a stack, not a single pill.</p>
+    <p class="acts"><a class="lnk" href="#get">Get it on Google Play</a>
+      <a class="lnk" href="/pricing/" style="border-color:var(--line)">See what Plus adds</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fl">
+      <a href="/compounds/">Compounds</a><a href="/guides/">Guides</a>
+      <a href="/tools/reconstitution/">Calculator</a><a href="/pricing/">Pricing</a>
+      <a href="/account/">Sign in</a><a href="/about/">About</a>
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a>
+      <a href="/data-deletion.html">Data deletion</a>
+    </div>
+    <p class="disc">Stack is a logging tool and an educational reference. Nothing on this site is
+      medical advice, a recommendation, or an endorsement of any compound. Always talk to a
+      clinician about anything you take.</p>
+  </div>
+</footer>
+
+</body>
+</html>
