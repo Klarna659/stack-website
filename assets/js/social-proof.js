@@ -88,14 +88,21 @@
     });
   }
 
+  /* ⚠ There is NO default rating. The previous version was `Math.round(n || 5)`,
+     which turned a quote with no `stars` value — the normal case for a beta
+     testimonial, which was never a rating at all — into five gold stars and an
+     aria-label reading "5 out of 5". That is invented social proof shipped by
+     omission, in the one file written to prevent exactly that. A missing or
+     out-of-range value now renders no stars rather than perfect ones. */
   function stars(n) {
-    var full = Math.round(n || 5), out = "";
+    if (typeof n !== "number" || !isFinite(n) || n <= 0) return "";
+    var full = Math.max(0, Math.min(5, Math.round(n))), out = "";
     for (var i = 0; i < 5; i++) {
       out += '<svg viewBox="0 0 24 24"' + (i >= full ? ' class="off"' : "") +
              '><use href="#star"/></svg>';
     }
     return '<span class="stars" role="img" aria-label="' +
-           esc((n || 5) + " out of 5") + '">' + out + "</span>";
+           esc(full + " out of 5") + '">' + out + "</span>";
   }
 
   function initial(name) {
@@ -111,8 +118,13 @@
       '<div class="big">' + esc(play.rating.toFixed(1)) + "</div>" +
       '<div class="meta">' + stars(play.rating) +
       "<div>Google Play &middot; " + esc(play.count.toLocaleString()) + " ratings" +
-      (play.url ? '<br><a href="' + esc(play.url) + '" rel="noopener">See them on the listing</a>'
-                : "") +
+      /* Scheme check, not just escaping: esc() blocks attribute breakout but
+         `javascript:...` survives it intact and runs on click. Harmless while
+         this config is hand-written; not harmless the day it comes from a
+         fetch. */
+      (/^https:\/\//i.test(play.url || "")
+        ? '<br><a href="' + esc(play.url) + '" rel="noopener noreferrer" target="_blank">See them on the listing</a>'
+        : "") +
       "</div></div></div>";
   } else {
     html += '<p class="proof-lead">These are testers who have been running Stack for a few ' +
@@ -135,7 +147,17 @@
     html += "</div>";
   }
 
-  host.innerHTML = html;
+  /* Only replace the honest state when there is something to replace it WITH.
+     With a rating but no quotes — a real state, since the listing carries a
+     score before it carries quotable text — the old code wrote a bare score
+     block over the top, deleting the lead paragraph, all three "check it
+     yourself" links and the closing line, and left a number under a heading
+     with nothing after it. Now the score is prepended and the rest survives. */
+  if (quotes.length) {
+    host.innerHTML = html;
+  } else {
+    host.insertAdjacentHTML("afterbegin", html);
+  }
   if (head) head.textContent = isBeta ? "What testers say." : "What people say.";
 
   /* The hero line only earns stars once the store shows them. */

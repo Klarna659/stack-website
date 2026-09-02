@@ -4,6 +4,14 @@
 (function () {
   "use strict";
 
+  /* This file uses NodeList.prototype.forEach in ten places. Safari below 10
+     does not have it, and the first unguarded call throws — taking the whole
+     IIFE with it, so the waitlist and the store buttons silently never bind.
+     Two lines is cheaper than rewriting them all to Array.prototype.slice. */
+  if (typeof NodeList !== "undefined" && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+
   /* nav scrolled border + mobile toggle */
   var nav = document.getElementById("nav");
   if (nav) {
@@ -219,8 +227,15 @@
     });
   }
 
-  /* forms → mailto fallback (no backend yet); serializes every named field */
-  document.querySelectorAll("form[data-form]").forEach(function (form) {
+  /* forms → mailto fallback (no backend yet); serializes every named field.
+     ⚠ NOT the waitlist. It has its own handler above, and this selector used to
+     match it too — both fired, this one second, so it overwrote the launch-list
+     mailto with a "[Stack] Feedback" draft on EVERY hero signup, on this page
+     and on the live homepage. It also ran after the other handler had already
+     rejected an invalid address, so validation was bypassed and an empty draft
+     opened anyway. Excluding it here rather than renaming the attribute keeps
+     the markup contract the rest of the site already uses. */
+  document.querySelectorAll('form[data-form]:not([data-form="waitlist"])').forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var kind = form.getAttribute("data-form") || "form";

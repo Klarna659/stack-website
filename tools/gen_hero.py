@@ -26,6 +26,8 @@ gradients with no fine texture to invent, so the upscale is invisible and the
     python tools/gen_hero.py            generate the whole pool
     python tools/gen_hero.py ridge      just one
     python tools/gen_hero.py --ship ridge_a=hero
+    python tools/gen_hero.py --gate            check the SHIPPED hero carries
+                                               every piece of hero type
 """
 import io
 import json
@@ -238,7 +240,12 @@ def ship(pairs):
         big = im.resize((UP_W, UP_H), Image.LANCZOS)
         # Three widths. A phone has no business downloading 4K to put a scrim
         # over it, and srcset means it does not have to.
-        for w, q, suffix in ((UP_W, 82, ""), (1920, 84, "-1920"), (960, 84, "-960")):
+        # A DPR-3 phone renders a 390px box (x1.09 for the drift) = ~1275 device px.
+        # With only 960w and 1920w to choose from it takes the 1920 — 2.27x the
+        # pixels it needs, ~92 KB wasted on the LCP of the most common device
+        # class there is. 1280w is the candidate that was missing.
+        for w, q, suffix in ((UP_W, 82, ""), (1920, 84, "-1920"),
+                             (1280, 84, "-1280"), (960, 84, "-960")):
             out = os.path.join(DEST, "%s%s.jpg" % (name, suffix))
             (big if w == UP_W else big.resize(
                 (w, round(UP_H * w / UP_W)), Image.LANCZOS)
@@ -248,11 +255,106 @@ def ship(pairs):
                      w, round(UP_H * w / UP_W)), flush=True)
 
 
+
+# ── THE LEGIBILITY GATE ────────────────────────────────────────────────────
+# The first version of this file scored a candidate on ONE number: white type on
+# the brightest row of a single band. That number said the shipped ground was
+# 7.05:1 and it was wrong — not miscalculated, just measuring the wrong thing.
+# It sampled a band the headline does not sit in, ignored the tinted band at the
+# top of the page, ignored the text scrim entirely, and never looked at the 11px
+# eyebrow, which is the hardest element on the page because small text needs
+# 4.5:1 rather than 3. Composited properly, that "7.05:1" ground put the eyebrow
+# at 1.67:1.
+#
+# So the gate now reproduces the page's actual layer stack — ground, tinted
+# band, page scrim, text scrim — and checks EVERY piece of type in the hero at
+# the size and weight it is really drawn, at the position it really occupies.
+# Constants below mirror index-v2.html; if you change them there, change them
+# here, and vice versa.
+#
+#     python tools/gen_hero.py --gate                  the shipped hero
+#     python tools/gen_hero.py --gate alpine_b         a candidate from the pool
+
+BAND_RGB = (0x2C, 0x3C, 0x47)
+BAND_H, BAND_OP, BAND_HOLD = 0.30, 0.94, 0.52
+PAGE_SCRIM = [(0.00, .34), (0.26, .30), (0.48, .26), (0.72, .42), (0.92, .90), (1.00, 1.0)]
+TEXT_SCRIM = [(0.00, .28), (0.30, .28), (0.50, .30), (0.60, .10), (0.82, .00), (1.00, .00)]
+
+# (name, top, bottom, text alpha, required ratio) as fractions of the hero stage.
+HERO_TYPE = [
+    ("eyebrow 11px",    0.20, 0.28, 0.86, 4.5),
+    ("h1 40-80px",      0.28, 0.41, 1.00, 3.0),
+    ("statement 17px",  0.41, 0.48, 0.86, 4.5),
+    ("buttons 15px",    0.49, 0.58, 1.00, 4.5),
+    ("email field",     0.58, 0.66, 1.00, 4.5),
+    ("hero note 13px",  0.65, 0.71, 0.86, 4.5),
+    ("proof line 13px", 0.71, 0.79, 0.86, 4.5),
+]
+
+
+def _ramp(stops, t):
+    for i in range(len(stops) - 1):
+        t0, a0 = stops[i]
+        t1, a1 = stops[i + 1]
+        if t0 <= t <= t1:
+            f = (t - t0) / (t1 - t0) if t1 > t0 else 0.0
+            return a0 + (a1 - a0) * f
+    return stops[-1][1]
+
+
+def _band(t):
+    if t >= BAND_H:
+        return 0.0
+    u = t / BAND_H
+    return BAND_OP * (1.0 if u <= BAND_HOLD else (1 - (u - BAND_HOLD) / (1 - BAND_HOLD)))
+
+
+def _over(fg, bg, a):
+    return tuple(fg[i] * a + bg[i] * (1 - a) for i in range(3))
+
+
+def gate(path):
+    """Composite the page's real layers and check every piece of hero type."""
+    from PIL import Image
+    im = Image.open(path).convert("RGB")
+    W, H = im.size
+    rows = []
+    ok = True
+    for name, t0, t1, alpha, need in HERO_TYPE:
+        worst = None
+        for k in range(11):
+            ty = t0 + (t1 - t0) * k / 10.0
+            for j in range(17):
+                tx = 0.06 + 0.88 * j / 16.0
+                px = im.getpixel((min(W - 1, int(W * tx)), min(H - 1, int(H * ty))))
+                c = _over(BAND_RGB, px, _band(ty))
+                c = _over((0, 0, 0), c, _ramp(PAGE_SCRIM, ty))
+                c = _over((0, 0, 0), c, _ramp(TEXT_SCRIM, ty))
+                fg = _over((255, 255, 255), c, alpha)
+                lo, hi = sorted((luminance(*c), luminance(*fg)))
+                r = (hi + 0.05) / (lo + 0.05)
+                if worst is None or r < worst:
+                    worst = r
+        rows.append((name, worst, need, worst >= need))
+        ok = ok and worst >= need
+    print("%-18s %8s %6s" % ("hero element", "ratio", "needs"))
+    print("-" * 36)
+    for name, r, need, good in rows:
+        print("%-18s %7.2f:1 %6.1f  %s" % (name, r, need, "pass" if good else "FAIL"))
+    print()
+    print("GATE PASS" if ok else "GATE FAIL - this ground cannot carry the hero type")
+    return ok
+
 def main():
     args = [a for a in sys.argv[1:]]
     if args and args[0] == "--ship":
         ship(args[1:])
         return
+    if args and args[0] == "--gate":
+        target = args[1] if len(args) > 1 else None
+        src = (os.path.join(POOL, target + ".png") if target
+               else os.path.join(DEST, "hero.jpg"))
+        raise SystemExit(0 if gate(src) else 1)
     if args and args[0] == "--rank":
         for f in sorted(os.listdir(POOL)):
             if f.endswith(".png"):
@@ -261,9 +363,6 @@ def main():
         return
     generate(args or list(HEROES))
 
-
-if __name__ == "__main__":
-    main()
 
 
 def headline_contrast(path, band=(0.30, 0.72)):
@@ -319,3 +418,11 @@ def _chan(c):
 
 def luminance(r, g, b):
     return 0.2126 * _chan(r) + 0.7152 * _chan(g) + 0.0722 * _chan(b)
+
+
+# ⚠ THIS MUST STAY LAST IN THE FILE. It used to sit mid-module, so every helper
+# appended after it — luminance(), headline_contrast(), the gate — did not exist
+# yet when main() ran, and any CLI path touching them died with a NameError.
+# Importing the module hid it completely, which is why it survived.
+if __name__ == "__main__":
+    main()

@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Stack — track your whole stack. Supplements, peptides, GLP-1 &amp; TRT.</title>
 <meta name="description" content="Stack is the quiet, private way to track everything you take — supplements, peptides, meds, GLP-1 and TRT. Doses, reminders, supply projection, injection rotation and the levels still in your system. Free to track, no compound limit." />
+<!-- WHILE THIS FILE LIVES BESIDE index.html it is a crawlable duplicate of the
+     homepage carrying a canonical that points at the OTHER page. noindex until
+     it is promoted over index.html, then delete this line. -->
+<meta name="robots" content="noindex" />
 <link rel="canonical" href="https://trackyourstack.app/" />
 <meta name="theme-color" content="#0E1114" />
 
@@ -30,20 +34,19 @@
      stylesheet — is the single biggest paint win on this page, and `sizes`
      has to match the img exactly or the browser fetches twice. -->
 <link rel="preload" as="image" fetchpriority="high"
-      href="assets/img/hero/hero-1920.jpg"
-      imagesrcset="assets/img/hero/hero-960.jpg 960w, assets/img/hero/hero-1920.jpg 1920w, assets/img/hero/hero.jpg 3840w"
+      href="assets/img/hero/hero-1280.jpg"
+      imagesrcset="assets/img/hero/hero-960.jpg 960w, assets/img/hero/hero-1280.jpg 1280w, assets/img/hero/hero-1920.jpg 1920w, assets/img/hero/hero.jpg 3840w"
       imagesizes="100vw" />
 
 <script>document.documentElement.className += " js";</script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stack","operatingSystem":"Android","applicationCategory":"HealthApplication","description":"Private dose, supplement, peptide, GLP-1 and TRT tracker — reminders, supply projection, injection-site rotation, in-system levels, bloodwork and weight trends.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://trackyourstack.app/"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Stack free?","acceptedAnswer":{"@type":"Answer","text":"Yes, with no cap on compounds. Tracking, reminders, supply projection and rotation cost nothing. Plus adds the in-system levels, bloodwork ranges, full trends, a doctor-ready report and cloud backup."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. Everything on the phone works without one. An account is email-only and exists so a Plus purchase follows you to a new device."}},{"@type":"Question","name":"What can I track with Stack?","acceptedAnswer":{"@type":"Answer","text":"Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and TRT — alongside habits, weight, lifts and bloodwork."}},{"@type":"Question","name":"Is Stack on iPhone?","acceptedAnswer":{"@type":"Answer","text":"Android first, iOS after. Leave an email and we will tell you the day it lands."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stack","operatingSystem":"Android","applicationCategory":"HealthApplication","description":"Private dose, supplement, peptide, GLP-1 and TRT tracker — reminders, supply projection, injection-site rotation, in-system levels, bloodwork and weight trends.","url":"https://trackyourstack.app/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Stack free?","acceptedAnswer":{"@type":"Answer","text":"Yes, with no cap on compounds. Tracking, reminders, supply projection and rotation cost nothing, with three Sage requests a week. Plus adds unlimited Sage, the in-system levels, bloodwork ranges, full trends, a printable summary of your log and cloud backup."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. Everything on the phone works without one. An account is email-only and exists so a Plus purchase follows you to a new device."}},{"@type":"Question","name":"What can I track with Stack?","acceptedAnswer":{"@type":"Answer","text":"Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and TRT — alongside habits, weight, lifts and bloodwork."}},{"@type":"Question","name":"Is Stack on iPhone?","acceptedAnswer":{"@type":"Answer","text":"Android first, iOS after. Leave an email and we will tell you the day it lands."}}]}</script>
 
 <style>
 @font-face{
   font-family:"Inter";
-  src:url("assets/fonts/inter-subset.woff2") format("woff2"),
-      url("assets/fonts/InterVariable.ttf") format("truetype-variations");
+  src:url("assets/fonts/inter-subset.woff2") format("woff2");
   font-weight:100 900;
   font-display:swap;
 }
@@ -93,20 +96,50 @@ body{margin:0;background:var(--page);color:var(--page-ink);font-family:var(--san
 a{color:inherit}
 img{max-width:100%}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+/* .wrap sets `margin:0 auto`. Inside a COLUMN flex container, auto cross-axis
+   margins switch stretch off and size the item to fit-content instead — so
+   .hero and .close were laid out at their max-content width (362px inside a
+   320px parent) and clipped by body{overflow-x:hidden}, which is exactly why
+   a scrollWidth check reported no overflow. Same family as the padding
+   shorthand above: a .wrap utility colliding with the layout it sits in. */
+.stage .wrap{width:100%}
 
 /* ── the three layers, straight from the app ──────────────────────────── */
 .stage{position:relative;overflow:hidden;isolation:isolate}
 .ground{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  object-position:50% 46%;z-index:0;animation:drift 52s ease-in-out infinite alternate}
+  object-position:50% 46%;z-index:0;
+  animation:drift 52s ease-in-out infinite alternate;animation-play-state:paused}
+/* Only a ground you can actually see is allowed to animate. Both grounds used to
+   tick from t=0 forever, and the seven glass elements sitting over them had to
+   recompute their backdrop blur every frame to match — a 60fps cost that never
+   idled, most of it for a band three screens below the fold. */
+.stage.vis .ground{animation-play-state:running}
 @keyframes drift{from{transform:scale(1.02)}to{transform:scale(1.09) translateY(-1.2%)}}
 .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,
     rgba(0,0,0,.34) 0%, rgba(0,0,0,.30) 26%, rgba(0,0,0,.26) 48%,
     rgba(0,0,0,.42) 72%, rgba(14,17,20,.90) 92%, var(--page) 100%)}
-.band{position:absolute;left:0;right:0;top:0;height:24%;z-index:1;opacity:.94;
+.band{position:absolute;left:0;right:0;top:0;height:30%;z-index:1;opacity:.94;
   pointer-events:none;
   background:linear-gradient(180deg,var(--band) 0%,var(--band) 52%,transparent 100%)}
 .stage > .layer{position:relative;z-index:2;color:var(--ink)}
+/* THE TEXT SCRIM, solved rather than guessed.
+   Composited against the real shipped JPEG, the hero copy sat on ground as
+   bright as rgb(170,178,178): the eyebrow measured 1.67:1 and the h1 2.24:1
+   against floors of 4.5 and 3. A radial behind the text block cannot fix it —
+   the failing rows are ABOVE the radial's useful area, in the dead zone where
+   the band has faded out and the scrim has not yet deepened.
+   A vertical ramp does, and the search that found these numbers maximised how
+   much photograph survives: every element clears its floor with 84% of the
+   frame left untouched, and the scrim is fully clear by 60% so the lake and
+   the shoreline — the part worth looking at — are not dimmed at all.
+   ⚠ These constants are tuned to THIS ground. Re-run tools/gen_hero.py --gate
+   after swapping it. */
+.hero-stage .scrim::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(0,0,0,.28) 0%, rgba(0,0,0,.28) 30%, rgba(0,0,0,.30) 50%,
+    rgba(0,0,0,.10) 60%, rgba(0,0,0,0) 82%, rgba(0,0,0,0) 100%)}
 
 /* ── nav ──────────────────────────────────────────────────────────────── */
 .nav{position:relative;z-index:30}
@@ -130,20 +163,23 @@ img{max-width:100%}
 .btn:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
 .btn:active{transform:scale(.96)}
 .btn-solid{background:var(--ink);color:#0B0D10;border-color:var(--ink);
-  box-shadow:0 8px 30px rgba(0,0,0,.28)}
+  box-shadow:0 8px 30px rgba(0,0,0,.28);
+  backdrop-filter:none;-webkit-backdrop-filter:none}
 .btn-solid:hover{background:#fff;box-shadow:0 12px 38px rgba(0,0,0,.36)}
 .btn-sm{padding:9px 16px;font-size:13.5px}
+/* The accent ring is 4.70:1 on the flat page ground and 1.21:1 on the
+   photograph. White clears both, so the stages take white. */
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.stage .btn:focus-visible,.wl-input:focus-visible{outline-color:var(--ink)}
 .btn svg{width:18px;height:18px;flex:none}
-.on-page .btn{background:var(--page-2);border-color:var(--page-line);
-  color:var(--page-ink);backdrop-filter:none}
-.on-page .btn:hover{background:var(--page-line)}
-.on-page .btn-solid{background:var(--page-ink);color:var(--page);border-color:var(--page-ink)}
-.on-page .btn-solid:hover{background:#fff}
 
 /* ── type ─────────────────────────────────────────────────────────────── */
 .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;
   text-transform:uppercase;color:var(--mut);margin:0 0 16px}
+/* Over a photograph --mut (.60 white) measures 3.35:1 even behind the text
+   scrim, and small uppercase type needs 4.5:1. The stages use .86 — measured
+   4.99:1. Inside <main>, on the flat page ground, --mut is 6.05:1 and stays. */
+.stage .eyebrow,.stage .hero-note{color:rgba(255,255,255,.86)}
 .on-page .eyebrow{color:var(--page-mut)}
 h1{font-size:clamp(40px,10.4vw,80px);font-weight:600;letter-spacing:-.034em;
   line-height:1.02;margin:0 0 16px;text-wrap:balance}
@@ -152,30 +188,32 @@ h1{font-size:clamp(40px,10.4vw,80px);font-weight:600;letter-spacing:-.034em;
 h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
   line-height:1.1;margin:0 0 14px;text-wrap:balance}
 .lede{font-size:16.5px;line-height:1.6;color:var(--page-mut);max-width:52ch;margin:0}
-.stage .lede{color:var(--mut)}
 
 /* ── hero ─────────────────────────────────────────────────────────────── */
 /* A 4K photograph needs height or it is a texture strip. The hero holds most
    of the first screen on a phone and a comfortable band on a desktop. */
-.hero-stage{min-height:86svh;min-height:86vh;display:flex;flex-direction:column}
+/* vh first, svh second. The other order lets vh win and the svh line is dead. */
+.hero-stage{min-height:86vh;min-height:86svh;display:flex;flex-direction:column}
 @media(min-width:900px){.hero-stage{min-height:760px}}
 .hero-stage > .layer{flex:1;display:flex;flex-direction:column}
 .hero{flex:1;display:flex;flex-direction:column;justify-content:center;
-  padding:56px 0 72px;text-align:center}
-@media(min-width:900px){.hero{padding:80px 0 96px}}
+  padding-top:56px;padding-bottom:72px;text-align:center}
+@media(min-width:900px){.hero{padding-top:80px;padding-bottom:96px}}
 .acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
 
 .waitlist{display:flex;gap:9px;max-width:390px;margin:0 auto 12px;width:100%}
 .wl-input{flex:1;min-width:0;font:inherit;font-size:15px;color:var(--ink);
   padding:12px 16px;border-radius:99px;border:.6px solid var(--cline);
-  background:rgba(255,255,255,.09);
+  /* Dark, not translucent white. Over the bright part of the photograph a white
+     .09 field put the placeholder at 2.26:1; dark .34 takes it to 6.94:1. */
+  background:rgba(0,0,0,.34);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   transition:border-color .2s var(--ease),background .2s var(--ease)}
-.wl-input::placeholder{color:rgba(255,255,255,.52)}
+.wl-input::placeholder{color:rgba(255,255,255,.78)}
 .wl-input:focus{outline:0;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.14)}
 .wl-input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wl-go{flex:none;padding:12px 18px;font-size:14.5px}
-.hero-note{font-size:13px;color:var(--mut);margin:0 0 24px;min-height:19px}
+.hero-note{font-size:13px;color:var(--mut);margin:0 0 24px}
 
 /* Social proof sits directly under the buttons — the one placement that
    reliably lifts conversion on health apps, and where Shotsy puts its badges. */
@@ -187,8 +225,8 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
 .rating .sep{opacity:.4}
 
 /* ── sections ─────────────────────────────────────────────────────────── */
-.sec{padding:76px 0}
-@media(min-width:900px){.sec{padding:112px 0}}
+.sec{padding-top:76px;padding-bottom:76px}
+@media(min-width:900px){.sec{padding-top:112px;padding-bottom:112px}}
 .sec-head{max-width:56ch;margin:0 0 40px}
 .sec-head.mid{margin-left:auto;margin-right:auto;text-align:center}
 
@@ -211,12 +249,15 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
   /* 50% not 50vw: vw includes the scrollbar, so the vw version put the
      first slide 7-8px off centre on any desktop browser that shows one. */
   padding:6px calc(50% - 132px) 8px;
-  scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  scrollbar-width:none;overscroll-behavior-x:contain}
 .shelf::-webkit-scrollbar{display:none}
 .shot{flex:0 0 auto;scroll-snap-align:center;width:264px;
   transition:transform .55s var(--ease),opacity .55s var(--ease)}
 @media(min-width:900px){
-  .shelf{gap:20px;padding:6px max(var(--gut), calc((100vw - var(--maxw)) / 2 + var(--gut))) 8px}
+  .shelf{gap:20px;
+    padding-left:max(var(--gut), calc((100% - var(--maxw)) / 2 + var(--gut)));
+    padding-right:max(var(--gut), calc((100% - var(--maxw)) / 2 + var(--gut)));
+    scroll-padding-left:max(var(--gut), calc((100% - var(--maxw)) / 2 + var(--gut)))}
   .shot{width:286px;scroll-snap-align:start}
 }
 .shot .cap{margin-top:18px;text-align:center;padding:0 6px}
@@ -226,9 +267,9 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
 /* dots + counter. Tappable, and they follow the scroll rather than guessing. */
 .cbar{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:22px}
 @media(min-width:900px){.cbar{display:none}}
-.cdots{display:flex;gap:7px;align-items:center}
+.cdots{display:flex;gap:7px;align-items:center;min-width:76px;justify-content:center}
 .cdot{appearance:none;border:0;padding:0;cursor:pointer;width:7px;height:7px;
-  border-radius:99px;background:var(--page-line);
+  border-radius:99px;background:#6E7784;   /* 4.18:1 on --page; #242A31 was 1.31 */
   transition:width .34s var(--spring),background .34s var(--ease)}
 .cdot[aria-current="true"]{width:20px;background:var(--page-ink)}
 .cdot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
@@ -266,9 +307,8 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
   font-variant-numeric:tabular-nums}
 .shero .st b{color:var(--ink);font-weight:600}
 .shero .nt{font-size:11.5px;color:var(--mut);margin-top:5px}
-.scard{margin:15px 11px 0;border-radius:14px;background:rgba(0,0,0,.35);
-  border:.6px solid var(--cline);backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);overflow:hidden}
+.scard{margin:15px 11px 0;border-radius:14px;background:rgba(0,0,0,.42);
+  border:.6px solid var(--cline);overflow:hidden}
 .sblock+.sblock{border-top:1px solid var(--rline)}
 .sbhead{display:flex;align-items:center;gap:8px;padding:9px 10px 9px 11px}
 .sblabel{flex:1;font-size:9.5px;font-weight:600;letter-spacing:.11em;
@@ -291,8 +331,7 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
 .srow.done .sname{color:var(--mut)}
 .srow.done .chip{background:rgba(255,255,255,.06)}
 .spanel{margin:15px 11px 0;padding:13px 13px 11px;border-radius:14px;
-  background:rgba(0,0,0,.35);border:.6px solid var(--cline);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  background:rgba(0,0,0,.42);border:.6px solid var(--cline)}
 .sptitle{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;
   text-transform:uppercase;color:var(--mut);margin-bottom:9px;
   display:flex;justify-content:space-between;gap:8px}
@@ -399,7 +438,7 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
 /* ── close ────────────────────────────────────────────────────────────── */
 .close-stage{min-height:520px;display:flex;align-items:center}
 .close-stage .ground{object-position:50% 62%}
-.close{padding:92px 0 100px;text-align:center;width:100%}
+.close{padding-top:92px;padding-bottom:100px;text-align:center;width:100%}
 
 footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 .fl{display:flex;flex-wrap:wrap;gap:9px 22px;margin-bottom:20px;font-family:var(--mono);
@@ -438,14 +477,13 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
     <rect x="8.2" y="6.4" width="7.6" height="13.4" rx="1.8"/><path d="M8.2 12.6H15.8"/></g>
   <g id="cap" transform="rotate(-45 12 12)"><rect x="8.9" y="3.8" width="6.2" height="16.4" rx="3.1"/>
     <path d="M8.9 12.4h6.2"/></g>
-  <g id="pen"><rect x="10.7" y="2.4" width="2.6" height="1.8" rx=".9" fill="currentColor" stroke="none"/>
-    <rect x="10.1" y="4.2" width="3.8" height="13.4" rx="1.9"/><path d="M10.1 12.4h3.8"/>
-    <rect x="11.1" y="17.6" width="1.8" height="1.8" rx=".4"/><path d="M12 19.4v2"/></g>
   <g id="syr"><path d="M10 3.2h4M12 3.2v3.2M8.6 6.4h6.8"/><rect x="9.8" y="6.4" width="4.4" height="11" rx=".8"/>
     <path d="M9.8 10h1.6M9.8 12.6h1.6M12 17.4v3.6"/></g>
   <g id="star"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5-5.8-3.05-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></g>
   <g id="play"><path d="M3 2.4v19.2c0 .55.33.9.77.9.2 0 .4-.08.55-.22L17.5 13.4 14.2 10 4.32 1.72A.83.83 0 0 0 3.77 1.5c-.44 0-.77.35-.77.9z" fill="currentColor" stroke="none"/></g>
 </defs></svg>
+
+<main id="top">
 
 <!-- ══════════════════════════════════════════════════════════ HERO ═══════ -->
 <!-- The ground is generated locally (tools/gen_hero.py) and chosen by
@@ -459,6 +497,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
        width="3840" height="2160"
        src="assets/img/hero/hero-1920.jpg"
        srcset="assets/img/hero/hero-960.jpg 960w,
+               assets/img/hero/hero-1280.jpg 1280w,
                assets/img/hero/hero-1920.jpg 1920w,
                assets/img/hero/hero.jpg 3840w"
        sizes="100vw" />
@@ -466,7 +505,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
   <div class="band"></div>
 
   <div class="layer">
-    <header class="nav">
+    <header class="nav" role="banner">
       <div class="wrap nav-in">
         <a class="brand" href="./">
           <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
@@ -500,10 +539,10 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
             aria-label="Get told when Stack launches">
         <input class="wl-input" type="email" name="email" inputmode="email"
                autocomplete="email" placeholder="you@email.com"
-               aria-label="Your email address" required />
+               aria-label="Your email address" aria-describedby="wl-msg" required />
         <button type="submit" class="btn btn-solid wl-go">Notify me</button>
       </form>
-      <p class="hero-note lift" data-msg style="--d:5">Launching soon on Android &mdash; iOS after.</p>
+      <p class="hero-note lift" id="wl-msg" data-msg role="status" aria-live="polite" style="--d:5">Launching soon on Android &mdash; iOS after.</p>
 
       <!-- No stars here until the listing actually has them. social-proof.js
            replaces this line the moment window.STACK_PROOF carries a real
@@ -513,13 +552,13 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
         <span class="sep">&middot;</span>
         <span>Encrypted on your phone</span>
         <span class="sep">&middot;</span>
-        <span>No ads, ever</span>
+        <span>No ads</span>
       </div>
     </div>
   </div>
 </section>
 
-<main class="on-page">
+<div class="on-page">
 
 <!-- ═════════════════════════════════════════════════════════ SCREENS ════ -->
 <section class="sec" id="screens">
@@ -532,11 +571,11 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
   </div>
 
   <div class="carousel an">
-  <div class="shelf" id="shelf">
+  <div class="shelf" id="shelf" tabindex="0" role="group" aria-label="App screens, scroll sideways">
 
     <!-- 1 · TODAY -->
     <figure class="shot" style="margin:0">
-      <div class="phone"><div class="screen">
+      <div class="phone"><div class="screen" aria-hidden="true">
         <img class="sg" src="assets/img/grounds/ridge.jpg" alt="" aria-hidden="true"
                loading="lazy" decoding="async" width="720" height="1560" />
         <div class="ss"></div><div class="sb"></div>
@@ -569,7 +608,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
                 <span class="smain"><span class="sname">Testosterone cyp.</span><span class="ssub">right delt &middot; 9:00</span></span>
                 <span class="stick on"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
               <div class="srow done"><span class="chip"><svg viewBox="0 0 24 24"><use href="#vial"/></svg></span>
-                <span class="smain"><span class="sname">BPC-157</span><span class="ssub">250 mcg &middot; 9:02</span></span>
+                <span class="smain"><span class="sname">BPC-157</span><span class="ssub">9:02</span></span>
                 <span class="stick on"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
             </div>
             <div class="sblock">
@@ -579,7 +618,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
                 <span class="stick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></div>
             </div>
           </div>
-          <div class="chrome"><div class="dots"><i class="on"></i><i></i><i></i><i></i></div></div>
+          <div class="chrome"><div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
         </div>
       </div></div>
       <figcaption class="cap"><b>Two taps to log</b>
@@ -588,7 +627,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 
     <!-- 2 · LEVELS -->
     <figure class="shot" style="margin:0">
-      <div class="phone"><div class="screen">
+      <div class="phone"><div class="screen" aria-hidden="true">
         <img class="sg" src="assets/img/grounds/ridge.jpg" alt="" aria-hidden="true"
                loading="lazy" decoding="async" width="720" height="1560" />
         <div class="ss"></div><div class="sb"></div>
@@ -623,7 +662,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
               <div class="s"><div class="top"><span class="nm">Semaglutide</span><span class="q">41%</span></div></div>
             </div>
           </div>
-          <div class="chrome"><div class="dots"><i></i><i class="on"></i><i></i><i></i></div></div>
+          <div class="chrome"><div class="dots"><i></i><i class="on"></i><i></i><i></i><i></i></div></div>
         </div>
       </div></div>
       <figcaption class="cap"><b>See what is still in you</b>
@@ -632,7 +671,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 
     <!-- 3 · SUPPLY -->
     <figure class="shot" style="margin:0">
-      <div class="phone"><div class="screen">
+      <div class="phone"><div class="screen" aria-hidden="true">
         <img class="sg" src="assets/img/grounds/ridge.jpg" alt="" aria-hidden="true"
                loading="lazy" decoding="async" width="720" height="1560" />
         <div class="ss"></div><div class="sb"></div>
@@ -660,7 +699,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
                 <div class="fx">Runs out Oct 30 &middot; $0.03 / dose</div></div>
             </div>
           </div>
-          <div class="chrome"><div class="dots"><i></i><i></i><i class="on"></i><i></i></div></div>
+          <div class="chrome"><div class="dots"><i></i><i></i><i class="on"></i><i></i><i></i></div></div>
         </div>
       </div></div>
       <figcaption class="cap"><b>Never caught empty</b>
@@ -669,7 +708,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 
     <!-- 4 · ROTATION -->
     <figure class="shot" style="margin:0">
-      <div class="phone"><div class="screen">
+      <div class="phone"><div class="screen" aria-hidden="true">
         <img class="sg" src="assets/img/grounds/ridge.jpg" alt="" aria-hidden="true"
                loading="lazy" decoding="async" width="720" height="1560" />
         <div class="ss"></div><div class="sb"></div>
@@ -678,12 +717,12 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
           <div class="burger"><i></i><i></i><i></i></div>
           <div class="shero" style="text-align:left;padding-left:18px">
             <div class="greet" style="font-size:23px">Rotation</div>
-            <div class="nt" style="margin-top:4px">Next &middot; right abdomen</div>
+            <div class="nt" style="margin-top:4px">Last &middot; left abdomen</div>
           </div>
           <div class="spanel" style="text-align:center">
             <div class="sptitle"><span>Injection sites</span><span>6 tracked</span></div>
             <svg viewBox="0 0 120 200" style="width:104px;height:auto;margin:4px auto 0" role="img"
-                 aria-label="Body map with recently used sites resting and one highlighted as next.">
+                 aria-label="Body map showing which sites have been used recently.">
               <g fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.16)" stroke-width="1.5">
                 <circle cx="60" cy="17" r="10"/><rect x="44" y="30" width="32" height="58" rx="11"/>
                 <rect x="29" y="32" width="12" height="44" rx="6"/><rect x="79" y="32" width="12" height="44" rx="6"/>
@@ -697,18 +736,18 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
               <circle cx="69" cy="122" r="5.5" fill="rgba(255,255,255,.34)"/>
             </svg>
             <div class="spfoot" style="justify-content:center;gap:14px">
-              <span>Resting &middot; 4</span><span>Clear &middot; 1</span></div>
+              <span>Used recently &middot; 4</span><span>Not used &middot; 1</span></div>
           </div>
-          <div class="chrome"><div class="dots"><i></i><i></i><i></i><i class="on"></i></div></div>
+          <div class="chrome"><div class="dots"><i></i><i></i><i></i><i class="on"></i><i></i></div></div>
         </div>
       </div></div>
-      <figcaption class="cap"><b>It remembers where you pinned</b>
-        <span>The map keeps the rotation honest for you.</span></figcaption>
+      <figcaption class="cap"><b>It remembers where you injected</b>
+        <span>So you do not have to.</span></figcaption>
     </figure>
 
     <!-- 5 · SAGE -->
     <figure class="shot" style="margin:0">
-      <div class="phone"><div class="screen">
+      <div class="phone"><div class="screen" aria-hidden="true">
         <img class="sg" src="assets/img/grounds/ridge.jpg" alt="" aria-hidden="true"
                loading="lazy" decoding="async" width="720" height="1560" />
         <div class="ss"></div><div class="sb"></div>
@@ -720,22 +759,22 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
             <div class="nt" style="margin-top:4px">Ask it to do things</div>
           </div>
           <div class="spanel" style="display:flex;flex-direction:column;gap:8px">
-            <div class="bubble me">Log my test shot, left glute</div>
+            <div class="bubble me">Log my testosterone, left glute</div>
             <div class="bubble them">Logged &mdash; testosterone cypionate, left glute, 9:04. Undo?</div>
             <div class="bubble me">Push tomorrow's BPC to Friday</div>
             <div class="bubble them">Moved BPC-157 from Wed 3 Sep to Fri 5 Sep. One dose affected.</div>
           </div>
           <div class="sagebar">Say what you want done&hellip;</div>
-          <div class="chrome"><div class="dots"><i></i><i></i><i></i><i class="on"></i></div></div>
+          <div class="chrome"><div class="dots"><i></i><i></i><i></i><i></i><i class="on"></i></div></div>
         </div>
       </div></div>
       <figcaption class="cap"><b>Just tell it</b>
-        <span>Sage operates the app. It never prescribes.</span></figcaption>
+        <span>Sage operates the app. It is not there to prescribe.</span></figcaption>
     </figure>
 
   </div>
     <div class="cbar">
-      <div class="cdots" id="cdots" role="tablist" aria-label="Choose a screen"></div>
+      <div class="cdots" id="cdots" role="group" aria-label="Choose a screen"></div>
       <div class="ccount" id="ccount">1 / 5</div>
     </div>
   </div>
@@ -772,7 +811,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
         </a>
         <a class="check" href="privacy.html">
           <span class="k">The policy, in specifics</span>
-          <span class="v">Encrypted on device, backup off by default, export on any plan.</span>
+          <span class="v">Encrypted on device, backup off by default, no ads and no tracking SDKs.</span>
           <span class="go">Read it &rarr;</span>
         </a>
       </div>
@@ -786,16 +825,17 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 <!-- ═════════════════════════════════════════════════ THE SHORT VERSION ══ -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
+    <h2 class="vh">What Stack is</h2>
     <div class="three an">
       <div class="t"><h3>Free, with no cap</h3>
         <p>Track as many compounds as you actually take. Reminders, supply and rotation cost
-          nothing, permanently.</p></div>
+          nothing, and Plus never removes anything from the free tier.</p></div>
       <div class="t"><h3>Private by default</h3>
-        <p>Encrypted on your phone. Cloud backup is off until you turn it on, and the account
-          only ever knows your email.</p></div>
-      <div class="t"><h3>It never prescribes</h3>
-        <p>Stack records and explains. It will not recommend a compound or a dose, and nothing
-          here is medical advice.</p></div>
+        <p>Encrypted on your phone. Cloud backup is off until you turn it on — leave it off and
+          the account only ever knows your email.</p></div>
+      <div class="t"><h3>It does not prescribe</h3>
+        <p>Stack records and explains. It is not designed to recommend a compound or a dose, and
+          nothing here is medical advice.</p></div>
     </div>
   </div>
 </section>
@@ -816,7 +856,7 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
           <a class="pill" href="compounds/tirzepatide/">Tirzepatide</a>
           <a class="pill" href="compounds/testosterone-cypionate/">Testosterone</a>
           <a class="pill" href="compounds/bpc-157/">BPC-157</a>
-          <a class="pill" href="compounds/retatrutide/">Retatrutide</a>
+          <a class="pill" href="compounds/magnesium-glycinate/">Magnesium</a>
           <a class="pill" href="compounds/creatine-monohydrate/">Creatine</a>
           <a class="pill" href="compounds/nmn/">NMN</a>
           <a class="pill more" href="compounds/">All 112 &rarr;</a>
@@ -830,26 +870,30 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 <section class="sec">
   <div class="wrap">
     <div class="sec-head an" style="margin-bottom:24px">
-      <p class="eyebrow">Before you ask</p>
+      <h2 class="eyebrow">Before you ask</h2>
     </div>
     <div class="faq an">
-      <details><summary>Is it free?</summary>
+      <details><summary>Is Stack free?</summary>
         <p>Yes, with no cap on compounds. Tracking, reminders, supply projection and rotation
-        cost nothing. Plus adds the in-system levels, bloodwork ranges, full trends, a
-        doctor-ready report and cloud backup.</p></details>
+        cost nothing, with three Sage requests a week. Plus adds unlimited Sage, the in-system
+        levels, bloodwork ranges, full trends, a printable summary of your log and cloud
+        backup.</p></details>
       <details><summary>Do I need an account?</summary>
         <p>No. Everything on the phone works without one. An account is email-only and exists
         so a Plus purchase follows you to a new device.</p></details>
-      <details><summary>What can I track?</summary>
+      <details><summary>What can I track with Stack?</summary>
         <p>Anything on a schedule: supplements, vitamins, prescriptions, peptides, GLP-1s and
         TRT &mdash; alongside habits, weight, lifts and bloodwork.</p></details>
-      <details><summary>Is it on iPhone?</summary>
+      <details><summary>Is Stack on iPhone?</summary>
         <p>Android first, iOS after. Leave an email and we will tell you the day it lands.</p></details>
+      <details><summary>How do I reach you?</summary>
+        <p>Email us and a person replies &mdash; <a href="#" data-email-link>hello@trackyourstack.app</a>.
+        Bugs, questions, or anything you want us to build next.</p></details>
     </div>
   </div>
 </section>
 
-</main>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════ CLOSE ════ -->
 <section class="stage close-stage">
@@ -857,7 +901,9 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
        width="3840" height="2160"
        src="assets/img/hero/hero-1920.jpg"
        srcset="assets/img/hero/hero-960.jpg 960w,
-               assets/img/hero/hero-1920.jpg 1920w"
+               assets/img/hero/hero-1280.jpg 1280w,
+               assets/img/hero/hero-1920.jpg 1920w,
+               assets/img/hero/hero.jpg 3840w"
        sizes="100vw" />
   <div class="scrim"></div>
   <div class="layer" style="width:100%">
@@ -873,14 +919,18 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="wrap">
     <div class="fl">
       <a href="compounds/">Compounds</a><a href="guides/">Guides</a>
       <a href="tools/reconstitution/">Calculator</a><a href="pricing/">Pricing</a>
-      <a href="account/">Sign in</a><a href="about/">About</a>
+      <a href="account/">Sign in</a><a href="stacks/">Share your stack</a>
+      <a href="referral.html">Referrals</a><a href="about/">About</a>
       <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
       <a href="data-deletion.html">Data deletion</a>
+      <a href="#" data-email-link>Contact</a>
     </div>
     <p class="disc">Stack is a logging tool and an educational reference. Nothing on this site is
       medical advice, a recommendation, or an endorsement of any compound. Always talk to a
@@ -893,25 +943,38 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
    prefers-reduced-motion, so this becomes a no-op there. */
 (function(){
   var els = [].slice.call(document.querySelectorAll('.an'));
+  var stages = [].slice.call(document.querySelectorAll('.stage'));
   if (!('IntersectionObserver' in window)) {
-    els.forEach(function(e){ e.classList.add('in'); }); return;
+    els.forEach(function(e){ e.classList.add('in'); });
+    stages.forEach(function(e){ e.classList.add('vis'); });
+    return;
   }
+  var fired = false;
   var io = new IntersectionObserver(function(en){
     en.forEach(function(e){
-      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      if (e.isIntersecting){ fired = true; e.target.classList.add('in'); io.unobserve(e.target); }
     });
   }, {rootMargin:'0px 0px -8% 0px', threshold:.05});
   els.forEach(function(e){ io.observe(e); });
+
+  /* Run the background drift only while its section is on screen. Both grounds
+     animated from t=0 forever, and every glass element over them recomputed its
+     backdrop blur each frame to match. */
+  var vis = new IntersectionObserver(function(en){
+    en.forEach(function(e){ e.target.classList.toggle('vis', e.isIntersecting); });
+  }, {rootMargin:'120px 0px'});
+  stages.forEach(function(e){ vis.observe(e); });
 
   /* Watchdog. If the observer has not revealed anything a couple of seconds
      after load — a tab restored in the background, a throttled renderer, a
      browser quirk — show everything rather than leaving the page blank. An
      animation is worth having; it is not worth a white screen. */
+  /* The sentinel is the observer's own flag, NOT a class in the DOM:
+     social-proof.js injects nodes that already carry `in`, which made the old
+     DOM check pass without a single real reveal having happened. */
   window.addEventListener('load', function(){
     setTimeout(function(){
-      if (!document.querySelector('.an.in')) {
-        els.forEach(function(e){ e.classList.add('in'); });
-      }
+      if (!fired) { els.forEach(function(e){ e.classList.add('in'); }); }
     }, 2200);
   });
 })();
@@ -927,21 +990,35 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
   if (!shelf) return;
   var shots = [].slice.call(shelf.querySelectorAll('.shot'));
   if (!shots.length) return;
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var motionQ = matchMedia('(prefers-reduced-motion: reduce)');
+  var wideQ = matchMedia('(min-width:900px)');
+  var reduce = motionQ.matches;
   var active = -1;
+
+  function clearStyles(){
+    shots.forEach(function(s){ s.style.transform = ''; s.style.opacity = ''; });
+  }
+  if (motionQ.addEventListener) {
+    motionQ.addEventListener('change', function(e){
+      reduce = e.matches;
+      if (reduce) clearStyles();
+    });
+  }
 
   shots.forEach(function(s, i){
     var b = document.createElement('button');
     b.className = 'cdot';
     b.type = 'button';
-    b.setAttribute('role', 'tab');
     var label = (s.querySelector('.cap b') || {}).textContent || ('Screen ' + (i + 1));
     b.setAttribute('aria-label', label);
     b.addEventListener('click', function(){
-      shelf.scrollTo({
-        left: s.offsetLeft - (shelf.clientWidth - s.offsetWidth) / 2,
-        behavior: reduce ? 'auto' : 'smooth'
-      });
+      var left = s.offsetLeft - (shelf.clientWidth - s.offsetWidth) / 2;
+      try {
+        shelf.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
+      } catch (err) {
+        shelf.scrollLeft = left;
+      }
+      if (shelf.scrollLeft === 0 && left > 1) { shelf.scrollLeft = left; }
     });
     dots.appendChild(b);
   });
@@ -957,12 +1034,18 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
   }
 
   function sync(){
+    /* The style pass is reconciled on EVERY call, before the early return, so
+       crossing the 900px breakpoint clears what the phone layout wrote. The old
+       order left two of three desktop phones dimmed at 66% permanently. */
+    if (reduce || wideQ.matches) {
+      clearStyles();
+    }
     var i = nearest();
     if (i === active) return;
     active = i;
     buttons.forEach(function(b, n){ b.setAttribute('aria-current', n === i ? 'true' : 'false'); });
     if (count) count.textContent = (i + 1) + ' / ' + shots.length;
-    if (reduce) return;
+    if (reduce || wideQ.matches) return;
     shots.forEach(function(s, n){
       s.style.transform = n === i ? 'scale(1)' : 'scale(.955)';
       s.style.opacity   = n === i ? '1' : '.66';
@@ -975,14 +1058,18 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
     tick = true;
     requestAnimationFrame(function(){ tick = false; sync(); });
   }, {passive: true});
-  window.addEventListener('resize', sync);
+  window.addEventListener('resize', function(){
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function(){ tick = false; sync(); });
+  });
   sync();
 })();
 </script>
 
-<script src="assets/js/rail-config.js"></script>
-<script src="assets/js/social-proof.js" defer></script>
-<script src="assets/js/site.js" defer></script>
+<script src="assets/js/rail-config.js?v=5" defer></script>
+<script src="assets/js/social-proof.js?v=5" defer></script>
+<script src="assets/js/site.js?v=5" defer></script>
 
 </body>
 </html>
