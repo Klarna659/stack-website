@@ -172,10 +172,23 @@
     });
   });
 
-  /* store badges — until store URLs exist, scroll to the notify line */
+  /* store badges. ⚠ A button labelled "Get it on Google Play" that opens a mail
+     draft is the one dishonest interaction on a page whose entire pitch is that
+     it does not overstate anything — and it is what shipped, because the label
+     is baked into the markup and the fallback is in here. So when no store URL
+     is configured the button RELABELS ITSELF and drops the Play glyph, rather
+     than promising a store it cannot open. Paste the URL below and the original
+     label comes back with no markup change. */
   document.querySelectorAll(".store-badge[data-store]").forEach(function (b) {
+    var urls = { play: "", apple: "" }; // paste real store URLs at launch
+    if (!urls[b.getAttribute("data-store")]) {
+      var glyph = b.querySelector("svg");
+      if (glyph) { glyph.remove(); }
+      var label = b.querySelector(".sb-text");
+      if (label) { label.textContent = "Get notified at launch"; }
+      else { b.textContent = "Get notified at launch"; }
+    }
     b.addEventListener("click", function () {
-      var urls = { play: "", apple: "" }; // paste real store URLs at launch
       var u = urls[b.getAttribute("data-store")];
       if (u) { window.open(u, "_blank", "noopener"); return; }
       window.location.href = "mailto:" + EMAIL +
