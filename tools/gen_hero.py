@@ -50,35 +50,55 @@ UP_W, UP_H = 3840, 2160    # ship here
 NEGATIVE = ("text, watermark, people, buildings, oversaturated, hdr, "
             "blown highlights, lens flare, cluttered")
 
+# ⚠ THE FIRST POOL WAS WRONG, AND THE PROMPT WAS WHY
+#
+# v1 of this file inherited the app's composition rule verbatim: "a vast empty
+# gradient sky filling the entire upper two thirds with no clouds and no
+# detail". On a phone, behind a day strip and a card, that rule is correct —
+# there is barely any photograph visible and what shows must not fight 11px
+# type. On a 4K website hero it produces exactly what Sim called it: an empty
+# blue rectangle. The rule was solving the app's problem on the site's canvas.
+#
+# So the brief inverts. The web hero wants a real PLACE with depth, texture and
+# a foreground, and legibility is bought with tone and scrim instead of with
+# emptiness: aim DARK (0.22-0.34 rather than 0.38-0.68), put the detail in the
+# lower half where no headline lands, and let the top stay atmospheric — haze,
+# fog, falling light — rather than blank.
+
 COMMON = (
-    "minimalist landscape photograph, LOW horizon about two thirds down the "
-    "frame, the subject occupying only the bottom third, a vast empty "
-    "gradient sky filling the entire upper two thirds with no clouds and no "
-    "detail, blue hour, the sun already below the horizon, soft even light, "
-    "detail retained in the shadows, no crushed blacks, deserted, no text, "
-    "subtle film grain, muted desaturated palette, calm minimal and expensive, "
-    "shot on medium format, wide cinematic framing"
+    "atmospheric landscape photograph, deep layered depth, real texture and "
+    "detail in the foreground, moody low light after sunset, cool shadows, "
+    "detail retained in the shadows, no crushed blacks, volumetric haze, "
+    "deserted, no people, no text, subtle film grain, muted cinematic colour "
+    "grade, shot on medium format with a wide lens, quiet and expensive"
 )
 
 HEROES = {
-    "ridge": ("a distant mountain range along the bottom third of the frame, "
-              "its ridgeline catching the last cold light, receding layers of "
-              "haze between the ranges, " + COMMON),
-    "coast": ("a low dark headland and its reflection along the bottom third "
-              "of the frame in vast still water, glassy and unbroken, " + COMMON),
-    "dune": ("the long crests of desert dunes along the bottom third of the "
-             "frame, raking light along their edges, " + COMMON),
-    "cloud": ("a low flat bank of cloud lying along the bottom third of the "
-              "frame, lit faintly from within by the afterglow, " + COMMON),
-    "valley": ("a wide valley floor in mist along the bottom third of the "
-               "frame, one soft ridge behind it, " + COMMON),
+    # A place, with something in it. The upper third stays soft — haze, fog,
+    # falling light — so the headline still has somewhere to sit.
+    "pines": ("a dense misty pine forest on a mountainside seen from above, "
+              "ridges of trees receding into fog layer after layer, cold blue "
+              "dusk light raking across the tops, " + COMMON),
+    "canyon": ("a deep sandstone canyon at dusk, sculpted walls in shadow with "
+               "one soft shaft of light falling down the far wall, the river "
+               "bend dark at the bottom of the frame, " + COMMON),
+    "alpine": ("a still alpine lake at dusk, dark pine shoreline in the "
+               "foreground, snow peaks reflected in the water, mist sitting on "
+               "the surface, " + COMMON),
+    "fjord": ("a steep fjord wall dropping into dark water, low cloud caught "
+              "halfway up the cliffs, layers of headland receding into rain "
+              "haze, " + COMMON),
+    "mesa": ("desert mesas at blue hour, textured rock in the near foreground, "
+             "buttes receding into dust haze, the last warm light on the "
+             "highest edges, " + COMMON),
+    "storm": ("a wide plain under a heavy cloud ceiling at dusk, rain falling "
+              "in the distance, low ridges catching a break of light, "
+              + COMMON),
 }
 
-# Two seeds each — the composition rule is strict enough that one draw is often
-# nearly right and the other is the one you keep.
-SEEDS = {"ridge": (604118, 118207), "coast": (330415, 907712),
-         "dune": (229740, 441903), "cloud": (471692, 550118),
-         "valley": (693351, 812440)}
+SEEDS = {"pines": (604118, 118207), "canyon": (330415, 907712),
+         "alpine": (229740, 441903), "fjord": (471692, 550118),
+         "mesa": (693351, 812440), "storm": (358204, 815036)}
 
 
 def graph(prompt, seed):
@@ -197,6 +217,13 @@ def generate(names):
     return made
 
 
+# flux occasionally lays a few rows of garbage along an edge — a sliver of
+# colour noise at the top, or baked-in letterbox bars on the cinematic prompts.
+# It is invisible in a 1920px preview and very visible stretched to 4K behind a
+# headline, so every shipped image loses its outermost rows first.
+EDGE_CROP = 0.012
+
+
 def ship(pairs):
     """Upscale a chosen pool image to 4K and write the responsive set."""
     from PIL import Image
@@ -205,10 +232,13 @@ def ship(pairs):
         tag, name = pair.split("=")
         src = os.path.join(POOL, tag + ".png")
         im = Image.open(src).convert("RGB")
+        w, h = im.size
+        dx, dy = int(w * EDGE_CROP), int(h * EDGE_CROP)
+        im = im.crop((dx, dy, w - dx, h - dy))
         big = im.resize((UP_W, UP_H), Image.LANCZOS)
         # Three widths. A phone has no business downloading 4K to put a scrim
         # over it, and srcset means it does not have to.
-        for w, q, suffix in ((UP_W, 88, ""), (1920, 86, "-1920"), (960, 84, "-960")):
+        for w, q, suffix in ((UP_W, 82, ""), (1920, 84, "-1920"), (960, 84, "-960")):
             out = os.path.join(DEST, "%s%s.jpg" % (name, suffix))
             (big if w == UP_W else big.resize(
                 (w, round(UP_H * w / UP_W)), Image.LANCZOS)

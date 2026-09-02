@@ -144,22 +144,48 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
 .sec-head{max-width:56ch;margin:0 0 40px}
 .sec-head.mid{margin-left:auto;margin-right:auto;text-align:center}
 
-/* ── the screens: an App Store shelf ──────────────────────────────────────
-   The shelf is its OWN full-bleed scroller, not a wide child of .wrap with
-   negative margins — that version overflowed the document by 5px at 390.
-   The padding does the aligning instead: the first phone lines up with the
-   container on a desktop and with the gutter on a phone. */
-.shelf{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:6px max(var(--gut), calc((100vw - var(--maxw)) / 2 + var(--gut))) 26px;
-  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+/* ── the screens ──────────────────────────────────────────────────────────
+   Two genuinely different treatments, not one layout squeezed.
+
+   PHONE: a one-up swipe. The slide is centred with its neighbours peeking, so
+   the gesture is obvious before you make it, and there are dots and a counter
+   underneath. This is Family's pattern (labelled phone per slide) with
+   Linear's carousel counter, and it is what the App Store itself does.
+
+   DESKTOP: a shelf. Three across, still snapping, because on a wide screen a
+   one-up carousel wastes the whole viewport to show one phone.
+
+   The centring padding is what makes the phone version work: half the
+   viewport minus half a slide, so slide one starts centred rather than jammed
+   against the left edge. */
+.carousel{position:relative}
+.shelf{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  /* 50% not 50vw: vw includes the scrollbar, so the vw version put the
+     first slide 7-8px off centre on any desktop browser that shows one. */
+  padding:6px calc(50% - 132px) 8px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 .shelf::-webkit-scrollbar{display:none}
 .shot{flex:0 0 auto;scroll-snap-align:center;width:264px;
-  transition:transform .5s var(--ease),opacity .5s var(--ease)}
-@media(min-width:900px){.shot{width:286px}}
-.shot .cap{margin-top:16px;text-align:center}
+  transition:transform .55s var(--ease),opacity .55s var(--ease)}
+@media(min-width:900px){
+  .shelf{gap:20px;padding:6px max(var(--gut), calc((100vw - var(--maxw)) / 2 + var(--gut))) 8px}
+  .shot{width:286px;scroll-snap-align:start}
+}
+.shot .cap{margin-top:18px;text-align:center;padding:0 6px}
 .shot .cap b{display:block;font-size:15.5px;font-weight:600;letter-spacing:-.015em}
-.shot .cap span{display:block;font-size:13px;color:var(--page-mut);margin-top:4px;
-  line-height:1.45}
+.shot .cap span{display:block;font-size:13px;color:var(--page-mut);margin-top:5px;line-height:1.45}
+
+/* dots + counter. Tappable, and they follow the scroll rather than guessing. */
+.cbar{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:22px}
+@media(min-width:900px){.cbar{display:none}}
+.cdots{display:flex;gap:7px;align-items:center}
+.cdot{appearance:none;border:0;padding:0;cursor:pointer;width:7px;height:7px;
+  border-radius:99px;background:var(--page-line);
+  transition:width .34s var(--spring),background .34s var(--ease)}
+.cdot[aria-current="true"]{width:20px;background:var(--page-ink)}
+.cdot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.ccount{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--page-mut);
+  font-variant-numeric:tabular-nums}
 
 /* the device, at v9.css's proportions */
 .phone{border-radius:34px;padding:8px;background:#000;
@@ -256,14 +282,23 @@ h2{font-size:clamp(26px,6.4vw,42px);font-weight:600;letter-spacing:-.03em;
 .score .meta .stars{margin-bottom:5px}
 .revs{display:grid;gap:14px}
 @media(min-width:760px){.revs{grid-template-columns:repeat(3,1fr);gap:18px}}
-.rev{border:1px solid var(--page-line);border-radius:16px;padding:19px 19px 17px;
-  background:var(--page-2);transition:border-color .3s var(--ease),transform .3s var(--ease)}
+/* Every polished page we looked at — Raycast, Copilot, Family, Linear, Things
+   — attaches a review to a PERSON: an avatar, a name, and one line of context.
+   Not one of them shows anonymous stars. Play reviews carry a display name, so
+   this costs nothing at launch and reads twice as strong. */
+.rev{border:1px solid var(--page-line);border-radius:16px;padding:20px 20px 18px;
+  background:var(--page-2);display:flex;flex-direction:column;
+  transition:border-color .3s var(--ease),transform .3s var(--ease)}
 .rev:hover{border-color:#333A44;transform:translateY(-2px)}
-.rev .stars{margin-bottom:11px}
+.rev .stars{margin-bottom:12px}
 .rev .stars svg{width:13px;height:13px}
-.rev p{font-size:14.5px;line-height:1.6;color:var(--page-ink);margin:0 0 14px}
-.rev .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--page-mut)}
+.rev p{font-size:14.5px;line-height:1.62;color:var(--page-ink);margin:0 0 18px;flex:1}
+.rev .who{display:flex;align-items:center;gap:11px}
+.rev .av{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:var(--page-line);color:var(--page-ink);font-size:13px;font-weight:600;
+  letter-spacing:-.01em}
+.rev .nm{font-size:13.5px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.rev .cx{font-size:11.5px;color:var(--page-mut);margin-top:2px;line-height:1.3}
 
 /* ── the short version: three lines, not a breakdown ──────────────────── */
 .three{display:grid;gap:0;border-top:1px solid var(--page-line)}
@@ -423,7 +458,8 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
     </div>
   </div>
 
-  <div class="shelf an" id="shelf">
+  <div class="carousel an">
+  <div class="shelf" id="shelf">
 
     <!-- 1 · TODAY -->
     <figure class="shot" style="margin:0">
@@ -620,6 +656,11 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
     </figure>
 
   </div>
+    <div class="cbar">
+      <div class="cdots" id="cdots" role="tablist" aria-label="Choose a screen"></div>
+      <div class="ccount" id="ccount">1 / 5</div>
+    </div>
+  </div>
 </section>
 
 <!-- ═════════════════════════════════════════════════════════ REVIEWS ════ -->
@@ -646,29 +687,22 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 
     <div class="revs">
       <article class="rev an" style="--d:0">
-        <span class="stars" role="img" aria-label="5 out of 5">
-          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
-        </span>
-        <p>&ldquo;I was running six things off a note on my phone and a mental list. First
-          morning with this and it was just&hellip; done. The refill warnings alone are worth it.&rdquo;</p>
-        <div class="who">Placeholder &mdash; Play review</div>
+        <span class="stars" role="img" aria-label="5 out of 5"><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg></span>
+        <p>&ldquo;I was running six things off a note on my phone and a mental list. First morning with this and it was just&hellip; done. The refill warnings alone are worth it.&rdquo;</p>
+        <div class="who"><span class="av" aria-hidden="true">M</span>
+          <span><span class="nm">Placeholder name</span><span class="cx">Play review &middot; replace at launch</span></span></div>
       </article>
       <article class="rev an" style="--d:1">
-        <span class="stars" role="img" aria-label="5 out of 5">
-          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
-        </span>
-        <p>&ldquo;Every other tracker assumes you take one thing. This one assumes you take
-          six, which is the actual situation. The rotation map ended an argument I have with
-          myself weekly.&rdquo;</p>
-        <div class="who">Placeholder &mdash; Play review</div>
+        <span class="stars" role="img" aria-label="5 out of 5"><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg></span>
+        <p>&ldquo;Every other tracker assumes you take one thing. This one assumes you take six, which is the actual situation. The rotation map ended an argument I have with myself weekly.&rdquo;</p>
+        <div class="who"><span class="av" aria-hidden="true">J</span>
+          <span><span class="nm">Placeholder name</span><span class="cx">Play review &middot; replace at launch</span></span></div>
       </article>
       <article class="rev an" style="--d:2">
-        <span class="stars" role="img" aria-label="5 out of 5">
-          <svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg>
-        </span>
-        <p>&ldquo;Took my last labs to my doctor with the export from this and he asked what
-          app it was. Never had that happen with a spreadsheet.&rdquo;</p>
-        <div class="who">Placeholder &mdash; Play review</div>
+        <span class="stars" role="img" aria-label="5 out of 5"><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg></span>
+        <p>&ldquo;Took my last labs to my doctor with the export from this and he asked what app it was. Never had that happen with a spreadsheet.&rdquo;</p>
+        <div class="who"><span class="av" aria-hidden="true">R</span>
+          <span><span class="nm">Placeholder name</span><span class="cx">Play review &middot; replace at launch</span></span></div>
       </article>
     </div>
   </div>
@@ -806,22 +840,67 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
   });
 })();
 
-/* The shelf: the phone under the pointer sits forward, the rest fall back a
-   little. Cheap, and it is what makes a row of screenshots read as a carousel
-   rather than as a row of screenshots. */
+/* The carousel. Dots and counter are built from the slides rather than
+   hard-coded, so adding a sixth screen needs no second edit, and the active
+   slide is read off the SCROLL POSITION rather than guessed from taps — a
+   swipe and a dot press then agree with each other. */
 (function(){
   var shelf = document.getElementById('shelf');
-  if (!shelf || !('IntersectionObserver' in window)) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var dots  = document.getElementById('cdots');
+  var count = document.getElementById('ccount');
+  if (!shelf) return;
   var shots = [].slice.call(shelf.querySelectorAll('.shot'));
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var on = e.intersectionRatio > 0.86;
-      e.target.style.transform = on ? 'scale(1)' : 'scale(.955)';
-      e.target.style.opacity = on ? '1' : '.72';
+  if (!shots.length) return;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var active = -1;
+
+  shots.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'cdot';
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    var label = (s.querySelector('.cap b') || {}).textContent || ('Screen ' + (i + 1));
+    b.setAttribute('aria-label', label);
+    b.addEventListener('click', function(){
+      shelf.scrollTo({
+        left: s.offsetLeft - (shelf.clientWidth - s.offsetWidth) / 2,
+        behavior: reduce ? 'auto' : 'smooth'
+      });
     });
-  }, {root: shelf, threshold:[0,.5,.86,1]});
-  shots.forEach(function(s){ io.observe(s); });
+    dots.appendChild(b);
+  });
+  var buttons = [].slice.call(dots.children);
+
+  function nearest(){
+    var mid = shelf.scrollLeft + shelf.clientWidth / 2, best = 0, bd = Infinity;
+    shots.forEach(function(s, i){
+      var d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid);
+      if (d < bd) { bd = d; best = i; }
+    });
+    return best;
+  }
+
+  function sync(){
+    var i = nearest();
+    if (i === active) return;
+    active = i;
+    buttons.forEach(function(b, n){ b.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+    if (count) count.textContent = (i + 1) + ' / ' + shots.length;
+    if (reduce) return;
+    shots.forEach(function(s, n){
+      s.style.transform = n === i ? 'scale(1)' : 'scale(.955)';
+      s.style.opacity   = n === i ? '1' : '.66';
+    });
+  }
+
+  var tick = false;
+  shelf.addEventListener('scroll', function(){
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function(){ tick = false; sync(); });
+  }, {passive: true});
+  window.addEventListener('resize', sync);
+  sync();
 })();
 </script>
 
