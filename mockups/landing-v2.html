@@ -352,6 +352,12 @@ footer{padding:34px 0 46px;color:var(--page-mut);font-size:13px}
 </defs></svg>
 
 <!-- ══════════════════════════════════════════════════════════ HERO ═══════ -->
+<!-- The ground is generated locally (tools/gen_hero.py) and chosen by
+     measurement, not by eye: headline_contrast() composites this page's own
+     scrim over each candidate and reports WCAG for white type on the brightest
+     row of the hero band. This one scores 6.08:1 against a 3:1 floor for large
+     text. `hero-alt*` is the runner-up mountain ridge at 4.18:1 — swap the two
+     filenames here and in the closing band to use it. -->
 <section class="stage hero-stage">
   <img class="ground" alt="" aria-hidden="true"
        src="../assets/img/hero/hero-1920.jpg"
