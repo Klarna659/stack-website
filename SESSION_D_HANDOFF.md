@@ -297,10 +297,15 @@ confirm the mail subject is the launch-list one, not "[Stack] Feedback".
 8. **HTML comments ship.** The file is heavily commented with engineering
    rationale. Some of it names competitors. Consider stripping at deploy.
 9. **No AVIF/WebP.** `hero-1920.jpg` would be ~90–100 KB in AVIF.
-10. **Another session is writing into this repo.** `mockups/rebrand-*.html`,
-    `tools/gen_header.py` and `mockups/assets/` appeared mid-session and are not
-    mine. I have never `git add -A`'d; every commit lists files by name. Two
-    agents in one working tree is worth knowing about.
+10. **Another session is COMMITTING to this branch.** `21bc38e` ("Three rebrand
+    directions, with photography generated on the box") is not mine — 17 files,
+    2,388 lines, under `mockups/` plus `tools/gen_header.py`. I checked it for
+    overlap: it touches nothing of mine, and my files are intact at HEAD. But two
+    agents committing to one working tree on one branch is a real hazard, and it
+    means the branch now contains two independent design directions. Whoever
+    reviews this should know both exist: mine is `index-v2.html`, theirs is
+    `mockups/rebrand-*.html`. I have never used `git add -A`; every commit of
+    mine lists its files by name.
 
 ---
 
