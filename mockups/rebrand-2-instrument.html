@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.className="js"</script>
+<title>Stack — Instrument</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Rebrand direction 2: precision instead of atmosphere.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   DIRECTION 2 · INSTRUMENT
+   The opposite bet from Ground. No photographic hero at all -- the hero is
+   the thing the app actually does, running: a real half-life curve drawing
+   itself against a real dose schedule, with the numbers moving.
+
+   The claim is credibility through PRECISION rather than through atmosphere.
+   Hairlines instead of cards, a mono face carrying every number, tabular
+   figures everywhere, and a left rail that tracks where you are. Photography
+   appears exactly twice, as full-bleed breathing room between dense blocks,
+   which is what makes the density read as considered instead of cramped.
+
+   ⚠ INSTRUMENT SANS ONLY SHIPS 400-700. Asking Google Fonts for a weight a
+   family does not have makes the WHOLE stylesheet an error and every family
+   in it silently falls back -- a page can look completely normal while none
+   of its type loaded. The link above is deliberately 400;500;600;700.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --ground:#08090B; --ground-2:#0E1014; --ground-3:#14171C;
+  --line:#1B1F26; --line-2:#272D36;
+  --ink:#F2F4F7; --ink-2:#A8B0BC; --muted:#6C7683;
+  --accent:#83ADCC; --accent-2:#B9D4E8;
+  --pos:#5FBF8F; --neg:#D9714E;
+  --rail:42px; --shell:1180px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.shell{max-width:var(--shell);margin:0 auto;padding:0 32px}
+.mono{font-family:var(--mono)}
+
+/* ── top bar: a hairline, not a slab ──────────────────────────────────── */
+.top{position:fixed;inset:0 0 auto;z-index:70;background:rgba(8,9,11,.9);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+/* The rail is a large-screen luxury; this is the version everyone gets. */
+.prog{position:absolute;left:0;bottom:-1px;height:1.5px;background:var(--accent);
+  width:0;transition:width .12s linear}
+.topin{max-width:var(--shell);margin:0 auto;padding:0 32px;height:60px;
+  display:flex;align-items:center;gap:30px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17.5px;
+  letter-spacing:-.02em}
+.logo svg{width:22px;height:22px;flex:none}
+.tnav{display:flex;gap:26px;margin-left:auto;font-family:var(--mono);
+  font-size:12.5px;letter-spacing:.03em}
+.tnav a{color:var(--muted);transition:color .25s var(--ease)}
+.tnav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:38px;padding:0 17px;font-weight:600;font-size:14px;border-radius:6px;
+  border:1px solid transparent;white-space:nowrap;cursor:pointer;
+  transition:background .25s var(--ease),border-color .25s var(--ease),
+             color .25s var(--ease),transform .25s var(--ease)}
+.btn-p{background:var(--ink);color:#08090B}
+.btn-p:hover{background:#fff;transform:translateY(-1px)}
+.btn-g{border-color:var(--line-2);color:var(--ink-2)}
+.btn-g:hover{border-color:var(--accent);color:var(--ink);
+  background:rgba(131,173,204,.08)}
+.btn-lg{height:46px;padding:0 22px;font-size:15px}
+
+/* ── the rail: a real sequence, so the numbers mean something ─────────── */
+.rail{position:fixed;left:calc((100vw - var(--shell))/2 - 62px);
+  top:50%;transform:translateY(-50%);z-index:50;
+  display:flex;flex-direction:column;gap:4px}
+.rail a{display:flex;gap:10px;align-items:center;padding:6px 0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:#454D59;white-space:nowrap;
+  transition:color .35s var(--ease)}
+.rail a i{font-style:normal;flex:none;width:var(--rail)}
+/* the label is the hover state: it cannot be in the layout, there is no room */
+.rail a b{font-weight:400;opacity:0;transform:translateX(-6px);
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.rail:hover a b,.rail a:focus-visible b{opacity:1;transform:none}
+.rail a::before{content:"";width:14px;height:1px;background:currentColor;
+  flex:none;opacity:.5;transition:width .45s var(--ease),opacity .3s var(--ease)}
+.rail a.on{color:var(--ink)}
+.rail a.on::before{width:26px;background:var(--accent);opacity:1}
+/* Below this there is no gutter to live in, and overlapping the text is worse
+   than not being there. */
+@media (max-width:1400px){.rail{display:none}}
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+.hero{padding:132px 0 90px;border-bottom:1px solid var(--line)}
+.hgrid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:64px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);border:1px solid var(--line-2);border-radius:999px;
+  padding:6px 13px;margin:0 0 26px}
+.tag s{width:5px;height:5px;border-radius:999px;background:var(--accent);
+  text-decoration:none;animation:blip 2.6s var(--ease) infinite}
+@keyframes blip{0%,72%,100%{opacity:1}80%{opacity:.25}}
+h1{font-size:clamp(40px,5.1vw,64px);line-height:1.03;letter-spacing:-.035em;
+  font-weight:700;margin:0 0 22px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--muted)}
+.lede{font-size:18px;color:var(--ink-2);max-width:40ch;margin:0 0 32px;
+  line-height:1.6}
+.cta{display:flex;gap:11px;flex-wrap:wrap}
+.micro{font-family:var(--mono);font-size:12px;color:var(--muted);
+  margin:20px 0 0;letter-spacing:.02em}
+
+/* the instrument itself */
+.inst{border:1px solid var(--line);border-radius:10px;background:var(--ground-2);
+  overflow:hidden}
+.ihead{display:flex;align-items:center;gap:12px;padding:13px 18px;
+  border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ihead b{color:var(--ink);font-weight:500;letter-spacing:.06em}
+.ihead .live{margin-left:auto;display:flex;align-items:center;gap:7px;
+  color:var(--accent)}
+.ihead .live s{width:5px;height:5px;border-radius:999px;background:var(--accent);
+  text-decoration:none;animation:blip 2.2s var(--ease) infinite}
+.iplot{padding:22px 18px 8px;position:relative}
+.iplot svg{width:100%;height:212px;overflow:visible;display:block}
+.grid line{stroke:var(--line);stroke-width:1}
+.gl{font-family:var(--mono);font-size:9.5px;fill:#5A626E}
+.pk{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;
+  stroke-linejoin:round}
+.js .pk{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  transition:stroke-dashoffset 2.4s var(--ease-out) .15s}
+.in .pk{stroke-dashoffset:0}
+.pkfill{fill:url(#pg)}
+.js .pkfill{opacity:0;transition:opacity 1.2s var(--ease) .9s}
+.in .pkfill{opacity:1}
+.dose{stroke:var(--line-2);stroke-width:1;stroke-dasharray:2 4}
+.dosehit{fill:var(--ground);stroke:var(--accent);stroke-width:1.6}
+.js .dosehit{opacity:0;transform-box:fill-box;transform-origin:center;
+  transition:opacity .45s var(--ease)}
+.in .dosehit{opacity:1}
+.in .dosehit:nth-of-type(1){transition-delay:.9s}
+.in .dosehit:nth-of-type(2){transition-delay:1.25s}
+.in .dosehit:nth-of-type(3){transition-delay:1.6s}
+.in .dosehit:nth-of-type(4){transition-delay:1.95s}
+.ifoot{display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line)}
+.ifoot div{padding:14px 18px;border-right:1px solid var(--line)}
+.ifoot div:last-child{border-right:0}
+.ifoot b{display:block;font-family:var(--mono);font-size:19px;font-weight:500;
+  letter-spacing:-.01em;color:var(--ink)}
+.ifoot span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.ifoot .up{color:var(--accent)}
+
+/* ── sections ─────────────────────────────────────────────────────────── */
+section{position:relative;border-bottom:1px solid var(--line)}
+.pad{padding:96px 0}
+.hd{display:flex;align-items:baseline;gap:16px;margin:0 0 12px}
+.hd .no{font-family:var(--mono);font-size:12px;color:var(--accent);
+  letter-spacing:.1em;flex:none}
+h2{font-size:clamp(27px,3.2vw,38px);line-height:1.12;letter-spacing:-.028em;
+  font-weight:700;margin:0;text-wrap:balance;max-width:20ch}
+.sub{font-size:17px;color:var(--ink-2);max-width:56ch;margin:14px 0 44px;
+  line-height:1.62}
+
+.rv{opacity:1}
+.js .rv{opacity:0;transform:translateY(22px);
+  transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.rv2{transition-delay:.07s}.rv3{transition-delay:.14s}
+.rv4{transition-delay:.21s}.rv5{transition-delay:.28s}
+
+/* the spec table — the densest thing on the page, on purpose */
+.spec{width:100%;border-collapse:collapse;font-size:15px}
+.spec th{text-align:left;font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  font-weight:500;padding:0 16px 12px 0;border-bottom:1px solid var(--line-2)}
+.spec td{padding:15px 16px 15px 0;border-bottom:1px solid var(--line);
+  vertical-align:top}
+.spec tr{transition:background .25s var(--ease)}
+.spec tbody tr:hover{background:rgba(131,173,204,.04)}
+.spec td:first-child{font-weight:600;width:30%}
+.spec td:nth-child(2){color:var(--ink-2);width:44%}
+.spec td:last-child{font-family:var(--mono);font-size:12.5px;color:var(--muted);
+  text-align:right;white-space:nowrap}
+.spec .yes{color:var(--accent)}
+
+/* four numbers, hairline-separated */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.stats div{padding:26px 22px 26px 0;border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font-size:clamp(28px,3.4vw,40px);font-weight:700;
+  letter-spacing:-.03em;line-height:1}
+.stats span{display:block;font-size:13.5px;color:var(--muted);margin-top:8px;
+  line-height:1.45}
+
+/* the breather */
+.breathe{position:relative;height:clamp(240px,36vh,380px);overflow:hidden;
+  border-bottom:1px solid var(--line)}
+.breathe img{position:absolute;inset:-12% 0;width:100%;height:124%;
+  object-fit:cover;will-change:transform}
+.breathe .ov{position:absolute;inset:0;display:grid;align-items:center;
+  background:linear-gradient(90deg,rgba(8,9,11,.94),rgba(8,9,11,.4) 62%,
+    rgba(8,9,11,.72))}
+.breathe .shell{width:100%}
+.breathe p{font-size:clamp(20px,2.5vw,29px);font-weight:600;letter-spacing:-.022em;
+  max-width:21ch;margin:0;line-height:1.3}
+.breathe .mono{display:block;font-size:11.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 14px;font-weight:500}
+
+/* two-column prose */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 56px}
+.blk h3{font-size:17.5px;font-weight:600;letter-spacing:-.015em;margin:0 0 7px;
+  display:flex;align-items:baseline;gap:10px}
+.blk h3 i{font-style:normal;font-family:var(--mono);font-size:11.5px;
+  color:var(--accent)}
+.blk p{margin:0;font-size:15px;color:var(--muted);line-height:1.6}
+
+/* the log, ticking */
+.log{border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:var(--ground-2);font-family:var(--mono);font-size:13px}
+.log .lh{padding:11px 16px;border-bottom:1px solid var(--line);
+  color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+.log .lr{display:grid;grid-template-columns:74px 1fr auto;gap:14px;
+  padding:11px 16px;border-bottom:1px solid var(--line);align-items:center}
+.log .lr:last-child{border-bottom:0}
+.log .lr .t{color:var(--muted)}
+.log .lr .c{color:var(--ink);font-family:"Instrument Sans",sans-serif;
+  font-weight:500;font-size:14px}
+.log .lr .v{color:var(--accent)}
+.js .log .lr{opacity:0;transform:translateY(-6px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.log.in .lr{opacity:1;transform:none}
+.log.in .lr:nth-child(2){transition-delay:.1s}
+.log.in .lr:nth-child(3){transition-delay:.25s}
+.log.in .lr:nth-child(4){transition-delay:.4s}
+.log.in .lr:nth-child(5){transition-delay:.55s}
+.log.in .lr:nth-child(6){transition-delay:.7s}
+
+.end{padding:104px 0}
+.end h2{max-width:none;font-size:clamp(31px,4.2vw,52px)}
+footer{padding:38px 0;font-size:13.5px;color:var(--muted);font-family:var(--mono)}
+.fin{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.fin nav{display:flex;gap:20px;margin-left:auto;flex-wrap:wrap}
+footer a:hover{color:var(--ink-2)}
+
+@media (max-width:900px){
+  .hgrid,.two{grid-template-columns:1fr;gap:44px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats div{border-bottom:1px solid var(--line);padding-right:16px}
+  .stats div:nth-child(2n){border-right:0}
+  .tnav{display:none}
+  .pad{padding:70px 0}
+  .shell,.topin{padding:0 20px}
+  .spec td:last-child,.spec th:last-child{display:none}
+  .spec td:first-child{width:42%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;
+    animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .js .rv{opacity:1!important;transform:none!important}
+  .js .pk{stroke-dashoffset:0!important}
+  .js .pkfill,.js .dosehit,.js .log .lr{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="topin">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true">
+        <rect x="322" y="192" width="380" height="144" rx="72"/>
+        <rect x="252" y="440" width="520" height="144" rx="72"/>
+        <rect x="182" y="688" width="660" height="144" rx="72"/>
+      </svg>Stack
+    </a>
+    <nav class="tnav">
+      <a href="#measure">Measure</a><a href="#compare">Compare</a>
+      <a href="#library">Library</a><a href="#data">Your data</a>
+    </nav>
+    <a class="btn btn-p" href="#get">Get the app</a>
+  </div>
+  <div class="prog" id="prog"></div>
+</div>
+
+<nav class="rail" id="rail" aria-label="Sections">
+  <a href="#measure"><i>01</i><b>Measure</b></a>
+  <a href="#compare"><i>02</i><b>Compare</b></a>
+  <a href="#library"><i>03</i><b>Library</b></a>
+  <a href="#data"><i>04</i><b>Your data</b></a>
+</nav>
+
+<section class="hero" id="top">
+  <div class="shell">
+    <div class="hgrid">
+      <div>
+        <p class="tag rv"><s></s>Free while it is in early access</p>
+        <h1 class="rv rv2">Know what is in you,<br><em>not just what you took.</em></h1>
+        <p class="lede rv rv3">Stack logs every vitamin, capsule, peptide and
+        shot in two taps &mdash; then does the half-life arithmetic you were
+        doing in your head, and tells you the day you run out.</p>
+        <div class="cta rv rv4">
+          <a class="btn btn-p btn-lg" href="#get">Get it on Google Play</a>
+          <a class="btn btn-g btn-lg" href="#measure">See the numbers</a>
+        </div>
+        <p class="micro rv rv5">On-device &middot; encrypted &middot; backup off
+        by default</p>
+      </div>
+
+      <div class="inst rv rv2" id="inst">
+        <div class="ihead">
+          <b>Testosterone cypionate</b><span>&middot; 100 mg / 3.5 d</span>
+          <span class="live"><s></s>In system</span>
+        </div>
+        <div class="iplot">
+          <svg viewBox="0 0 560 212" preserveAspectRatio="none" aria-hidden="true">
+            <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#83ADCC" stop-opacity=".26"/>
+              <stop offset="1" stop-color="#83ADCC" stop-opacity="0"/>
+            </linearGradient></defs>
+            <g class="grid">
+              <line x1="0" y1="14" x2="560" y2="14"/>
+              <line x1="0" y1="72" x2="560" y2="72"/>
+              <line x1="0" y1="130" x2="560" y2="130"/>
+              <line x1="0" y1="188" x2="560" y2="188"/>
+            </g>
+            <line class="dose" x1="40" y1="0" x2="40" y2="188"/>
+            <line class="dose" x1="180" y1="0" x2="180" y2="188"/>
+            <line class="dose" x1="320" y1="0" x2="320" y2="188"/>
+            <line class="dose" x1="460" y1="0" x2="460" y2="188"/>
+            <path class="pkfill" d="M0,188 L40,188 C62,96 84,74 110,86 C140,100
+              158,132 180,150 C196,86 220,52 250,62 C282,74 300,110 320,128
+              C338,66 362,38 392,48 C424,60 442,96 460,116 C478,58 502,34 530,44
+              C544,49 552,60 560,72 L560,188 Z"/>
+            <path class="pk" id="pkp" d="M0,188 L40,188 C62,96 84,74 110,86
+              C140,100 158,132 180,150 C196,86 220,52 250,62 C282,74 300,110
+              320,128 C338,66 362,38 392,48 C424,60 442,96 460,116 C478,58
+              502,34 530,44 C544,49 552,60 560,72"/>
+            <circle class="dosehit" cx="40" cy="188" r="4"/>
+            <circle class="dosehit" cx="180" cy="150" r="4"/>
+            <circle class="dosehit" cx="320" cy="128" r="4"/>
+            <circle class="dosehit" cx="460" cy="116" r="4"/>
+            <text class="gl" x="34" y="205">Mon</text>
+            <text class="gl" x="172" y="205">Thu</text>
+            <text class="gl" x="312" y="205">Sun</text>
+            <text class="gl" x="452" y="205">Wed</text>
+          </svg>
+        </div>
+        <div class="ifoot">
+          <div><b class="up" data-count="68" data-suffix="%">68%</b>
+            <span>still in system</span></div>
+          <div><b data-count="14" data-suffix=" d">14 d</b>
+            <span>until you run out</span></div>
+          <div><b>Thu</b><span>next dose due</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="measure">
+  <div class="shell">
+    <div class="hd rv"><span class="no">01</span>
+      <h2>Four questions, answered without you doing the maths.</h2></div>
+    <p class="sub rv rv2">Everything below is computed from the doses you have
+    already logged. Nothing here asks you to fill in a form.</p>
+    <div class="two">
+      <div class="blk rv rv2"><h3><i>&rarr;</i>Did I take it?</h3>
+        <p>Two taps, stamped with the time you tapped &mdash; which is the
+        number every other answer is built on.</p></div>
+      <div class="blk rv rv3"><h3><i>&rarr;</i>Is it still in me?</h3>
+        <p>A real half-life curve per compound, drawn from your own log rather
+        than from a label.</p></div>
+      <div class="blk rv rv4"><h3><i>&rarr;</i>When do I run out?</h3>
+        <p>What you have, against what you take. It returns a date, so a refill
+        is planned instead of noticed.</p></div>
+      <div class="blk rv rv5"><h3><i>&rarr;</i>Where does the next one go?</h3>
+        <p>For anything injected, a body map that remembers the last site and
+        rotates to the next.</p></div>
+    </div>
+    <div style="height:52px"></div>
+    <div class="stats rv rv2">
+      <div><b data-count="587">587</b><span>compounds recognised, from
+        multivitamins to weekly shots</span></div>
+      <div><b data-count="113">113</b><span>plain-English reference pages,
+        each cited to source</span></div>
+      <div><b>2</b><span>taps to log a dose, start to finish</span></div>
+      <div><b>0</b><span>ads, trackers, or rows of your data sold</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="breathe">
+  <img src="assets/pool/coast.jpg" alt="" id="br1">
+  <div class="ov"><div class="shell">
+    <span class="mono">Why it is built this way</span>
+    <p>A logbook is only worth keeping if it answers something back.</p>
+  </div></div>
+</div>
+
+<section class="pad" id="compare">
+  <div class="shell">
+    <div class="hd rv"><span class="no">02</span>
+      <h2>What you are actually switching from.</h2></div>
+    <p class="sub rv rv2">Not a competing app. A notes file, a spreadsheet, or
+    nothing &mdash; which is what almost everyone is using today.</p>
+    <div class="two" style="align-items:start">
+      <div class="rv rv2">
+        <table class="spec">
+          <thead><tr><th>What you do now</th><th>What Stack does</th>
+            <th>Taps</th></tr></thead>
+          <tbody>
+            <tr><td>Type it into notes</td><td>Tap the row on today's list</td>
+              <td class="yes">2</td></tr>
+            <tr><td>Scroll back to see a pattern</td>
+              <td>A curve drawn from the log itself</td><td class="yes">0</td></tr>
+            <tr><td>Count what is left in the drawer</td>
+              <td>&ldquo;10 doses left &middot; refill Jul 3&rdquo;</td>
+              <td class="yes">0</td></tr>
+            <tr><td>Remember which side you used</td>
+              <td>The map picks the next site</td><td class="yes">0</td></tr>
+            <tr><td>Rebuild it all for a doctor</td>
+              <td>One export, one PDF</td><td class="yes">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rv rv3">
+        <div class="log" id="log">
+          <div class="lh">Today &middot; logged</div>
+          <div class="lr"><span class="t">08:00</span><span class="c">Vitamin D3</span><span class="v">5000 IU</span></div>
+          <div class="lr"><span class="t">08:02</span><span class="c">Creatine</span><span class="v">5 g</span></div>
+          <div class="lr"><span class="t">09:00</span><span class="c">Testosterone</span><span class="v">20 mg</span></div>
+          <div class="lr"><span class="t">18:00</span><span class="c">BPC-157</span><span class="v">250 mcg</span></div>
+          <div class="lr"><span class="t">22:00</span><span class="c">Magnesium</span><span class="v">400 mg</span></div>
+        </div>
+        <p style="font-size:14px;color:var(--muted);margin:16px 0 0;line-height:1.6">
+          Every row here is one tap. The times are when you tapped, not when
+          the schedule said &mdash; which is the difference between a plan and
+          a record.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="library">
+  <div class="shell">
+    <div class="hd rv"><span class="no">03</span>
+      <h2>Whatever is in your stack is already in the library.</h2></div>
+    <p class="sub rv rv2">587 compounds the app recognises with their routes
+    and typical schedules, and 113 reference pages on the web written in plain
+    English and cited to source rather than to a forum thread.</p>
+    <div class="rv rv3">
+      <table class="spec">
+        <thead><tr><th>Compound</th><th>Class</th><th>Route</th></tr></thead>
+        <tbody>
+          <tr><td>Semaglutide</td><td>GLP-1 receptor agonist</td><td>Subcutaneous</td></tr>
+          <tr><td>Testosterone cypionate</td><td>Androgen ester</td><td>Intramuscular</td></tr>
+          <tr><td>BPC-157</td><td>Peptide</td><td>Subcutaneous</td></tr>
+          <tr><td>Anastrozole</td><td>Aromatase inhibitor</td><td>Oral</td></tr>
+          <tr><td>Creatine monohydrate</td><td>Supplement</td><td>Oral</td></tr>
+          <tr><td>Vitamin D3</td><td>Supplement</td><td>Oral</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="height:30px"></div>
+    <a class="btn btn-g btn-lg rv rv4" href="#library">Browse all 113 pages</a>
+  </div>
+</section>
+
+<div class="breathe">
+  <img src="assets/pool/dune.jpg" alt="" id="br2">
+  <div class="ov"><div class="shell">
+    <span class="mono">Where it lives</span>
+    <p>On your phone. Encrypted. Backup off until you turn it on.</p>
+  </div></div>
+</div>
+
+<section class="pad" id="data">
+  <div class="shell">
+    <div class="hd rv"><span class="no">04</span>
+      <h2>Your data does not go anywhere you did not send it.</h2></div>
+    <p class="sub rv rv2">There is no account to make before the app is useful,
+    and nothing about what you take is sold, shared, or used to sell you
+    anything.</p>
+    <div class="two">
+      <div class="blk rv rv2"><h3><i>01</i>Stored encrypted, on the device</h3>
+        <p>Your log lives on the phone itself, not on a server you have to
+        trust with it.</p></div>
+      <div class="blk rv rv3"><h3><i>02</i>Backup is opt-in</h3>
+        <p>Off by default. Turn it on and it is encrypted before it leaves the
+        phone.</p></div>
+      <div class="blk rv rv4"><h3><i>03</i>Export whenever</h3>
+        <p>Everything you have logged, in a format you can open without us.</p></div>
+      <div class="blk rv rv5"><h3><i>04</i>No ads, ever</h3>
+        <p>The free tier is free because it is a logbook, not because you are
+        the product.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="get">
+  <div class="shell">
+    <div class="hd rv"><span class="no">&rarr;</span>
+      <h2>Start with tonight&rsquo;s dose.</h2></div>
+    <p class="sub rv rv2">Free to track, no cap on what you log, and nothing
+    to configure before it is useful.</p>
+    <div class="cta rv rv3">
+      <a class="btn btn-p btn-lg" href="#get">Get it on Google Play</a>
+      <a class="btn btn-g btn-lg" href="#get">Join the iPhone list</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell fin">
+    <span>Stack &mdash; track your stack</span>
+    <nav><a href="#data">Privacy</a><a href="#get">Terms</a>
+      <a href="#library">Compounds</a><a href="#get">Contact</a></nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // the curve's dash length must be the REAL path length or the draw either
+  // finishes early or never arrives
+  var pk = document.getElementById('pkp');
+  if (pk) pk.style.setProperty('--len', Math.ceil(pk.getTotalLength()));
+
+  function reveal(el) {
+    el.classList.add('in');
+    if (el.hasAttribute('data-count')) count(el);
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      reveal(e.target);
+      io.unobserve(e.target);
+    });
+  }, {threshold: 0.15, rootMargin: '0px 0px -6% 0px'});
+  document.querySelectorAll('.rv,#inst,#log,[data-count]')
+    .forEach(function (el) { io.observe(el); });
+  // ⭐ THE OBSERVER IS THE ENHANCEMENT; THIS IS THE GUARANTEE.
+  // IntersectionObserver does not fire in a tab that is not compositing -- a
+  // background tab, a hidden iframe, some prerenders -- and every block on
+  // this page starts at opacity 0. Without this the page is not "unanimated"
+  // in those cases, it is BLANK. Caught by probing the real DOM: 0 of 25
+  // blocks had been revealed while the sky was painting perfectly.
+  setTimeout(function () {
+    document.querySelectorAll('.rv:not(.in),#inst:not(.in),#log:not(.in),[data-count]').forEach(reveal);
+  }, 2600);
+
+
+  // ⚠ NOTHING IS WRITTEN UNTIL A REAL FRAME HAPPENS -- see the note in
+  // rebrand-1: zeroing up front makes a tab that never composites display
+  // "0 compounds recognised" instead of the true number.
+  function count(el) {
+    if (el.dataset.counted) return;      // reveal() can be reached twice
+    el.dataset.counted = 1;
+    var to = +el.getAttribute('data-count');
+    var sfx = el.getAttribute('data-suffix') || '';
+    if (reduce) { el.textContent = to + sfx; return; }
+    var d = 1500, t0 = null;
+    // ⚠ AND A WALL-CLOCK BACKSTOP. Starting on the first frame fixes the
+    // case where rAF never runs, but not the case where it runs ONCE --
+    // writes 0 -- and then stalls, which leaves the number wrong rather than
+    // merely unanimated. This re-asserts the truth after the animation window
+    // whatever the frame loop did.
+    setTimeout(function () { el.textContent = to + sfx; }, d + 400);
+    requestAnimationFrame(function step(t) {
+      if (t0 === null) t0 = t;
+      var k = Math.min(1, (t - t0) / d);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + sfx;
+      if (k < 1) requestAnimationFrame(step);
+    });
+  }
+
+  // ── the rail tracks where you are ─────────────────────────────────────
+  // A scroll-spy rather than a hash listener: the marker has to move when you
+  // scroll past a section, not only when you click its link.
+  var secs = ['measure', 'compare', 'library', 'data'].map(function (id) {
+    return document.getElementById(id); }).filter(Boolean);
+  var links = [].slice.call(document.querySelectorAll('.rail a'));
+  var b1 = document.getElementById('br1'), b2 = document.getElementById('br2');
+  var prog = document.getElementById('prog');
+
+  function frame() {
+    var mid = scrollY + innerHeight * 0.42, cur = -1;
+    secs.forEach(function (s, i) { if (s.offsetTop <= mid) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    var max = document.documentElement.scrollHeight - innerHeight;
+    if (prog) prog.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+    if (reduce) return;
+    [b1, b2].forEach(function (img) {
+      if (!img) return;
+      var r = img.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      var t = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      img.style.transform = 'translate3d(0,' + (t * -40) + 'px,0)';
+    });
+  }
+  var tick = false;
+  addEventListener('scroll', function () {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function () { frame(); tick = false; });
+  }, {passive: true});
+  frame();
+})();
+</script>
+</body>
+</html>

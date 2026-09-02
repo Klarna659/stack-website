@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Sets .js BEFORE the stylesheet, so the opacity:0 start states below only
+     ever apply when there is something running to take them back off. With
+     scripting off the page is simply static, never blank. -->
+<script>document.documentElement.className="js"</script>
+<title>Stack — Ground</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Rebrand direction 1: the site as the app's front door.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   DIRECTION 1 · GROUND
+   The site as the app's front door. The app is photographic; this makes the
+   site photographic in exactly the same architecture:
+
+     BAND   an opaque strip at the top, tinted from the picture's own sky,
+            carrying the nav. Contrast up there stops depending on the photo.
+     SCRIM  a gradient over the image, heaviest where the headline sits.
+     GLASS  a dark card that does not need the picture visible through it.
+
+   That is not a metaphor -- it is literally the three-layer system the app's
+   Overview uses, and it exists because every band that carries text was
+   measured. `tools/gen_header.py --rank` reports the nav band at 2.9:1
+   against a 4.5 floor on EVERY photograph in the pool. The band is the fix.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* Cold neutrals with a blue bias, so the greys read as chosen rather than
+     inherited. --accent is SAMPLED from ridge.jpg by gen_header.accent_from()
+     -- the same rule the app uses, one level up: the accent comes out of the
+     photograph instead of being picked to sit next to it. */
+  --ground:#0B0E11; --ground-2:#111820; --ground-3:#18212A;
+  --line:#1E2831; --line-2:#2A3742;
+  --ink:#EDF1F5; --ink-2:#B4C0CB; --muted:#7D8A97;
+  --accent:#83ADCC; --accent-deep:#3E6E90;
+  --ok:#6FCF97; --warn:#E0A458;
+  --band:#0D1319;
+  --r:14px; --rs:9px;
+  --shell:1200px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:Figtree,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.shell{max-width:var(--shell);margin:0 auto;padding:0 28px}
+
+/* ── the band ─────────────────────────────────────────────────────────── */
+.band{position:fixed;inset:0 0 auto;z-index:60;
+  background:linear-gradient(180deg,var(--band) 62%,rgba(13,19,25,.86) 100%);
+  border-bottom:1px solid transparent;
+  transition:border-color .4s var(--ease),background .4s var(--ease);
+  transform:translateY(-100%);animation:bandIn .7s var(--ease-out) .05s forwards}
+@keyframes bandIn{to{transform:none}}
+.band.stuck{border-bottom-color:var(--line);
+  background:rgba(11,14,17,.82);backdrop-filter:blur(14px) saturate(1.3)}
+.bandin{max-width:var(--shell);margin:0 auto;padding:0 28px;height:66px;
+  display:flex;align-items:center;gap:34px}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px;
+  letter-spacing:-.02em}
+.logo svg{width:26px;height:26px;flex:none;color:var(--ink)}
+.nav{display:flex;gap:28px;margin-left:auto;align-items:center}
+.nav a{font-size:14.5px;font-weight:500;color:var(--ink-2);position:relative;
+  padding:6px 0;transition:color .25s var(--ease)}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s var(--ease)}
+.nav a:hover{color:var(--ink)}
+.nav a:hover::after{transform:scaleX(1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  height:42px;padding:0 20px;border-radius:999px;font-weight:600;font-size:14.5px;
+  border:1px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:transform .28s var(--ease),background .28s var(--ease),
+             border-color .28s var(--ease),box-shadow .28s var(--ease)}
+.btn-p{background:var(--ink);color:#0B0E11}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 30px -12px rgba(237,241,245,.5)}
+.btn-g{border-color:var(--line-2);color:var(--ink);background:rgba(255,255,255,.03)}
+.btn-g:hover{border-color:var(--accent);background:rgba(131,173,204,.1);
+  transform:translateY(-2px)}
+.btn-lg{height:52px;padding:0 26px;font-size:16px}
+.navtoggle{display:none}
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+.hero{position:relative;min-height:min(96vh,940px);display:flex;
+  align-items:flex-end;padding:150px 0 78px;overflow:hidden;isolation:isolate}
+.hero-img{position:absolute;inset:-12% 0 -12%;z-index:-2;will-change:transform}
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 46%}
+/* The scrim, heaviest where the headline is. Measured, not guessed: the
+   headline band came back at 3.5:1 bare, and large type wants 3.0 -- so this
+   is margin, not rescue. */
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(11,14,17,.94) 0,rgba(11,14,17,.62) 14%,
+    rgba(11,14,17,.42) 40%,rgba(11,14,17,.66) 72%,var(--ground) 100%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(96deg,rgba(11,14,17,.72) 0,rgba(11,14,17,.24) 46%,
+    transparent 72%)}
+.herogrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.82fr);
+  gap:56px;align-items:end;width:100%}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;
+  font-weight:500;letter-spacing:.19em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 22px}
+h1{font-size:clamp(46px,6.4vw,84px);line-height:.99;letter-spacing:-.035em;
+  font-weight:800;margin:0 0 26px;text-wrap:balance}
+/* Each line rises out of its own clip, so the reveal is the type arriving
+   rather than a box fading. */
+.ln{display:block;overflow:hidden}
+.js .ln>span{transform:translateY(112%);
+  animation:lnUp .95s var(--ease-out) forwards}
+.ln>span{display:block}
+.ln:nth-child(1)>span{animation-delay:.30s}
+.ln:nth-child(2)>span{animation-delay:.40s}
+@keyframes lnUp{to{transform:none}}
+.lede{font-size:19px;line-height:1.58;color:var(--ink-2);max-width:35em;
+  margin:0 0 34px}
+.cta{display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+.js .rise{opacity:0;transform:translateY(20px);
+  animation:rise .85s var(--ease-out) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.d1{animation-delay:.18s}.d2{animation-delay:.62s}.d3{animation-delay:.74s}
+.d4{animation-delay:.86s}.d5{animation-delay:.98s}
+.note{font-size:13.5px;color:var(--muted);margin:18px 0 0}
+.figs{display:flex;gap:38px;margin:44px 0 0;flex-wrap:wrap}
+.fig b{display:block;font-size:27px;font-weight:800;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.fig span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+
+/* ── the phone ────────────────────────────────────────────────────────── */
+.phone{width:302px;justify-self:end;border-radius:36px;padding:9px;
+  background:linear-gradient(160deg,#2A343E,#0E1318);
+  box-shadow:0 50px 90px -30px rgba(0,0,0,.92),0 0 0 1px rgba(255,255,255,.07);
+  transition:none}
+.js .phone{opacity:0;transform:translateY(42px) scale(.97);
+  animation:rise 1.1s var(--ease-out) .5s forwards}
+.screen{border-radius:28px;overflow:hidden;background:#0E1114;position:relative}
+.scr-img{position:absolute;inset:0}
+.scr-img img{width:100%;height:100%;object-fit:cover;opacity:.62}
+.scr-in{position:relative;padding:13px 14px 15px}
+.chrome{display:flex;justify-content:space-between;font-size:9.5px;
+  color:var(--ink-2);margin-bottom:13px;font-variant-numeric:tabular-nums}
+.strip{display:flex;justify-content:space-between;margin-bottom:17px}
+.strip i{font-style:normal;font-size:8.5px;color:var(--muted);text-align:center;
+  width:22px;display:block}
+.strip b{display:block;font-size:12px;color:var(--ink-2);font-weight:500;
+  margin-top:3px}
+.strip .on b{background:var(--ink);color:#0E1114;border-radius:999px;
+  width:22px;height:22px;line-height:22px;margin-top:1px}
+.hey{font-size:23px;font-weight:800;letter-spacing:-.025em;margin:0 0 1px}
+.left{font-size:14px;color:var(--ink-2);margin:0 0 15px}
+.glass{background:rgba(16,21,26,.9);border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;overflow:hidden;backdrop-filter:blur(9px)}
+.gh{display:flex;justify-content:space-between;align-items:center;
+  padding:10px 13px;font-size:9.5px;letter-spacing:.13em;color:var(--muted);
+  text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.06)}
+.row{display:flex;align-items:center;gap:10px;padding:10px 13px;
+  border-bottom:1px solid rgba(255,255,255,.045)}
+.row:last-child{border-bottom:0}
+.pip{width:25px;height:25px;border-radius:9px;background:rgba(255,255,255,.08);
+  flex:none;display:grid;place-items:center}
+.pip svg{width:13px;height:13px;color:var(--ink-2)}
+.rn{flex:1;min-width:0}
+.rn b{display:block;font-size:13px;font-weight:500;letter-spacing:-.01em}
+.rn span{display:block;font-size:10.5px;color:var(--muted);margin-top:1px}
+.tick{width:17px;height:17px;border-radius:999px;flex:none;
+  border:1.5px solid rgba(255,255,255,.26);position:relative}
+.row.done .tick{border-color:var(--accent);background:var(--accent)}
+.row.done .tick::after{content:"";position:absolute;left:5px;top:2px;width:4px;
+  height:8px;border:solid #0B0E11;border-width:0 1.7px 1.7px 0;
+  transform:rotate(43deg)}
+.row.done .rn b{color:var(--ink-2)}
+
+/* ── sections ─────────────────────────────────────────────────────────── */
+section{position:relative}
+.pad{padding:112px 0}
+.kicker{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;
+  font-weight:500;letter-spacing:.19em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 16px}
+h2{font-size:clamp(31px,3.9vw,48px);line-height:1.06;letter-spacing:-.03em;
+  font-weight:800;margin:0 0 18px;text-wrap:balance;max-width:16ch}
+.h2wide{max-width:22ch}
+.sub{font-size:18px;color:var(--ink-2);max-width:52ch;margin:0 0 46px;
+  line-height:1.6}
+
+/* reveal-on-scroll */
+.js .rv{opacity:0;transform:translateY(30px);
+  transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.rv2{transition-delay:.09s}.rv3{transition-delay:.18s}.rv4{transition-delay:.27s}
+
+/* the split: a claim, and the app doing it */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:66px;
+  align-items:start}
+/* The card tracks the feature list instead of floating in the middle of the
+   space beside it -- `align-items:center` against a much taller column left a
+   dead half-screen under it. */
+.curve{position:sticky;top:100px}
+.feat{display:flex;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.feat:last-child{border-bottom:1px solid var(--line)}
+.feat .n{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;
+  color:var(--muted);padding-top:3px;flex:none;width:26px}
+.feat h3{font-size:18px;font-weight:600;letter-spacing:-.015em;margin:0 0 4px}
+.feat p{margin:0;font-size:15px;color:var(--muted);line-height:1.55}
+
+/* the curve */
+.curve{background:var(--ground-2);border:1px solid var(--line);
+  border-radius:var(--r);padding:26px 26px 18px}
+.curve .top{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:6px}
+.curve .top b{font-size:15px;font-weight:600}
+.curve .top span{font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.curve svg{width:100%;height:150px;overflow:visible}
+.cpath{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round}
+.js .cpath{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  transition:stroke-dashoffset 2.1s var(--ease-out)}
+.in .cpath{stroke-dashoffset:0}
+.carea{fill:url(#cg)}
+.js .carea{opacity:0;transition:opacity 1.1s var(--ease) .55s}
+.in .carea{opacity:1}
+.cdot{fill:var(--accent)}
+.js .cdot{opacity:0;transition:opacity .5s var(--ease) 1.7s}
+.in .cdot{opacity:1}
+.cax{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 4}
+.clab{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;
+  fill:var(--muted)}
+
+/* the ledger table */
+.ledger{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  background:var(--ground-2)}
+.lrow{display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border-bottom:1px solid var(--line)}
+.lrow:last-child{border-bottom:0}
+.lrow>div{padding:19px 24px;font-size:15.5px}
+.lrow>div:first-child{color:var(--muted);border-right:1px solid var(--line)}
+.lrow>div:last-child{font-weight:500;display:flex;gap:10px;align-items:flex-start}
+.lrow.head>div{background:rgba(255,255,255,.025);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+  font-weight:500;padding:13px 24px}
+.lrow.head>div:last-child{color:var(--accent)}
+.lrow>div:last-child svg{width:16px;height:16px;flex:none;margin-top:3px;
+  color:var(--accent)}
+.lrow{transition:background .3s var(--ease)}
+.lrow:not(.head):hover{background:rgba(131,173,204,.045)}
+
+/* breaker */
+.breaker{height:clamp(280px,42vh,440px);position:relative;overflow:hidden}
+.breaker img{position:absolute;inset:-14% 0;width:100%;height:128%;
+  object-fit:cover;will-change:transform}
+.breaker .bin{position:relative;height:100%;display:grid;place-items:center;
+  text-align:center;padding:0 28px;
+  background:linear-gradient(180deg,var(--ground),rgba(11,14,17,.45) 34%,
+    rgba(11,14,17,.55) 66%,var(--ground))}
+.breaker q{display:block;font-size:clamp(23px,3vw,34px);font-weight:600;
+  letter-spacing:-.02em;line-height:1.3;max-width:19ch;quotes:none}
+.breaker cite{display:block;font-style:normal;font-size:13.5px;
+  color:var(--muted);margin-top:16px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;letter-spacing:.1em;
+  text-transform:uppercase}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:var(--ground-2);border:1px solid var(--line);
+  border-radius:var(--r);padding:28px;
+  transition:transform .4s var(--ease),border-color .4s var(--ease),
+             background .4s var(--ease)}
+.card:hover{transform:translateY(-5px);border-color:var(--line-2);
+  background:var(--ground-3)}
+.card .ic{width:34px;height:34px;color:var(--accent);margin-bottom:18px}
+.card h3{font-size:18px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px}
+.card p{margin:0;font-size:15px;color:var(--muted);line-height:1.58}
+
+/* cta band */
+.end{position:relative;overflow:hidden;padding:120px 0}
+.end img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 62%}
+.end .sc{position:absolute;inset:0;
+  background:linear-gradient(180deg,var(--ground),rgba(11,14,17,.72) 44%,
+    rgba(11,14,17,.9))}
+.end .shell{position:relative;text-align:center}
+.end h2{margin-left:auto;margin-right:auto}
+.end .cta{justify-content:center}
+
+footer{border-top:1px solid var(--line);padding:44px 0;font-size:14px;
+  color:var(--muted)}
+.fin{display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+.fin nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
+footer a:hover{color:var(--ink-2)}
+
+@media (max-width:940px){
+  .curve{position:static}
+  .herogrid{grid-template-columns:1fr;gap:48px}
+  .phone{justify-self:start;width:280px}
+  .split{grid-template-columns:1fr;gap:40px}
+  .cards{grid-template-columns:1fr}
+  .nav{display:none}
+  .pad{padding:82px 0}
+  .hero{padding:120px 0 64px;min-height:0}
+  .lrow{grid-template-columns:1fr}
+  .lrow>div:first-child{border-right:0;border-bottom:1px solid var(--line);
+    padding-bottom:10px}
+  .lrow>div:last-child{padding-top:10px}
+  .shell{padding:0 20px}
+  .bandin{padding:0 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;
+    animation-delay:0ms!important;transition-duration:.01ms!important}
+  .ln>span,.rise,.phone,.band{transform:none!important;opacity:1!important}
+  .rv{opacity:1!important;transform:none!important}
+  .cpath{stroke-dashoffset:0!important}
+}
+</style>
+</head>
+<body>
+
+<div class="band" id="band">
+  <div class="bandin">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true">
+        <rect x="322" y="192" width="380" height="144" rx="72"/>
+        <rect x="252" y="440" width="520" height="144" rx="72"/>
+        <rect x="182" y="688" width="660" height="144" rx="72"/>
+      </svg>
+      Stack
+    </a>
+    <nav class="nav">
+      <a href="#how">How it works</a>
+      <a href="#proof">What it tracks</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#compounds">Compounds</a>
+    </nav>
+    <a class="btn btn-p" href="#get">Get the app</a>
+  </div>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-img" id="par">
+    <img src="assets/img/ridge.jpg" alt=""
+         srcset="assets/pool/ridge.jpg 1920w, assets/img/ridge.jpg 3840w"
+         sizes="100vw" fetchpriority="high">
+  </div>
+  <div class="shell">
+    <div class="herogrid">
+      <div>
+        <p class="eyebrow rise d1">Track your stack</p>
+        <h1>
+          <span class="ln"><span>Everything you take,</span></span>
+          <span class="ln"><span>and what it&rsquo;s doing.</span></span>
+        </h1>
+        <p class="lede rise d2">Vitamins, capsules, peptides, shots. One quiet
+        logbook that remembers every dose, tells you the day you&rsquo;ll run
+        out, and shows what is still working in you between them.</p>
+        <div class="cta rise d3">
+          <a class="btn btn-p btn-lg" href="#get">Get it on Google Play</a>
+          <a class="btn btn-g btn-lg" href="#how">See how it works</a>
+        </div>
+        <p class="note rise d4">Free to track, with no cap on what you log.
+        Your data stays on your phone.</p>
+        <div class="figs rise d5">
+          <div class="fig"><b data-count="587">587</b><span>compounds it knows</span></div>
+          <div class="fig"><b data-count="113">113</b><span>cited reference pages</span></div>
+          <div class="fig"><b>2 taps</b><span>to log a dose</span></div>
+        </div>
+      </div>
+
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="scr-img"><img src="assets/pool/ridge.jpg" alt=""></div>
+          <div class="scr-in">
+            <div class="chrome"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+            <div class="strip">
+              <i>S<b>29</b></i><i>M<b>30</b></i><i class="on">T<b>31</b></i>
+              <i>W<b>1</b></i><i>T<b>2</b></i><i>F<b>3</b></i><i>S<b>4</b></i>
+            </div>
+            <p class="hey">Hey Alex</p>
+            <p class="left">2 left today</p>
+            <div class="glass">
+              <div class="gh"><span>Morning</span><span>3/3</span></div>
+              <div class="row done"><div class="pip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></div>
+                <div class="rn"><b>Vitamin D3</b><span>8:00 AM &middot; 5000 IU</span></div>
+                <div class="tick"></div></div>
+              <div class="row done"><div class="pip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></div>
+                <div class="rn"><b>Creatine</b><span>8:02 AM &middot; 5 g</span></div>
+                <div class="tick"></div></div>
+              <div class="row done"><div class="pip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v10M12 21v-3M9 6l3-3 3 3"/><rect x="9" y="13" width="6" height="8" rx="3"/></svg></div>
+                <div class="rn"><b>Testosterone</b><span>9:00 AM &middot; 20 mg</span></div>
+                <div class="tick"></div></div>
+              <div class="gh" style="border-top:1px solid rgba(255,255,255,.06)"><span>Night</span><span>0/2</span></div>
+              <div class="row"><div class="pip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="4" width="6" height="16" rx="3"/><path d="M9 12h6"/></svg></div>
+                <div class="rn"><b>BPC-157</b><span>6:00 PM &middot; 250 mcg</span></div>
+                <div class="tick"></div></div>
+              <div class="row"><div class="pip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></div>
+                <div class="rn"><b>Magnesium</b><span>10:00 PM &middot; 400 mg</span></div>
+                <div class="tick"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="how">
+  <div class="shell">
+    <div class="split">
+      <div>
+        <p class="kicker rv">What you actually get</p>
+        <h2 class="rv rv2">A logbook that does the arithmetic you were doing
+        in your head.</h2>
+        <p class="sub rv rv3">Not another habit tracker with a streak. The
+        point is the four questions you ask yourself anyway &mdash; did I take
+        it, when, how much is left, and is it still in me.</p>
+        <div class="rv rv4">
+          <div class="feat"><span class="n">01</span><div>
+            <h3>Two taps, stamped with the time</h3>
+            <p>Open, tap the row. Not a form. The time it went in is the time
+            you tapped, which is the number that matters later.</p></div></div>
+          <div class="feat"><span class="n">02</span><div>
+            <h3>The day you run out, before you do</h3>
+            <p>It counts what you have against what you take and gives you a
+            date, so a refill is something you plan rather than notice.</p></div></div>
+          <div class="feat"><span class="n">03</span><div>
+            <h3>A body map that picks the next site</h3>
+            <p>For anything injected, it remembers where the last one went
+            and rotates for you.</p></div></div>
+          <div class="feat"><span class="n">04</span><div>
+            <h3>An export your doctor will actually read</h3>
+            <p>Every dose, every date, one PDF. Or the raw data, because it
+            is yours.</p></div></div>
+        </div>
+      </div>
+
+      <div class="curve rv rv2" id="curve">
+        <div class="top"><b>Testosterone &middot; in system</b><span>68%</span></div>
+        <svg viewBox="0 0 420 150" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#83ADCC" stop-opacity=".34"/>
+            <stop offset="1" stop-color="#83ADCC" stop-opacity="0"/>
+          </linearGradient></defs>
+          <line class="cax" x1="0" y1="112" x2="420" y2="112"/>
+          <path class="carea" d="M0,132 C40,58 70,20 108,20 C150,20 168,64 206,88
+            C244,112 262,60 300,44 C338,28 360,72 420,104 L420,150 L0,150 Z"/>
+          <path class="cpath" id="cp" d="M0,132 C40,58 70,20 108,20 C150,20 168,64
+            206,88 C244,112 262,60 300,44 C338,28 360,72 420,104"/>
+          <circle class="cdot" cx="300" cy="44" r="4.5"/>
+        </svg>
+        <div class="top" style="margin-top:8px">
+          <span class="clab" style="font-size:11px;color:var(--muted)">Mon</span>
+          <span class="clab" style="font-size:11px;color:var(--muted)">Thu</span>
+          <span class="clab" style="font-size:11px;color:var(--muted)">Sun</span>
+        </div>
+        <p style="font-size:14px;color:var(--muted);margin:14px 0 0;line-height:1.55">
+          Every dose you log feeds a real half-life curve, so the question
+          &ldquo;am I due?&rdquo; has an answer instead of a guess.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="breaker">
+  <img src="assets/pool/coast.jpg" alt="" id="par2">
+  <div class="bin">
+    <div>
+      <q>The whole point is that you stop keeping it in your head.</q>
+      <cite>Why we built it</cite>
+    </div>
+  </div>
+</div>
+
+<section class="pad" id="proof">
+  <div class="shell">
+    <p class="kicker rv">Better than how you track it now</p>
+    <h2 class="h2wide rv rv2">You are not switching from an app. You are
+    switching from a notes file.</h2>
+    <p class="sub rv rv3">Which is what almost everyone is actually using, and
+    it is the thing Stack has to beat.</p>
+    <div class="ledger rv rv4">
+      <div class="lrow head"><div>Notes, a spreadsheet, memory</div><div>Stack</div></div>
+      <div class="lrow"><div>Retype every dose by hand</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Two taps, stamped with the time</div></div>
+      <div class="lrow"><div>Scroll back through old entries to see what is working</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>A half-life curve, drawn from your own logs</div></div>
+      <div class="lrow"><div>Find out you are out when you are out</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>&ldquo;About 10 doses left &middot; refill Jul&nbsp;3&rdquo;</div></div>
+      <div class="lrow"><div>Try to remember which side you used last</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>A body map that picks the next site</div></div>
+      <div class="lrow"><div>Copy-paste a mess into an email for your doctor</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>A full export, and a PDF built to be read</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="privacy">
+  <div class="shell">
+    <p class="kicker rv">Where your data lives</p>
+    <h2 class="h2wide rv rv2">On your phone. That is the whole answer.</h2>
+    <p class="sub rv rv3">Cloud backup exists, encrypted, and it is off until
+    you turn it on. There are no ads, and nothing about what you take is sold
+    or shared.</p>
+    <div class="cards">
+      <div class="card rv"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 118 0v3"/></svg>
+        <h3>Encrypted on device</h3>
+        <p>Your log is stored encrypted on the phone itself, not on a server
+        that has to be trusted.</p></div>
+      <div class="card rv rv2"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 4v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/></svg>
+        <h3>Backup is opt-in</h3>
+        <p>Off by default. Turn it on and it is still encrypted before it
+        leaves the device.</p></div>
+      <div class="card rv rv3"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 20h16"/></svg>
+        <h3>Yours to take</h3>
+        <p>Export everything you have logged, any time, in a format you can
+        actually open.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="compounds">
+  <div class="shell">
+    <div class="split">
+      <div>
+        <p class="kicker rv">The reference library</p>
+        <h2 class="rv rv2">Whatever is in your stack is already in here.</h2>
+        <p class="sub rv rv3">587 compounds the app recognises, from a daily
+        multivitamin to a weekly shot &mdash; and 113 plain-English reference
+        pages on the web, each one cited back to the source rather than to a
+        forum thread.</p>
+        <a class="btn btn-g btn-lg rv rv4" href="#compounds">Browse the library</a>
+      </div>
+      <div class="ledger rv rv2">
+        <div class="lrow head"><div>Compound</div><div>What it is</div></div>
+        <div class="lrow"><div>Semaglutide</div><div>GLP-1 receptor agonist</div></div>
+        <div class="lrow"><div>BPC-157</div><div>Peptide</div></div>
+        <div class="lrow"><div>Testosterone cypionate</div><div>Androgen ester</div></div>
+        <div class="lrow"><div>Creatine monohydrate</div><div>Supplement</div></div>
+        <div class="lrow"><div>Anastrozole</div><div>Aromatase inhibitor</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="get">
+  <img src="assets/pool/dune.jpg" alt="">
+  <div class="sc"></div>
+  <div class="shell">
+    <p class="kicker rv">Track your stack</p>
+    <h2 class="rv rv2">Start with tonight&rsquo;s dose.</h2>
+    <p class="sub rv rv3" style="margin-left:auto;margin-right:auto">Free to
+    track, no cap on what you log, and nothing to set up before it is
+    useful.</p>
+    <div class="cta rv rv4">
+      <a class="btn btn-p btn-lg" href="#get">Get it on Google Play</a>
+      <a class="btn btn-g btn-lg" href="#get">Join the iPhone list</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell fin">
+    <a class="logo" href="#top" style="font-size:16px">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" style="width:20px;height:20px" aria-hidden="true">
+        <rect x="322" y="192" width="380" height="144" rx="72"/>
+        <rect x="252" y="440" width="520" height="144" rx="72"/>
+        <rect x="182" y="688" width="660" height="144" rx="72"/>
+      </svg>
+      Stack
+    </a>
+    <nav>
+      <a href="#privacy">Privacy</a><a href="#get">Terms</a>
+      <a href="#compounds">Compounds</a><a href="#get">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── the band goes solid once the photograph is behind you ─────────────
+  var band = document.getElementById('band');
+  function onScroll() {
+    band.classList.toggle('stuck', scrollY > 40);
+    if (reduce) return;
+    // Parallax at a third of scroll speed. Transform only -- animating
+    // background-position or top would relayout on every frame.
+    var p = document.getElementById('par');
+    if (p) p.style.transform = 'translate3d(0,' + (scrollY * 0.32) + 'px,0)';
+    var b = document.getElementById('par2');
+    if (b) {
+      var r = b.parentElement.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) {
+        var t = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        b.style.transform = 'translate3d(0,' + (t * -46) + 'px,0)';
+      }
+    }
+  }
+  var tick = false;
+  addEventListener('scroll', function () {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(function () { onScroll(); tick = false; });
+  }, {passive: true});
+  onScroll();
+
+  // ── reveal on scroll ──────────────────────────────────────────────────
+  function reveal(el) {
+    el.classList.add('in');
+    if (el.hasAttribute('data-count')) count(el);
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      reveal(e.target);
+      io.unobserve(e.target);
+    });
+  }, {threshold: 0.18, rootMargin: '0px 0px -8% 0px'});
+  document.querySelectorAll('.rv,#curve,[data-count]').forEach(function (el) {
+    io.observe(el);
+  });
+  // ⭐ THE OBSERVER IS THE ENHANCEMENT; THIS IS THE GUARANTEE.
+  // IntersectionObserver does not fire in a tab that is not compositing -- a
+  // background tab, a hidden iframe, some prerenders -- and every block on
+  // this page starts at opacity 0. Without this the page is not "unanimated"
+  // in those cases, it is BLANK. Caught by probing the real DOM: 0 of 25
+  // blocks had been revealed while the sky was painting perfectly.
+  setTimeout(function () {
+    document.querySelectorAll('.rv:not(.in),#curve:not(.in),[data-count]').forEach(reveal);
+  }, 2600);
+
+
+  // the curve's dash length has to be the REAL path length, or the draw
+  // either finishes early or never finishes
+  var cp = document.getElementById('cp');
+  if (cp) {
+    var L = Math.ceil(cp.getTotalLength());
+    cp.style.setProperty('--len', L);
+  }
+
+  // ── counters ──────────────────────────────────────────────────────────
+  // ⚠ NOTHING IS WRITTEN UNTIL A REAL FRAME HAPPENS. Zeroing the text up front
+  // and animating from there means that wherever requestAnimationFrame does
+  // not run -- a tab that is not compositing -- the page reads "0 compounds it
+  // knows", which is worse than no animation. The markup carries the true
+  // number; the first actual frame is what takes it down to 0 to count up.
+  function count(el) {
+    if (el.dataset.counted) return;      // reveal() can be reached twice
+    el.dataset.counted = 1;
+    var to = +el.getAttribute('data-count'), d = 1400, t0 = null;
+    if (reduce) { el.textContent = to; return; }
+    // ⚠ AND A WALL-CLOCK BACKSTOP. Starting on the first frame fixes the
+    // case where rAF never runs, but not the case where it runs ONCE --
+    // writes 0 -- and then stalls, which leaves the number wrong rather than
+    // merely unanimated. This re-asserts the truth after the animation window
+    // whatever the frame loop did.
+    setTimeout(function () { el.textContent = to; }, d + 400);
+    requestAnimationFrame(function step(t) {
+      if (t0 === null) t0 = t;
+      var k = Math.min(1, (t - t0) / d);
+      // ease-out cubic, so it settles rather than stopping dead
+      el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(step);
+    });
+  }
+
+  // ── the phone logs a dose while you watch ─────────────────────────────
+  if (!reduce) {
+    var rows = document.querySelectorAll('.phone .row:not(.done)');
+    var left = document.querySelector('.phone .left');
+    var i = 0;
+    setTimeout(function tickRow() {
+      if (i >= rows.length) return;
+      rows[i].classList.add('done');
+      i++;
+      if (left) left.textContent = (rows.length - i) + ' left today';
+      setTimeout(tickRow, 2600);
+    }, 3400);
+  }
+})();
+</script>
+</body>
+</html>
