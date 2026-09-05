@@ -24,8 +24,8 @@ from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_URL = "https://trackyourstack.app"  # swap when DNS lands
-REVIEWED = "2026-06-11"
-TODAY = date(2026, 6, 11)
+REVIEWED = "2026-06-11"  # editorial content-review claim - bump by hand only when pages are actually re-reviewed
+TODAY = date.today()  # build date, drives sitemap lastmod
 
 CATS = {
     "GLP-1": ("glp-1", "GLP-1 & incretins", "Semaglutide, tirzepatide and the wider incretin class."),
@@ -239,7 +239,7 @@ def footer(root: str) -> str:
       <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
     </div>
   </footer>
-  <script src="{root}assets/js/site.js?v=4"></script>"""
+  <script src="{root}assets/js/site.js?v=5"></script>"""
 
 
 def decay_bars(hours: float | None) -> str:
