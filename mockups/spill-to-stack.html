@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.className="js"</script>
+<title>Stack — spill to stack (mockup v2)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="v2 of the cinematic direction, redrawn from feedback on v1: no AI-generated imagery anywhere — every scene is CSS/SVG on one fixed tabletop. A spilled pill bottle scroll-organizes into Stack's dose list. No pricing on this page — Plus is parked.">
+<style>
+/* Self-hosted, matching the live site's convention (see privacy.html /
+   index-v2.html) — no external font CDN. Inter is bundled site-wide. */
+@font-face{
+  font-family:"Inter";
+  src:url("../assets/fonts/inter-subset.woff2") format("woff2");
+  font-weight:100 900;
+  font-display:swap;
+}
+/* ═══════════════════════════════════════════════════════════════════════
+   STACK · SPILL-TO-STACK (mockup v2)
+   Direct response to feedback on v1 (cinematic-stack.html):
+     1. v1's AI-generated hero photo read as "AI generated" — this page
+        contains ZERO photographic or generated imagery. Every scene below
+        is drawn with CSS/inline-SVG only.
+     2. The owner's own concept, built literally: an amber pill bottle
+        spills across a tabletop; as the page scrolls, the scattered
+        capsules interpolate into tidy rows — the app organizing the mess.
+     3. v1 had too many disconnected "pages" (a needle, then a sunset).
+        This page is ONE continuous counter — a fixed CSS surface behind
+        everything — with only per-chapter LIGHT shifts (a tint overlay),
+        never a different scene. Four sections total after the hero,
+        down from six in v1.
+
+   Discipline (identical to v1): vanilla HTML/CSS/JS, no build step, no
+   libraries, native scroll only (no scroll-jacking — position:sticky +
+   reading scroll offset, never preventDefault). Default (no JS) and
+   prefers-reduced-motion states are both the fully organized, fully
+   legible end-state — nothing here requires script to be correct, only
+   to be extra. Mobile reflows the spill to ~15 capsules and a single
+   organized column.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  /* PLACEHOLDER — accent is a Phase 0 decision. This is the amber of the
+     pill bottle itself, reused as the page accent for this demo only. */
+  --accent:#96601F;
+  --accent-fill:#C2894F;
+  --accent-soft:rgba(150,96,31,.14);
+
+  --ground-1:#EFE4CC;
+  --ground-2:#E1D3B4;
+  --ground-3:#CFBD97;
+  --panel:rgba(255,251,242,.62);
+  --line:rgba(33,29,23,.12);
+  --line-2:rgba(33,29,23,.22);
+  --ink:#211D17;
+  --ink-2:#423A2C;
+  --muted:#5B5344;
+  --paper:#FBF7ED;
+  --paper-ink:#2A2620;
+
+  --serif:Georgia,'Iowan Old Style','Apple Garamond','Times New Roman',serif;
+  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  /* No second webfont for 11px mono labels — same call as index-v2.html:
+     the system mono stack keeps the monospace *role* without another
+     network fetch. */
+  --mono:ui-monospace,SFMono-Regular,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground-2);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.shell{width:100%;max-width:var(--shell);margin:0 auto;padding:0 22px}
+::selection{background:var(--accent-soft);color:var(--ink)}
+
+/* ── the counter: one fixed CSS surface for the whole page ────────────── */
+.counter{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(130% 90% at 10% -12%, rgba(255,253,244,.95), transparent 55%),
+    radial-gradient(120% 100% at 50% 10%, transparent 42%, rgba(66,50,28,.15) 100%),
+    linear-gradient(155deg,var(--ground-1) 0%,var(--ground-2) 46%,var(--ground-3) 100%)}
+.counter::before{content:"";position:fixed;inset:-60px;opacity:.06;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.32 0 0 0 0 0.24 0 0 0 0 0.13 0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:140px 140px;animation:grain 1s steps(6) infinite}
+.counter::after{content:"";position:fixed;inset:0;opacity:.045;mix-blend-mode:overlay;
+  background:repeating-linear-gradient(102deg,rgba(255,255,255,.5) 0 1px,transparent 1px 5px)}
+@keyframes grain{
+  0%{transform:translate(0,0)}20%{transform:translate(-1%,-2%)}
+  40%{transform:translate(-2%,1%)}60%{transform:translate(1%,-1%)}
+  80%{transform:translate(2%,2%)}100%{transform:translate(0,0)}
+}
+.tint{position:fixed;inset:0;z-index:1;pointer-events:none;background:transparent;
+  transition:background 1.2s var(--ease)}
+
+/* ── top chrome ─────────────────────────────────────────────────────── */
+.top{position:fixed;inset:0 0 auto;z-index:60;
+  background:linear-gradient(180deg,rgba(239,228,204,.92),rgba(239,228,204,0))}
+.topin{display:flex;align-items:center;gap:20px;padding:20px 22px;
+  max-width:var(--shell);margin:0 auto}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;
+  letter-spacing:-.02em;color:var(--ink)}
+.logo svg{width:20px;height:20px;flex:none;color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;
+  height:40px;padding:0 19px;border-radius:999px;font-weight:600;font-size:14px;
+  border:1px solid var(--line-2);white-space:nowrap;cursor:pointer;color:var(--ink);
+  background:rgba(255,255,255,.35);backdrop-filter:blur(8px);
+  transition:transform .3s var(--ease),border-color .3s var(--ease),
+             background .3s var(--ease)}
+.btn:hover{border-color:var(--accent);transform:translateY(-2px)}
+.btn-p{background:var(--ink);color:var(--ground-1);border-color:var(--ink)}
+.btn-p:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-lg{height:52px;padding:0 26px;font-size:15.5px}
+.topin .btn{margin-left:auto}
+
+/* ── right-edge scene progress rail ───────────────────────────────────── */
+.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:55;
+  display:flex;flex-direction:column;align-items:center;gap:15px;
+  font-family:var(--mono)}
+.rail a{display:flex;align-items:center;justify-content:center;width:22px;
+  height:22px;font-size:9.5px;letter-spacing:.03em;color:var(--muted);
+  border-radius:999px;transition:color .3s var(--ease)}
+.rail a::before{content:"";display:block;width:5px;height:5px;border-radius:99px;
+  background:currentColor;transition:width .3s var(--ease),height .3s var(--ease)}
+.rail a span{display:none}
+.rail a.on{color:var(--accent)}
+.rail a.on::before{width:8px;height:8px;background:var(--accent)}
+.rail .track{width:1px;flex:1;background:var(--line);order:99}
+@media (max-width:980px){.rail{display:none}}
+
+/* ── reveal-on-scroll, JS-off default is fully visible ────────────────── */
+.rv{opacity:1}
+.js .rv{opacity:0;transform:translateY(26px);
+  transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.rv2{transition-delay:.08s}.rv3{transition-delay:.16s}.rv4{transition-delay:.24s}
+
+/* ── chapter scaffolding ───────────────────────────────────────────────── */
+.chapter{position:relative;z-index:2;padding:130px 0 120px}
+.eyebrow{display:flex;align-items:baseline;gap:12px;margin:0 0 22px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--ink)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:99px;
+  background:var(--accent);flex:none;align-self:center}
+.eyebrow em{font-style:normal;color:var(--muted);letter-spacing:.06em}
+h2{font-size:clamp(30px,4.4vw,52px);line-height:1.03;letter-spacing:-.03em;
+  font-weight:800;margin:0 0 20px;max-width:16ch;text-wrap:balance;color:var(--ink)}
+.lede{font-size:clamp(16.5px,1.4vw,19px);color:var(--ink-2);max-width:46ch;
+  line-height:1.65;margin:0 0 30px}
+.micro{font-family:var(--mono);font-size:12px;color:var(--muted);
+  letter-spacing:.03em;line-height:1.6}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;
+  align-items:center}
+@media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}}
+
+/* frosted-glass cards, recolored for the light counter */
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15)}
+@supports not (backdrop-filter:blur(1px)){.glass{background:rgba(255,251,242,.92)}}
+.grounded{box-shadow:0 26px 54px -24px rgba(60,45,20,.28)}
+
+/* ═══ HERO / THE SPILL ═══════════════════════════════════════════════════
+   Safe default: a modest, static, already-organized strip. Advanced mode
+   (JS present AND no reduced-motion preference) turns .hero-pin into a
+   sticky scroll-scrub stage — see script at the bottom for the ~40-line
+   lerp that drives it. Both states share the exact same markup. */
+.hero{position:relative;padding:126px 0 70px}
+.hero-pin{position:relative}
+.spill-stage{position:relative;height:300px;margin:0 0 40px;border-radius:20px;
+  overflow:hidden}
+.bottle{display:none}
+.pill{position:absolute;left:var(--ox);top:var(--oy);pointer-events:none;
+  transform:translate(-50%,-50%) rotate(var(--or)) scale(var(--sc,1));
+  filter:drop-shadow(0 3px 5px rgba(40,30,15,.28))}
+.pill-cap{width:34px;height:14px;border-radius:99px;display:flex;overflow:hidden}
+.pill-cap i{flex:1;display:block}
+.pill-cap i:first-child{background:linear-gradient(180deg,#F7F0DE,#E7D9BC)}
+.pill-cap i:last-child{background:linear-gradient(180deg,var(--accent-fill),#A8672B)}
+.pill-tab{width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#FFFDF7,#EFE7D4 70%,#DBCFAF)}
+/* No position here: .pill-tab must NOT override .pill's position:absolute
+   (same-specificity classes on one element resolve by source order, and
+   this rule comes later — that's exactly what put every .pill-tab back
+   into normal document flow and produced the "diagonal" row). .pill's
+   position:absolute already gives ::after a valid containing block. */
+.pill-tab::after{content:"";position:absolute;left:3px;right:3px;top:50%;
+  height:1px;background:rgba(60,45,20,.28)}
+.pill-obl{width:26px;height:12px;border-radius:8px;
+  background:linear-gradient(160deg,#CBD4C0,#A6B491)}
+.row-label{position:absolute;left:var(--ox);top:var(--oy);z-index:2;
+  transform:translateY(-50%);white-space:nowrap;margin:0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-2);
+  background:rgba(255,251,242,.75);border:1px solid var(--line);border-radius:8px;
+  padding:5px 10px;opacity:1}
+.row-label span{display:block;color:var(--muted);font-size:9.5px;margin-top:1px}
+@media (max-width:700px){
+  .spill-stage{height:230px}
+  .pill{left:var(--mx);top:var(--my);
+    transform:translate(-50%,-50%) rotate(var(--mr)) scale(var(--sc,1))}
+  .pill.mob-hide{display:none}
+  .row-label{left:var(--mx);top:var(--my)}
+}
+
+.hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink);margin:0 0 20px}
+.hero h1{font-family:var(--serif);font-weight:400;
+  font-size:clamp(38px,7.6vw,92px);line-height:1.02;letter-spacing:-.01em;
+  margin:0 0 26px;max-width:17ch;color:var(--ink)}
+.hero h1 i{font-style:italic}
+.clause2{opacity:1}
+.hero-lede{font-size:clamp(16px,1.5vw,19px);color:var(--ink-2);max-width:42ch;
+  margin:0 0 34px;line-height:1.6}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero-cards{margin-top:52px;max-width:420px;opacity:1}
+.hc-cap{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.dose{display:flex;align-items:center;gap:13px;padding:16px 18px;margin-bottom:12px}
+.dose:last-child{margin-bottom:0}
+.dose .ic{width:34px;height:34px;border-radius:11px;flex:none;
+  background:rgba(33,29,23,.06);display:grid;place-items:center;color:var(--ink-2)}
+.dose .ic svg{width:16px;height:16px}
+.dose .nm{flex:1;min-width:0}
+.dose .nm b{display:block;font-size:15.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.dose .nm span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;
+  font-family:var(--mono)}
+.dose .done{width:20px;height:20px;border-radius:99px;flex:none;
+  background:var(--accent);position:relative}
+.dose .done::after{content:"";position:absolute;left:6px;top:3px;width:5px;
+  height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(43deg)}
+.scrolldown{margin:40px 0 0;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);
+  display:flex;align-items:center;justify-content:center;gap:10px}
+.scrolldown i{display:block;width:1px;height:34px;background:var(--line-2);
+  position:relative;font-style:normal}
+.js .scrolldown i::after{content:"";position:absolute;left:-2px;top:0;width:5px;
+  height:5px;border-radius:99px;background:var(--accent);
+  animation:scrollcue 2.2s var(--ease) infinite}
+@keyframes scrollcue{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+
+/* ═══ ADVANCED HERO: sticky scroll-scrub, JS + motion allowed only ═══════ */
+@media (prefers-reduced-motion:no-preference){
+  .js .hero{height:230vh;padding:0}
+  .js .hero-pin{position:sticky;top:0;height:100svh;overflow:hidden}
+  .js .spill-stage{position:absolute;inset:0;height:auto;margin:0;border-radius:0}
+  .js .bottle{display:block;position:absolute;left:6%;top:9%;width:96px;
+    transform:rotate(-24deg);transform-origin:22% 78%;z-index:3}
+  .js .bottle .body{width:96px;height:180px;border-radius:24px;
+    background:linear-gradient(160deg,#EAB670 0%,#C2894F 55%,#96601F 100%);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 20px 34px -12px rgba(40,25,10,.4);
+    position:relative}
+  .js .bottle .cap{position:absolute;left:50%;top:-15px;
+    transform:translateX(-50%) rotate(-7deg);width:72px;height:30px;
+    border-radius:11px 11px 4px 4px;
+    background:linear-gradient(180deg,#F7F0DE,#DED2B8);
+    box-shadow:0 4px 8px rgba(40,25,10,.25)}
+  .js .bottle .label{position:absolute;left:12px;top:60px;width:72px;height:64px;
+    background:#FBF7ED;border-radius:5px;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+  .js .bottle .label i{display:block;height:3px;border-radius:2px;
+    background:rgba(42,38,32,.18);margin:9px 10px 0}
+  .js .bottle .label i:nth-child(1){width:38%}
+  .js .bottle .label i:nth-child(2){width:60%}
+  .js .bottle .label i:nth-child(3){width:48%}
+  .js .hero-fill{position:absolute;inset:0;z-index:4}
+  .js .hero-copy{position:absolute;left:0;right:0;bottom:9%;max-width:640px}
+  .js .clause2{opacity:0;transition:opacity .2s linear}
+  .js .row-label{opacity:0;transition:opacity .2s linear}
+  .js .hero-cards{position:absolute;right:6%;bottom:9%;width:380px;margin:0;
+    opacity:0;transform:translateY(16px);transition:opacity .2s linear,transform .2s linear}
+  .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+    margin:0;transition:opacity .25s linear}
+  @media (max-width:900px){
+    .js .hero-copy{position:static;bottom:auto;max-width:none;padding:0 22px 24px}
+    .js .hero-cards{position:static;right:auto;bottom:auto;width:auto;
+      opacity:1;transform:none;padding:0 22px;margin-top:8px}
+    .js .scrolldown{display:none}
+  }
+  @media (max-width:700px){
+    .js .hero{height:190vh}
+    .js .bottle{left:8%;top:6%;width:72px}
+    .js .bottle .body{width:72px;height:136px}
+  }
+}
+
+/* ═══ CHAPTER 01 · WHAT'S STILL ACTIVE ══════════════════════════════════ */
+.decay{padding:26px 26px 24px;max-width:420px}
+.decay .lbl{font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  letter-spacing:.05em;margin:0 0 6px}
+.decay .lbl b{color:var(--ink-2);font-weight:500}
+.decay .num{font-size:clamp(52px,7vw,74px);font-weight:800;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;color:var(--ink);margin:0}
+.decay .num span{font-size:.4em;color:var(--muted);font-weight:500;margin-left:4px}
+.decay .bar{height:6px;border-radius:99px;background:rgba(33,29,23,.09);
+  overflow:hidden;margin:18px 0 12px}
+.decay .bar b{display:block;height:100%;background:linear-gradient(90deg,
+  var(--accent),var(--accent-fill));border-radius:99px;transition:width .1s linear}
+.decay .fine{font-size:12px;color:var(--muted);margin:0;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;margin-top:16px;max-width:420px}
+.stats div{background:rgba(255,251,242,.75);padding:18px 20px}
+.stats b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.stats span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.stats em{display:block;font-style:normal;font-size:10px;color:var(--accent);
+  letter-spacing:.1em;text-transform:uppercase;margin-top:6px;font-weight:600}
+
+/* ═══ CHAPTER 02 · THE RECORD — paper, natively, on the counter ═══════ */
+.paper{background:var(--paper);color:var(--paper-ink);border-radius:6px;
+  max-width:440px;padding:30px 30px 26px;
+  box-shadow:0 34px 64px -22px rgba(60,45,20,.38),0 2px 6px rgba(60,45,20,.14);
+  transform:rotate(-1.6deg);position:relative}
+.paper::after{content:"";position:absolute;inset:0;border-radius:6px;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.05)}
+.paper .pe{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:#8A7F68;margin:0 0 4px}
+.paper h3{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 18px;
+  letter-spacing:0}
+.paper table{width:100%;border-collapse:collapse;font-size:12px}
+.paper th{text-align:left;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:#8A7F68;font-weight:500;
+  padding:0 8px 8px 0;border-bottom:1px solid rgba(42,38,32,.18)}
+.paper td{padding:8px 8px 8px 0;border-bottom:1px solid rgba(42,38,32,.1);
+  font-variant-numeric:tabular-nums}
+.paper tr:last-child td{border-bottom:0}
+.paper .pf{margin:16px 0 0;font-size:11.5px;color:#6E6455;line-height:1.5}
+
+/* ═══ CHAPTER 03 · THE LIBRARY ═══════════════════════════════════════════ */
+.libnum{font-size:clamp(64px,9vw,120px);font-weight:800;letter-spacing:-.035em;
+  line-height:.9;margin:0 0 10px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:9px;max-width:640px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--ink-2);
+  padding:8px 14px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(255,251,242,.55)}
+
+/* ═══ CLOSE ══════════════════════════════════════════════════════════════ */
+.close{padding:120px 0 96px;text-align:center;position:relative;z-index:2}
+.close h2{max-width:20ch;margin:0 auto 18px}
+.close .lede{margin:0 auto 34px;text-align:center}
+.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:30px 0 14px}
+.badge{display:inline-flex;flex-direction:column;align-items:flex-start;
+  gap:1px;padding:9px 18px;border-radius:12px;border:1px solid var(--line-2);
+  color:var(--ink-2)}
+.badge b{font-size:13.5px;font-weight:600;color:var(--ink)}
+.badge span{font-size:10px;font-family:var(--mono);letter-spacing:.04em;
+  color:var(--muted)}
+
+footer{padding:44px 0;border-top:1px solid var(--line);font-size:13.5px;
+  color:var(--muted);position:relative;z-index:2}
+.fin{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+.fin nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+footer a:hover{color:var(--ink-2)}
+
+@media (max-width:640px){
+  .chapter{padding:96px 0 84px}
+  .close{padding:96px 0 72px}
+  .stats,.two{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;
+    transition-duration:.01ms!important}
+  .js .rv{opacity:1!important;transform:none!important}
+  .counter::before{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="counter" aria-hidden="true"></div>
+<div class="tint" id="tint" aria-hidden="true"></div>
+
+<div class="top">
+  <div class="topin">
+    <a class="logo" href="#hero">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true">
+        <rect x="322" y="192" width="380" height="144" rx="72"/>
+        <rect x="252" y="440" width="520" height="144" rx="72"/>
+        <rect x="182" y="688" width="660" height="144" rx="72"/>
+      </svg>Stack
+    </a>
+    <a class="btn" href="../index.html">Get Stack</a>
+  </div>
+</div>
+
+<nav class="rail" aria-label="Section progress">
+  <a href="#hero" data-rail="hero" title="Intro"><span>Intro</span></a>
+  <a href="#ch01" data-rail="ch01" title="01 — What's still active"><span>01</span></a>
+  <a href="#ch02" data-rail="ch02" title="02 — The record"><span>02</span></a>
+  <a href="#ch03" data-rail="ch03" title="03 — The library"><span>03</span></a>
+  <a href="#close" data-rail="close" title="Get Stack"><span>Get</span></a>
+</nav>
+
+<!-- ═══ HERO / THE SPILL ═════════════════════════════════════════════════
+     Default markup below IS the correct, fully-legible end state: pills
+     sit at their organized (--ox/--oy) coordinates, the full headline is
+     visible, and the dose-card payoff is already showing. Script only
+     runs when JS is present and prefers-reduced-motion allows it, and it
+     starts by pulling every pill back to its scattered (data-sx/sy/sr)
+     position, then re-interpolates forward as the section scrolls. -->
+<header class="hero" id="hero" data-tint="">
+  <div class="hero-pin">
+    <div class="spill-stage" aria-hidden="true">
+      <div class="bottle">
+        <div class="body">
+          <div class="label"><i></i><i></i><i></i></div>
+        </div>
+        <div class="cap"></div>
+      </div>
+
+      <div class="pill pill-cap" style="--ox:56%;--oy:40%;--or:-3deg;--mx:50%;--my:24%;--mr:-3deg;--sc:.9" data-sx="22" data-sy="16" data-sr="-18"><i></i><i></i></div>
+      <div class="pill pill-tab" style="--ox:56%;--oy:58%;--or:3deg;--mx:50%;--my:46%;--mr:3deg;--sc:1" data-sx="28" data-sy="10" data-sr="40"></div>
+      <div class="pill pill-obl" style="--ox:56%;--oy:76%;--or:-3deg;--mx:50%;--my:68%;--mr:-3deg;--sc:1.1" data-sx="34" data-sy="22" data-sr="-35"></div>
+      <div class="pill pill-cap" style="--ox:60%;--oy:40%;--or:3deg;--mx:46%;--my:28%;--mr:3deg;--sc:1.22" data-sx="19" data-sy="30" data-sr="55"><i></i><i></i></div>
+      <div class="pill pill-tab" style="--ox:60%;--oy:58%;--or:-3deg;--mx:46%;--my:50%;--mr:-3deg;--sc:.82" data-sx="40" data-sy="14" data-sr="-22"></div>
+      <div class="pill pill-obl" style="--ox:60%;--oy:76%;--or:3deg;--mx:46%;--my:72%;--mr:3deg;--sc:.9" data-sx="46" data-sy="26" data-sr="12"></div>
+      <div class="pill pill-cap" style="--ox:64%;--oy:40%;--or:-3deg;--mx:54%;--my:32%;--mr:-3deg;--sc:1" data-sx="31" data-sy="36" data-sr="-48"><i></i><i></i></div>
+      <div class="pill pill-tab" style="--ox:64%;--oy:58%;--or:3deg;--mx:54%;--my:54%;--mr:3deg;--sc:1.22" data-sx="52" data-sy="20" data-sr="30"></div>
+      <div class="pill pill-obl" style="--ox:64%;--oy:76%;--or:-3deg;--mx:54%;--my:76%;--mr:-3deg;--sc:1.1" data-sx="24" data-sy="44" data-sr="8"></div>
+      <div class="pill pill-cap" style="--ox:68%;--oy:40%;--or:3deg;--mx:48%;--my:36%;--mr:3deg;--sc:.9" data-sx="58" data-sy="12" data-sr="-15"><i></i><i></i></div>
+      <div class="pill pill-tab" style="--ox:68%;--oy:58%;--or:-3deg;--mx:48%;--my:58%;--mr:-3deg;--sc:1" data-sx="37" data-sy="48" data-sr="60"></div>
+      <div class="pill pill-obl" style="--ox:68%;--oy:76%;--or:3deg;--mx:48%;--my:80%;--mr:3deg;--sc:.82" data-sx="64" data-sy="28" data-sr="-40"></div>
+      <div class="pill pill-cap" style="--ox:72%;--oy:40%;--or:-3deg;--mx:52%;--my:40%;--mr:-3deg;--sc:1.22" data-sx="45" data-sy="40" data-sr="20"><i></i><i></i></div>
+      <div class="pill pill-tab" style="--ox:72%;--oy:58%;--or:3deg;--mx:52%;--my:62%;--mr:3deg;--sc:.9" data-sx="70" data-sy="16" data-sr="-28"></div>
+      <div class="pill pill-obl" style="--ox:72%;--oy:76%;--or:-3deg;--mx:52%;--my:84%;--mr:-3deg;--sc:1" data-sx="27" data-sy="52" data-sr="45"></div>
+
+      <div class="pill pill-cap mob-hide" style="--ox:76%;--oy:40%;--or:3deg;--mx:76%;--my:40%;--mr:3deg;--sc:1" data-sx="60" data-sy="44" data-sr="-10"><i></i><i></i></div>
+      <div class="pill pill-tab mob-hide" style="--ox:76%;--oy:58%;--or:-3deg;--mx:76%;--my:58%;--mr:-3deg;--sc:.82" data-sx="16" data-sy="24" data-sr="35"></div>
+      <div class="pill pill-obl mob-hide" style="--ox:76%;--oy:76%;--or:3deg;--mx:76%;--my:76%;--mr:3deg;--sc:1.1" data-sx="53" data-sy="34" data-sr="-55"></div>
+      <div class="pill pill-cap mob-hide" style="--ox:80%;--oy:40%;--or:-3deg;--mx:80%;--my:40%;--mr:-3deg;--sc:1.22" data-sx="74" data-sy="22" data-sr="18"><i></i><i></i></div>
+      <div class="pill pill-tab mob-hide" style="--ox:80%;--oy:58%;--or:3deg;--mx:80%;--my:58%;--mr:3deg;--sc:1" data-sx="48" data-sy="50" data-sr="-32"></div>
+      <div class="pill pill-obl mob-hide" style="--ox:80%;--oy:76%;--or:-3deg;--mx:80%;--my:76%;--mr:-3deg;--sc:.9" data-sx="20" data-sy="38" data-sr="50"></div>
+      <div class="pill pill-cap mob-hide" style="--ox:84%;--oy:40%;--or:3deg;--mx:84%;--my:40%;--mr:3deg;--sc:.9" data-sx="66" data-sy="48" data-sr="-20"><i></i><i></i></div>
+      <div class="pill pill-tab mob-hide" style="--ox:84%;--oy:58%;--or:-3deg;--mx:84%;--my:58%;--mr:-3deg;--sc:1.22" data-sx="30" data-sy="8" data-sr="25"></div>
+      <div class="pill pill-obl mob-hide" style="--ox:84%;--oy:76%;--or:3deg;--mx:84%;--my:76%;--mr:3deg;--sc:1.1" data-sx="78" data-sy="30" data-sr="-45"></div>
+      <div class="pill pill-cap mob-hide" style="--ox:88%;--oy:40%;--or:-3deg;--mx:88%;--my:40%;--mr:-3deg;--sc:1" data-sx="14" data-sy="46" data-sr="38"><i></i><i></i></div>
+      <div class="pill pill-tab mob-hide" style="--ox:88%;--oy:58%;--or:3deg;--mx:88%;--my:58%;--mr:3deg;--sc:.82" data-sx="56" data-sy="54" data-sr="-18"></div>
+      <div class="pill pill-obl mob-hide" style="--ox:88%;--oy:76%;--or:-3deg;--mx:88%;--my:76%;--mr:-3deg;--sc:1" data-sx="42" data-sy="8" data-sr="40"></div>
+      <div class="pill pill-cap mob-hide" style="--ox:92%;--oy:40%;--or:3deg;--mx:92%;--my:40%;--mr:3deg;--sc:1.22" data-sx="82" data-sy="36" data-sr="-30"><i></i><i></i></div>
+      <div class="pill pill-tab mob-hide" style="--ox:92%;--oy:58%;--or:-3deg;--mx:92%;--my:58%;--mr:-3deg;--sc:1" data-sx="24" data-sy="18" data-sr="55"></div>
+      <div class="pill pill-obl mob-hide" style="--ox:92%;--oy:76%;--or:3deg;--mx:92%;--my:76%;--mr:3deg;--sc:.9" data-sx="68" data-sy="52" data-sr="-12"></div>
+
+      <p class="row-label" style="--ox:52%;--oy:33%;--mx:50%;--my:16%">Semaglutide<span>0.5 mg · weekly</span></p>
+      <p class="row-label" style="--ox:52%;--oy:51%;--mx:50%;--my:38%">Vitamin D3<span>1 capsule · daily</span></p>
+      <p class="row-label" style="--ox:52%;--oy:69%;--mx:50%;--my:60%">Magnesium<span>2 capsules · nightly</span></p>
+    </div>
+
+    <div class="shell hero-fill">
+      <div class="hero-copy">
+        <p class="hero-eyebrow rv">Stack</p>
+        <h1 class="rv rv2">Your whole stack,<br><i class="clause2">in one place.</i></h1>
+        <p class="hero-lede rv rv3">Medications, peptides, supplements — however
+        it lands on the counter, Stack sorts it into one calm list.</p>
+        <div class="hero-cta rv rv4">
+          <a class="btn btn-p btn-lg" href="../index.html">Get Stack</a>
+          <a class="btn btn-lg" href="#ch01">See how it works</a>
+        </div>
+      </div>
+
+      <div class="hero-cards rv rv3" aria-hidden="true">
+        <p class="hc-cap">Organized automatically</p>
+        <div class="dose glass">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v10M9 6l3-3 3 3"/><rect x="9" y="13" width="6" height="8" rx="3"/></svg></span>
+          <div class="nm"><b>Semaglutide</b><span>0.5 mg · weekly</span></div>
+          <span class="done"></span>
+        </div>
+        <div class="dose glass">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
+          <div class="nm"><b>Vitamin D3</b><span>1 capsule · daily</span></div>
+          <span class="done"></span>
+        </div>
+        <div class="dose glass">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
+          <div class="nm"><b>Magnesium</b><span>2 capsules · nightly</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="scrolldown" id="scrolldown" aria-hidden="true">Scroll<i></i></p>
+  </div>
+</header>
+
+<!-- ═══ CHAPTER 01 · WHAT'S STILL ACTIVE ══════════════════════════════════
+     `p01` (0–1 across this section) drives the decay readout continuously —
+     the one truly scroll-scrubbed number after the hero. The other two
+     stats count up once, on entrance, and are both labelled as an example —
+     not a claim about real usage. -->
+<section class="chapter" id="ch01" data-tint="rgba(80,100,120,.06)">
+  <div class="shell">
+    <div class="two">
+      <div>
+        <p class="eyebrow rv"><span>Chapter 01</span><em>— still active</em></p>
+        <h2 class="rv rv2">What's still active, at a glance.</h2>
+        <p class="lede rv rv3">Stack estimates what's still on board from
+        published half-life ranges for what you've logged — a tracking
+        estimate, not a medical reading.</p>
+      </div>
+      <div class="rv rv2">
+        <div class="decay glass grounded">
+          <p class="lbl">Semaglutide · <b>half-life 7 days</b></p>
+          <p class="num" id="decayNum">92<span>% estimated remaining</span></p>
+          <div class="bar"><b id="decayBar" style="width:92%"></b></div>
+          <p class="fine">Based on published half-life data. For tracking
+          only — not medical advice.</p>
+        </div>
+        <div class="stats">
+          <div><b id="dosesNum" data-count="14">0</b><span>doses logged</span>
+            <em>example week</em></div>
+          <div><b id="supplyNum" data-count="9">0</b><span>days of supply left</span>
+            <em>example vial</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 02 · THE RECORD — paper on the counter ═══════════════════ -->
+<section class="chapter" id="ch02" data-tint="rgba(255,238,190,.10)">
+  <div class="shell">
+    <div class="two">
+      <div>
+        <p class="eyebrow rv"><span>Chapter 02</span><em>— the record</em></p>
+        <h2 class="rv rv2">A record you can hand to your doctor.</h2>
+        <p class="lede rv rv3">Every dose you log becomes part of a plain
+        report — dates, amounts, times. Export it before an appointment;
+        nothing leaves your device until you choose to share it.</p>
+        <p class="micro rv rv4">On-device by default. Export is a PDF or raw
+        data, your choice.</p>
+      </div>
+      <div class="paper rv rv2">
+        <p class="pe">Stack — dose report (sample)</p>
+        <h3>Feb 1 – Feb 28</h3>
+        <table>
+          <thead><tr><th>Date</th><th>Compound</th><th>Dose</th><th>Time</th></tr></thead>
+          <tbody>
+            <tr><td>Feb 26</td><td>Semaglutide</td><td>0.5 mg</td><td>7:12 AM</td></tr>
+            <tr><td>Feb 26</td><td>Vitamin D3</td><td>1 cap</td><td>7:40 AM</td></tr>
+            <tr><td>Feb 25</td><td>Magnesium</td><td>2 cap</td><td>9:55 PM</td></tr>
+            <tr><td>Feb 24</td><td>Semaglutide</td><td>0.5 mg</td><td>7:05 AM</td></tr>
+          </tbody>
+        </table>
+        <p class="pf">Sample data for illustration. A real export lists
+        every entry for the period you choose.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 03 · THE LIBRARY, THEN THE CLOSE ═══════════════════════════ -->
+<section class="chapter" id="ch03" data-tint="rgba(120,100,70,.05)">
+  <div class="shell">
+    <p class="eyebrow rv"><span>Chapter 03</span><em>— the library</em></p>
+    <p class="libnum rv rv2">112</p>
+    <h2 class="rv rv2">Compounds, already in the library.</h2>
+    <p class="lede rv rv3">Peptides, hormones, supplements, prescriptions —
+    search once, and typical units, schedules, and half-life data are
+    already there.</p>
+    <div class="chips rv rv4">
+      <span class="chip">Semaglutide</span><span class="chip">Tirzepatide</span>
+      <span class="chip">Testosterone cypionate</span><span class="chip">BPC-157</span>
+      <span class="chip">Vitamin D3</span><span class="chip">Magnesium glycinate</span>
+      <span class="chip">Creatine monohydrate</span><span class="chip">Omega-3</span>
+      <span class="chip">Melatonin</span><span class="chip">Ashwagandha</span>
+      <span class="chip">Metformin</span><span class="chip">NAD+</span>
+      <span class="chip">Zinc</span><span class="chip">L-theanine</span>
+      <span class="chip">+ 98 more</span>
+    </div>
+  </div>
+</section>
+
+<section class="close" id="close" data-tint="">
+  <div class="shell">
+    <p class="eyebrow rv" style="justify-content:center"><span>Stack</span></p>
+    <h2 class="rv rv2">Get Stack.</h2>
+    <p class="lede rv rv3">One list for everything you take.</p>
+    <div class="rv rv4">
+      <a class="btn btn-p btn-lg" href="../index.html">Get Stack</a>
+    </div>
+    <div class="badges rv rv4">
+      <span class="badge"><b>App Store</b><span>coming soon</span></span>
+      <span class="badge"><b>Google Play</b><span>coming soon</span></span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell fin">
+    <span>Stack — track your stack</span>
+    <nav><a href="cinematic-stack.html">v1 — cinematic direction</a>
+      <a href="rebrand-index.html">Other directions</a>
+      <a href="../index.html">Live site</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = matchMedia('(max-width: 700px)').matches;
+  addEventListener('resize', function(){ isMobile = matchMedia('(max-width: 700px)').matches; });
+
+  /* ── entrance reveals (identical mechanic to v1) ─────────────────────── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.2,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  requestAnimationFrame(function(){
+    document.querySelectorAll('.rv').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if(r.top < innerHeight) el.classList.add('in');
+    });
+  });
+
+  /* ── right-edge rail: highlight the section in view ──────────────────── */
+  var railLinks = {};
+  document.querySelectorAll('.rail a').forEach(function(a){
+    railLinks[a.getAttribute('data-rail')] = a;
+  });
+  var railIO = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var link = railLinks[e.target.id];
+      if(!link) return;
+      if(e.isIntersecting){
+        Object.keys(railLinks).forEach(function(k){ railLinks[k].classList.remove('on'); });
+        link.classList.add('on');
+      }
+    });
+  },{threshold:.5});
+  ['hero','ch01','ch02','ch03','close'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) railIO.observe(el);
+  });
+
+  /* ── per-chapter tint: a slow overlay-color shift, never a new image ─── */
+  var tintEl = document.getElementById('tint');
+  var tintIO = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting) tintEl.style.background = e.target.dataset.tint || 'transparent';
+    });
+  },{threshold:.55});
+  document.querySelectorAll('[data-tint]').forEach(function(el){ tintIO.observe(el); });
+
+  /* ── count-up stats, one shot on reveal ──────────────────────────────── */
+  function countUp(el, target, dur){
+    if(reduce){ el.textContent = target; return; }
+    var start = performance.now();
+    function step(now){
+      var p = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counted = new WeakSet();
+  var countIO = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !counted.has(e.target)){
+        counted.add(e.target);
+        countUp(e.target, parseInt(e.target.dataset.count, 10), 1100);
+      }
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){ countIO.observe(el); });
+
+  if(reduce){
+    // Static, fully readable end-states — no rAF loops below this line.
+    return;
+  }
+
+  /* ── the spill: scroll-scrubbed lerp from scattered to organized ─────
+     Phase A (0 → .45 of hero scroll): every pill interpolates from its
+     data-sx/sy/sr (scattered) toward its --ox/--oy/--or or, on narrow
+     screens, --mx/--my/--mr (organized) coordinates, snapping to the exact
+     target once pA reaches 1 (no residual float offset). The second
+     headline clause and the row labels land by ~.48.
+     HOLD (.48 → .85): fully organized, fully labelled, fully opaque — the
+     payoff sits still and gets to be looked at before it moves again.
+     Phase B (.85 → 1): the settled pile crossfades into the glass
+     dose-card list — the moment it becomes the product. Settle is
+     guaranteed complete well before the 90% mark this section is checked
+     against. */
+  var hero = document.getElementById('hero');
+  var pills = [].slice.call(document.querySelectorAll('.pill'));
+  var labels = [].slice.call(document.querySelectorAll('.row-label'));
+  var clause2 = document.querySelector('.clause2');
+  var heroCards = document.querySelector('.hero-cards');
+  var scrolldownEl = document.getElementById('scrolldown');
+
+  function num(el, prop){ return parseFloat(getComputedStyle(el).getPropertyValue(prop)) || 0; }
+  var pillData = pills.map(function(el){
+    return {
+      el: el,
+      sx: +el.dataset.sx, sy: +el.dataset.sy, sr: +el.dataset.sr,
+      ox: num(el,'--ox'), oy: num(el,'--oy'), or: num(el,'--or'),
+      mx: num(el,'--mx'), my: num(el,'--my'), mr: num(el,'--mr')
+    };
+  });
+
+  function clamp(v){ return Math.max(0, Math.min(1, v)); }
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function lerp(from, to, t){ return t >= 1 ? to : from + (to - from) * t; }
+
+  function heroTick(){
+    var r = hero.getBoundingClientRect();
+    var total = r.height - innerHeight;
+    var p = total > 0 ? clamp(-r.top / total) : 0;
+
+    var pA = easeOutCubic(clamp(p / 0.45));
+    pillData.forEach(function(d){
+      var tx = isMobile ? d.mx : d.ox;
+      var ty = isMobile ? d.my : d.oy;
+      var tr = isMobile ? d.mr : d.or;
+      var x = lerp(d.sx, tx, pA);
+      var y = lerp(d.sy, ty, pA);
+      var rot = lerp(d.sr, tr, pA);
+      d.el.style.left = x + '%';
+      d.el.style.top = y + '%';
+      d.el.style.transform = 'translate(-50%,-50%) rotate(' + rot + 'deg) scale(var(--sc,1))';
+    });
+
+    var clauseOp = clamp((p - 0.28) / 0.15);
+    if(clause2) clause2.style.opacity = clauseOp;
+    var labelOp = clamp((p - 0.34) / 0.14);
+    labels.forEach(function(el){ el.style.opacity = labelOp; });
+
+    var pB = clamp((p - 0.85) / 0.15);
+    pillData.forEach(function(d){ d.el.style.opacity = 1 - pB; });
+    if(heroCards){
+      heroCards.style.opacity = pB;
+      heroCards.style.transform = 'translateY(' + ((1 - pB) * 16) + 'px)';
+    }
+
+    // The scroll cue is a "start scrolling" affordance only — fade it out
+    // in the first sliver of scroll rather than let it linger through the
+    // whole organize sequence, and it leaves with the rest of the pinned
+    // hero once the section scrolls past regardless.
+    if(scrolldownEl) scrolldownEl.style.opacity = 1 - clamp(p / 0.06);
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ heroTick(); ticking = false; });
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', onScroll);
+  onScroll();
+})();
+</script>
+</body>
+</html>
