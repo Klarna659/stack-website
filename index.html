@@ -191,7 +191,12 @@ h2 i{font-style:italic;color:var(--accent)}
     rgba(239,228,204,.45) 55%,rgba(239,228,204,.85) 100%)}
 .hero-pin{position:relative}
 .spill-stage{position:relative;height:300px;margin:0 0 40px;border-radius:20px;
-  overflow:hidden;background:#0000}
+  background:#0000}
+/* the clip used to live on .spill-stage itself; it moved to this inner frame
+   so ONE sibling — the settled-bottle cutout — can escape the rounded box
+   and visually break its corner, while everything else (video, sprites,
+   the organize panel) stays clipped exactly as before. */
+.spill-frame{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
 .hero-bg-img{position:absolute;inset:0;z-index:0;width:100%;height:100%;
   object-fit:cover;object-position:63% 50%;
   filter:blur(13px) saturate(.64) brightness(1.06)}
@@ -216,10 +221,68 @@ h2 i{font-style:italic;color:var(--accent)}
   background:rgba(255,251,242,.75);border:1px solid var(--line);border-radius:8px;
   padding:5px 10px;opacity:1}
 .row-label span{display:block;color:var(--muted);font-size:9.5px;margin-top:1px}
-.hero-scrim{--scrim-angle:90deg;position:absolute;inset:0;z-index:5;pointer-events:none;
-  background:linear-gradient(var(--scrim-angle),
-    rgba(251,247,237,.9) 0%, rgba(251,247,237,.74) 24%,
-    rgba(251,247,237,.38) 46%, rgba(251,247,237,0) 66%)}
+/* the settled-bottle cutout: a transparent PNG cut from the video's own
+   last frame (tools/gen_bottle_cutout.py), sized to the SAME 1280x720
+   canvas and given the SAME object-fit/object-position as the video/
+   bg-img it was cut from. That shared math is what makes it land in
+   exactly the same screen spot the bottle occupies at rest, at any
+   viewport size, with zero per-breakpoint coordinate guessing.
+   Two instances, two different tricks:
+   .hero-bottle-cut   — desktop only, lives in .hero-fill (see below),
+                        sandwiched ABOVE the headline and BELOW the CTA
+                        row, fading in at the scroll handoff so the text
+                        reads as sitting behind the bottle.
+   .hero-bottle-corner — mobile + the reduced-motion/no-JS fallback,
+                        lives on .spill-stage itself and is nudged just
+                        outside .spill-frame's clip so it breaks the
+                        card's own top-right corner. */
+.hero-bottle-cut{display:none;position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:63% 50%;pointer-events:none}
+/* masked to a top-right wedge: the video/bg-img already shows the settled
+   bottle correctly in place inside .spill-frame — without this mask the
+   full-card corner copy re-draws almost the same bottle on top of it and
+   reads as a doubled/ghosted image. The mask keeps only the bit that's
+   actually breaking the corner and lets the real one underneath carry
+   the rest of the card. */
+.hero-bottle-corner{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:63% 50%;pointer-events:none;
+  opacity:1;transform:translate(2%,-8%) scale(1.05);
+  -webkit-mask-image:linear-gradient(225deg,#000 0%,#000 30%,transparent 62%);
+  mask-image:linear-gradient(225deg,#000 0%,#000 30%,transparent 62%)}
+/* the localized legibility treatment: NOT a page-wide scrim — a soft
+   blur+lighten zone that hugs the headline/eyebrow/lede block and fades
+   out on a mask-image (radial, generous falloff) so there is no visible
+   panel edge, just the video going gently soft near the type. Values
+   (blur 30px, brightness 1.42, tint .62, mask 44%/37% ellipse at 25%/52%
+   core-to-115%) were tuned against a compositing simulation of BOTH
+   assets/img/home/spill2-frame-first.jpg and -last.jpg (the brightest
+   and busiest extremes) until every line of hero type cleared its WCAG
+   floor: eyebrow 11.9:1 / 11.7:1 (need 4.5), h1 4.8:1 / 4.8:1 (need 3.0,
+   large type), lede 4.9:1 / 5.3:1 (need 4.5) — see the eyebrow-hue note
+   in :root for why --accent gets the same "measure the real pixels"
+   treatment instead of a guess. Desktop only; mobile's overlap is just
+   the headline's empty descender/line-height zone, which never touches
+   actual glyphs, so it needs no separate treatment. */
+.hero-legibility{display:none;position:absolute;inset:0;pointer-events:none;
+  background:rgba(251,247,237,.62);
+  -webkit-backdrop-filter:blur(30px) brightness(1.42);
+  backdrop-filter:blur(30px) brightness(1.42);
+  -webkit-mask-image:radial-gradient(ellipse 44% 37% at 25% 52%,
+    #000 0%,#000 45%,transparent 115%);
+  mask-image:radial-gradient(ellipse 44% 37% at 25% 52%,
+    #000 0%,#000 45%,transparent 115%)}
+@supports not (backdrop-filter:blur(1px)){
+  .hero-legibility{background:rgba(251,247,237,.82)}
+}
+/* the headline's own negative top margin for the reduced-motion/no-JS
+   fallback: .spill-stage there is a plain 300px strip ABOVE this block
+   (not an overlay), so the "headline moves into the scene" trick reads
+   as the headline's top edge overlapping the strip's bottom edge instead
+   — same idea as the mobile card, mirrored because the fallback's DOM
+   order is stage-then-copy rather than copy-then-stage. Kept small
+   (8px) on purpose: at 12px mono uppercase the eyebrow's own glyphs start
+   only ~3-4px into its line box, so this stays inside the whitespace. */
+.hero-headline{margin:-8px 0 0}
 @media (max-width:700px){
   .spill-stage{height:230px}
   .pill{left:var(--mx);top:var(--my);
@@ -227,16 +290,29 @@ h2 i{font-style:italic;color:var(--accent)}
   .pill.mob-hide{display:none}
   .row-label{left:var(--mx);top:var(--my)}
 }
+/* .hero-eyebrow, .hero h1 and .hero-lede all get position:relative with NO
+   offset — a pure stacking promotion, not a move. .hero-legibility and the
+   two bottle-cutout images are position:absolute with z-index:auto, which
+   the stacking spec always paints ABOVE plain static text regardless of
+   DOM order; without this promotion the scrim would paint OVER the words
+   it exists to keep legible. .hero-cta gets an explicit z-index on top of
+   that, so it clears the cutout too — CTAs stay on top of everything. */
 .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ink);margin:0 0 20px}
-.hero h1{font-family:var(--serif);font-weight:400;
-  font-size:clamp(38px,7.6vw,92px);line-height:1.02;letter-spacing:-.01em;
-  margin:0 0 26px;max-width:17ch;color:var(--ink)}
+  text-transform:uppercase;color:var(--ink);margin:0 0 20px;position:relative}
+/* font-size caps at 70px (down from a first pass at 110px) because that's
+   what it took, measured against real Georgia Bold glyph metrics and the
+   cutout's own object-fit:cover crop math, to make the bottle graze only
+   the final "e." of "in one place." instead of swallowing the back half
+   of the line. See the overlap note above .hero-headline below. */
+.hero h1{font-family:var(--serif);font-weight:700;position:relative;
+  font-size:clamp(40px,5.6vw,70px);line-height:1.0;letter-spacing:-.015em;
+  margin:0 0 26px;max-width:19ch;color:var(--ink)}
 .hero h1 i{font-style:italic}
 .clause2{opacity:1}
-.hero-lede{font-size:clamp(16px,1.5vw,19px);color:var(--ink-2);max-width:42ch;
-  margin:0 0 34px;line-height:1.6}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero-lede{font-size:clamp(16px,1.5vw,19px);color:var(--ink);max-width:42ch;
+  margin:0 0 34px;line-height:1.6;position:relative}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+  position:relative;z-index:1}
 .hero-cards{margin-top:52px;max-width:420px;opacity:1}
 .hc-cap{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted);margin:0 0 14px}
@@ -275,9 +351,44 @@ h2 i{font-style:italic;color:var(--accent)}
   .js .hero-fade-wash{opacity:0}
   .js .organize-panel{opacity:0}
   .js .hero-fill{position:absolute;inset:0;z-index:6}
+  /* THE GRAZE, MEASURED — the first pass (110px cap, 760px wrapper) made
+     "in one place." swallow ~40% of its own line against the bottle; this
+     was tuned against real Georgia Bold glyph widths (not estimated ch
+     units) plus the cutout's own object-fit:cover crop math at the three
+     checked viewports. "Your whole stack," is the wider line (measures
+     up to 1013px at the type's old 110px cap, which is WHY it was wrapping
+     unintentionally at a 760px wrapper) — 700px comfortably clears it at
+     the new 70px cap with a safety margin, no wrap. Measured overlap of
+     "in one place." against the bottle, at each required width (1280x800,
+     1440x900, 1920x1080): 15.8px (7.5% of the line's last word, "place." —
+     under the width of "e." alone) / 34.8px (16.4%, still under "e.") /
+     44.0px (20.8%, still under "e."). The bottle's own crop shifts with
+     viewport aspect (63% object-position only bites when the box is
+     narrower than 16:9, i.e. 1280x800 and 1440x900; 1920x1080 matches the
+     source aspect exactly, so it shows the raw 40.6% frame position
+     uncropped) while the shell-centered headline's left edge grows faster
+     past 1180px — that's the source of the small increase across the
+     three checkpoints, and why it's re-verified at each width rather than
+     assumed to scale evenly. */
+  .js .hero-headline{position:absolute;left:0;right:0;bottom:33%;
+    max-width:700px;margin-top:0}
   .js .hero-copy{position:absolute;left:0;right:0;bottom:9%;max-width:640px}
   .js .clause2{opacity:0;transition:opacity .2s linear}
   .js .row-label{opacity:0;transition:opacity .2s linear}
+  /* the localized legibility scrim sits behind the headline the whole
+     time (not scroll-driven — it has to hold over both the first and
+     last video frame equally). the settled-bottle cutout stays invisible
+     during playback, fades in once the clip hands off (the SETTLE beat —
+     text visibly behind the bottle for a moment), then heroTick below
+     dissolves it back out as the pills organize, so it never fights the
+     glass tray at the payoff. See the pA/pC comment in the script. */
+  .js .hero-legibility{display:block}
+  .js .hero-bottle-cut{display:block;opacity:0;transition:opacity 1s var(--ease)}
+  #hero.handoff-done .hero-bottle-cut{opacity:1}
+  /* desktop uses .hero-bottle-cut (sandwiched in .hero-fill) instead —
+     without this, the corner-break variant (visible by default for the
+     fallback) would double up behind it inside the pinned video stage */
+  .js .hero-bottle-corner{display:none}
   .js .hero-cards{position:absolute;right:6%;bottom:9%;width:380px;margin:0;
     opacity:0;transform:translateY(16px);transition:opacity .2s linear,transform .2s linear}
   .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
@@ -287,20 +398,32 @@ h2 i{font-style:italic;color:var(--accent)}
        video is a desktop mechanic; forced into a narrow portrait viewport
        it produced the ~3x crop the owner flagged, ending in a hard cut
        into the chapter below. Mobile gets its own simple flow instead:
-       copy -> a framed, native-aspect video card -> the organized list.
-       The video plays once and crossfades to the organized state (see
-       doHandoff in the script) — no scroll-scrub fighting a stacked
-       layout. Desktop pin above, and the reduced-motion/no-JS fallback
-       (outside this .js scope), are both untouched. */
+       headline (dipping into the card below it) -> a framed, native-
+       aspect video card (the settled-bottle cutout breaks its top-right
+       corner) -> supporting copy + CTA -> the organized list. The video
+       plays once and crossfades to the organized state (see doHandoff in
+       the script) — no scroll-scrub fighting a stacked layout. Desktop
+       pin above, and the reduced-motion/no-JS fallback (outside this
+       .js scope), are both untouched. */
     .js .hero{height:auto;padding:0 0 96px}
     .js .hero-pin{position:static;height:auto;overflow:visible;
       display:flex;flex-direction:column}
     .js .hero-fill{display:contents}
 
-    /* copy first, clears the fixed nav, reads immediately — content never
-       depends on the video to be understood */
-    .js .hero-copy{order:1;position:static;bottom:auto;max-width:none;
-      padding:88px 22px 0}
+    /* headline first, clears the fixed nav, reads immediately. Its
+       negative bottom margin pulls ~20-25% of its own line-height down
+       over the card that follows — same "into the scene" move as
+       desktop, scaled to a stacked layout. The desktop-only legibility
+       scrim and full-bleed cutout are switched off; mobile's overlap is
+       plain empty line-height, not glyph ink, so it needs neither — kept
+       to 6px on purpose: Georgia Bold's own descent at the 40px floor most
+       phones render at is only ~9px, so 6px stays inside that whitespace
+       instead of eating into "in one place."'s actual letterforms (that
+       line has no descenders of its own to hide behind). */
+    .js .hero-legibility{display:none}
+    .js .hero-bottle-cut{display:none}
+    .js .hero-headline{order:1;position:static;padding:88px 22px 0;
+      margin:0 0 -6px;max-width:none}
     .js .clause2{opacity:1}
 
     /* the framed widescreen card: full width minus the site's 22px gutter,
@@ -309,8 +432,7 @@ h2 i{font-style:italic;color:var(--accent)}
     .js .spill-stage{order:2;position:relative;inset:auto;height:auto;
       aspect-ratio:1280/720;margin:28px 22px 0;border-radius:18px;
       box-shadow:0 26px 54px -24px rgba(60,45,20,.35)}
-    .js .hero-video,.js .hero-bg-img{object-position:50% 50%}
-    .js .hero-scrim{display:none}
+    .js .hero-video,.js .hero-bg-img,.js .hero-bottle-corner{object-position:50% 50%}
     .js .row-label{display:none}
     .js .organize-panel{left:16%;top:18%;width:68%;height:66%}
     #hero.handoff-done .organize-panel{opacity:1;transition:opacity .6s var(--ease)}
@@ -318,9 +440,26 @@ h2 i{font-style:italic;color:var(--accent)}
       transform .7s var(--ease-out)}
     .js .pill.mob-hide{display:none}
 
-    /* the organized list sits directly under the card, completing the
-       spill -> sorted motion without needing scroll to drive it */
-    .js .hero-cards{order:3;position:static;right:auto;bottom:auto;width:auto;
+    /* the settled-bottle cutout breaks the card's own top-right corner,
+       popping toward the headline once the spill has settled — hidden
+       until the handoff fires, same trigger as the desktop version. The
+       lift is modest on purpose: paired with the 6px headline overlap
+       above, it clears the card's top edge without reaching far enough
+       into "in one place." to cover real letterforms, and the corner
+       mask (base rule) keeps it from doubling the real bottle already
+       visible inside the card. */
+    .js .hero-bottle-corner{display:block;opacity:0;
+      transition:opacity .8s var(--ease);transform:translate(3%,-11%) scale(1.07)}
+    #hero.handoff-done .hero-bottle-corner{opacity:1}
+
+    /* lede + CTA sit directly under the card — no longer sharing a box
+       with the headline, which now lives above the card, not beside it */
+    .js .hero-copy{order:3;position:static;bottom:auto;max-width:none;
+      padding:0 22px;margin-top:26px}
+
+    /* the organized list completes the spill -> sorted motion without
+       needing scroll to drive it */
+    .js .hero-cards{order:4;position:static;right:auto;bottom:auto;width:auto;
       opacity:1;transform:none;padding:0 22px;margin-top:26px}
     .js .scrolldown{display:none}
   }
@@ -535,45 +674,56 @@ footer a:hover{color:var(--ink-2)}
 <header class="hero" id="hero" data-tint="">
   <div class="hero-pin">
     <div class="spill-stage" aria-hidden="true">
-      <img class="hero-bg-img" src="assets/img/home/spill2-frame-last.jpg" alt="" width="1280" height="720">
+      <div class="spill-frame">
+        <img class="hero-bg-img" src="assets/img/home/spill2-frame-last.jpg" alt="" width="1280" height="720">
 
-      <video class="hero-video" id="spillVideo" muted playsinline preload="metadata"
-        poster="assets/img/home/spill2-frame-first.jpg">
-        <source src="assets/img/home/spill2.mp4" type="video/mp4">
-      </video>
+        <video class="hero-video" id="spillVideo" muted playsinline preload="metadata"
+          poster="assets/img/home/spill2-frame-first.jpg">
+          <source src="assets/img/home/spill2.mp4" type="video/mp4">
+        </video>
 
-      <div class="hero-fade-wash" id="heroFadeWash"></div>
-      <div class="organize-panel glass grounded" id="organizePanel"></div>
+        <div class="hero-fade-wash" id="heroFadeWash"></div>
+        <div class="organize-panel glass grounded" id="organizePanel"></div>
 
-      <div class="spill-sprites" id="spillSprites">
-        <div class="pill pill-capsule" style="--ox:56%;--oy:40%;--or:-3deg;--mx:50%;--my:24%;--mr:-3deg;--sc:.9;--cx:28%;--cy:30%" data-sx="10" data-sy="76" data-sr="-20"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:56%;--oy:58%;--or:3deg;--mx:50%;--my:46%;--mr:3deg;--sc:1;--cx:28%;--cy:54%" data-sx="16" data-sy="88" data-sr="30"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:56%;--oy:76%;--or:-3deg;--mx:50%;--my:68%;--mr:-3deg;--sc:1.1;--cx:28%;--cy:78%" data-sx="28" data-sy="84" data-sr="40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-capsule mob-hide" style="--ox:60%;--oy:40%;--or:3deg;--mx:46%;--my:28%;--mr:3deg;--sc:1.22" data-sx="34" data-sy="82" data-sr="35"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet mob-hide" style="--ox:60%;--oy:58%;--or:-3deg;--mx:46%;--my:50%;--mr:-3deg;--sc:.82" data-sx="42" data-sy="86" data-sr="-25"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-softgel mob-hide" style="--ox:60%;--oy:76%;--or:3deg;--mx:46%;--my:72%;--mr:3deg;--sc:.9" data-sx="48" data-sy="70" data-sr="20"><img src="assets/img/home/softgel-green-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:64%;--oy:40%;--or:-3deg;--mx:54%;--my:32%;--mr:-3deg;--sc:1;--cx:50%;--cy:30%" data-sx="6" data-sy="64" data-sr="-40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:64%;--oy:58%;--or:3deg;--mx:54%;--my:54%;--mr:3deg;--sc:1.22;--cx:50%;--cy:54%" data-sx="24" data-sy="72" data-sr="10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:64%;--oy:76%;--or:-3deg;--mx:54%;--my:76%;--mr:-3deg;--sc:1.1;--cx:50%;--cy:78%" data-sx="4" data-sy="86" data-sr="-10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-capsule mob-hide" style="--ox:68%;--oy:40%;--or:3deg;--mx:48%;--my:36%;--mr:3deg;--sc:.9" data-sx="38" data-sy="68" data-sr="15"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet mob-hide" style="--ox:68%;--oy:58%;--or:-3deg;--mx:48%;--my:58%;--mr:-3deg;--sc:1" data-sx="46" data-sy="78" data-sr="-35"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-softgel mob-hide" style="--ox:68%;--oy:76%;--or:3deg;--mx:48%;--my:80%;--mr:3deg;--sc:.82" data-sx="40" data-sy="60" data-sr="50"><img src="assets/img/home/softgel-green-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:72%;--oy:40%;--or:-3deg;--mx:52%;--my:40%;--mr:-3deg;--sc:1.22;--cx:72%;--cy:30%" data-sx="18" data-sy="58" data-sr="25"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:72%;--oy:58%;--or:3deg;--mx:52%;--my:62%;--mr:3deg;--sc:.9;--cx:72%;--cy:54%" data-sx="30" data-sy="62" data-sr="-15"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:72%;--oy:76%;--or:-3deg;--mx:52%;--my:84%;--mr:-3deg;--sc:1;--cx:72%;--cy:78%" data-sx="22" data-sy="90" data-sr="-30"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        <div class="spill-sprites" id="spillSprites">
+          <div class="pill pill-capsule" style="--ox:56%;--oy:40%;--or:-3deg;--mx:50%;--my:24%;--mr:-3deg;--sc:.9;--cx:28%;--cy:30%" data-sx="10" data-sy="76" data-sr="-20"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+          <div class="pill pill-tablet" style="--ox:56%;--oy:58%;--or:3deg;--mx:50%;--my:46%;--mr:3deg;--sc:1;--cx:28%;--cy:54%" data-sx="16" data-sy="88" data-sr="30"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+          <div class="pill pill-capsule" style="--ox:56%;--oy:76%;--or:-3deg;--mx:50%;--my:68%;--mr:-3deg;--sc:1.1;--cx:28%;--cy:78%" data-sx="28" data-sy="84" data-sr="40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+          <div class="pill pill-capsule mob-hide" style="--ox:60%;--oy:40%;--or:3deg;--mx:46%;--my:28%;--mr:3deg;--sc:1.22" data-sx="34" data-sy="82" data-sr="35"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+          <div class="pill pill-tablet mob-hide" style="--ox:60%;--oy:58%;--or:-3deg;--mx:46%;--my:50%;--mr:-3deg;--sc:.82" data-sx="42" data-sy="86" data-sr="-25"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+          <div class="pill pill-softgel mob-hide" style="--ox:60%;--oy:76%;--or:3deg;--mx:46%;--my:72%;--mr:3deg;--sc:.9" data-sx="48" data-sy="70" data-sr="20"><img src="assets/img/home/softgel-green-cut2.png" alt=""></div>
+          <div class="pill pill-capsule" style="--ox:64%;--oy:40%;--or:-3deg;--mx:54%;--my:32%;--mr:-3deg;--sc:1;--cx:50%;--cy:30%" data-sx="6" data-sy="64" data-sr="-40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+          <div class="pill pill-tablet" style="--ox:64%;--oy:58%;--or:3deg;--mx:54%;--my:54%;--mr:3deg;--sc:1.22;--cx:50%;--cy:54%" data-sx="24" data-sy="72" data-sr="10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+          <div class="pill pill-tablet" style="--ox:64%;--oy:76%;--or:-3deg;--mx:54%;--my:76%;--mr:-3deg;--sc:1.1;--cx:50%;--cy:78%" data-sx="4" data-sy="86" data-sr="-10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+          <div class="pill pill-capsule mob-hide" style="--ox:68%;--oy:40%;--or:3deg;--mx:48%;--my:36%;--mr:3deg;--sc:.9" data-sx="38" data-sy="68" data-sr="15"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+          <div class="pill pill-tablet mob-hide" style="--ox:68%;--oy:58%;--or:-3deg;--mx:48%;--my:58%;--mr:-3deg;--sc:1" data-sx="46" data-sy="78" data-sr="-35"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+          <div class="pill pill-softgel mob-hide" style="--ox:68%;--oy:76%;--or:3deg;--mx:48%;--my:80%;--mr:3deg;--sc:.82" data-sx="40" data-sy="60" data-sr="50"><img src="assets/img/home/softgel-green-cut2.png" alt=""></div>
+          <div class="pill pill-capsule" style="--ox:72%;--oy:40%;--or:-3deg;--mx:52%;--my:40%;--mr:-3deg;--sc:1.22;--cx:72%;--cy:30%" data-sx="18" data-sy="58" data-sr="25"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+          <div class="pill pill-tablet" style="--ox:72%;--oy:58%;--or:3deg;--mx:52%;--my:62%;--mr:3deg;--sc:.9;--cx:72%;--cy:54%" data-sx="30" data-sy="62" data-sr="-15"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+          <div class="pill pill-capsule" style="--ox:72%;--oy:76%;--or:-3deg;--mx:52%;--my:84%;--mr:-3deg;--sc:1;--cx:72%;--cy:78%" data-sx="22" data-sy="90" data-sr="-30"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        </div>
+
+        <p class="row-label" style="--ox:52%;--oy:33%;--mx:50%;--my:16%">Semaglutide<span>0.5 mg · weekly</span></p>
+        <p class="row-label" style="--ox:52%;--oy:51%;--mx:50%;--my:38%">Vitamin D3<span>1 capsule · daily</span></p>
+        <p class="row-label" style="--ox:52%;--oy:69%;--mx:50%;--my:60%">Magnesium<span>2 capsules · nightly</span></p>
       </div>
 
-      <p class="row-label" style="--ox:52%;--oy:33%;--mx:50%;--my:16%">Semaglutide<span>0.5 mg · weekly</span></p>
-      <p class="row-label" style="--ox:52%;--oy:51%;--mx:50%;--my:38%">Vitamin D3<span>1 capsule · daily</span></p>
-      <p class="row-label" style="--ox:52%;--oy:69%;--mx:50%;--my:60%">Magnesium<span>2 capsules · nightly</span></p>
-
-      <div class="hero-scrim"></div>
+      <img class="hero-bottle-corner" src="assets/img/home/bottle-settled-cut.png"
+        alt="" width="1280" height="720">
     </div>
 
     <div class="shell hero-fill">
-      <div class="hero-copy">
+      <div class="hero-legibility" aria-hidden="true"></div>
+
+      <div class="hero-headline">
         <p class="hero-eyebrow rv">Stack</p>
         <h1 class="rv rv2">Your whole stack,<br><i class="clause2">in one place.</i></h1>
+      </div>
+
+      <img class="hero-bottle-cut" src="assets/img/home/bottle-settled-cut.png"
+        alt="" aria-hidden="true" width="1280" height="720">
+
+      <div class="hero-copy">
         <p class="hero-lede rv rv3">Medications, peptides, and supplements —
         however it lands on the counter, Stack sorts it into one calm list.</p>
         <div class="hero-cta rv rv4">
@@ -947,6 +1097,7 @@ footer a:hover{color:var(--ink-2)}
   var heroBgImg = document.querySelector('.hero-bg-img');
   var heroFadeWash = document.getElementById('heroFadeWash');
   var organizePanel = document.getElementById('organizePanel');
+  var heroBottleCut = document.querySelector('.hero-bottle-cut');
 
   function num(el, prop){ return parseFloat(getComputedStyle(el).getPropertyValue(prop)) || 0; }
   var pillData = pills.map(function(el){
@@ -984,10 +1135,13 @@ footer a:hover{color:var(--ink-2)}
     handoffDone = true;
     if(video) video.classList.add('faded');
     if(spriteLayer) spriteLayer.classList.add('handoff');
+    /* drives both cutout fade-ins (#hero.handoff-done .hero-bottle-cut /
+       .hero-bottle-corner) as well as mobile's organize-panel reveal —
+       one flag, same moment, every mode */
+    hero.classList.add('handoff-done');
     if(isMobile){
       /* crossfade straight to the organized end-state — CSS transitions
          on .pill (max-width:900px) animate the settle */
-      hero.classList.add('handoff-done');
       pillData.forEach(function(d){
         d.el.style.left = d.cx + '%';
         d.el.style.top = d.cy + '%';
@@ -1054,6 +1208,26 @@ footer a:hover{color:var(--ink-2)}
     if(heroBgImg) heroBgImg.style.filter = groundFilter;
     if(video) video.style.filter = groundFilter;
     if(heroFadeWash) heroFadeWash.style.opacity = pD * .62;
+
+    /* THE SETTLE BEAT, THEN THE HANDOFF TO THE TRAY — the cutout's job is
+       the moment right after handoff (text visibly behind the bottle);
+       it is NOT supposed to still be sitting on top of the glass tray by
+       the time pB reveals it. Holds at full opacity through the first
+       35% of pA (the beat) then dissolves through the rest of pA's range,
+       in the SAME wash (blur/desaturate/lighten) already computed above
+       for the background, so it feels like it recedes into the ground
+       rather than just vanishing. Left at 8% rather than 0 — a hard cut
+       read as a glitch when this was tested at 0. By pA=1 (p=0.45) it's
+       essentially gone, well before pB's 0.85 starts revealing the tray,
+       so the two beats never compete for the same pixels. Gated on
+       handoffDone so this can't paint the cutout in before the video
+       has actually ended (pA can be >0 on the very first tick after
+       forceHandoff fires, but so can handoffDone, in the same tick). */
+    if(handoffDone && heroBottleCut){
+      var pC = clamp((pA - 0.35) / 0.65);
+      heroBottleCut.style.opacity = 1 - pC * 0.92;
+      heroBottleCut.style.filter = groundFilter;
+    }
 
     var panelOp = clamp((p - 0.26) / 0.17);
     if(organizePanel) organizePanel.style.opacity = panelOp * (1 - pB);
