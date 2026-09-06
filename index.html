@@ -182,6 +182,13 @@ h2 i{font-style:italic;color:var(--accent)}
 
 /* ═══ HERO / THE SPILL ══════════════════════════════════════════════════ */
 .hero{position:relative;padding:126px 0 70px}
+.hero-ground-fade{position:absolute;left:0;right:0;bottom:0;height:120px;
+  z-index:9;pointer-events:none;
+  /* softens the media/ground seam (mobile + desktop): ramps into
+     --ground-1 (#EFE4CC) instead of cutting straight into the next
+     chapter's flat tone */
+  background:linear-gradient(180deg,rgba(239,228,204,0) 0%,
+    rgba(239,228,204,.45) 55%,rgba(239,228,204,.85) 100%)}
 .hero-pin{position:relative}
 .spill-stage{position:relative;height:300px;margin:0 0 40px;border-radius:20px;
   overflow:hidden;background:#0000}
@@ -276,15 +283,46 @@ h2 i{font-style:italic;color:var(--accent)}
   .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
     margin:0;transition:opacity .25s linear}
   @media (max-width:900px){
-    /* static mobile hero copy must clear the fixed nav, or the headline slides under it */
-    .js .hero-copy{position:static;bottom:auto;max-width:none;padding:88px 22px 24px}
-    .js .hero-cards{position:static;right:auto;bottom:auto;width:auto;
-      opacity:1;transform:none;padding:0 22px;margin-top:8px}
+    /* MOBILE HERO REWORK — the sticky-pin, scroll-scrubbed, full-bleed
+       video is a desktop mechanic; forced into a narrow portrait viewport
+       it produced the ~3x crop the owner flagged, ending in a hard cut
+       into the chapter below. Mobile gets its own simple flow instead:
+       copy -> a framed, native-aspect video card -> the organized list.
+       The video plays once and crossfades to the organized state (see
+       doHandoff in the script) — no scroll-scrub fighting a stacked
+       layout. Desktop pin above, and the reduced-motion/no-JS fallback
+       (outside this .js scope), are both untouched. */
+    .js .hero{height:auto;padding:0 0 96px}
+    .js .hero-pin{position:static;height:auto;overflow:visible;
+      display:flex;flex-direction:column}
+    .js .hero-fill{display:contents}
+
+    /* copy first, clears the fixed nav, reads immediately — content never
+       depends on the video to be understood */
+    .js .hero-copy{order:1;position:static;bottom:auto;max-width:none;
+      padding:88px 22px 0}
+    .js .clause2{opacity:1}
+
+    /* the framed widescreen card: full width minus the site's 22px gutter,
+       aspect-ratio locked to the source's native 1280x720 — cover crops
+       nothing because the box and the media share the same ratio */
+    .js .spill-stage{order:2;position:relative;inset:auto;height:auto;
+      aspect-ratio:1280/720;margin:28px 22px 0;border-radius:18px;
+      box-shadow:0 26px 54px -24px rgba(60,45,20,.35)}
+    .js .hero-video,.js .hero-bg-img{object-position:50% 50%}
+    .js .hero-scrim{display:none}
+    .js .row-label{display:none}
+    .js .organize-panel{left:16%;top:18%;width:68%;height:66%}
+    #hero.handoff-done .organize-panel{opacity:1;transition:opacity .6s var(--ease)}
+    .js .pill{transition:left .7s var(--ease-out),top .7s var(--ease-out),
+      transform .7s var(--ease-out)}
+    .js .pill.mob-hide{display:none}
+
+    /* the organized list sits directly under the card, completing the
+       spill -> sorted motion without needing scroll to drive it */
+    .js .hero-cards{order:3;position:static;right:auto;bottom:auto;width:auto;
+      opacity:1;transform:none;padding:0 22px;margin-top:26px}
     .js .scrolldown{display:none}
-  }
-  @media (max-width:700px){
-    .js .hero{height:190vh}
-    .js .hero-video,.hero-bg-img{object-position:54% 58%}
   }
 }
 
@@ -508,21 +546,21 @@ footer a:hover{color:var(--ink-2)}
       <div class="organize-panel glass grounded" id="organizePanel"></div>
 
       <div class="spill-sprites" id="spillSprites">
-        <div class="pill pill-capsule" style="--ox:56%;--oy:40%;--or:-3deg;--mx:50%;--my:24%;--mr:-3deg;--sc:.9" data-sx="10" data-sy="76" data-sr="-20"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:56%;--oy:58%;--or:3deg;--mx:50%;--my:46%;--mr:3deg;--sc:1" data-sx="16" data-sy="88" data-sr="30"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:56%;--oy:76%;--or:-3deg;--mx:50%;--my:68%;--mr:-3deg;--sc:1.1" data-sx="28" data-sy="84" data-sr="40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        <div class="pill pill-capsule" style="--ox:56%;--oy:40%;--or:-3deg;--mx:50%;--my:24%;--mr:-3deg;--sc:.9;--cx:28%;--cy:30%" data-sx="10" data-sy="76" data-sr="-20"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        <div class="pill pill-tablet" style="--ox:56%;--oy:58%;--or:3deg;--mx:50%;--my:46%;--mr:3deg;--sc:1;--cx:28%;--cy:54%" data-sx="16" data-sy="88" data-sr="30"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+        <div class="pill pill-capsule" style="--ox:56%;--oy:76%;--or:-3deg;--mx:50%;--my:68%;--mr:-3deg;--sc:1.1;--cx:28%;--cy:78%" data-sx="28" data-sy="84" data-sr="40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
         <div class="pill pill-capsule mob-hide" style="--ox:60%;--oy:40%;--or:3deg;--mx:46%;--my:28%;--mr:3deg;--sc:1.22" data-sx="34" data-sy="82" data-sr="35"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
         <div class="pill pill-tablet mob-hide" style="--ox:60%;--oy:58%;--or:-3deg;--mx:46%;--my:50%;--mr:-3deg;--sc:.82" data-sx="42" data-sy="86" data-sr="-25"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
         <div class="pill pill-softgel mob-hide" style="--ox:60%;--oy:76%;--or:3deg;--mx:46%;--my:72%;--mr:3deg;--sc:.9" data-sx="48" data-sy="70" data-sr="20"><img src="assets/img/home/softgel-green-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:64%;--oy:40%;--or:-3deg;--mx:54%;--my:32%;--mr:-3deg;--sc:1" data-sx="6" data-sy="64" data-sr="-40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:64%;--oy:58%;--or:3deg;--mx:54%;--my:54%;--mr:3deg;--sc:1.22" data-sx="24" data-sy="72" data-sr="10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:64%;--oy:76%;--or:-3deg;--mx:54%;--my:76%;--mr:-3deg;--sc:1.1" data-sx="4" data-sy="86" data-sr="-10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+        <div class="pill pill-capsule" style="--ox:64%;--oy:40%;--or:-3deg;--mx:54%;--my:32%;--mr:-3deg;--sc:1;--cx:50%;--cy:30%" data-sx="6" data-sy="64" data-sr="-40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        <div class="pill pill-tablet" style="--ox:64%;--oy:58%;--or:3deg;--mx:54%;--my:54%;--mr:3deg;--sc:1.22;--cx:50%;--cy:54%" data-sx="24" data-sy="72" data-sr="10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+        <div class="pill pill-tablet" style="--ox:64%;--oy:76%;--or:-3deg;--mx:54%;--my:76%;--mr:-3deg;--sc:1.1;--cx:50%;--cy:78%" data-sx="4" data-sy="86" data-sr="-10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
         <div class="pill pill-capsule mob-hide" style="--ox:68%;--oy:40%;--or:3deg;--mx:48%;--my:36%;--mr:3deg;--sc:.9" data-sx="38" data-sy="68" data-sr="15"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
         <div class="pill pill-tablet mob-hide" style="--ox:68%;--oy:58%;--or:-3deg;--mx:48%;--my:58%;--mr:-3deg;--sc:1" data-sx="46" data-sy="78" data-sr="-35"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
         <div class="pill pill-softgel mob-hide" style="--ox:68%;--oy:76%;--or:3deg;--mx:48%;--my:80%;--mr:3deg;--sc:.82" data-sx="40" data-sy="60" data-sr="50"><img src="assets/img/home/softgel-green-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:72%;--oy:40%;--or:-3deg;--mx:52%;--my:40%;--mr:-3deg;--sc:1.22" data-sx="18" data-sy="58" data-sr="25"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        <div class="pill pill-tablet" style="--ox:72%;--oy:58%;--or:3deg;--mx:52%;--my:62%;--mr:3deg;--sc:.9" data-sx="30" data-sy="62" data-sr="-15"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-        <div class="pill pill-capsule" style="--ox:72%;--oy:76%;--or:-3deg;--mx:52%;--my:84%;--mr:-3deg;--sc:1" data-sx="22" data-sy="90" data-sr="-30"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        <div class="pill pill-capsule" style="--ox:72%;--oy:40%;--or:-3deg;--mx:52%;--my:40%;--mr:-3deg;--sc:1.22;--cx:72%;--cy:30%" data-sx="18" data-sy="58" data-sr="25"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
+        <div class="pill pill-tablet" style="--ox:72%;--oy:58%;--or:3deg;--mx:52%;--my:62%;--mr:3deg;--sc:.9;--cx:72%;--cy:54%" data-sx="30" data-sy="62" data-sr="-15"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
+        <div class="pill pill-capsule" style="--ox:72%;--oy:76%;--or:-3deg;--mx:52%;--my:84%;--mr:-3deg;--sc:1;--cx:72%;--cy:78%" data-sx="22" data-sy="90" data-sr="-30"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
       </div>
 
       <p class="row-label" style="--ox:52%;--oy:33%;--mx:50%;--my:16%">Semaglutide<span>0.5 mg · weekly</span></p>
@@ -565,6 +603,7 @@ footer a:hover{color:var(--ink-2)}
 
     <p class="scrolldown" id="scrolldown" aria-hidden="true">Scroll<i></i></p>
   </div>
+  <div class="hero-ground-fade" aria-hidden="true"></div>
 </header>
 
 <!-- ═══ CHAPTER 01 · THE APP PANEL ═════════════════════════════════════════ -->
@@ -841,8 +880,10 @@ footer a:hover{color:var(--ink-2)}
 <script>
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isMobile = matchMedia('(max-width: 700px)').matches;
-  addEventListener('resize', function(){ isMobile = matchMedia('(max-width: 700px)').matches; });
+  /* 900px matches the mobile hero breakpoint below — under it, the hero
+     drops the scroll-scrub pin for a simple framed-card + crossfade flow */
+  var isMobile = matchMedia('(max-width: 900px)').matches;
+  addEventListener('resize', function(){ isMobile = matchMedia('(max-width: 900px)').matches; });
 
   /* ── email links (same obfuscation pattern as assets/js/site.js) ────── */
   var EMAIL = "hello@trackyourstack.app";
@@ -913,13 +954,27 @@ footer a:hover{color:var(--ink-2)}
       el: el,
       sx: +el.dataset.sx, sy: +el.dataset.sy, sr: +el.dataset.sr,
       ox: num(el,'--ox'), oy: num(el,'--oy'), or: num(el,'--or'),
-      mx: num(el,'--mx'), my: num(el,'--my'), mr: num(el,'--mr')
+      mx: num(el,'--mx'), my: num(el,'--my'), mr: num(el,'--mr'),
+      cx: num(el,'--cx'), cy: num(el,'--cy')
     };
   });
 
   function clamp(v){ return Math.max(0, Math.min(1, v)); }
   function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
   function lerp(from, to, t){ return t >= 1 ? to : from + (to - from) * t; }
+
+  /* Mobile has no scroll-scrub (see the max-width:900px CSS) — start the
+     pills at their scattered position once, up front, instead of relying
+     on the per-scroll lerp below (which a static-height mobile hero never
+     drives past p=0 anyway). */
+  if(isMobile){
+    pillData.forEach(function(d){
+      d.el.style.left = d.sx + '%';
+      d.el.style.top = d.sy + '%';
+      d.el.style.transform = 'translate(-50%,-50%) rotate(' + d.sr + 'deg) scale(var(--sc,1))';
+      d.el.style.opacity = 1;
+    });
+  }
 
   var video = document.getElementById('spillVideo');
   var spriteLayer = document.getElementById('spillSprites');
@@ -929,6 +984,17 @@ footer a:hover{color:var(--ink-2)}
     handoffDone = true;
     if(video) video.classList.add('faded');
     if(spriteLayer) spriteLayer.classList.add('handoff');
+    if(isMobile){
+      /* crossfade straight to the organized end-state — CSS transitions
+         on .pill (max-width:900px) animate the settle */
+      hero.classList.add('handoff-done');
+      pillData.forEach(function(d){
+        d.el.style.left = d.cx + '%';
+        d.el.style.top = d.cy + '%';
+        d.el.style.transform = 'translate(-50%,-50%) rotate(' + d.mr + 'deg) scale(var(--sc,1))';
+        d.el.style.opacity = 1;
+      });
+    }
   }
   function forceHandoff(){
     if(handoffDone || !video) return;
@@ -940,11 +1006,18 @@ footer a:hover{color:var(--ink-2)}
     video.addEventListener('ended', doHandoff);
     var playAttempt = video.play();
     if(playAttempt && playAttempt.catch) playAttempt.catch(function(){});
+    /* safety net: if autoplay is blocked or the clip stalls (data-saver,
+       slow connection), still land on the organized state */
+    if(isMobile) setTimeout(forceHandoff, 6000);
   } else {
     doHandoff();
   }
 
   function heroTick(){
+    /* mobile hero is normal document flow now (no sticky pin to scrub
+       against) — its state is driven by doHandoff() instead, on the
+       video's own timeline */
+    if(isMobile) return;
     var r = hero.getBoundingClientRect();
     var total = r.height - innerHeight;
     var p = total > 0 ? clamp(-r.top / total) : 0;
