@@ -24,14 +24,14 @@ from PIL import Image, ImageFilter
 from scipy import ndimage
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.path.join(ROOT, "assets", "img", "home", "spill2-frame-last.jpg")
+SRC = os.path.join(ROOT, "assets", "img", "home", "spill3-frame-last.jpg")
 OUT = os.path.join(ROOT, "assets", "img", "home", "bottle-settled-cut.png")
 
-# Crop the bottle + the capsules right at its mouth first, so rembg targets
-# just that object instead of guessing across the whole 1280x720 kitchen
-# scene (window, cabinets, the separately-scattered capsules on the far left
-# that the CSS pill sprites already own).
-BBOX = (520, 240, 1220, 700)
+# Crop the bottle + cap first, so rembg targets just that object instead of
+# guessing across the whole 1280x720 stone-counter scene (the separately-
+# scattered tablets on the left that the CSS pill sprites already own).
+# v2 (spill3): bottle x~660-1070, cap x~1010-1210, y~250-540.
+BBOX = (640, 230, 1240, 560)
 FEATHER_PX = 1.5
 
 
