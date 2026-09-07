@@ -21,7 +21,7 @@
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/home/spill6-frame-last.jpg" as="image">
+<link rel="preload" href="assets/img/home/spill7-frame-last.jpg" as="image">
 
 <style>
 /* Self-hosted, matching the site's convention — no external font CDN. */
@@ -531,15 +531,15 @@ footer a:hover{color:var(--ink-2)}
   <div class="hero-pin">
     <div class="spill-stage" aria-hidden="true">
       <div class="spill-frame">
-        <img class="hero-bg-img" src="assets/img/home/spill6-frame-last.jpg" alt="" width="1280" height="720">
+        <img class="hero-bg-img" src="assets/img/home/spill7-frame-last.jpg" alt="" width="1280" height="720">
 
         <!-- preload=auto on purpose: desktop SCRUBS this clip (scroll →
              currentTime), which needs the whole file buffered. It is the
              entire story — bottle tips, pours, pills gather into the
              organizer — played backwards-filmed for the gather beat. -->
         <video class="hero-video" id="spillVideo" muted playsinline preload="auto"
-          poster="assets/img/home/spill6-frame-first.jpg">
-          <source src="assets/img/home/spill6.mp4" type="video/mp4">
+          poster="assets/img/home/spill7-frame-first.jpg">
+          <source src="assets/img/home/spill7.mp4" type="video/mp4">
         </video>
 
         <div class="hero-fade-wash" id="heroFadeWash"></div>
@@ -946,11 +946,12 @@ footer a:hover{color:var(--ink-2)}
          hallucinate. */
       var e = easeInOut(p);
       if(bgImg){
-        /* subtle drift only — 1.18 max keeps the 1128px source sharp on
-           a 2-3x phone display (a 1.7x first pass went soft, which is
-           the one thing this page is never allowed to do) */
-        var s = 1.18 - 0.18 * e;
-        var ty = (1 - e) * -3;
+        /* subtle drift — 1.25 max stays inside the 1800px finish-graded
+           source on a 3x phone display (a 1.7x pass on the old 1128px
+           source went soft, which is the one thing this page is never
+           allowed to do) */
+        var s = 1.25 - 0.25 * e;
+        var ty = (1 - e) * -4;
         bgImg.style.transform = 'scale(' + s + ') translate(0,' + ty + '%)';
       }
       if(clause2) clause2.style.opacity = clamp((p - 0.55) / 0.15);
