@@ -1,0 +1,8 @@
+﻿name = "stack-waitlist"
+main = "index.js"
+compatibility_date = "2026-09-01"
+
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "3b65e5495f0d40ae9b05ff7b8363f182"
+

@@ -458,6 +458,12 @@ h2 i{font-style:italic;color:var(--accent)}
 .close h2{max-width:20ch;margin:0 auto 18px}
 .close .lede{margin:0 auto 14px;text-align:center}
 .close .fine-cta{font-size:13px;color:var(--muted);margin:16px 0 0}
+.close-waitlist{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.close-waitlist input{height:52px;padding:0 18px;border-radius:999px;
+  border:1px solid var(--line-2);background:rgba(255,255,255,.55);
+  font:inherit;font-size:15px;color:var(--ink);min-width:min(300px,72vw)}
+.close-waitlist input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.close-waitlist input::placeholder{color:var(--muted)}
 .badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:30px 0 14px}
 .badge{display:inline-flex;flex-direction:column;align-items:flex-start;
   gap:1px;padding:9px 18px;border-radius:12px;border:1px solid var(--line-2);
@@ -806,9 +812,13 @@ footer a:hover{color:var(--ink-2)}
     <h2 class="rv rv2">Get Stack.</h2>
     <p class="lede rv rv3">One list for everything you take.</p>
     <div class="rv rv4">
-      <a class="btn btn-p btn-lg" href="#" data-email-link>Get Stack</a>
-      <p class="fine-cta">Android first, very soon — iOS after. Email us
-      and we'll tell you the moment it's live.</p>
+      <form class="close-waitlist" id="closeWaitlist" novalidate>
+        <input type="email" name="email" required placeholder="you@email.com"
+          autocomplete="email" aria-label="Email address">
+        <button class="btn btn-p btn-lg" type="submit">Get Stack</button>
+      </form>
+      <p class="fine-cta" id="waitlistNote">Android first, very soon — iOS
+      after. Leave your email and we'll tell you the moment it's live.</p>
     </div>
     <div class="badges rv rv4">
       <span class="badge"><b>App Store</b><span>coming soon</span></span>
@@ -853,6 +863,41 @@ footer a:hover{color:var(--ink-2)}
   document.querySelectorAll('[data-email-link]').forEach(function(a){
     a.setAttribute('href', 'mailto:' + EMAIL);
   });
+
+  /* ── waitlist (close section) → the same Worker site.js uses ────────── */
+  var WAITLIST_ENDPOINT = 'https://stack-waitlist.squeeze251.workers.dev';
+  var wlForm = document.getElementById('closeWaitlist');
+  if(wlForm){
+    wlForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = wlForm.querySelector('[name="email"]');
+      var note = document.getElementById('waitlistNote');
+      var email = (input.value || '').trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+        note.textContent = 'That email doesn’t look right — try again?';
+        input.focus();
+        return;
+      }
+      var btn = wlForm.querySelector('button');
+      btn.disabled = true;
+      fetch(WAITLIST_ENDPOINT, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: email})
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if(d && d.ok){
+          note.textContent = 'You’re on the list — we’ll email you the moment it’s live.';
+          input.value = '';
+        } else {
+          note.textContent = 'Something hiccuped — try again in a minute.';
+        }
+      }).catch(function(){
+        note.textContent = 'Something hiccuped — try again in a minute.';
+      });
+      /* re-enable regardless of outcome (.finally isn't everywhere) */
+      setTimeout(function(){ btn.disabled = false; }, 1500);
+    });
+  }
 
   /* ── entrance reveals ─────────────────────────────────────────────── */
   var io = new IntersectionObserver(function(es){
