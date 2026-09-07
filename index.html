@@ -21,7 +21,7 @@
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/home/spill4-frame-last.jpg" as="image">
+<link rel="preload" href="assets/img/home/spill6-frame-last.jpg" as="image">
 
 <style>
 /* Self-hosted, matching the site's convention — no external font CDN. */
@@ -212,7 +212,7 @@ h2 i{font-style:italic;color:var(--accent)}
    ruling: the sprite pills + popup tray looked terrible — the FOOTAGE
    now carries the whole organize story): a single mono caption chip that
    fades in beside the filled organizer at the end of the scrub. */
-.org-chip{position:absolute;left:46%;top:55%;z-index:3;margin:0;
+.org-chip{position:absolute;left:34%;top:74%;z-index:3;margin:0;
   font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-2);padding:9px 14px;opacity:1;
   white-space:nowrap}
@@ -265,7 +265,7 @@ h2 i{font-style:italic;color:var(--accent)}
   /* 300vh (up from 230): the clip is now the WHOLE ~10s story — tip,
      pour, gather into the organizer — scrubbed by scroll, so it gets a
      longer runway for finer frame control under the thumb. */
-  .js .hero{height:300vh;padding:0}
+  .js .hero{height:340vh;padding:0}
   .js .hero-pin{position:sticky;top:0;height:100svh;overflow:hidden}
   .js .spill-stage{position:absolute;inset:0;height:auto;margin:0;border-radius:0}
   .js .hero-video{display:block;opacity:1}
@@ -273,13 +273,14 @@ h2 i{font-style:italic;color:var(--accent)}
   .js .hero-fade-wash{opacity:0}
   .js .org-chip{opacity:0;transition:opacity .3s linear}
   .js .hero-fill{position:absolute;inset:0;z-index:6}
-  /* v2 geometry: the headline owns the asset's clean left field and must
-     end BEFORE the bottle starts — no graze, no overlap, re-verified
-     against the shipped spill3 frame at 1280x800 / 1440x900 / 1920x1080
-     (see the crop note on .hero-bg-img's object-position). */
-  .js .hero-headline{position:absolute;left:0;right:0;bottom:33%;
+  /* v4 geometry: the copy block lives in the UPPER-LEFT for the whole
+     film — every shot in the cut keeps that region clean wall (shot A
+     wide, shot B close-up, shot C payoff), so nothing ever overlaps the
+     type and no dip choreography is needed. The lower field belongs to
+     the film: bottle, pour, pills, and finally the phone bottom-right. */
+  .js .hero-headline{position:absolute;left:0;right:0;top:13%;
     max-width:640px;margin-top:0}
-  .js .hero-copy{position:absolute;left:0;right:0;bottom:9%;max-width:640px}
+  .js .hero-copy{position:absolute;left:0;right:0;top:44%;max-width:520px}
   .js .clause2{opacity:0;transition:opacity .2s linear}
   .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
     margin:0;transition:opacity .25s linear}
@@ -538,15 +539,15 @@ footer a:hover{color:var(--ink-2)}
   <div class="hero-pin">
     <div class="spill-stage" aria-hidden="true">
       <div class="spill-frame">
-        <img class="hero-bg-img" src="assets/img/home/spill4-frame-last.jpg" alt="" width="1280" height="720">
+        <img class="hero-bg-img" src="assets/img/home/spill6-frame-last.jpg" alt="" width="1280" height="720">
 
         <!-- preload=auto on purpose: desktop SCRUBS this clip (scroll →
              currentTime), which needs the whole file buffered. It is the
              entire story — bottle tips, pours, pills gather into the
              organizer — played backwards-filmed for the gather beat. -->
         <video class="hero-video" id="spillVideo" muted playsinline preload="auto"
-          poster="assets/img/home/spill4-frame-first.jpg">
-          <source src="assets/img/home/spill4.mp4" type="video/mp4">
+          poster="assets/img/home/spill6-frame-first.jpg">
+          <source src="assets/img/home/spill6.mp4" type="video/mp4">
         </video>
 
         <div class="hero-fade-wash" id="heroFadeWash"></div>
@@ -940,7 +941,7 @@ footer a:hover{color:var(--ink-2)}
         video.style.opacity = 0;
       });
       /* stall net: land on the organized state no matter what */
-      setTimeout(function(){ hero.classList.add('story-done'); }, 14000);
+      setTimeout(function(){ hero.classList.add('story-done'); }, 18000);
     }
   } else if(video){
     video.pause();
@@ -969,10 +970,11 @@ footer a:hover{color:var(--ink-2)}
       }
     }
 
-    /* copy beats ride the story: the italic clause lands as the pills
-       start gathering; the caption chip only once the organizer is full */
-    if(clause2) clause2.style.opacity = clamp((p - 0.52) / 0.16);
-    if(orgChip) orgChip.style.opacity = clamp((p - 0.88) / 0.1);
+    /* the copy block sits top-left over clean wall in every shot, so it
+       stays put the whole film; only the italic clause and the caption
+       chip ride the story's payoff */
+    if(clause2) clause2.style.opacity = clamp((p - 0.72) / 0.12);
+    if(orgChip) orgChip.style.opacity = clamp((p - 0.9) / 0.08);
     if(scrolldownEl) scrolldownEl.style.opacity = 1 - clamp(p / 0.06);
   }
 
