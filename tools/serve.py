@@ -62,7 +62,9 @@ def main():
     print("serving %s on http://localhost:%d (Range-capable)" % (ROOT, port))
     # Threading matters: a browser holds media connections open, and a
     # single-threaded server would block every other client behind them.
-    ThreadingHTTPServer(("127.0.0.1", port), RangeHandler).serve_forever()
+    # 0.0.0.0 so Sim's phone on the same wifi can open the real page —
+    # a screen recording of a scroll-driven hero is not the experience.
+    ThreadingHTTPServer(("0.0.0.0", port), RangeHandler).serve_forever()
 
 
 if __name__ == "__main__":
