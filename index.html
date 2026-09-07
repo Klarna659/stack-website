@@ -21,7 +21,7 @@
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/home/spill3-frame-last.jpg" as="image">
+<link rel="preload" href="assets/img/home/spill4-frame-last.jpg" as="image">
 
 <style>
 /* Self-hosted, matching the site's convention — no external font CDN. */
@@ -32,11 +32,14 @@
   font-display:swap;
 }
 /* ═══════════════════════════════════════════════════════════════════════
-   STACK · HOMEPAGE (final, built from mockups/spill-to-stack.html)
+   STACK · HOMEPAGE (v3 story hero, 2026-09-06)
    One world: a single fixed photographic counter-ground runs the whole
-   page, tinted per chapter — never a new image. The hero's spill→handoff
-   mechanic (video → cutout sprites → organized dose list) is kept intact
-   verbatim. Below it: the app panel (a CSS/HTML-drawn "Your stack" phone
+   page, tinted per chapter — never a new image. The hero is ONE ~10s
+   photoreal clip scrubbed by scroll: the bottle tips, pills pour out,
+   and gather themselves into a weekly organizer (that beat filmed in
+   reverse). No sprites, no popup tray, no blur, no scrim — the footage
+   carries the story (Sim's ruling). Below it: the app panel (a
+   CSS/HTML-drawn "Your stack" phone
    screen, not a screenshot, so it's crisp at any DPI and matches the real
    app's dark surface exactly), Sage, the library, a compact "under the
    hood" grid, an honest empty reviews state, and the close.
@@ -196,10 +199,6 @@ h2 i{font-style:italic;color:var(--accent)}
 .hero-pin{position:relative}
 .spill-stage{position:relative;height:300px;margin:0 0 40px;border-radius:20px;
   background:#0000}
-/* the clip used to live on .spill-stage itself; it moved to this inner frame
-   so ONE sibling — the settled-bottle cutout — can escape the rounded box
-   and visually break its corner, while everything else (video, sprites,
-   the organize panel) stays clipped exactly as before. */
 .spill-frame{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
 .hero-bg-img{position:absolute;inset:0;z-index:0;width:100%;height:100%;
   object-fit:cover;object-position:63% 50%;
@@ -209,46 +208,15 @@ h2 i{font-style:italic;color:var(--accent)}
   transition:opacity .6s var(--ease)}
 .hero-fade-wash{position:absolute;inset:0;z-index:2;pointer-events:none;
   background:rgba(251,247,237,.72);opacity:.62}
-.organize-panel{position:absolute;left:42%;top:24%;width:42%;height:64%;
-  z-index:3;border-radius:24px;opacity:1}
-@media (max-width:700px){.organize-panel{left:22%;top:8%;width:64%;height:84%}}
-.spill-sprites{position:absolute;inset:0;z-index:4}
-.pill{position:absolute;left:var(--ox);top:var(--oy);pointer-events:none;
-  transform:translate(-50%,-50%) rotate(var(--or)) scale(var(--sc,1))}
-.pill img{display:block;filter:drop-shadow(0 3px 5px rgba(40,30,15,.32))}
-.pill-capsule img{width:47px}
-.pill-tablet img{width:41px}
-.pill-softgel img{width:43px}
-.row-label{position:absolute;left:var(--ox);top:var(--oy);z-index:4;
-  transform:translateY(-50%);white-space:nowrap;margin:0;
-  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-2);
-  background:rgba(255,251,242,.75);border:1px solid var(--line);border-radius:8px;
-  padding:5px 10px;opacity:1}
-.row-label span{display:block;color:var(--muted);font-size:9.5px;margin-top:1px}
-/* the settled-bottle cutout: a transparent PNG cut from the video's own
-   last frame (tools/gen_bottle_cutout.py), sized to the SAME 1280x720
-   canvas and given the SAME object-fit/object-position as the video/
-   bg-img it was cut from. That shared math is what makes it land in
-   exactly the same screen spot the bottle occupies at rest, at any
-   viewport size, with zero per-breakpoint coordinate guessing.
-   One instance since the v2 rework (the desktop "text behind the bottle"
-   settle-beat variant is DELETED — Sim's 2026-09-06 ruling; type never
-   overlaps the bottle now):
-   .hero-bottle-corner — mobile + the reduced-motion/no-JS fallback,
-                        lives on .spill-stage itself and is nudged just
-                        outside .spill-frame's clip so it breaks the
-                        card's own top-right corner. */
-/* masked to a top-right wedge: the video/bg-img already shows the settled
-   bottle correctly in place inside .spill-frame — without this mask the
-   full-card corner copy re-draws almost the same bottle on top of it and
-   reads as a doubled/ghosted image. The mask keeps only the bit that's
-   actually breaking the corner and lets the real one underneath carry
-   the rest of the card. */
-.hero-bottle-corner{position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:63% 50%;pointer-events:none;
-  opacity:1;transform:translate(2%,-8%) scale(1.05);
-  -webkit-mask-image:linear-gradient(225deg,#000 0%,#000 30%,transparent 62%);
-  mask-image:linear-gradient(225deg,#000 0%,#000 30%,transparent 62%)}
+/* the one overlay left in the stage since the v3 story rework (Sim's
+   ruling: the sprite pills + popup tray looked terrible — the FOOTAGE
+   now carries the whole organize story): a single mono caption chip that
+   fades in beside the filled organizer at the end of the scrub. */
+.org-chip{position:absolute;left:46%;top:55%;z-index:3;margin:0;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-2);padding:9px 14px;opacity:1;
+  white-space:nowrap}
+@media (max-width:700px){.org-chip{left:8%;top:12%}}
 /* v2 ruling (2026-09-06): NO legibility scrim of any kind. The blur
    ellipse that used to sit here read as "a big blur obscuring the
    background" — legibility is now bought in the ASSET (the spill3 frame
@@ -264,10 +232,6 @@ h2 i{font-style:italic;color:var(--accent)}
 .hero-headline{margin:-8px 0 0}
 @media (max-width:700px){
   .spill-stage{height:230px}
-  .pill{left:var(--mx);top:var(--my);
-    transform:translate(-50%,-50%) rotate(var(--mr)) scale(var(--sc,1))}
-  .pill.mob-hide{display:none}
-  .row-label{left:var(--mx);top:var(--my)}
 }
 /* .hero-eyebrow, .hero h1 and .hero-lede keep position:relative — a pure
    stacking promotion (harmless now that the scrim and desktop cutout are
@@ -287,22 +251,6 @@ h2 i{font-style:italic;color:var(--accent)}
   margin:0 0 34px;line-height:1.6;position:relative}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;
   position:relative;z-index:1}
-.hero-cards{margin-top:52px;max-width:420px;opacity:1}
-.hc-cap{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--muted);margin:0 0 14px}
-.dose{display:flex;align-items:center;gap:13px;padding:16px 18px;margin-bottom:12px}
-.dose:last-child{margin-bottom:0}
-.dose .ic{width:34px;height:34px;border-radius:11px;flex:none;
-  background:rgba(33,29,23,.06);display:grid;place-items:center;color:var(--ink-2)}
-.dose .ic svg{width:16px;height:16px}
-.dose .nm{flex:1;min-width:0}
-.dose .nm b{display:block;font-size:15.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
-.dose .nm span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;
-  font-family:var(--mono)}
-.dose .done{width:20px;height:20px;border-radius:99px;flex:none;
-  background:var(--accent);position:relative}
-.dose .done::after{content:"";position:absolute;left:6px;top:3px;width:5px;
-  height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(43deg)}
 .scrolldown{margin:40px 0 0;font-family:var(--mono);font-size:10.5px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);
   display:flex;align-items:center;justify-content:center;gap:10px}
@@ -314,16 +262,16 @@ h2 i{font-style:italic;color:var(--accent)}
 @keyframes scrollcue{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
 
 @media (prefers-reduced-motion:no-preference){
-  .js .hero{height:230vh;padding:0}
+  /* 300vh (up from 230): the clip is now the WHOLE ~10s story — tip,
+     pour, gather into the organizer — scrubbed by scroll, so it gets a
+     longer runway for finer frame control under the thumb. */
+  .js .hero{height:300vh;padding:0}
   .js .hero-pin{position:sticky;top:0;height:100svh;overflow:hidden}
   .js .spill-stage{position:absolute;inset:0;height:auto;margin:0;border-radius:0}
   .js .hero-video{display:block;opacity:1}
-  .js .hero-video.faded{opacity:0}
-  .js .spill-sprites{opacity:0;transition:opacity .6s var(--ease)}
-  .js .spill-sprites.handoff{opacity:1}
   .js .hero-bg-img,.js .hero-video{filter:none}
   .js .hero-fade-wash{opacity:0}
-  .js .organize-panel{opacity:0}
+  .js .org-chip{opacity:0;transition:opacity .3s linear}
   .js .hero-fill{position:absolute;inset:0;z-index:6}
   /* v2 geometry: the headline owns the asset's clean left field and must
      end BEFORE the bottle starts — no graze, no overlap, re-verified
@@ -333,27 +281,16 @@ h2 i{font-style:italic;color:var(--accent)}
     max-width:640px;margin-top:0}
   .js .hero-copy{position:absolute;left:0;right:0;bottom:9%;max-width:640px}
   .js .clause2{opacity:0;transition:opacity .2s linear}
-  .js .row-label{opacity:0;transition:opacity .2s linear}
-  /* desktop full-bleed video already shows the settled bottle in place —
-     the corner-break cutout is a framed-card (mobile/fallback) trick and
-     would double the bottle here */
-  .js .hero-bottle-corner{display:none}
-  .js .hero-cards{position:absolute;right:6%;bottom:9%;width:380px;margin:0;
-    opacity:0;transform:translateY(16px);transition:opacity .2s linear,transform .2s linear}
   .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
     margin:0;transition:opacity .25s linear}
   @media (max-width:900px){
-    /* MOBILE HERO REWORK — the sticky-pin, scroll-scrubbed, full-bleed
-       video is a desktop mechanic; forced into a narrow portrait viewport
-       it produced the ~3x crop the owner flagged, ending in a hard cut
-       into the chapter below. Mobile gets its own simple flow instead:
-       headline (dipping into the card below it) -> a framed, native-
-       aspect video card (the settled-bottle cutout breaks its top-right
-       corner) -> supporting copy + CTA -> the organized list. The video
-       plays once and crossfades to the organized state (see doHandoff in
-       the script) — no scroll-scrub fighting a stacked layout. Desktop
-       pin above, and the reduced-motion/no-JS fallback (outside this
-       .js scope), are both untouched. */
+    /* MOBILE HERO — the sticky-pin scroll-scrub is a desktop mechanic;
+       forced into a narrow portrait viewport it produced the ~3x crop
+       the owner flagged. Mobile keeps its simple flow: headline (dipping
+       into the card below it) -> a framed, native-aspect video card that
+       AUTOPLAYS the whole ~10s story once (tip, pour, gather — the clip
+       ends on the organized frame, which IS the bg-img, so there is
+       nothing to crossfade) -> supporting copy + CTA. */
     .js .hero{height:auto;padding:0 0 96px}
     .js .hero-pin{position:static;height:auto;overflow:visible;
       display:flex;flex-direction:column}
@@ -378,35 +315,13 @@ h2 i{font-style:italic;color:var(--accent)}
     .js .spill-stage{order:2;position:relative;inset:auto;height:auto;
       aspect-ratio:1280/720;margin:28px 22px 0;border-radius:18px;
       box-shadow:0 26px 54px -24px rgba(60,45,20,.35)}
-    .js .hero-video,.js .hero-bg-img,.js .hero-bottle-corner{object-position:50% 50%}
-    .js .row-label{display:none}
-    .js .organize-panel{left:16%;top:18%;width:68%;height:66%}
-    #hero.handoff-done .organize-panel{opacity:1;transition:opacity .6s var(--ease)}
-    .js .pill{transition:left .7s var(--ease-out),top .7s var(--ease-out),
-      transform .7s var(--ease-out)}
-    .js .pill.mob-hide{display:none}
-
-    /* the settled-bottle cutout breaks the card's own top-right corner,
-       popping toward the headline once the spill has settled — hidden
-       until the handoff fires, same trigger as the desktop version. The
-       lift is modest on purpose: paired with the 6px headline overlap
-       above, it clears the card's top edge without reaching far enough
-       into "in one place." to cover real letterforms, and the corner
-       mask (base rule) keeps it from doubling the real bottle already
-       visible inside the card. */
-    .js .hero-bottle-corner{display:block;opacity:0;
-      transition:opacity .8s var(--ease);transform:translate(3%,-11%) scale(1.07)}
-    #hero.handoff-done .hero-bottle-corner{opacity:1}
+    .js .hero-video,.js .hero-bg-img{object-position:50% 50%}
+    #hero.story-done .org-chip{opacity:1}
 
     /* lede + CTA sit directly under the card — no longer sharing a box
        with the headline, which now lives above the card, not beside it */
     .js .hero-copy{order:3;position:static;bottom:auto;max-width:none;
       padding:0 22px;margin-top:26px}
-
-    /* the organized list completes the spill -> sorted motion without
-       needing scroll to drive it */
-    .js .hero-cards{order:4;position:static;right:auto;bottom:auto;width:auto;
-      opacity:1;transform:none;padding:0 22px;margin-top:26px}
     .js .scrolldown{display:none}
   }
 }
@@ -623,47 +538,20 @@ footer a:hover{color:var(--ink-2)}
   <div class="hero-pin">
     <div class="spill-stage" aria-hidden="true">
       <div class="spill-frame">
-        <img class="hero-bg-img" src="assets/img/home/spill3-frame-last.jpg" alt="" width="1280" height="720">
+        <img class="hero-bg-img" src="assets/img/home/spill4-frame-last.jpg" alt="" width="1280" height="720">
 
-        <video class="hero-video" id="spillVideo" muted playsinline preload="metadata"
-          poster="assets/img/home/spill3-frame-first.jpg">
-          <source src="assets/img/home/spill3.mp4" type="video/mp4">
+        <!-- preload=auto on purpose: desktop SCRUBS this clip (scroll →
+             currentTime), which needs the whole file buffered. It is the
+             entire story — bottle tips, pours, pills gather into the
+             organizer — played backwards-filmed for the gather beat. -->
+        <video class="hero-video" id="spillVideo" muted playsinline preload="auto"
+          poster="assets/img/home/spill4-frame-first.jpg">
+          <source src="assets/img/home/spill4.mp4" type="video/mp4">
         </video>
 
         <div class="hero-fade-wash" id="heroFadeWash"></div>
-        <div class="organize-panel glass grounded" id="organizePanel"></div>
-
-        <!-- data-sx/sy re-mapped 2026-09-06 to the spill3 footage's OWN
-             settled tablets (measured off spill3-frame-last.jpg), so the
-             sprites fade in exactly where the video's pills lie and the
-             handoff reads as the same objects starting to move. The green
-             softgel sprite is gone — nothing green exists in the stone
-             scene — and tablets use the cut from the new footage. -->
-        <div class="spill-sprites" id="spillSprites">
-          <div class="pill pill-capsule" style="--ox:56%;--oy:40%;--or:-3deg;--mx:50%;--my:24%;--mr:-3deg;--sc:.9;--cx:28%;--cy:30%" data-sx="40" data-sy="72" data-sr="-20"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-          <div class="pill pill-tablet" style="--ox:56%;--oy:58%;--or:3deg;--mx:50%;--my:46%;--mr:3deg;--sc:1;--cx:28%;--cy:54%" data-sx="44" data-sy="64" data-sr="30"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-capsule" style="--ox:56%;--oy:76%;--or:-3deg;--mx:50%;--my:68%;--mr:-3deg;--sc:1.1;--cx:28%;--cy:78%" data-sx="46" data-sy="78" data-sr="40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-          <div class="pill pill-capsule mob-hide" style="--ox:60%;--oy:40%;--or:3deg;--mx:46%;--my:28%;--mr:3deg;--sc:1.22" data-sx="42" data-sy="58" data-sr="35"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-          <div class="pill pill-tablet mob-hide" style="--ox:60%;--oy:58%;--or:-3deg;--mx:46%;--my:50%;--mr:-3deg;--sc:.82" data-sx="47" data-sy="68" data-sr="-25"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-softgel mob-hide" style="--ox:60%;--oy:76%;--or:3deg;--mx:46%;--my:72%;--mr:3deg;--sc:.9" data-sx="49" data-sy="84" data-sr="20"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-capsule" style="--ox:64%;--oy:40%;--or:-3deg;--mx:54%;--my:32%;--mr:-3deg;--sc:1;--cx:50%;--cy:30%" data-sx="50" data-sy="60" data-sr="-40"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-          <div class="pill pill-tablet" style="--ox:64%;--oy:58%;--or:3deg;--mx:54%;--my:54%;--mr:3deg;--sc:1.22;--cx:50%;--cy:54%" data-sx="52" data-sy="70" data-sr="10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-tablet" style="--ox:64%;--oy:76%;--or:-3deg;--mx:54%;--my:76%;--mr:-3deg;--sc:1.1;--cx:50%;--cy:78%" data-sx="55" data-sy="80" data-sr="-10"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-capsule mob-hide" style="--ox:68%;--oy:40%;--or:3deg;--mx:48%;--my:36%;--mr:3deg;--sc:.9" data-sx="53" data-sy="76" data-sr="15"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-          <div class="pill pill-tablet mob-hide" style="--ox:68%;--oy:58%;--or:-3deg;--mx:48%;--my:58%;--mr:-3deg;--sc:1" data-sx="58" data-sy="58" data-sr="-35"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-softgel mob-hide" style="--ox:68%;--oy:76%;--or:3deg;--mx:48%;--my:80%;--mr:3deg;--sc:.82" data-sx="61" data-sy="80" data-sr="50"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-capsule" style="--ox:72%;--oy:40%;--or:-3deg;--mx:52%;--my:40%;--mr:-3deg;--sc:1.22;--cx:72%;--cy:30%" data-sx="57" data-sy="64" data-sr="25"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-          <div class="pill pill-tablet" style="--ox:72%;--oy:58%;--or:3deg;--mx:52%;--my:62%;--mr:3deg;--sc:.9;--cx:72%;--cy:54%" data-sx="60" data-sy="74" data-sr="-15"><img src="assets/img/home/tablet-white-cut2.png" alt=""></div>
-          <div class="pill pill-capsule" style="--ox:72%;--oy:76%;--or:-3deg;--mx:52%;--my:84%;--mr:-3deg;--sc:1;--cx:72%;--cy:78%" data-sx="63" data-sy="68" data-sr="-30"><img src="assets/img/home/capsule-amber-cut2.png" alt=""></div>
-        </div>
-
-        <p class="row-label" style="--ox:52%;--oy:33%;--mx:50%;--my:16%">Semaglutide<span>0.5 mg · weekly</span></p>
-        <p class="row-label" style="--ox:52%;--oy:51%;--mx:50%;--my:38%">Vitamin D3<span>1 capsule · daily</span></p>
-        <p class="row-label" style="--ox:52%;--oy:69%;--mx:50%;--my:60%">Magnesium<span>2 capsules · nightly</span></p>
+        <p class="org-chip glass" id="orgChip">Organized automatically</p>
       </div>
-
-      <img class="hero-bottle-corner" src="assets/img/home/bottle-settled-cut.png"
-        alt="" width="1280" height="720">
     </div>
 
     <div class="shell hero-fill">
@@ -681,23 +569,6 @@ footer a:hover{color:var(--ink-2)}
         </div>
       </div>
 
-      <div class="hero-cards rv rv3" aria-hidden="true">
-        <p class="hc-cap">Organized automatically</p>
-        <div class="dose glass">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v10M9 6l3-3 3 3"/><rect x="9" y="13" width="6" height="8" rx="3"/></svg></span>
-          <div class="nm"><b>Semaglutide</b><span>0.5 mg · weekly</span></div>
-          <span class="done"></span>
-        </div>
-        <div class="dose glass">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
-          <div class="nm"><b>Vitamin D3</b><span>1 capsule · daily</span></div>
-          <span class="done"></span>
-        </div>
-        <div class="dose glass">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
-          <div class="nm"><b>Magnesium</b><span>2 capsules · nightly</span></div>
-        </div>
-      </div>
     </div>
 
     <p class="scrolldown" id="scrolldown" aria-hidden="true">Scroll<i></i></p>
@@ -1035,138 +906,73 @@ footer a:hover{color:var(--ink-2)}
     return; // static, fully readable end-states — no rAF loops below this line.
   }
 
-  /* ── the spill: scroll-scrubbed lerp from scattered to organized ─────
-     Identical mechanic to mockups/spill-to-stack.html — kept intact. */
+  /* ── THE STORY, SCRUBBED ──────────────────────────────────────────────
+     One ~10s clip carries the whole pitch: the bottle tips, pills pour
+     out, and then gather themselves into the weekly organizer (that beat
+     was filmed as pills jumping OUT of the organizer and is played
+     reversed — generative video can pour, it cannot un-pour). Desktop
+     maps scroll progress onto video.currentTime through a damped rAF
+     lerp (the @codevibes/@ray_fu scrub pattern); the only overlays are
+     the clause-2 reveal and one caption chip near the filled organizer.
+     Mobile plays the clip once in its framed card — the clip ends on the
+     organized frame, which is also the bg-img, so it just rests there. */
   var hero = document.getElementById('hero');
-  var pills = [].slice.call(document.querySelectorAll('.pill'));
-  var labels = [].slice.call(document.querySelectorAll('.row-label'));
+  var video = document.getElementById('spillVideo');
   var clause2 = document.querySelector('.clause2');
-  var heroCards = document.querySelector('.hero-cards');
   var scrolldownEl = document.getElementById('scrolldown');
-  var heroBgImg = document.querySelector('.hero-bg-img');
-  var heroFadeWash = document.getElementById('heroFadeWash');
-  var organizePanel = document.getElementById('organizePanel');
-
-  function num(el, prop){ return parseFloat(getComputedStyle(el).getPropertyValue(prop)) || 0; }
-  var pillData = pills.map(function(el){
-    return {
-      el: el,
-      sx: +el.dataset.sx, sy: +el.dataset.sy, sr: +el.dataset.sr,
-      ox: num(el,'--ox'), oy: num(el,'--oy'), or: num(el,'--or'),
-      mx: num(el,'--mx'), my: num(el,'--my'), mr: num(el,'--mr'),
-      cx: num(el,'--cx'), cy: num(el,'--cy')
-    };
-  });
+  var orgChip = document.getElementById('orgChip');
 
   function clamp(v){ return Math.max(0, Math.min(1, v)); }
-  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
-  function lerp(from, to, t){ return t >= 1 ? to : from + (to - from) * t; }
 
-  /* Mobile has no scroll-scrub (see the max-width:900px CSS) — start the
-     pills at their scattered position once, up front, instead of relying
-     on the per-scroll lerp below (which a static-height mobile hero never
-     drives past p=0 anyway). */
-  if(isMobile){
-    pillData.forEach(function(d){
-      d.el.style.left = d.sx + '%';
-      d.el.style.top = d.sy + '%';
-      d.el.style.transform = 'translate(-50%,-50%) rotate(' + d.sr + 'deg) scale(var(--sc,1))';
-      d.el.style.opacity = 1;
-    });
-  }
-
-  var video = document.getElementById('spillVideo');
-  var spriteLayer = document.getElementById('spillSprites');
-  var handoffDone = false;
-  function doHandoff(){
-    if(handoffDone) return;
-    handoffDone = true;
-    if(video) video.classList.add('faded');
-    if(spriteLayer) spriteLayer.classList.add('handoff');
-    /* drives the mobile corner-cutout fade-in (#hero.handoff-done
-       .hero-bottle-corner) and mobile's organize-panel reveal —
-       one flag, same moment, every mode */
-    hero.classList.add('handoff-done');
-    if(isMobile){
-      /* crossfade straight to the organized end-state — CSS transitions
-         on .pill (max-width:900px) animate the settle */
-      pillData.forEach(function(d){
-        d.el.style.left = d.cx + '%';
-        d.el.style.top = d.cy + '%';
-        d.el.style.transform = 'translate(-50%,-50%) rotate(' + d.mr + 'deg) scale(var(--sc,1))';
-        d.el.style.opacity = 1;
-      });
-    }
-  }
-  function forceHandoff(){
-    if(handoffDone || !video) return;
-    try{ video.pause(); video.currentTime = video.duration || video.currentTime; }
-    catch(e){ /* not seekable yet — fade anyway, poster/last-frame bg covers it */ }
-    doHandoff();
-  }
+  var duration = 0;
   if(video){
-    video.addEventListener('ended', doHandoff);
-    var playAttempt = video.play();
-    if(playAttempt && playAttempt.catch) playAttempt.catch(function(){});
-    /* safety net: if autoplay is blocked or the clip stalls (data-saver,
-       slow connection), still land on the organized state */
-    if(isMobile) setTimeout(forceHandoff, 6000);
-  } else {
-    doHandoff();
+    if(video.readyState >= 1) duration = video.duration || 0;
+    video.addEventListener('loadedmetadata', function(){ duration = video.duration || 0; });
+  }
+
+  if(isMobile){
+    if(video){
+      video.addEventListener('ended', function(){ hero.classList.add('story-done'); });
+      var playAttempt = video.play();
+      if(playAttempt && playAttempt.catch) playAttempt.catch(function(){
+        /* autoplay blocked — rest on the organized bg-img */
+        hero.classList.add('story-done');
+        video.style.opacity = 0;
+      });
+      /* stall net: land on the organized state no matter what */
+      setTimeout(function(){ hero.classList.add('story-done'); }, 14000);
+    }
+  } else if(video){
+    video.pause();
   }
 
   function heroTick(){
-    /* mobile hero is normal document flow now (no sticky pin to scrub
-       against) — its state is driven by doHandoff() instead, on the
-       video's own timeline */
     if(isMobile) return;
     var r = hero.getBoundingClientRect();
     var total = r.height - innerHeight;
     var p = total > 0 ? clamp(-r.top / total) : 0;
 
-    if(p > 0) forceHandoff();
-
-    var pA = easeOutCubic(clamp(p / 0.45));
-    pillData.forEach(function(d){
-      var tx = isMobile ? d.mx : d.ox;
-      var ty = isMobile ? d.my : d.oy;
-      var tr = isMobile ? d.mr : d.or;
-      var x = lerp(d.sx, tx, pA);
-      var y = lerp(d.sy, ty, pA);
-      var rot = lerp(d.sr, tr, pA);
-      d.el.style.left = x + '%';
-      d.el.style.top = y + '%';
-      d.el.style.transform = 'translate(-50%,-50%) rotate(' + rot + 'deg) scale(var(--sc,1))';
-    });
-
-    var clauseOp = clamp((p - 0.28) / 0.15);
-    if(clause2) clause2.style.opacity = clauseOp;
-
-    var pB = clamp((p - 0.85) / 0.15);
-    /* labels ride in with the organize beat and dissolve with the pills —
-       without the (1 - pB) they were left floating half-under the tray
-       cards at the very end */
-    var labelOp = clamp((p - 0.34) / 0.14) * (1 - pB);
-    labels.forEach(function(el){ el.style.opacity = labelOp; });
-    pillData.forEach(function(d){ d.el.style.opacity = 1 - pB; });
-    if(heroCards){
-      heroCards.style.opacity = pB;
-      heroCards.style.transform = 'translateY(' + ((1 - pB) * 16) + 'px)';
+    /* lazy re-check kills the metadata race for good: whatever order the
+       media events land in, the first tick after duration exists wins.
+       The seek itself is a DIRECT write, rate-limited by the > 1/30s
+       delta guard — a first draft chased the target through a nested
+       requestAnimationFrame "damping" loop, which dies in any throttled
+       context (hidden tab, headless verification): rAF chains only tick
+       while the compositor is producing frames, so the chase froze at 0
+       the moment scrolling paused. onScroll already coalesces per frame;
+       the browser's own seek pipeline is the smoothing. */
+    if(!duration && video) duration = video.duration || 0;
+    if(duration){
+      var t = p * Math.max(0, duration - 0.06);
+      if(Math.abs(t - video.currentTime) > 0.033){
+        try{ video.currentTime = t; }catch(e){}
+      }
     }
 
-    /* the recede is a WASH + gentle desaturate only — NO blur anywhere on
-       this page since the 2026-09-06 ruling. The footage stays crisp
-       underneath while the cream wash lifts it back so the organized
-       tray reads on top. */
-    var pD = easeOutCubic(clamp(p / 0.5));
-    var groundFilter = 'saturate(' + (1 - pD * .30) + ') brightness(' + (1 + pD * .05) + ')';
-    if(heroBgImg) heroBgImg.style.filter = groundFilter;
-    if(video) video.style.filter = groundFilter;
-    if(heroFadeWash) heroFadeWash.style.opacity = pD * .72;
-
-    var panelOp = clamp((p - 0.26) / 0.17);
-    if(organizePanel) organizePanel.style.opacity = panelOp * (1 - pB);
-
+    /* copy beats ride the story: the italic clause lands as the pills
+       start gathering; the caption chip only once the organizer is full */
+    if(clause2) clause2.style.opacity = clamp((p - 0.52) / 0.16);
+    if(orgChip) orgChip.style.opacity = clamp((p - 0.88) / 0.1);
     if(scrolldownEl) scrolldownEl.style.opacity = 1 - clamp(p / 0.06);
   }
 
