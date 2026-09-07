@@ -216,7 +216,7 @@ h2 i{font-style:italic;color:var(--accent)}
   font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-2);padding:9px 14px;opacity:1;
   white-space:nowrap}
-@media (max-width:700px){.org-chip{left:8%;top:12%}}
+@media (max-width:700px){.org-chip{left:8%;top:54%}}
 /* v2 ruling (2026-09-06): NO legibility scrim of any kind. The blur
    ellipse that used to sit here read as "a big blur obscuring the
    background" — legibility is now bought in the ASSET (the spill3 frame
@@ -285,44 +285,36 @@ h2 i{font-style:italic;color:var(--accent)}
   .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
     margin:0;transition:opacity .25s linear}
   @media (max-width:900px){
-    /* MOBILE HERO — the sticky-pin scroll-scrub is a desktop mechanic;
-       forced into a narrow portrait viewport it produced the ~3x crop
-       the owner flagged. Mobile keeps its simple flow: headline (dipping
-       into the card below it) -> a framed, native-aspect video card that
-       AUTOPLAYS the whole ~10s story once (tip, pour, gather — the clip
-       ends on the organized frame, which IS the bg-img, so there is
-       nothing to crossfade) -> supporting copy + CTA. */
-    .js .hero{height:auto;padding:0 0 96px}
-    .js .hero-pin{position:static;height:auto;overflow:visible;
-      display:flex;flex-direction:column}
-    .js .hero-fill{display:contents}
-
-    /* headline first, clears the fixed nav, reads immediately. Its
-       negative bottom margin pulls ~20-25% of its own line-height down
-       over the card that follows — same "into the scene" move as
-       desktop, scaled to a stacked layout. Mobile's overlap is plain
-       empty line-height, not glyph ink — kept to 6px on purpose:
-       Georgia Bold's own descent at the 40px floor most phones render
-       at is only ~9px, so 6px stays inside that whitespace instead of
-       eating into "in one place."'s actual letterforms (that line has
-       no descenders of its own to hide behind). */
-    .js .hero-headline{order:1;position:static;padding:88px 22px 0;
-      margin:0 0 -6px;max-width:none}
-    .js .clause2{opacity:1}
-
-    /* the framed widescreen card: full width minus the site's 22px gutter,
-       aspect-ratio locked to the source's native 1280x720 — cover crops
-       nothing because the box and the media share the same ratio */
-    .js .spill-stage{order:2;position:relative;inset:auto;height:auto;
-      aspect-ratio:1280/720;margin:28px 22px 0;border-radius:18px;
-      box-shadow:0 26px 54px -24px rgba(60,45,20,.35)}
-    .js .hero-video,.js .hero-bg-img{object-position:50% 50%}
-    #hero.story-done .org-chip{opacity:1}
-
-    /* lede + CTA sit directly under the card — no longer sharing a box
-       with the headline, which now lives above the card, not beside it */
-    .js .hero-copy{order:3;position:static;bottom:auto;max-width:none;
-      padding:0 22px;margin-top:26px}
+    /* MOBILE HERO v6 — THE FROZEN-MOMENT CAMERA GLIDE (the 2026-09-07
+       tutorial-drop correction, minus the video model): the scene is one
+       photoreal portrait STILL — spilled pills, tipped bottle, the phone
+       running the app — and the "camera" is a scroll-driven CSS
+       transform that starts tight on the spill and glides out to reveal
+       the phone. Generative video kept hallucinating hands the moment we
+       asked it to hold a frozen scene; a still cannot hallucinate, costs
+       144KB instead of 3MB, and scrubs at 60fps on iOS where
+       video.currentTime stutters. The dedicated PORTRAIT asset rule
+       stands (never the landscape asset scaled down). */
+    .js .hero{height:280vh;padding:0}
+    .js .hero-pin{position:sticky;top:0;height:100svh;overflow:hidden}
+    .js .spill-stage{position:absolute;inset:0;height:auto;margin:0;
+      border-radius:0;box-shadow:none}
+    .js .hero-video{display:none}
+    .js .hero-bg-img{object-position:50% 50%;will-change:transform;
+      transform-origin:50% 62%}
+    .js .hero-fill{position:absolute;inset:0;z-index:6}
+    .js .hero-headline{position:absolute;left:0;right:0;top:11%;
+      padding:0 22px;margin:0;max-width:none}
+    .js .clause2{opacity:0}
+    /* the portrait scene owns the lower half (phone + pills), so the
+       lede joins the headline on the clean wall band and only the CTA
+       row sits low — over bright counter, as solid buttons */
+    .js .hero-copy{position:absolute;inset:0;padding:0;margin:0;
+      max-width:none;pointer-events:none}
+    .js .hero-lede{position:absolute;left:22px;right:22px;top:36%;
+      margin:0;pointer-events:auto}
+    .js .hero-cta{position:absolute;left:22px;right:22px;bottom:6%;
+      pointer-events:auto;z-index:10}
     .js .scrolldown{display:none}
   }
 }
@@ -931,27 +923,41 @@ footer a:hover{color:var(--ink-2)}
     video.addEventListener('loadedmetadata', function(){ duration = video.duration || 0; });
   }
 
+  var bgImg = document.querySelector('.hero-bg-img');
   if(isMobile){
-    if(video){
-      video.addEventListener('ended', function(){ hero.classList.add('story-done'); });
-      var playAttempt = video.play();
-      if(playAttempt && playAttempt.catch) playAttempt.catch(function(){
-        /* autoplay blocked — rest on the organized bg-img */
-        hero.classList.add('story-done');
-        video.style.opacity = 0;
-      });
-      /* stall net: land on the organized state no matter what */
-      setTimeout(function(){ hero.classList.add('story-done'); }, 18000);
-    }
+    /* the frozen-moment glide: no video at all — the portrait still is
+       the scene and heroTick's transform is the camera */
+    if(bgImg) bgImg.src = 'assets/img/home/hero-mobile.jpg';
   } else if(video){
     video.pause();
   }
 
+  function easeInOut(t){ return t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2; }
+
   function heroTick(){
-    if(isMobile) return;
     var r = hero.getBoundingClientRect();
     var total = r.height - innerHeight;
     var p = total > 0 ? clamp(-r.top / total) : 0;
+
+    if(isMobile){
+      /* the camera IS this transform: start tight on the spill (scale
+         1.7, nudged toward the pills/bottle), glide out to the full
+         frame with the phone. Deterministic, 60fps, nothing to
+         hallucinate. */
+      var e = easeInOut(p);
+      if(bgImg){
+        /* subtle drift only — 1.18 max keeps the 1128px source sharp on
+           a 2-3x phone display (a 1.7x first pass went soft, which is
+           the one thing this page is never allowed to do) */
+        var s = 1.18 - 0.18 * e;
+        var ty = (1 - e) * -3;
+        bgImg.style.transform = 'scale(' + s + ') translate(0,' + ty + '%)';
+      }
+      if(clause2) clause2.style.opacity = clamp((p - 0.55) / 0.15);
+      if(orgChip) orgChip.style.opacity = clamp((p - 0.8) / 0.12);
+      if(scrolldownEl) scrolldownEl.style.opacity = 1 - clamp(p / 0.08);
+      return;
+    }
 
     /* lazy re-check kills the metadata race for good: whatever order the
        media events land in, the first tick after duration exists wins.

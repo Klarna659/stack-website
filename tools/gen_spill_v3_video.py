@@ -30,7 +30,7 @@ W22_LORA_LOW = "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors"
 TENC = "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
 VAE = "wan_2.1_vae.safetensors"
 FPS = 16
-W, H = 1280, 720
+W, H = 1280, 720   # --portrait flips to 720x1280
 
 PRESETS = {
     "tip": ("the amber pill bottle slowly tips over sideways and falls "
@@ -42,6 +42,59 @@ PRESETS = {
             "movement, soft steady daylight, photorealistic, tack sharp "
             "focus everywhere, commercial product photography quality, "
             "smooth natural physics"),
+    # v4 shot A: same tip but the camera lives — a slow dolly-in.
+    "tipcam": ("the amber pill bottle wobbles then slowly tips over "
+               "sideways and falls onto its side with realistic weight, "
+               "capsules and tablets pour out of its open mouth in a "
+               "natural cascade, bouncing and rolling across the counter "
+               "with realistic physics, no pill ever passes through the "
+               "bottle, the bottle keeps its exact rigid solid three "
+               "dimensional shape, the camera dollies in slowly and "
+               "smoothly toward the bottle, cinematic slow push in, soft "
+               "steady daylight, photorealistic, tack sharp focus "
+               "everywhere, commercial product photography quality"),
+    # v4 shot B: close-up — pills tumble toward the camera.
+    "closeup": ("capsules and tablets tumble out of the open bottle "
+                "mouth one after another and roll toward the camera, "
+                "bouncing slightly and settling naturally on the stone, "
+                "the bottle rocks gently and stays perfectly rigid, "
+                "the camera tracks sideways very slowly, cinematic, "
+                "soft steady daylight, photorealistic, tack sharp focus "
+                "everywhere, macro product film quality, smooth natural "
+                "physics"),
+    # v4 shot C (filmed for REVERSAL): pills burst out of their neat
+    # rows while the camera pushes in — played backwards this becomes
+    # pills sweeping into rows as the camera pulls out to reveal the
+    # phone. The phone must not change.
+    "unsortcam": ("the neat rows of pills burst apart, the pills leap up "
+                  "and scatter and roll across the counter in every "
+                  "direction, the smartphone stays perfectly still and "
+                  "its screen does not change, the tipped amber bottle "
+                  "stays perfectly still, the camera dollies in slowly "
+                  "and smoothly toward the smartphone, cinematic slow "
+                  "push in, soft steady daylight, photorealistic, tack "
+                  "sharp focus everywhere, commercial product "
+                  "photography quality"),
+    # v5 FROZEN-MOMENT presets (the camera-journey correction from the
+    # 2026-09-07 video drop): the story is told by the CAMERA moving over
+    # a completely still scene — generative video nails glides and
+    # fumbles physics, so nothing here is allowed to move but the lens.
+    "glide": ("a frozen moment: every pill, the bottle and the smartphone "
+              "stay perfectly still, completely motionless like a paused "
+              "film, while the camera glides slowly and smoothly to the "
+              "right across the counter, a long cinematic lateral tracking "
+              "shot moving from the scattered pills toward the smartphone "
+              "with its glowing screen, steady constant speed, soft steady "
+              "daylight, photorealistic, tack sharp focus everywhere, "
+              "commercial product photography quality"),
+    "approach": ("a frozen moment: every pill, the bottle and the "
+                 "smartphone stay perfectly still, completely motionless "
+                 "like a paused film, while the camera pushes in slowly "
+                 "and smoothly toward the smartphone with its glowing "
+                 "screen, a long cinematic dolly forward, steady constant "
+                 "speed, soft steady daylight, photorealistic, tack sharp "
+                 "focus everywhere, commercial product photography "
+                 "quality"),
     "unsort": ("the pills jump up out of the weekly pill organizer "
                "compartments one after another and scatter and roll "
                "across the counter, the organizer stays perfectly still "
@@ -120,7 +173,11 @@ def main():
     ap.add_argument("--preset", required=True, choices=sorted(PRESETS))
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--seconds", type=float, default=5.0)
+    ap.add_argument("--portrait", action="store_true")
     a = ap.parse_args()
+    global W, H
+    if a.portrait:
+        W, H = 720, 1280
 
     src = a.image if os.path.isabs(a.image) else os.path.join(ROOT, a.image)
     if not os.path.exists(src):
