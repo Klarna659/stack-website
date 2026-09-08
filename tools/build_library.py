@@ -235,7 +235,7 @@ def footer(root: str) -> str:
       or literature and talk to a clinician about anything you take.
     </div>
     <div class="container footer-bottom">
-      <span>© 2026 Stack</span>
+      <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span>
       <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
     </div>
   </footer>
@@ -278,8 +278,8 @@ def compound_page(c: dict, by_cat: dict[str, list[dict]]) -> str:
     recon = (c.get("reconstitution_note") or "").strip()
     cite = (c.get("source_citation") or "").strip()
 
-    desc = f"{name}: what it is, how it works, half-life, storage and tracking facts. " \
-           f"Educational reference from the Stack compound library — not medical advice."
+    desc = (f"{name}: what it is, how it works, half-life, storage and tracking "
+            f"facts. Educational reference from Stack — not medical advice.")
 
     # Related: same category, up to 4 others.
     related = [r for r in by_cat[cat] if r["slug"] != slug][:4]
@@ -360,7 +360,7 @@ def compound_page(c: dict, by_cat: dict[str, list[dict]]) -> str:
         },
     ]
 
-    return f"""{head(f"{name} — half-life, facts & tracking reference | Stack", desc, url, assets, jsonld)}
+    return f"""{head(seo_title(name), desc, url, assets, jsonld)}
 <body>
 {nav(root, "compounds")}
   <main>
@@ -464,8 +464,8 @@ def catalog_page(compounds: list[dict], by_cat: dict[str, list[dict]]) -> str:
     assets = "../assets"
     root = "../"
     url = f"{BASE_URL}/compounds/"
-    desc = ("The Stack compound library: plain-English facts, mechanisms, half-lives and "
-            "storage for 112 compounds — GLP-1s, peptides, TRT esters, orals and supplements. "
+    desc = ("Plain-English facts, mechanisms and half-lives for 112 "
+            "compounds — GLP-1s, peptides, TRT esters, orals and supplements. "
             "Educational reference, not medical advice.")
 
     chips = '<button class="cat-chip active" data-cat="all">All</button>' + "".join(
@@ -515,7 +515,7 @@ def catalog_page(compounds: list[dict], by_cat: dict[str, list[dict]]) -> str:
         },
     ]
 
-    return f"""{head("Compound library — facts, half-lives & mechanisms for 112 compounds | Stack", desc, url, assets, jsonld, "website")}
+    return f"""{head("Compound library — 112 compounds, half-lives & facts | Stack", desc, url, assets, jsonld, "website")}
 <body>
 {nav(root, "compounds")}
   <main>
@@ -543,6 +543,18 @@ def catalog_page(compounds: list[dict], by_cat: dict[str, list[dict]]) -> str:
 """
 
 
+def seo_title(name: str) -> str:
+    """Google truncates page titles around 60 characters. Keep the pattern
+    uniform across the library, but drop to a shorter suffix for the long
+    compound names rather than shipping a title that gets cut mid-phrase."""
+    for suffix in (" — half-life, dosing & facts | Stack",
+                   " — half-life & dosing | Stack",
+                   " | Stack"):
+        if len(name + suffix) <= 60:
+            return name + suffix
+    return name + " | Stack"
+
+
 def build_sitemap(slugs: list[str], extra: list[str] | None = None) -> str:
     """`slugs` are compound slugs (→ /compounds/<slug>/). `extra` are
     site-relative paths already including their full path (e.g.
@@ -550,7 +562,7 @@ def build_sitemap(slugs: list[str], extra: list[str] | None = None) -> str:
     # NOTE: compounds/compare/ is emitted by build_compare (it leads `extra`),
     # so it is intentionally NOT listed here to avoid a duplicate sitemap entry.
     static = [
-        "", "pricing/", "compounds/", "tools/reconstitution/",
+        "", "pricing/", "compounds/",
         "guides/", "guides/reconstitution-explained/",
         "guides/injection-site-rotation/", "guides/glp1-tracking/",
         "about/", "stacks/", "privacy.html", "terms.html", "referral.html",
