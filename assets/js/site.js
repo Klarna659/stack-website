@@ -169,8 +169,8 @@
       // not configured yet → notify at launch
       var email = (RAIL && RAIL.contactEmail) || "hello@trackyourstack.app";
       window.location.href = "mailto:" + email +
-        "?subject=" + encodeURIComponent("Notify me when Stack Plus launches") +
-        "&body=" + encodeURIComponent("Tell me when I can get Plus.");
+        "?subject=" + encodeURIComponent("Notify me when Stack launches") +
+        "&body=" + encodeURIComponent("Tell me when I can subscribe.");
     });
   });
 
