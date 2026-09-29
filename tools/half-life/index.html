@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Half-life visualiser — what's still in your system | Stack</title>
+  <meta name="description" content="Free half-life visualiser: enter a half-life, dose and schedule — see a curve of relative amount over time, the steady-state peak-to-trough ratio, and the time to reach steady state." />
+  <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+  <link rel="canonical" href="https://trackyourstack.app/tools/half-life/" />
+  <meta property="og:title" content="Half-life visualiser — what's still in your system" />
+  <meta property="og:description" content="Half-life + dose + schedule → a curve of relative amount over time, peak/trough ratio, and time to steady state. Free, no signup." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackyourstack.app/tools/half-life/" />
+  <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="../tools.css" />
+  <script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Stack half-life visualiser","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Half-life visualiser: half-life + dose + schedule → a curve of relative amount remaining over time, the steady-state peak-to-trough ratio, and time to steady state.","url":"https://trackyourstack.app/tools/half-life/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Half-life visualiser","item":"https://trackyourstack.app/tools/half-life/"}]}</script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack — home">
+        <svg class="brand-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
+          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
+          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
+        </svg>
+        <span class="brand-word">Stack</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="../../#features">Features</a>
+        <a href="../../compounds/">Compounds</a>
+        <a href="../">Tools</a>
+        <a href="../../guides/">Guides</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a href="../../#download" class="nav-cta">Get the app</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../">Tools</a> <span>/</span> <span>Half-life visualiser</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>What's still in your system</h1>
+      <p class="lead">Enter a half-life, your dose and your schedule. We'll draw the curve of how
+      much of one dose is still active over time — as a percentage of a single dose, not a blood level.</p>
+    </div>
+
+    <div class="container" style="padding-bottom:70px">
+      <div class="tool-grid">
+        <form class="panel" id="calc" aria-label="Half-life inputs">
+          <div class="field">
+            <label for="h-halflife">Half-life</label>
+            <div class="row">
+              <input class="input" id="h-halflife" type="number" inputmode="decimal" min="0" step="any" value="24" aria-label="Half-life value" />
+              <select class="select" id="h-halflife-unit" aria-label="Half-life unit">
+                <option value="hours" selected>hours</option>
+                <option value="days">days</option>
+              </select>
+            </div>
+            <p class="hint" id="h-halflife-hint" style="margin-top:6px"></p>
+          </div>
+
+          <div class="field">
+            <label for="h-dose">Dose (any unit — the chart shows % of one dose)</label>
+            <input class="input" id="h-dose" type="number" inputmode="decimal" min="0" step="any" value="1" />
+          </div>
+
+          <div class="field">
+            <label for="h-interval">Interval between doses</label>
+            <div class="row">
+              <input class="input" id="h-interval" type="number" inputmode="decimal" min="0" step="any" value="24" />
+              <select class="select" id="h-interval-unit" aria-label="Interval unit">
+                <option value="hours" selected>hours</option>
+                <option value="days">days</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="h-count">Number of doses</label>
+            <input class="input" id="h-count" type="number" inputmode="numeric" min="1" step="1" value="6" />
+          </div>
+
+          <p class="dim" style="font-size:12.5px;line-height:1.6;margin:6px 0 16px">This shows amount
+          remaining as a percentage of one dose. It is not a blood level and not a recommendation.</p>
+
+          <fieldset>
+            <legend>Examples from Stack's compound library</legend>
+            <p class="hint" style="margin:0 0 10px">Real half-life figures, cited from our own compound
+            pages — tap one to fill the field above.</p>
+            <div class="radio-row" id="h-presets">
+              <button type="button" class="radio-chip" data-hl="192" data-unit="hours" data-name="Testosterone Cypionate">Testosterone Cypionate — 192 h (8 d)</button>
+              <button type="button" class="radio-chip" data-hl="168" data-unit="hours" data-name="Testosterone Enanthate">Testosterone Enanthate — 168 h (7 d)</button>
+              <button type="button" class="radio-chip" data-hl="168" data-unit="hours" data-name="Semaglutide">Semaglutide — 168 h (7 d)</button>
+              <button type="button" class="radio-chip" data-hl="120" data-unit="hours" data-name="Tirzepatide">Tirzepatide — 120 h (5 d)</button>
+              <button type="button" class="radio-chip" data-hl="17.5" data-unit="hours" data-name="Tadalafil">Tadalafil — 17.5 h</button>
+              <button type="button" class="radio-chip" data-hl="2" data-unit="hours" data-name="Ipamorelin">Ipamorelin — 2 h</button>
+              <button type="button" class="radio-chip" data-hl="0.2" data-unit="hours" data-name="Sermorelin">Sermorelin — 0.2 h (12 min)</button>
+            </div>
+          </fieldset>
+
+          <div id="h-error" role="alert" aria-live="assertive"></div>
+        </form>
+
+        <div class="panel tool-out" id="h-out" aria-live="polite">
+          <span class="eyebrow">Peak / trough at steady state</span>
+          <div class="big" id="out-ratio">—</div>
+          <div class="unit">how much higher the peak sits above the trough, once it levels off</div>
+          <div class="viz" aria-hidden="true">
+            <svg id="curve-svg" viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="sub" id="out-sub">
+            <div class="row-line"><span>Time to ~97% of steady state</span><b id="out-tss">—</b></div>
+            <div class="row-line"><span>Steady-state peak</span><b id="out-peak">—</b></div>
+            <div class="row-line"><span>Steady-state trough</span><b id="out-trough">—</b></div>
+          </div>
+          <div class="track-cta" style="text-align:left;margin-top:26px">
+            <h3>Stack keeps this running for you</h3>
+            <p>The app plots this for everything in your stack automatically, using your real dose
+            log instead of a hand-typed schedule.</p>
+            <a class="btn" href="../../#download">Get the app</a>
+          </div>
+        </div>
+      </div>
+
+      <article class="prose">
+        <h2>How the math works</h2>
+        <p>Each dose decays on its own <strong>first-order</strong> curve: half of it is gone after one
+        half-life, half of what's left after the next, and so on. The curve above is the
+        <strong>sum</strong> of every dose you've taken so far, each decaying from the moment it was
+        given — that's why it climbs and settles rather than resetting to zero between doses.</p>
+        <p><strong>Peak/trough ratio</strong> at steady state = 2^(interval ÷ half-life). A short
+        interval relative to a long half-life means the peak and trough sit close together; a long
+        gap relative to a short half-life means they're far apart.</p>
+        <p><strong>Time to steady state</strong> is about five half-lives, no matter the dose or the
+        interval — that's the point where about 97% of the eventual plateau has been reached.</p>
+        <div class="callout"><b>Not medical advice.</b> This tool tracks and calculates. It does not
+        show a blood level, and it does not recommend a compound, a dose, or a schedule — check any
+        change with your prescriber.</div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="../../" class="brand">
+          <svg class="brand-mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
+            <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
+            <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
+            <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
+          </svg>
+          <span class="brand-word">Stack</span>
+        </a>
+        <p class="tag">Track your stack. Supplements, peptides, meds and more — one quiet, private app.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="../reconstitution/">Reconstitution calculator</a></li>
+          <li><a href="../run-out/">Vial run-out calculator</a></li>
+          <li><a href="./">Half-life visualiser</a></li>
+          <li><a href="../syringe-units/">Syringe units converter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about/">About &amp; sourcing</a></li>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer-band">
+      Stack is a logging tool and an educational reference. Nothing on this site is medical
+      advice, a recommendation, or an endorsement of any compound.
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span>
+      <span><a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a></span>
+    </div>
+  </footer>
+
+  <script src="../tools-math.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var M = window.ToolsMath;
+    var $ = function (id) { return document.getElementById(id); };
+    var SVG_NS = "http://www.w3.org/2000/svg";
+
+    var themeBtn = $("themeToggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function () {
+        var cur = document.documentElement.getAttribute("data-theme");
+        var dark = matchMedia("(prefers-color-scheme: dark)").matches;
+        var next = cur === "dark" ? "light" : (cur === "light" ? "dark" : (dark ? "light" : "dark"));
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("stack-theme", next); } catch (e) {}
+      });
+    }
+
+    function setError(msg) {
+      var box = $("h-error");
+      if (!msg) { box.className = ""; box.textContent = ""; return; }
+      box.className = "form-error";
+      box.textContent = msg;
+    }
+
+    function el(tag, attrs) {
+      var n = document.createElementNS(SVG_NS, tag);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      return n;
+    }
+
+    function renderCurve(points, intervalHours, halfLifeUnit) {
+      var svg = $("curve-svg");
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      if (!points.length) return;
+
+      var W = 640, H = 260, padL = 34, padR = 12, padT = 14, padB = 26;
+      var maxT = points[points.length - 1].t;
+      var maxP = Math.max.apply(null, points.map(function (p) { return p.percent; })) * 1.12 || 1;
+
+      function x(t) { return padL + (t / maxT) * (W - padL - padR); }
+      function y(p) { return H - padB - (p / maxP) * (H - padT - padB); }
+
+      // One meaningful reference line — the size of a single dose — instead
+      // of an arbitrary 0/50/100-of-max gridline scheme with odd numbers on it.
+      if (maxP >= 100) {
+        var refY = y(100);
+        svg.appendChild(el("line", { x1: padL, x2: W - padR, y1: refY, y2: refY, class: "ref-line" }));
+        var refLabel = el("text", { x: 4, y: refY - 5, class: "axis-cap" });
+        refLabel.textContent = "1 dose";
+        svg.appendChild(refLabel);
+      }
+
+      var d = points.map(function (p, i) { return (i === 0 ? "M" : "L") + x(p.t).toFixed(1) + "," + y(p.percent).toFixed(1); }).join(" ");
+      svg.appendChild(el("path", { d: d, class: "thread" }));
+
+      // dose ticks along the baseline
+      var i = 0;
+      while (i * intervalHours <= maxT + 1e-9) {
+        var tx = x(i * intervalHours);
+        svg.appendChild(el("circle", { cx: tx, cy: H - padB, r: 2.6, class: "dose-tick" }));
+        i++;
+      }
+
+      var unitLabel = halfLifeUnit === "days" ? "days" : "hours";
+      var endLabel = el("text", { x: W - padR, y: H - 6, class: "axis-cap", "text-anchor": "end" });
+      endLabel.textContent = M.fmt(halfLifeUnit === "days" ? maxT / 24 : maxT, 0) + " " + unitLabel;
+      svg.appendChild(endLabel);
+      var startLabel = el("text", { x: padL, y: H - 6, class: "axis-cap" });
+      startLabel.textContent = "0";
+      svg.appendChild(startLabel);
+    }
+
+    function calc() {
+      var hlValue = parseFloat($("h-halflife").value);
+      var hlUnit = $("h-halflife-unit").value;
+      var halfLifeHours = M.halfLifeToHours(hlValue, hlUnit);
+
+      var intervalValue = parseFloat($("h-interval").value);
+      var intervalUnit = $("h-interval-unit").value;
+      var intervalHours = M.halfLifeToHours(intervalValue, intervalUnit);
+
+      var doseAmount = parseFloat($("h-dose").value);
+      var numDoses = parseInt($("h-count").value, 10);
+
+      $("h-halflife-hint").textContent = halfLifeHours > 0 ? ("= " + M.fmt(halfLifeHours, 1) + " hours") : "";
+
+      if (!(halfLifeHours > 0) || !(intervalHours > 0) || !(doseAmount > 0) || !(numDoses > 0)) {
+        setError("Enter a half-life, a dose, an interval and a number of doses, all greater than zero.");
+        return;
+      }
+      setError(null);
+
+      var ratio = M.peakTroughRatio(intervalHours, halfLifeHours);
+      var peak = M.steadyStatePeak(intervalHours, halfLifeHours);
+      var trough = M.steadyStateTrough(intervalHours, halfLifeHours);
+      var tss = M.timeToSteadyStateHours(halfLifeHours);
+
+      $("out-ratio").textContent = M.fmt(ratio, ratio >= 10 ? 0 : 2) + "×";
+      $("out-peak").textContent = M.fmt(peak * 100, 0) + "% of one dose";
+      $("out-trough").textContent = M.fmt(trough * 100, 0) + "% of one dose";
+      $("out-tss").textContent = tss >= 48
+        ? (M.fmt(tss / 24, 1) + (tss / 24 === 1 ? " day" : " days"))
+        : (M.fmt(tss, 1) + (tss === 1 ? " hour" : " hours"));
+
+      var points = M.buildCurve(doseAmount, intervalHours, halfLifeHours, numDoses, 220);
+      renderCurve(points, intervalHours, hlUnit);
+    }
+
+    ["h-halflife", "h-halflife-unit", "h-dose", "h-interval", "h-interval-unit", "h-count"].forEach(function (id) {
+      $(id).addEventListener("input", calc);
+      $(id).addEventListener("change", calc);
+    });
+
+    document.querySelectorAll("#h-presets button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        $("h-halflife").value = btn.getAttribute("data-hl");
+        $("h-halflife-unit").value = btn.getAttribute("data-unit");
+        calc();
+      });
+    });
+
+    calc();
+  })();
+  </script>
+</body>
+</html>
