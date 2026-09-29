@@ -1,13 +1,17 @@
 /* ============================================================================
-   Stack — "a ledger with a gold thread"  (locked design language, 2026-07-16)
+   Stack — split-S brand, teal-on-paper/night  (re-tinted 2026-09-28)
    ---------------------------------------------------------------------------
    ONE stylesheet for every page: landing, library, tools, guides, legal.
    Front door ↔ interior are one product. Mirrors lib/core/design/mono.dart.
 
    The idea: a precision instrument. Ink on paper. Exactly ONE hue enters the
-   system — GOLD = earned (progress, streaks, active/live data, milestones).
-   Gold is never decoration, never a background, never a button colour. If
-   nothing was earned or nothing is in motion, the surface stays ink-on-paper.
+   system — the brand teal (deep #175E58 on paper, bright #5FBFB3 on night) —
+   marking progress, streaks, active/live data and milestones. The --gold
+   token names below are kept as-is (internal name only, not shown anywhere)
+   to avoid a 150-file variable rename; every one of them now carries the
+   locked teal value. Teal is never decoration, never a background, never a
+   plain button colour — if nothing was earned or nothing is in motion, the
+   surface stays ink-on-paper.
 
    Worlds: LIGHT/paper is the default. Dark is a choice — it follows the OS
    (prefers-color-scheme) and can be overridden by the nav toggle
@@ -43,18 +47,18 @@
   --mut: #71717A;         /* secondary text, AA on paper */
   --dim: #6B6B73;         /* tertiary TEXT — AA (~5.2:1 on paper). Borders/hover too. */
 
-  /* Gold = earned. Deep brass, measured 4.96:1 on paper (AA). */
-  --gold: #8F661C;
-  --gold-fill: rgba(143, 102, 28, 0.15);
-  --gold-line: rgba(143, 102, 28, 0.30);
+  /* Brand teal = earned. Deep teal, ~7.7:1 on paper (AAA for text). */
+  --gold: #175E58;
+  --gold-fill: rgba(23, 94, 88, 0.12);
+  --gold-line: rgba(23, 94, 88, 0.28);
 
   /* Functional data-ink only (per-lane chart colours) — never brand accents. */
   --up: #16A34A;
   --down: #DC2626;
 
-  --brand-1: #3F3F46;     /* stack mark discs on paper: ink tones, top→bottom */
-  --brand-2: #A1A1AA;
-  --brand-3: #18181B;
+  --brand-1: #175E58;     /* legacy token, unused now the nav uses the split-S mark */
+  --brand-2: #5FBFB3;
+  --brand-3: #0F3F3B;
 
   --radius: 18px;
   --radius-sm: 12px;
@@ -85,13 +89,13 @@
   --mut: #A0A2AA;
   --dim: #8A8C94;
 
-  --gold: #E6B45A;        /* capsule-glow amber, desaturated for UI */
-  --gold-fill: rgba(230, 180, 90, 0.14);
-  --gold-line: rgba(230, 180, 90, 0.30);
+  --gold: #5FBFB3;         /* brand teal on night */
+  --gold-fill: rgba(95, 191, 179, 0.14);
+  --gold-line: rgba(95, 191, 179, 0.30);
 
-  --brand-1: #C9CCD2;
-  --brand-2: #6B6E76;
-  --brand-3: #F4F4F5;
+  --brand-1: #5FBFB3;
+  --brand-2: #175E58;
+  --brand-3: #FAF8F4;
 
   --shadow-card: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 60px -30px rgba(0, 0, 0, .8);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, .5), 0 30px 80px -30px rgba(0, 0, 0, .85);
@@ -104,8 +108,8 @@
     --bg: #0B0B0F; --bg-soft: #101015; --panel: #18181E; --panel-2: #1E1E25;
     --line: #2A2A30; --line-soft: #232329;
     --ink: #F4F4F5; --ink-2: #CBCBD0; --mut: #A0A2AA; --dim: #8A8C94;
-    --gold: #E6B45A; --gold-fill: rgba(230, 180, 90, 0.14); --gold-line: rgba(230, 180, 90, 0.30);
-    --brand-1: #C9CCD2; --brand-2: #6B6E76; --brand-3: #F4F4F5;
+    --gold: #5FBFB3; --gold-fill: rgba(95, 191, 179, 0.14); --gold-line: rgba(95, 191, 179, 0.30);
+    --brand-1: #5FBFB3; --brand-2: #175E58; --brand-3: #FAF8F4;
     --shadow-card: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 60px -30px rgba(0, 0, 0, .8);
     --shadow-lift: 0 2px 4px rgba(0, 0, 0, .5), 0 30px 80px -30px rgba(0, 0, 0, .85);
     color-scheme: dark;

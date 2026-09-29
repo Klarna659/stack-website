@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<script>document.documentElement.className="js"</script>
 <title>Stack — Track your stack. One calm list for everything you take.</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Stack is the calm way to track medications, peptides and supplements — 587 compounds in the library, Juno to operate it by chat or voice, and a doctor-ready record.">
 <link rel="canonical" href="https://trackyourstack.app/">
-<meta name="theme-color" content="#EFE4CC">
+<meta name="theme-color" content="#0C0D0E">
 
 <meta property="og:title" content="Stack — Track your stack">
 <meta property="og:description" content="Stack is the calm way to track medications, peptides and supplements — 587 compounds in the library, Juno to operate it by chat or voice, and a doctor-ready record.">
@@ -20,15 +19,27 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Stack", "url": "https://trackyourstack.app/", "logo": "https://trackyourstack.app/assets/img/icon.png", "email": "hello@trackyourstack.app", "parentOrganization": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Stack", "url": "https://trackyourstack.app/", "publisher": {"@type": "Organization", "name": "Stack"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Stack", "applicationCategory": "HealthApplication", "operatingSystem": "Android, iOS", "url": "https://trackyourstack.app/", "description": "Track medications, peptides and supplements in one list: doses, half-lives, reminders and a doctor-ready record.", "publisher": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+{"@type": "Question", "name": "Is this medical advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. Stack is a logging tool. It never recommends a dose, a compound, or tells you what to take."}},
+{"@type": "Question", "name": "Where is my data?", "acceptedAnswer": {"@type": "Answer", "text": "On your phone by default. Cloud backup is optional and encrypted, and only runs if you turn it on."}},
+{"@type": "Question", "name": "What happens if I cancel?", "acceptedAnswer": {"@type": "Answer", "text": "Everything you've logged stays readable and exportable. You just stop being able to log new doses."}},
+{"@type": "Question", "name": "Does it work for injections, pills and supplements?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — peptides, TRT, GLP-1s, oral compounds and supplements all log the same way."}},
+{"@type": "Question", "name": "iPhone and Android?", "acceptedAnswer": {"@type": "Answer", "text": "Both. One app, kept in sync with your own encrypted backup if you turn it on."}}
+]}</script>
 
 <link rel="icon" type="image/svg+xml" href="assets/img/icon.svg">
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/home/spill7-frame-last.jpg" as="image">
+<link rel="preload" href="assets/img/hero-photo/hero_a_2560.jpg" as="image" media="(min-width: 761px)">
+<link rel="preload" href="assets/img/hero-photo/hero_a_1280.jpg" as="image" media="(max-width: 760px)">
+<link rel="preload" href="assets/img/app/hero_juno_poster.jpg" as="image">
 
 <style>
-/* Self-hosted, matching the site's convention — no external font CDN. */
+/* Self-hosted, matching the site's convention — no external font CDN.
+   Instrument Sans is intentionally not loaded (CSP stays script/style/font
+   'self'-only): the h1/h2/h3 stack below falls back to Inter, which is
+   already self-hosted for the rest of the site. */
 @font-face{
   font-family:"Inter";
   src:url("assets/fonts/inter-subset.woff2") format("woff2");
@@ -36,1020 +47,562 @@
   font-display:swap;
 }
 /* ═══════════════════════════════════════════════════════════════════════
-   STACK · HOMEPAGE (v3 story hero, 2026-09-06)
-   One world: a single fixed photographic counter-ground runs the whole
-   page, tinted per chapter — never a new image. The hero is ONE ~10s
-   photoreal clip scrubbed by scroll: the bottle tips, pills pour out,
-   and gather themselves into a weekly organizer (that beat filmed in
-   reverse). No sprites, no popup tray, no blur, no scrim — the footage
-   carries the story (Sim's ruling). Below it: the app panel (a
-   CSS/HTML-drawn "Your stack" phone
-   screen, not a screenshot, so it's crisp at any DPI and matches the real
-   app's dark surface exactly), Juno, the library, a compact "under the
-   hood" grid, an honest empty reviews state, and the close.
-   Discipline: vanilla HTML/CSS/JS, no build step, no libraries, native
-   scroll only. No-JS and prefers-reduced-motion both render the fully
-   organized, fully legible end state — nothing on this page requires
-   script to be correct, only to be extra.
+   STACK · HOMEPAGE — split-S brand, ported 2026-09-28 from
+   docs/growth/brand_world/site_final.html (dose_tracker repo). Locked
+   brand: teal tile + white S, deep teal #175E58, paper/ink/night grounds.
+   Self-contained (own tokens below) rather than pulling mono.css, so this
+   always-dark hero page never fights the site-wide light/dark toggle.
    ═══════════════════════════════════════════════════════════════════════ */
 :root{
-  /* --accent is DERIVED FROM THE HERO GROUND, not a guess: sampled the
-     saturated pixels (s>.25) of assets/img/home/spill3-frame-first.jpg
-     with tools/sample_accent.py — weighted-circular-mean hue 36.5° (the
-     bottle's amber against the stone), chroma fixed at S62%, lightness
-     solved for ≥4.5:1 against both text surfaces below (--paper and
-     --ground-1) — measured 5.50:1 and 4.67:1 at L32%. One variable; swap
-     it and the whole page re-tints, same as the app's own
-     accent-from-background rule. */
-  --accent:#845D1F;
-  --accent-fill:#CFA159;
-  --accent-soft:rgba(132,93,31,.14);
-
-  --ground-1:#EFE4CC;
-  --ground-2:#E1D3B4;
-  --ground-3:#CFBD97;
-  --panel:rgba(255,251,242,.62);
-  --line:rgba(33,29,23,.12);
-  --line-2:rgba(33,29,23,.22);
-  --ink:#211D17;
-  --ink-2:#423A2C;
-  --muted:#5B5344;
-  --paper:#FBF7ED;
-  --paper-ink:#2A2620;
-
-  --serif:Georgia,'Iowan Old Style','Apple Garamond','Times New Roman',serif;
-  --sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
-  --ease:cubic-bezier(.22,.61,.36,1);
-  --ease-out:cubic-bezier(.16,1,.3,1);
-  --shell:1180px;
+  --night:#0C0D0E; --panel:#17140F; --panel-2:#1E1A15;
+  --line:rgba(245,242,236,.11); --line-soft:rgba(245,242,236,.06);
+  --paper:#FAF8F4; --ink:#1A1815;
+  --ns:#5FBFB3; --deep-teal:#175E58;
+  --mut:#A79E8F; --dim:#8C8374; --ink2:#CDC5B9;
+  --hero-desktop:url(assets/img/hero-photo/hero_a_2560.jpg);
+  --hero-mobile:url(assets/img/hero-photo/hero_a_1280.jpg);
+  color-scheme: dark;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--ground-2);color:var(--ink);font-family:var(--sans);
-  font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
-  overflow-x:hidden}
-img{max-width:100%;display:block}
+body{background:var(--night);color:var(--paper);font:16px/1.6 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,svg{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-.shell{width:100%;max-width:var(--shell);margin:0 auto;padding:0 22px}
-::selection{background:var(--accent-soft);color:var(--ink)}
+h1,h2,h3,.brand-word,.hd{font-family:"Instrument Sans",Inter,sans-serif}
+h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 44px}
+.eyebrow{display:block;font:700 11.5px/1 Inter;letter-spacing:.16em;text-transform:uppercase;color:var(--ns)}
+:focus-visible{outline:2px solid var(--ns);outline-offset:2px;border-radius:6px}
 
-/* ── the counter: one fixed photographic surface for the whole page ─── */
-.counter{position:fixed;inset:0;z-index:0;overflow:hidden;
-  background:linear-gradient(155deg,var(--ground-1) 0%,var(--ground-2) 46%,var(--ground-3) 100%)}
-/* SHARP since the 2026-09-06 ruling — the old blur(7px) turned the whole
-   page ground into mush ("a big ass blur that obscures the whole point").
-   The wash above it carries legibility; the photo stays a real surface. */
-.counter-photo{position:absolute;inset:0;z-index:0;width:100%;height:100%;
-  object-fit:cover;object-position:center 35%;
-  filter:saturate(.92) brightness(1.04)}
-.counter-wash{position:absolute;inset:0;z-index:1;
-  background:
-    radial-gradient(130% 90% at 10% -12%, rgba(255,253,244,.9), transparent 55%),
-    linear-gradient(155deg,rgba(239,228,204,.68) 0%,rgba(225,211,180,.58) 46%,rgba(207,189,151,.5) 100%)}
-.counter::before{content:"";position:fixed;inset:-60px;z-index:2;opacity:.06;
-  mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.32 0 0 0 0 0.24 0 0 0 0 0.13 0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:140px 140px;animation:grain 1s steps(6) infinite}
-.counter::after{content:"";position:fixed;inset:0;z-index:3;opacity:.045;mix-blend-mode:overlay;
-  background:repeating-linear-gradient(102deg,rgba(255,255,255,.5) 0 1px,transparent 1px 5px)}
-@keyframes grain{
-  0%{transform:translate(0,0)}20%{transform:translate(-1%,-2%)}
-  40%{transform:translate(-2%,1%)}60%{transform:translate(1%,-1%)}
-  80%{transform:translate(2%,2%)}100%{transform:translate(0,0)}
-}
-.tint{position:fixed;inset:0;z-index:1;pointer-events:none;background:transparent;
-  transition:background 1.2s var(--ease)}
+/* ---------------------------------------------------------------- nav --- */
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--night) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{display:flex;align-items:center;gap:14px;height:68px;max-width:1200px;margin:0 auto;padding:0 32px}
+.brand{display:inline-flex;align-items:center;gap:10px;font:600 19px "Instrument Sans";letter-spacing:-.02em;margin-right:auto}
+.brand-mark{width:28px;height:28px;flex:none;display:inline-block}
+.nav-links{display:none;gap:28px;margin-left:auto;align-items:center;font-size:14px}
+.nav-links a:not(.pill){font-weight:600;color:var(--mut)}
+.nav-links a:hover{color:var(--paper)}
+@media (min-width:880px){.nav-links{display:flex}}
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:10px 18px;min-height:40px;font:600 14px Inter;background:var(--paper);color:#111;white-space:nowrap;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14.5px "Instrument Sans",Inter,sans-serif;border-radius:999px;padding:13px 24px;min-height:46px;border:1px solid transparent;white-space:nowrap}
+.btn-acc{background:var(--ns);color:var(--ink)}
+.btn-acc:hover{opacity:.9}
 
-/* ── top chrome ────────────────────────────────────────────────────── */
-.top{position:fixed;inset:0 0 auto;z-index:60;
-  background:linear-gradient(180deg,rgba(239,228,204,.92),rgba(239,228,204,0))}
-.topin{display:flex;align-items:center;gap:26px;padding:20px 22px;
-  max-width:var(--shell);margin:0 auto}
-.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;
-  letter-spacing:-.02em;color:var(--ink)}
-.logo svg{width:20px;height:20px;flex:none}
-.topnav{display:flex;gap:22px;margin-left:auto;font-size:14.5px;font-weight:600}
-.topnav a{color:var(--ink-2);transition:color .2s var(--ease)}
-.topnav a:hover{color:var(--ink)}
-.btn{display:inline-flex;align-items:center;justify-content:center;
-  height:40px;padding:0 19px;border-radius:999px;font-weight:600;font-size:14px;
-  border:1px solid var(--line-2);white-space:nowrap;cursor:pointer;color:var(--ink);
-  background:rgba(255,255,255,.35);backdrop-filter:blur(8px);
-  transition:transform .3s var(--ease),border-color .3s var(--ease),
-             background .3s var(--ease)}
-.btn:hover{border-color:var(--accent);transform:translateY(-2px)}
-.btn-p{background:var(--ink);color:var(--ground-1);border-color:var(--ink)}
-.btn-p:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-lg{height:52px;padding:0 26px;font-size:15.5px}
-@media (max-width:640px){.topnav{display:none}}
+/* --------------------------------------------------------------- hero --- */
+.hero{position:relative;min-height:min(880px,92vh);overflow:hidden;display:flex;flex-direction:column}
+.hero .photo{position:absolute;inset:0;background-image:var(--hero-desktop);background-size:cover;background-position:center 42%;filter:brightness(.72)}
+@media (max-width:760px){.hero .photo{background-image:var(--hero-mobile)}}
+.hero .shade{position:absolute;inset:0;background:
+  linear-gradient(90deg,#0c0d0ef2 0%,#0c0d0eb8 40%,#0c0d0e2e 75%,#0c0d0e5c 100%),
+  linear-gradient(180deg,transparent 68%,#0c0d0ee8 100%)}
+.hero-nav{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;max-width:1240px;width:100%;margin:0 auto;padding:22px 32px}
+.hero-nav .nav-links a:not(.pill){color:#D8D1C6}
+.hero-body{position:relative;z-index:3;flex:1;max-width:1240px;width:100%;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px}
+.hero-copy h1{font:600 clamp(40px,5.6vw,72px)/1.03 "Instrument Sans";letter-spacing:-.035em;margin-top:12px}
+.hero-copy .sub{margin-top:16px;font-size:clamp(16px,1.4vw,19px);color:#E3DDD3;max-width:32ch}
+.hero-cta-row{display:flex;align-items:center;gap:12px;margin-top:28px;flex-wrap:wrap}
+.hero-trust{margin-top:16px;font-size:12.5px;color:var(--mut)}
+.hero-stage{position:relative;height:640px;display:flex;align-items:center;justify-content:center}
+.ph{position:relative;width:270px;height:562px;border-radius:46px;background:linear-gradient(155deg,#242220,#0a0a09);padding:11px;box-shadow:0 40px 90px -10px #000c,0 4px 18px #0006,inset 0 0 0 1px #ffffff14;border:1.5px solid #302d29;flex:none}
+.sc{width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;background:#121110;box-shadow:inset 0 0 0 1px #00000080}
+.sc video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;background:#121110}
+.isl{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:76px;height:22px;border-radius:20px;background:#000;z-index:3;box-shadow:inset 0 0 0 1px #ffffff12}
+.hero-stage .hero-ph{transform:rotate(-1.2deg)}
+@media (prefers-reduced-motion:reduce){.ph{transform:none!important}}
 
-/* ── right-edge scene progress rail ──────────────────────────────────── */
-.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:55;
-  display:flex;flex-direction:column;align-items:center;gap:15px;
-  font-family:var(--mono)}
-.rail a{display:flex;align-items:center;justify-content:center;width:22px;
-  height:22px;font-size:9.5px;letter-spacing:.03em;color:var(--muted);
-  border-radius:999px;transition:color .3s var(--ease)}
-.rail a::before{content:"";display:block;width:5px;height:5px;border-radius:99px;
-  background:currentColor;transition:width .3s var(--ease),height .3s var(--ease)}
-.rail a span{display:none}
-.rail a.on{color:var(--accent)}
-.rail a.on::before{width:8px;height:8px;background:var(--accent)}
-@media (max-width:980px){.rail{display:none}}
-
-/* ── reveal-on-scroll, JS-off default is fully visible ───────────────── */
-.rv{opacity:1}
-.js .rv{opacity:0;transform:translateY(26px);
-  transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
-.rv.in{opacity:1;transform:none}
-.rv2{transition-delay:.08s}.rv3{transition-delay:.16s}.rv4{transition-delay:.24s}
-
-/* ── chapter scaffolding ──────────────────────────────────────────────── */
-.chapter{position:relative;z-index:2;padding:120px 0 110px}
-.eyebrow{display:flex;align-items:baseline;gap:12px;margin:0 0 22px;
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.19em;
-  text-transform:uppercase;color:var(--ink)}
-.eyebrow::before{content:"";width:6px;height:6px;border-radius:99px;
-  background:var(--accent);flex:none;align-self:center}
-.eyebrow em{font-style:normal;color:var(--muted);letter-spacing:.06em}
-h2{font-size:clamp(30px,4.4vw,52px);line-height:1.03;letter-spacing:-.03em;
-  font-weight:800;margin:0 0 20px;max-width:18ch;text-wrap:balance;color:var(--ink)}
-h2 i{font-style:italic;color:var(--accent)}
-.lede{font-size:clamp(16.5px,1.4vw,19px);color:var(--ink-2);max-width:48ch;
-  line-height:1.65;margin:0 0 30px}
-.micro{font-family:var(--mono);font-size:12px;color:var(--muted);
-  letter-spacing:.03em;line-height:1.6}
-.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;
-  align-items:center}
-@media (max-width:900px){.two{grid-template-columns:1fr;gap:44px}}
-
-/* frosted-glass cards on the light counter */
-.glass{background:var(--panel);border:1px solid var(--line);border-radius:18px;
-  backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15)}
-@supports not (backdrop-filter:blur(1px)){.glass{background:rgba(255,251,242,.92)}}
-.grounded{box-shadow:0 26px 54px -24px rgba(60,45,20,.28)}
-
-/* ═══ HERO / THE SPILL ══════════════════════════════════════════════════ */
-.hero{position:relative;padding:126px 0 70px}
-.hero-ground-fade{position:absolute;left:0;right:0;bottom:0;height:160px;
-  z-index:9;pointer-events:none;
-  /* softens the media/ground seam (mobile + desktop): ramps toward the
-     WASHED stone ground the chapters sit on (not an opaque flat bar —
-     .95 max so the same photo world reads through the seam) */
-  background:linear-gradient(180deg,rgba(239,228,204,0) 0%,
-    rgba(239,228,204,.5) 55%,rgba(239,228,204,.95) 100%)}
-.hero-pin{position:relative}
-.spill-stage{position:relative;height:300px;margin:0 0 40px;border-radius:20px;
-  background:#0000}
-.spill-frame{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
-.hero-bg-img{position:absolute;inset:0;z-index:0;width:100%;height:100%;
-  object-fit:cover;object-position:63% 50%;
-  filter:saturate(.8) brightness(1.04)}
-.hero-video{position:absolute;inset:0;z-index:1;width:100%;height:100%;
-  object-fit:cover;object-position:63% 50%;display:none;
-  transition:opacity .6s var(--ease)}
-.hero-fade-wash{position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:rgba(251,247,237,.72);opacity:.62}
-/* the one overlay left in the stage since the v3 story rework (Sim's
-   ruling: the sprite pills + popup tray looked terrible — the FOOTAGE
-   now carries the whole organize story): a single mono caption chip that
-   fades in beside the filled organizer at the end of the scrub. */
-.org-chip{position:absolute;left:34%;top:74%;z-index:3;margin:0;
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink-2);padding:9px 14px;opacity:1;
-  white-space:nowrap}
-@media (max-width:700px){.org-chip{left:8%;top:54%}}
-/* v2 ruling (2026-09-06): NO legibility scrim of any kind. The blur
-   ellipse that used to sit here read as "a big blur obscuring the
-   background" — legibility is now bought in the ASSET (the spill3 frame
-   is composed with a clean bright left field for the type), not in CSS. */
-/* the headline's own negative top margin for the reduced-motion/no-JS
-   fallback: .spill-stage there is a plain 300px strip ABOVE this block
-   (not an overlay), so the "headline moves into the scene" trick reads
-   as the headline's top edge overlapping the strip's bottom edge instead
-   — same idea as the mobile card, mirrored because the fallback's DOM
-   order is stage-then-copy rather than copy-then-stage. Kept small
-   (8px) on purpose: at 12px mono uppercase the eyebrow's own glyphs start
-   only ~3-4px into its line box, so this stays inside the whitespace. */
-.hero-headline{margin:-8px 0 0}
-@media (max-width:700px){
-  .spill-stage{height:230px}
-}
-/* .hero-eyebrow, .hero h1 and .hero-lede keep position:relative — a pure
-   stacking promotion (harmless now that the scrim and desktop cutout are
-   gone, and it keeps .hero-cta's explicit z-index meaningful). */
-.hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--ink);margin:0 0 20px;position:relative}
-/* v2: the type NEVER touches the bottle (2026-09-06 ruling — the old
-   "measured graze" is dead). The spill3 frame is composed with its
-   bottle right of ~58% frame-x, and .hero-headline's max-width below
-   keeps the widest line inside the clean left field with margin. */
-.hero h1{font-family:var(--serif);font-weight:700;position:relative;
-  font-size:clamp(40px,4.9vw,68px);line-height:1.0;letter-spacing:-.015em;
-  margin:0 0 26px;max-width:19ch;color:var(--ink)}
-.hero h1 i{font-style:italic}
-.clause2{opacity:1}
-.hero-lede{font-size:clamp(16px,1.5vw,19px);color:var(--ink);max-width:42ch;
-  margin:0 0 34px;line-height:1.6;position:relative}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;
-  position:relative;z-index:1}
-.scrolldown{margin:40px 0 0;font-family:var(--mono);font-size:10.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);
-  display:flex;align-items:center;justify-content:center;gap:10px}
-.scrolldown i{display:block;width:1px;height:34px;background:var(--line-2);
-  position:relative;font-style:normal}
-.js .scrolldown i::after{content:"";position:absolute;left:-2px;top:0;width:5px;
-  height:5px;border-radius:99px;background:var(--accent);
-  animation:scrollcue 2.2s var(--ease) infinite}
-@keyframes scrollcue{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
-
-@media (prefers-reduced-motion:no-preference){
-  /* 300vh (up from 230): the clip is now the WHOLE ~10s story — tip,
-     pour, gather into the organizer — scrubbed by scroll, so it gets a
-     longer runway for finer frame control under the thumb. */
-  .js .hero{height:340vh;padding:0}
-  .js .hero-pin{position:sticky;top:0;height:100svh;overflow:hidden}
-  .js .spill-stage{position:absolute;inset:0;height:auto;margin:0;border-radius:0}
-  .js .hero-video{display:block;opacity:1}
-  .js .hero-bg-img,.js .hero-video{filter:none}
-  .js .hero-fade-wash{opacity:0}
-  .js .org-chip{opacity:0;transition:opacity .3s linear}
-  .js .hero-fill{position:absolute;inset:0;z-index:6}
-  /* v4 geometry: the copy block lives in the UPPER-LEFT for the whole
-     film — every shot in the cut keeps that region clean wall (shot A
-     wide, shot B close-up, shot C payoff), so nothing ever overlaps the
-     type and no dip choreography is needed. The lower field belongs to
-     the film: bottle, pour, pills, and finally the phone bottom-right. */
-  .js .hero-headline{position:absolute;left:0;right:0;top:13%;
-    max-width:640px;margin-top:0}
-  .js .hero-copy{position:absolute;left:0;right:0;top:44%;max-width:520px}
-  .js .clause2{opacity:0;transition:opacity .2s linear}
-  .js .scrolldown{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
-    margin:0;transition:opacity .25s linear}
-  @media (max-width:900px){
-    /* MOBILE HERO v6 — THE FROZEN-MOMENT CAMERA GLIDE (the 2026-09-07
-       tutorial-drop correction, minus the video model): the scene is one
-       photoreal portrait STILL — spilled pills, tipped bottle, the phone
-       running the app — and the "camera" is a scroll-driven CSS
-       transform that starts tight on the spill and glides out to reveal
-       the phone. Generative video kept hallucinating hands the moment we
-       asked it to hold a frozen scene; a still cannot hallucinate, costs
-       144KB instead of 3MB, and scrubs at 60fps on iOS where
-       video.currentTime stutters. The dedicated PORTRAIT asset rule
-       stands (never the landscape asset scaled down). */
-    .js .hero{height:280vh;padding:0}
-    .js .hero-pin{position:sticky;top:0;height:100svh;overflow:hidden}
-    .js .spill-stage{position:absolute;inset:0;height:auto;margin:0;
-      border-radius:0;box-shadow:none}
-    .js .hero-video{display:none}
-    .js .hero-bg-img{object-position:50% 50%;will-change:transform;
-      transform-origin:50% 62%}
-    .js .hero-fill{position:absolute;inset:0;z-index:6}
-    .js .hero-headline{position:absolute;left:0;right:0;top:11%;
-      padding:0 22px;margin:0;max-width:none}
-    .js .clause2{opacity:0}
-    /* the portrait scene owns the lower half (phone + pills), so the
-       lede joins the headline on the clean wall band and only the CTA
-       row sits low — over bright counter, as solid buttons */
-    .js .hero-copy{position:absolute;inset:0;padding:0;margin:0;
-      max-width:none;pointer-events:none}
-    .js .hero-lede{position:absolute;left:22px;right:22px;top:36%;
-      margin:0;pointer-events:auto}
-    .js .hero-cta{position:absolute;left:22px;right:22px;bottom:6%;
-      pointer-events:auto;z-index:10}
-    .js .scrolldown{display:none}
-  }
+@media (max-width:760px){
+  .hero-nav{padding:16px 20px}.hero-nav .nav-links a:not(.pill){display:none}
+  .hero-body{padding:0 20px;display:flex;flex-direction:column;align-items:stretch;text-align:left;padding-top:4vh}
+  .hero-copy h1{font-size:40px}
+  .hero-stage{position:relative;height:auto;margin-top:14px;display:flex;justify-content:center;overflow:visible}
+  .hero-stage .ph{transform:none;width:158px;height:330px;border-radius:30px;padding:6px}
+  .sc{border-radius:24px}.isl{width:52px;height:15px;top:6px}
+  .hero{min-height:auto;padding-bottom:14px}
 }
 
-/* ═══ CHAPTER 01 · THE APP PANEL ═════════════════════════════════════════
-   A CSS/HTML-drawn phone screen — crisp at any DPI, never a screenshot —
-   mirroring the app's real "Your stack" surface: dark #0E1216, Inter +
-   letterspaced mono eyebrows, a horizontal protocol shelf of glass cards,
-   then dense 50px rows (form glyph, name, tabular sub-caption, sparkline,
-   chevron). Glass here is the DARK variant — translucent white fills at
-   .065–.15 alpha with .6px hairline borders — distinct from the light
-   .glass used on the counter itself. */
-.phone-stage{display:flex;justify-content:center;padding:20px 0}
-.phone-stage::before{content:"";position:absolute;width:78%;height:60px;
-  left:50%;bottom:-6px;transform:translateX(-50%);border-radius:50%;
-  background:radial-gradient(closest-side,rgba(60,45,20,.28),transparent 72%);
-  z-index:-1}
-.phone-frame{position:relative;width:min(300px,78vw);aspect-ratio:300/632;
-  border-radius:46px;padding:9px;
-  background:linear-gradient(165deg,#3a3a3a,#111 55%,#000);
-  box-shadow:0 40px 70px -26px rgba(50,38,16,.42),0 2px 0 rgba(255,255,255,.06) inset}
-.phone-screen{position:relative;width:100%;height:100%;border-radius:38px;
-  overflow:hidden;background:#0E1216;font-family:var(--sans);
-  display:flex;flex-direction:column;padding:30px 16px 18px}
-.ps-island{position:absolute;top:9px;left:50%;transform:translateX(-50%);
-  width:74px;height:20px;border-radius:99px;background:#000;z-index:5}
-.ps-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
-  text-transform:uppercase;color:rgba(255,255,255,.42);margin:0 0 5px}
-.ps-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.ps-title{font-size:23px;font-weight:800;letter-spacing:-.02em;color:#fff;margin:0}
-.ps-add{flex:none;font-size:11.5px;font-weight:600;color:#fff;
-  background:rgba(255,255,255,.1);border:.6px solid rgba(255,255,255,.16);
-  border-radius:999px;padding:7px 12px;margin-top:2px}
-.ps-shelf{display:flex;gap:8px;overflow-x:auto;margin:16px 0 14px;padding-bottom:2px;
-  scrollbar-width:none}
-.ps-shelf::-webkit-scrollbar{display:none}
-.ps-card{flex:none;width:88px;height:118px;border-radius:14px;padding:11px 10px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  background:rgba(255,255,255,.09);border:.6px solid rgba(255,255,255,.15);
-  backdrop-filter:blur(14px)}
-.ps-card svg{width:13px;height:13px;color:rgba(255,255,255,.5)}
-.ps-card b{display:block;font-size:12.5px;font-weight:700;color:#fff;letter-spacing:-.01em}
-.ps-card span{display:block;font-size:9.5px;color:rgba(255,255,255,.45);
-  font-family:var(--mono);margin-top:2px}
-.ps-list{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.ps-row{display:flex;align-items:center;gap:10px;height:50px;flex:none;
-  border-bottom:1px solid rgba(255,255,255,.07)}
-.ps-row:last-child{border-bottom:0}
-.ps-accent{width:3px;height:22px;border-radius:2px;flex:none;background:var(--ps-c)}
-.ps-glyph{width:34px;height:34px;border-radius:11px;flex:none;
-  background:rgba(255,255,255,.08);display:grid;place-items:center;color:rgba(255,255,255,.82)}
-.ps-glyph svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7}
-.ps-nm{flex:1;min-width:0}
-.ps-nm b{display:block;font-size:14px;font-weight:600;letter-spacing:-.01em;color:#fff;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ps-nm span{display:block;font-size:11px;color:rgba(255,255,255,.46);margin-top:1px;
-  font-family:var(--mono);font-variant-numeric:tabular-nums}
-.ps-spark{flex:none;width:38px;height:16px;color:var(--ps-c)}
-.ps-chev{flex:none;width:13px;height:13px;color:rgba(255,255,255,.28)}
+/* ----------------------------------------------------------- section --- */
+.section{padding:28px 0;border-top:1px solid var(--line)}
+.section-head{max-width:62ch;margin-bottom:18px}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head h2{font-size:22px;margin-top:6px}
+.section-head p{color:var(--ink2);font-size:15px;margin:10px 0 0;line-height:1.6}
+@media (min-width:620px){.section-head h2{font-size:30px}.section{padding:48px 0}}
 
-/* ═══ CHAPTER 02 · SAGE ══════════════════════════════════════════════════ */
-.sage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;
-  max-width:820px;margin:0 0 22px}
-@media (max-width:760px){.sage-grid{grid-template-columns:1fr}}
-.sage-ex{padding:18px 18px 16px}
-.sg-q{font-size:14.5px;font-style:italic;color:var(--ink);margin:0 0 10px;line-height:1.4}
-.sg-q::before{content:"\201C"}.sg-q::after{content:"\201D"}
-.sg-out{display:flex;align-items:center;gap:7px;font-family:var(--mono);
-  font-size:11px;color:var(--muted);letter-spacing:.02em;line-height:1.5}
-.sg-out svg{width:12px;height:12px;flex:none;color:var(--accent)}
-.confirm-mini{max-width:360px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.cf-ic{width:36px;height:36px;border-radius:11px;flex:none;background:var(--accent-soft);
-  display:grid;place-items:center;color:var(--accent)}
-.cf-ic svg{width:17px;height:17px}
-.cf-txt{flex:1;min-width:0}
-.cf-txt b{display:block;font-size:14px;font-weight:600;color:var(--ink)}
-.cf-txt span{display:block;font-size:12px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
-.cf-btns{display:flex;flex-direction:column;gap:6px;flex:none}
-.cf-btn{font-size:11px;font-weight:600;padding:6px 12px;border-radius:8px;text-align:center}
-.cf-btn.cancel{color:var(--muted);background:rgba(33,29,23,.06)}
-.cf-btn.confirm{color:#fff;background:var(--ink)}
-.trust{display:flex;align-items:baseline;gap:9px;font-size:14.5px;color:var(--ink-2);
-  max-width:56ch;line-height:1.55}
-.trust b{color:var(--ink);font-weight:700}
-
-/* ═══ CHAPTER 03 · THE LIBRARY ═══════════════════════════════════════════ */
-.libnum{font-size:clamp(64px,9vw,120px);font-weight:800;letter-spacing:-.035em;
-  line-height:.9;margin:0 0 10px;font-variant-numeric:tabular-nums;color:var(--ink)}
-.chips{display:flex;flex-wrap:wrap;gap:9px;max-width:660px}
-.chip{font-family:var(--mono);font-size:12px;color:var(--ink-2);
-  padding:8px 14px;border-radius:999px;border:1px solid var(--line);
-  background:rgba(255,251,242,.55)}
-
-/* ═══ CHAPTER 04 · UNDER THE HOOD (compact grid) ═════════════════════════ */
-.bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-@media (max-width:760px){.bento{grid-template-columns:1fr}}
-.tile{padding:24px 24px 22px}
-.tile h3{font-size:16.5px;font-weight:700;letter-spacing:-.01em;margin:0 0 10px;color:var(--ink)}
-.tile p{font-size:14px;color:var(--ink-2);line-height:1.6;margin:0}
-.tile .fine{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.5}
-.decay{padding:0;max-width:none}
-.decay .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);
-  letter-spacing:.05em;margin:0 0 6px}
-.decay .lbl b{color:var(--ink-2);font-weight:500}
-.decay .num{font-size:clamp(38px,5vw,50px);font-weight:800;letter-spacing:-.03em;
-  line-height:1;font-variant-numeric:tabular-nums;color:var(--ink);margin:0}
-.decay .num span{font-size:.4em;color:var(--muted);font-weight:500;margin-left:4px}
-.decay .bar{height:6px;border-radius:99px;background:rgba(33,29,23,.09);
-  overflow:hidden;margin:16px 0 12px}
-.decay .bar b{display:block;height:100%;width:92%;background:linear-gradient(90deg,
-  var(--accent),var(--accent-fill));border-radius:99px}
-.mini-rows{margin:12px 0 0;font-size:12px;font-family:var(--mono);color:var(--ink-2)}
-.mini-rows div{display:flex;justify-content:space-between;gap:10px;padding:6px 0;
-  border-top:1px solid var(--line)}
-.badge-arr{display:inline-block;font-family:var(--mono);font-size:10px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
-  background:var(--accent-soft);border-radius:999px;padding:4px 10px;margin-bottom:12px}
-.connect-icons{display:flex;gap:18px;margin:2px 0 14px}
-.connect-icons div{display:flex;align-items:center;gap:7px;font-size:12.5px;
-  font-weight:600;color:var(--ink-2)}
-.connect-icons svg{width:18px;height:18px;color:var(--ink-2)}
-.tile .chips{margin-top:6px}
-.tile .chip{font-size:11.5px;padding:6px 12px}
-
-/* ═══ CHAPTER 05 · REVIEWS (honest empty state) ══════════════════════════ */
-.rev-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
-  max-width:820px;margin:0 0 24px}
-@media (max-width:760px){.rev-grid{grid-template-columns:1fr}}
-.rev-card{border:1.5px dashed var(--line-2);border-radius:16px;padding:20px;
-  background:rgba(255,251,242,.34)}
-.rev-avatar{width:32px;height:32px;border-radius:99px;border:1.5px dashed var(--line-2);
-  margin-bottom:14px}
-.rev-bar{height:8px;border-radius:99px;background:rgba(33,29,23,.08);margin-bottom:8px}
-.rev-bar:nth-child(3){width:88%}.rev-bar:nth-child(4){width:64%}.rev-bar:nth-child(5){width:42%;margin-bottom:0}
-.rev-stars{display:flex;gap:4px;margin-top:16px}
-.rev-stars svg{width:13px;height:13px;color:var(--line-2)}
-.rev-caption{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.03em}
-
-/* ═══ CLOSE ═══════════════════════════════════════════════════════════════ */
-.close{padding:120px 0 96px;text-align:center;position:relative;z-index:2}
-.close h2{max-width:20ch;margin:0 auto 18px}
-.close .lede{margin:0 auto 14px;text-align:center}
-.close .fine-cta{font-size:13px;color:var(--muted);margin:16px 0 0}
-.close-waitlist{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.close-waitlist input{height:52px;padding:0 18px;border-radius:999px;
-  border:1px solid var(--line-2);background:rgba(255,255,255,.55);
-  font:inherit;font-size:15px;color:var(--ink);min-width:min(300px,72vw)}
-.close-waitlist input:focus{outline:2px solid var(--accent);outline-offset:2px}
-.close-waitlist input::placeholder{color:var(--muted)}
-.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:30px 0 14px}
-.badge{display:inline-flex;flex-direction:column;align-items:flex-start;
-  gap:1px;padding:9px 18px;border-radius:12px;border:1px solid var(--line-2);
-  color:var(--ink-2)}
-.badge b{font-size:13.5px;font-weight:600;color:var(--ink)}
-.badge span{font-size:10px;font-family:var(--mono);letter-spacing:.04em;
-  color:var(--muted)}
-
-footer{padding:40px 0 30px;border-top:1px solid var(--line);font-size:13.5px;
-  color:var(--muted);position:relative;z-index:2}
-.fin{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
-.flogo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;color:var(--ink)}
-.flogo svg{width:18px;height:18px}
-.fin nav{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto}
-footer a:hover{color:var(--ink-2)}
-.disclaimer{font-size:12px;line-height:1.6;color:var(--muted);max-width:70ch;margin:0 0 16px}
-.fin-bottom{font-size:12.5px;color:var(--muted)}
-
-@media (max-width:640px){
-  .chapter{padding:92px 0 80px}
-  .close{padding:92px 0 68px}
+/* -------------------------------------------------------- feature show --- */
+.fs-wrap{display:grid;grid-template-areas:"caption" "stage" "tabs";row-gap:12px;align-items:center}
+.fs-stage{grid-area:stage;display:flex;justify-content:center}
+.fs-ph{width:208px;height:auto;aspect-ratio:720/736;border-radius:32px;padding:7px}
+.fs-ph .sc{border-radius:24px}
+.fs-ph .isl{display:none}
+.fs-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;background:#121110;opacity:0;transition:opacity .3s ease;z-index:1}
+.fs-video.active{opacity:1;z-index:2}
+@media (prefers-reduced-motion:reduce){.fs-video{transition:none}}
+.fs-caption{grid-area:caption;display:grid;text-align:center}
+.fs-cap-slide{grid-row:1;grid-column:1;opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease;pointer-events:none}
+.fs-cap-slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.fs-cap-slide{transition:none;transform:none}}
+.fs-cap-slide h3{font-size:20px}
+.fs-cap-slide p{color:var(--ink2);font-size:14px;margin:8px 0 0;line-height:1.55;max-width:38ch;margin-left:auto;margin-right:auto}
+.fs-tabs{grid-area:tabs;display:flex;gap:10px;justify-content:center;list-style:none}
+.fs-tab{display:flex;align-items:center;gap:8px;padding:8px 4px;background:none;border:none;color:var(--mut);cursor:pointer;font:600 13px "Instrument Sans",Inter,sans-serif}
+.fs-tab .dot{width:8px;height:8px;border-radius:999px;background:var(--line);flex:none;transition:width .2s ease,background .2s ease}
+.fs-tab[aria-selected="true"]{color:var(--paper)}
+.fs-tab[aria-selected="true"] .dot{background:var(--ns);width:20px;border-radius:999px}
+.fs-tab:focus-visible{outline:2px solid var(--ns);outline-offset:3px;border-radius:6px}
+@media (max-width:779px){
+  .fs-tab .label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .fs-tab{padding:8px}
+}
+@media (min-width:780px){
+  .fs-wrap{grid-template-columns:1fr 1fr;grid-template-areas:"stage caption" "stage tabs";column-gap:56px;row-gap:14px}
+  .fs-ph{width:288px;height:auto;border-radius:42px}
+  .fs-caption{text-align:left;align-self:end}
+  .fs-cap-slide p{margin-left:0;margin-right:0}
+  .fs-cap-slide h3{font-size:25px}
+  .fs-cap-slide p{font-size:15.5px}
+  .fs-tabs{justify-content:flex-start;flex-direction:column;gap:4px;align-self:start}
 }
 
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;
-    transition-duration:.01ms!important}
-  .js .rv{opacity:1!important;transform:none!important}
-  .counter::before{animation:none}
+/* --------------------------------------------------------------- doors --- */
+.door-scroll{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -1px;padding:1px}
+.door-scroll::-webkit-scrollbar{display:none}
+.door-card{scroll-snap-align:start;flex:0 0 auto;width:210px;display:block;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel);transition:border-color .2s ease}
+.door-card:hover{border-color:var(--ns)}
+.door-card h3{font-size:16px;margin-top:6px}
+.door-card p{color:var(--ink2);font-size:12.5px;margin:6px 0 0;line-height:1.5}
+.door-card .go{margin-top:10px;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--ns)}
+@media (min-width:780px){.door-scroll{overflow-x:visible}.door-card{flex:1 1 0;width:auto}}
+
+/* --------------------------------------------------------------- facts --- */
+.fact-row{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+@media (min-width:680px){.fact-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.fact-cell{background:var(--night);padding:14px 16px}
+.fact-cell h3{font-size:15.5px;font-weight:600;line-height:1.35}
+.fact-cell p{color:var(--mut);font-size:12.5px;margin:6px 0 0;line-height:1.5}
+
+/* ------------------------------------------------------------- pricing --- */
+.price-card{border:1px solid var(--line);border-radius:20px;padding:22px 20px;background:var(--panel);max-width:640px;margin:0 auto;text-align:center}
+.price-card h2{font-size:21px;margin-top:8px}
+@media (min-width:620px){.price-card h2{font-size:28px}}
+.tl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px auto;max-width:460px}
+.tl-step{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;text-align:center}
+.tl-step b{font-family:"Instrument Sans",sans-serif;font-size:13px;color:var(--paper)}
+.tl-step span{color:var(--mut);line-height:1.4}
+.tl-dot{width:9px;height:9px;border-radius:999px;background:var(--ns)}
+.price-card .fine{color:var(--dim);font-size:13px;max-width:44ch;margin:0 auto 18px;line-height:1.6}
+
+/* ----------------------------------------------------------------- faq --- */
+.faq-list{max-width:760px;margin:0;border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line);padding:10px 2px}
+.faq-item summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:"Instrument Sans",sans-serif;font-size:15px;font-weight:600}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-plus{color:var(--mut);font-size:19px;font-weight:400;flex:none;transition:transform .2s}
+.faq-item[open] .faq-plus{transform:rotate(45deg)}
+.faq-item p{color:var(--ink2);font-size:13.5px;margin:10px 0 0;line-height:1.6;max-width:60ch}
+
+/* -------------------------------------------------------------- final --- */
+.final-cta{position:relative;overflow:hidden;min-height:auto;padding:0;display:flex}
+.final-cta .photo{position:absolute;inset:0;background-image:var(--hero-desktop);background-size:cover;background-position:center 55%;filter:brightness(.6)}
+@media (max-width:760px){.final-cta .photo{background-image:var(--hero-mobile)}}
+.final-cta .shade{position:absolute;inset:0;background:radial-gradient(60% 90% at 50% 50%,rgba(12,13,14,.55),rgba(12,13,14,.9))}
+.final-cta-inner{position:relative;z-index:2;padding:40px 0;text-align:center;max-width:1200px;margin:0 auto;padding-left:44px;padding-right:44px}
+.final-cta h2{font-size:24px;max-width:20ch;margin:0 auto}
+@media (min-width:620px){.final-cta h2{font-size:38px}}
+.final-cta .hero-cta-row{justify-content:center;margin-top:18px}
+
+/* -------------------------------------------------------- store badge --- */
+.store-badge{display:inline-flex;align-items:center;justify-content:center;gap:11px;background:var(--paper);color:#111;border:0;border-radius:14px;padding:13px 20px;min-height:52px;cursor:pointer;font-family:inherit;text-align:left;transition:transform .15s ease}
+.store-badge:hover{transform:translateY(-2px)}
+.store-badge svg{width:22px;height:22px;flex:none}
+.sb-text{display:flex;flex-direction:column;line-height:1.15}
+.sb-top{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.72}
+.sb-main{font-size:16px;font-weight:800;letter-spacing:-.01em}
+
+/* ------------------------------------------------------------ footer --- */
+.footer{border-top:1px solid var(--line);background:var(--panel);margin-top:0}
+.footer-inner{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding:24px 44px 16px;max-width:1200px;margin:0 auto}
+@media (min-width:680px){.footer-inner{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr)}}
+.footer h4{font:700 12px/1 Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+.footer ul{list-style:none}
+.footer li a{color:var(--mut);font-size:14px;display:inline-block;padding:4px 0}
+.footer li a:hover{color:var(--paper)}
+.footer .tag{color:var(--mut);font-size:14px;font-weight:500;line-height:1.6;margin:10px 0 0;max-width:32ch}
+.footer .brand{margin-right:0}
+.disclaimer-band{border-top:1px solid var(--line);padding:10px 44px;color:var(--dim);font-size:12.5px;line-height:1.6;max-width:1200px;margin:0 auto}
+.footer-bottom{display:flex;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;border-top:1px solid var(--line);padding:10px 44px 18px;color:var(--dim);font-size:13px;max-width:1200px;margin:0 auto}
+.footer-bottom a{color:var(--mut)}
+.footer-bottom a:hover{color:var(--paper)}
+@media (max-width:760px){
+  .container,.footer-inner,.disclaimer-band,.footer-bottom{padding-left:20px;padding-right:20px}
 }
 
-/* Stable anchor aliases: other pages link to #features / #download, which the
-   homepage rebuild renamed to #panel / #close. Zero-size, offset to clear the
-   fixed nav so the section header is not hidden under it. */
-.anchor-alias{display:block;height:0;overflow:hidden;scroll-margin-top:72px}
+/* --------------------------------------------------------- sticky bar --- */
+.sticky-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:70;display:none;align-items:center;justify-content:space-between;gap:14px;padding:12px 12px 12px 18px;border-radius:16px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 14px 30px rgba(0,0,0,.35);transform:translateY(140%);transition:transform .35s ease}
+.sticky-bar.show{transform:translateY(0)}
+.sticky-bar-text{display:flex;flex-direction:column;line-height:1.25}
+.sticky-bar-text b{font-family:"Instrument Sans",sans-serif;font-size:14px}
+.sticky-bar-text span{font-size:11.5px;color:var(--mut)}
+@media (max-width:680px){.sticky-bar{display:flex}body{padding-bottom:78px}}
 </style>
 </head>
 <body>
 
-<div class="counter" aria-hidden="true">
-  <!-- one world: the page ground is a clean region cut from the SAME
-       stone-counter frame the hero was shot on (spill_v2/stone_a) -->
-  <img class="counter-photo" src="assets/img/home/counter-stone-web.jpg" alt="">
-  <div class="counter-wash"></div>
-</div>
-<div class="tint" id="tint" aria-hidden="true"></div>
-
-<div class="top">
-  <div class="topin">
-    <a class="logo" href="#hero">
-      <svg id="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
-        <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#3F3F46"/>
-        <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#A1A1AA"/>
-        <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#18181B"/>
-      </svg>Stack
-    </a>
-    <nav class="topnav" aria-label="Primary">
-      <a href="compounds/">Library</a>
-      <a href="privacy.html">Privacy</a>
-    </nav>
-    <a class="btn btn-p" href="#close">Get Stack</a>
-  </div>
-</div>
-
-<nav class="rail" aria-label="Section progress">
-  <a href="#hero" data-rail="hero" title="Intro"><span>Intro</span></a>
-  <a href="#panel" data-rail="panel" title="01 — your stack"><span>01</span></a>
-  <a href="#sage" data-rail="sage" title="02 — juno"><span>02</span></a>
-  <a href="#library" data-rail="library" title="03 — the library"><span>03</span></a>
-  <a href="#more" data-rail="more" title="04 — under the hood"><span>04</span></a>
-  <a href="#reviews" data-rail="reviews" title="05 — reviews"><span>05</span></a>
-  <a href="#close" data-rail="close" title="Get Stack"><span>Get</span></a>
-</nav>
-
-<!-- ═══ HERO / THE SPILL ═════════════════════════════════════════════════ -->
-<header class="hero" id="hero" data-tint="">
-  <div class="hero-pin">
-    <div class="spill-stage" aria-hidden="true">
-      <div class="spill-frame">
-        <img class="hero-bg-img" src="assets/img/home/spill7-frame-last.jpg" alt="" width="1280" height="720">
-
-        <!-- preload=auto on purpose: desktop SCRUBS this clip (scroll →
-             currentTime), which needs the whole file buffered. It is the
-             entire story — bottle tips, pours, pills gather into the
-             organizer — played backwards-filmed for the gather beat. -->
-        <video class="hero-video" id="spillVideo" muted playsinline preload="auto"
-          poster="assets/img/home/spill7-frame-first.jpg">
-          <source src="assets/img/home/spill7.mp4" type="video/mp4">
-        </video>
-
-        <div class="hero-fade-wash" id="heroFadeWash"></div>
-        <p class="org-chip glass" id="orgChip">Organized automatically</p>
-      </div>
+<main>
+<section class="hero" id="hero">
+  <div class="photo"></div>
+  <div class="shade"></div>
+  <nav class="hero-nav">
+    <a href="#hero" class="brand"><span class="brand-mark" data-mark aria-hidden="true"></span>Stack</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="pricing/">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="pricing/" class="pill">Get the app</a>
     </div>
-
-    <div class="shell hero-fill">
-      <div class="hero-headline">
-        <p class="hero-eyebrow rv">Stack</p>
-        <h1 class="rv rv2">Your whole stack,<br><i class="clause2">in one place.</i></h1>
+  </nav>
+  <div class="hero-body">
+    <div class="hero-copy">
+      <span class="eyebrow">Track your stack</span>
+      <h1>Say your protocol.<br>Watch it organise.</h1>
+      <p class="sub">Peptides, TRT, GLP-1s and supplements — logged, reminded and counted down.</p>
+      <div class="hero-cta-row">
+        <button class="store-badge" data-store="play" type="button">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
+          <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
+        </button>
       </div>
-
-      <div class="hero-copy">
-        <p class="hero-lede rv rv3">Medications, peptides, and supplements —
-        however it lands on the counter, Stack sorts it into one calm list.</p>
-        <div class="hero-cta rv rv4">
-          <a class="btn btn-p btn-lg" href="#close">Get Stack</a>
-          <a class="btn btn-lg" href="#panel">See how it works</a>
+      <div class="hero-trust">7 days free &middot; Cancel anytime &middot; Your log stays yours</div>
+    </div>
+    <div class="hero-stage">
+      <div class="ph hero-ph">
+        <div class="sc">
+          <video autoplay muted loop playsinline preload="none" poster="assets/img/app/hero_juno_poster.jpg">
+            <source src="assets/img/app/hero_juno.webm" type="video/webm">
+            <source src="assets/img/app/hero_juno.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
+<!-- ------------------------------------------------------- what it does --- -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">What it does</span>
+      <h2>Four things Stack is quietly good at.</h2>
     </div>
 
-    <p class="scrolldown" id="scrolldown" aria-hidden="true">Scroll<i></i></p>
-  </div>
-  <div class="hero-ground-fade" aria-hidden="true"></div>
-</header>
-
-<!-- ═══ CHAPTER 01 · THE APP PANEL ═════════════════════════════════════════ -->
-<span id="features" class="anchor-alias" aria-hidden="true"></span>
-<section class="chapter" id="panel" data-tint="rgba(70,80,95,.06)">
-  <div class="shell">
-    <div class="two">
-      <div>
-        <p class="eyebrow rv"><span>Chapter 01</span><em>— your stack</em></p>
-        <h2 class="rv rv2">Everything you take, in one calm list.</h2>
-        <p class="lede rv rv3">Meds, peptides, and supplements sit in the same
-        list, organized into the protocols you name — never ones picked for
-        you.</p>
-        <p class="micro rv rv4">Colors, names, and reminder levels are yours
-        to set — see &ldquo;Make it yours&rdquo; below.</p>
-      </div>
-      <div class="rv rv2 phone-stage">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <div class="ps-island" aria-hidden="true"></div>
-            <div class="ps-head">
-              <div>
-                <p class="ps-eyebrow">4 compounds · 3 protocols</p>
-                <p class="ps-title">Your stack</p>
-              </div>
-              <span class="ps-add">+ Add</span>
-            </div>
-            <div class="ps-shelf" aria-hidden="true">
-              <div class="ps-card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="10" width="12" height="9" rx="2"/><path d="M8.5 10V7a3.5 3.5 0 017 0v3"/></svg>
-                <div><b>Always on</b><span>3 items</span></div>
-              </div>
-              <div class="ps-card">
-                <div><b>Morning</b><span>2 items</span></div>
-              </div>
-              <div class="ps-card">
-                <div><b>Evening</b><span>2 items</span></div>
-              </div>
-            </div>
-            <div class="ps-list" aria-hidden="true">
-              <div class="ps-row" style="--ps-c:#E0A458">
-                <span class="ps-accent"></span>
-                <span class="ps-glyph"><svg viewBox="0 0 24 24"><path d="M12 3v10M9 6l3-3 3 3"/><rect x="9" y="13" width="6" height="8" rx="3"/></svg></span>
-                <span class="ps-nm"><b>Semaglutide</b><span>0.25 mg · weekly</span></span>
-                <svg class="ps-spark" viewBox="0 0 40 18" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="0,4 10,7 20,6 30,11 40,9"/></svg>
-                <svg class="ps-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-              </div>
-              <div class="ps-row" style="--ps-c:#4FBBA0">
-                <span class="ps-accent"></span>
-                <span class="ps-glyph"><svg viewBox="0 0 24 24"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
-                <span class="ps-nm"><b>Vitamin D3</b><span>1 capsule · daily</span></span>
-                <svg class="ps-spark" viewBox="0 0 40 18" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="0,3 10,4 20,4 30,5 40,5"/></svg>
-                <svg class="ps-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-              </div>
-              <div class="ps-row" style="--ps-c:#E0637A">
-                <span class="ps-accent"></span>
-                <span class="ps-glyph"><svg viewBox="0 0 24 24"><path d="M9 4h6M12 4v3"/><rect x="8" y="7" width="8" height="12" rx="2.5"/><path d="M8 12h8"/></svg></span>
-                <span class="ps-nm"><b>Testosterone cypionate</b><span>20 mg · weekly</span></span>
-                <svg class="ps-spark" viewBox="0 0 40 18" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="0,5 10,8 20,9 30,12 40,10"/></svg>
-                <svg class="ps-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-              </div>
-              <div class="ps-row" style="--ps-c:#7C93C9">
-                <span class="ps-accent"></span>
-                <span class="ps-glyph"><svg viewBox="0 0 24 24"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
-                <span class="ps-nm"><b>Magnesium</b><span>2 capsules · nightly</span></span>
-                <svg class="ps-spark" viewBox="0 0 40 18" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="0,4 10,4 20,5 30,5 40,6"/></svg>
-                <svg class="ps-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-              </div>
-            </div>
+    <div class="fs-wrap" id="fsWrap">
+      <div class="fs-stage">
+        <div class="ph fs-ph">
+          <div class="sc" id="fsScreen">
+            <div class="isl"></div>
+            <video class="fs-video active" data-slide="0" muted loop playsinline preload="auto" poster="assets/img/app/build_stack_poster.jpg">
+              <source src="assets/img/app/build_stack.webm" type="video/webm">
+              <source src="assets/img/app/build_stack.mp4" type="video/mp4">
+            </video>
+            <video class="fs-video" data-slide="1" muted loop playsinline preload="none" poster="assets/img/app/injection_sites_poster.jpg">
+              <source src="assets/img/app/injection_sites.webm" type="video/webm">
+              <source src="assets/img/app/injection_sites.mp4" type="video/mp4">
+            </video>
+            <video class="fs-video" data-slide="2" muted loop playsinline preload="none" poster="assets/img/app/juno_actions_poster.jpg">
+              <source src="assets/img/app/juno_actions.webm" type="video/webm">
+              <source src="assets/img/app/juno_actions.mp4" type="video/mp4">
+            </video>
+            <video class="fs-video" data-slide="3" muted loop playsinline preload="none" poster="assets/img/app/doctor_report_poster.jpg">
+              <source src="assets/img/app/doctor_report.webm" type="video/webm">
+              <source src="assets/img/app/doctor_report.mp4" type="video/mp4">
+            </video>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══ CHAPTER 02 · SAGE ═══════════════════════════════════════════════════ -->
-<section class="chapter" id="sage" data-tint="rgba(136,79,32,.07)">
-  <div class="shell">
-    <p class="eyebrow rv"><span>Chapter 02</span><em>— your stack, handled</em></p>
-    <h2 class="rv rv2">Tell it what happened.<br><i>It handles the rest.</i></h2>
-    <p class="lede rv rv3">Juno operates the app by chat or voice — logs
-    doses, pauses and resumes, snoozes, changes doses and schedules,
-    renames, removes, switches protocols. What to take is between you and
-    your clinician.</p>
-
-    <div class="sage-grid">
-      <div class="glass sage-ex rv rv2">
-        <p class="sg-q">took my shot</p>
-        <p class="sg-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12.5l4 4 10-11"/></svg>Logged instantly · 6-second undo</p>
-      </div>
-      <div class="glass sage-ex rv rv3">
-        <p class="sg-q">push tonight's dose an hour</p>
-        <p class="sg-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 9.5h16M8 3v3M16 3v3"/></svg>Confirm card shown · 7:00 → 8:00 PM</p>
-      </div>
-      <div class="glass sage-ex rv rv4">
-        <p class="sg-q">pause my vitamin D</p>
-        <p class="sg-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 9.5h16M8 3v3M16 3v3"/></svg>Confirm card shown · Vitamin D3 paused</p>
-      </div>
-    </div>
-
-    <div class="glass grounded confirm-mini rv rv2" aria-hidden="true">
-      <span class="cf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v10M9 6l3-3 3 3"/><rect x="9" y="13" width="6" height="8" rx="3"/></svg></span>
-      <span class="cf-txt"><b>Push tonight's dose</b><span>7:00 PM → 8:00 PM · Semaglutide</span></span>
-      <span class="cf-btns"><span class="cf-btn cancel">Cancel</span><span class="cf-btn confirm">Confirm</span></span>
-    </div>
-
-    <p class="trust rv rv3"><b>Anything that changes your stack shows you a
-    card first.</b> You tap to confirm — nothing moves on its own.</p>
-  </div>
-</section>
-
-<!-- ═══ CHAPTER 03 · THE LIBRARY ═══════════════════════════════════════════ -->
-<section class="chapter" id="library" data-tint="rgba(120,100,70,.05)">
-  <div class="shell">
-    <p class="eyebrow rv"><span>Chapter 03</span><em>— the library</em></p>
-    <p class="libnum rv rv2">587</p>
-    <h2 class="rv rv2">Compounds, already in the library.</h2>
-    <p class="lede rv rv3">Meds, peptides, and supplements — search once,
-    and the route, presentation, marketed strength, and storage are already
-    filled in.</p>
-    <p class="micro rv rv3" style="margin:-14px 0 26px">157 injectable ·
-    335 with published half-life data — every entry sourced, not guessed.</p>
-    <div class="chips rv rv4">
-      <span class="chip">Semaglutide</span><span class="chip">Tirzepatide</span>
-      <span class="chip">Testosterone cypionate</span><span class="chip">BPC-157</span>
-      <span class="chip">Vitamin D3</span><span class="chip">Magnesium glycinate</span>
-      <span class="chip">Creatine monohydrate</span><span class="chip">Omega-3</span>
-      <span class="chip">Melatonin</span><span class="chip">Ashwagandha</span>
-      <span class="chip">Metformin</span><span class="chip">NAD+</span>
-      <span class="chip">Zinc</span><span class="chip">L-theanine</span>
-      <span class="chip">+ 573 more</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ CHAPTER 04 · UNDER THE HOOD ════════════════════════════════════════ -->
-<section class="chapter" id="more" data-tint="rgba(80,100,120,.06)">
-  <div class="shell">
-    <p class="eyebrow rv"><span>Chapter 04</span><em>— under the hood</em></p>
-    <h2 class="rv rv2">The details that make it feel finished.</h2>
-    <p class="lede rv rv3">Four small things carrying real engineering —
-    quietly, so the list up top stays calm.</p>
-
-    <div class="bento rv rv4">
-      <div class="glass tile">
-        <div class="decay">
-          <p class="lbl">Semaglutide · <b>half-life 7 days</b></p>
-          <p class="num">92<span>% estimated remaining</span></p>
-          <div class="bar"><b></b></div>
+      <div class="fs-caption" id="fsCaption" aria-live="polite">
+        <div class="fs-cap-slide active" data-slide="0">
+          <h3>Just say it. Juno sets it up.</h3>
+          <p>Type your protocol in plain words &mdash; Juno sorts the doses and schedule. You confirm every detail before anything saves.</p>
         </div>
-        <p class="fine">Not medical advice. Stack does not diagnose or treat.</p>
-      </div>
-
-      <div class="glass tile">
-        <h3>The record</h3>
-        <p>A clinical-standard export — dates, amounts, times — ready
-        before an appointment.</p>
-        <div class="mini-rows">
-          <div><span>Feb 26 · Semaglutide</span><span>0.5 mg</span></div>
-          <div><span>Feb 26 · Vitamin D3</span><span>1 cap</span></div>
+        <div class="fs-cap-slide" data-slide="1" aria-hidden="true">
+          <h3>Rotate sites without guessing</h3>
+          <p>A body map tracks what's rested and points you at the next spot &mdash; front or back.</p>
+        </div>
+        <div class="fs-cap-slide" data-slide="2" aria-hidden="true">
+          <h3>Tell Juno, it handles the rest</h3>
+          <p>Log a dose, push it later, or change the time &mdash; just tell Juno instead of digging through menus.</p>
+        </div>
+        <div class="fs-cap-slide" data-slide="3" aria-hidden="true">
+          <h3>Walk into the appointment ready</h3>
+          <p>A clinician-ready PDF &mdash; adherence, trends, flagged labs &mdash; built entirely on your phone.</p>
         </div>
       </div>
 
-      <div class="glass tile">
-        <span class="badge-arr">Arriving</span>
-        <h3>Connects, quietly</h3>
-        <div class="connect-icons">
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.35-9.5-8.8C.8 7.6 2.3 4 6 4c2 0 3.3 1.1 4 2.2C10.7 5.1 12 4 14 4c3.7 0 5.2 3.6 3.5 7.2C15 15.65 12 20 12 20z"/></svg>Apple Health</div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3.5v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9v-5z"/></svg>Health Connect</div>
-        </div>
-        <p>Connects to Apple Health and Health Connect to read weight, steps,
-        sleep, and resting heart rate — read-only, nothing leaves your phone.</p>
-      </div>
-
-      <div class="glass tile">
-        <h3>Make it yours</h3>
-        <p>Every layer is yours to set. Cosmetics are free for everyone.</p>
-        <div class="chips">
-          <span class="chip">Colors</span><span class="chip">Custom names</span>
-          <span class="chip">Custom sounds</span><span class="chip">Reminder or alarm</span>
-          <span class="chip">Titration ladders</span><span class="chip">Exact, block, or frequency</span>
-          <span class="chip">Injection site map</span><span class="chip">5 backgrounds</span>
-          <span class="chip">Flex card, free</span>
-        </div>
+      <div class="fs-tabs" id="fsTabs" role="tablist" aria-label="Stack features">
+        <button class="fs-tab" role="tab" aria-selected="true" data-slide="0" id="fsTab0" aria-controls="fsCaption"><span class="dot"></span><span class="label">Say it, done</span></button>
+        <button class="fs-tab" role="tab" aria-selected="false" tabindex="-1" data-slide="1" id="fsTab1" aria-controls="fsCaption"><span class="dot"></span><span class="label">Rotate sites</span></button>
+        <button class="fs-tab" role="tab" aria-selected="false" tabindex="-1" data-slide="2" id="fsTab2" aria-controls="fsCaption"><span class="dot"></span><span class="label">Ask Juno</span></button>
+        <button class="fs-tab" role="tab" aria-selected="false" tabindex="-1" data-slide="3" id="fsTab3" aria-controls="fsCaption"><span class="dot"></span><span class="label">Doctor report</span></button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ CHAPTER 05 · REVIEWS ════════════════════════════════════════════════ -->
-<section class="chapter" id="reviews" data-tint="rgba(33,29,23,.03)">
-  <div class="shell">
-    <p class="eyebrow rv"><span>Chapter 05</span><em>— reviews</em></p>
-    <h2 class="rv rv2">Reviews land here when real people have used it.</h2>
-    <p class="lede rv rv3">We don't fake them.</p>
-
-    <div class="rev-grid rv rv4" aria-hidden="true">
-      <div class="rev-card"><div class="rev-avatar"></div>
-        <div class="rev-bar"></div><div class="rev-bar"></div><div class="rev-bar"></div>
-        <div class="rev-stars">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-        </div>
-      </div>
-      <div class="rev-card"><div class="rev-avatar"></div>
-        <div class="rev-bar"></div><div class="rev-bar"></div><div class="rev-bar"></div>
-        <div class="rev-stars">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-        </div>
-      </div>
-      <div class="rev-card"><div class="rev-avatar"></div>
-        <div class="rev-bar"></div><div class="rev-bar"></div><div class="rev-bar"></div>
-        <div class="rev-stars">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.7 6.2.6-4.7 4.2 1.4 6.2L12 16.8 6.5 19.7l1.4-6.2L3.2 9.3l6.2-.6z"/></svg>
-        </div>
-      </div>
+<!-- --------------------------------------------------------- who it's for --- -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Go deeper</span>
+      <h2>Three ways to use Stack beyond the app.</h2>
     </div>
-    <p class="rev-caption rv rv4">Waiting for the first one.</p>
-  </div>
-</section>
-
-<!-- ═══ CLOSE ═══════════════════════════════════════════════════════════════ -->
-<span id="download" class="anchor-alias" aria-hidden="true"></span>
-<section class="close" id="close" data-tint="">
-  <div class="shell">
-    <p class="eyebrow rv" style="justify-content:center"><span>Stack</span></p>
-    <h2 class="rv rv2">Get Stack.</h2>
-    <p class="lede rv rv3">One list for everything you take.</p>
-    <div class="rv rv4">
-      <form class="close-waitlist" id="closeWaitlist" novalidate>
-        <input type="email" name="email" required placeholder="you@email.com"
-          autocomplete="email" aria-label="Email address">
-        <button class="btn btn-p btn-lg" type="submit">Get Stack</button>
-      </form>
-      <p class="fine-cta" id="waitlistNote">Android first, very soon — iOS
-      after. Leave your email and we'll tell you the moment it's live.</p>
-    </div>
-    <div class="badges rv rv4">
-      <span class="badge"><b>App Store</b><span>coming soon</span></span>
-      <span class="badge"><b>Google Play</b><span>coming soon</span></span>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="shell">
-    <div class="fin">
-      <a class="flogo" href="#hero">
-        <svg viewBox="0 0 40 40" aria-hidden="true">
-          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="#3F3F46"/>
-          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="#A1A1AA"/>
-          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="#18181B"/>
-        </svg>Stack
+    <div class="door-scroll">
+      <a href="compounds/" class="door-card">
+        <span class="eyebrow">Reference</span>
+        <h3>Compound library</h3>
+        <p>587 compounds — half-lives, dosing facts and tracking notes, free to read.</p>
+        <span class="go">Open <svg width="16" height="11" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg></span>
       </a>
-      <nav>
-        <a href="compounds/">Library</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="data-deletion.html">Data deletion</a>
-        <a href="#" data-email-link>hello@trackyourstack.app</a>
-      </nav>
+      <a href="tools/" class="door-card">
+        <span class="eyebrow">Free tools</span>
+        <h3>Calculators</h3>
+        <p>Reconstitution, vial run-out, half-life and syringe units &mdash; no signup.</p>
+        <span class="go">Open <svg width="16" height="11" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg></span>
+      </a>
+      <a href="guides/" class="door-card">
+        <span class="eyebrow">Guides</span>
+        <h3>How-tos</h3>
+        <p>Reconstitution, injection-site rotation, TRT bloodwork and GLP-1 tracking.</p>
+        <span class="go">Open <svg width="16" height="11" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg></span>
+      </a>
     </div>
-    <p class="disclaimer">Not medical advice. Stack does not diagnose or treat.</p>
-    <p class="fin-bottom">&copy; 2026 Stack — a product of Cedar Hills Studio LLC</p>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ honesty --- -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Honestly</span>
+      <h2>Built quiet on purpose.</h2>
+    </div>
+    <div class="fact-row">
+      <div class="fact-cell"><h3>Your log lives on your phone</h3><p>By default, nothing leaves the device.</p></div>
+      <div class="fact-cell"><h3>Encrypted backup, only if you turn it on</h3><p>Off unless you choose it, in Settings.</p></div>
+      <div class="fact-cell"><h3>Stack never tells you what to take</h3><p>It logs. It doesn't prescribe, suggest, or judge.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ pricing --- -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="price-card">
+      <span class="eyebrow">Pricing</span>
+      <h2>7 days free, then $59.99 a year or $9.99 a month.</h2>
+      <div class="tl-strip">
+        <div class="tl-step"><div class="tl-dot"></div><b>Today</b><span>Free, full app</span></div>
+        <div class="tl-step"><div class="tl-dot"></div><b>Day 5</b><span>A reminder, not a charge</span></div>
+        <div class="tl-step"><div class="tl-dot"></div><b>Day 7</b><span>$9.99/mo or $59.99/yr starts</span></div>
+      </div>
+      <p class="fine">Cancel anytime. Everything you logged stays yours.</p>
+      <a href="pricing/" class="btn btn-acc">See pricing &amp; start your trial</a>
+    </div>
+  </div>
+</section>
+
+<!-- ----------------------------------------------------------------- faq --- -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head"><span class="eyebrow">Questions</span><h2>Before you ask.</h2></div>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Is this medical advice?<span class="faq-plus">+</span></summary><p>No. Stack is a logging tool. It never recommends a dose, a compound, or tells you what to take.</p></details>
+      <details class="faq-item"><summary>Where is my data?<span class="faq-plus">+</span></summary><p>On your phone by default. Cloud backup is optional and encrypted, and only runs if you turn it on.</p></details>
+      <details class="faq-item"><summary>What happens if I cancel?<span class="faq-plus">+</span></summary><p>Everything you've logged stays readable and exportable. You just stop being able to log new doses.</p></details>
+      <details class="faq-item"><summary>Does it work for injections, pills and supplements?<span class="faq-plus">+</span></summary><p>Yes &mdash; peptides, TRT, GLP-1s, oral compounds and supplements all log the same way.</p></details>
+      <details class="faq-item"><summary>iPhone and Android?<span class="faq-plus">+</span></summary><p>Both. One app, kept in sync with your own encrypted backup if you turn it on.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- -------------------------------------------------------------- final --- -->
+<section class="final-cta">
+  <div class="photo"></div>
+  <div class="shade"></div>
+  <div class="final-cta-inner">
+    <h2>Your protocol, organised tonight.</h2>
+    <div class="hero-cta-row">
+      <button class="store-badge" data-store="play" type="button">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
+        <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
+      </button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <a href="#hero" class="brand"><span class="brand-mark" data-mark aria-hidden="true"></span>Stack</a>
+      <p class="tag">Track your stack. Peptides, TRT, GLP-1s and supplements &mdash; one quiet, private app.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="compounds/">Compound library</a></li>
+        <li><a href="guides/">Guides</a></li>
+        <li><a href="tools/">Tools</a></li>
+        <li><a href="pricing/">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about/">About &amp; sourcing</a></li>
+        <li><a href="account/">Sign in</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="data-deletion.html">Data deletion</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="disclaimer-band">Not medical advice. Stack is a logging tool and an educational reference. Nothing on this site is medical advice, a recommendation, or an endorsement of any compound.</div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Stack &middot; Cedar Hills Studio LLC</span>
+    <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
   </div>
 </footer>
 
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-bar-text"><b>Stack</b><span>7 days free</span></div>
+  <a href="pricing/" class="btn btn-acc">Get the app</a>
+</div>
+
+<script src="assets/js/mark.js"></script>
+<script src="assets/js/site.js?v=5"></script>
 <script>
+/* -------------------------------------------------------- hero motion --- */
+/* Real app footage drives the hero phone (autoplay/loop on the <video>).
+   Respect reduced-motion by pausing playback and holding the poster frame. */
 (function(){
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* 900px matches the mobile hero breakpoint below — under it, the hero
-     drops the scroll-scrub pin for a simple framed-card + crossfade flow */
-  var isMobile = matchMedia('(max-width: 900px)').matches;
-  addEventListener('resize', function(){ isMobile = matchMedia('(max-width: 900px)').matches; });
-
-  /* ── email links (same obfuscation pattern as assets/js/site.js) ────── */
-  var EMAIL = "hello@trackyourstack.app";
-  document.querySelectorAll('[data-email-link]').forEach(function(a){
-    a.setAttribute('href', 'mailto:' + EMAIL);
+  var reduce = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || new URLSearchParams(location.search).get('static') === '1';
+  if (!reduce) return;
+  document.querySelectorAll('video[autoplay]').forEach(function(v){
+    v.removeAttribute('autoplay');
+    v.pause();
+    v.currentTime = 0;
   });
+})();
 
-  /* ── waitlist (close section) → the same Worker site.js uses ────────── */
-  var WAITLIST_ENDPOINT = 'https://stack-waitlist.squeeze251.workers.dev';
-  var wlForm = document.getElementById('closeWaitlist');
-  if(wlForm){
-    wlForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      var input = wlForm.querySelector('[name="email"]');
-      var note = document.getElementById('waitlistNote');
-      var email = (input.value || '').trim();
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
-        note.textContent = 'That email doesn’t look right — try again?';
-        input.focus();
-        return;
+/* --------------------------------------------------------- feature show --- */
+(function(){
+  var wrap = document.getElementById('fsWrap');
+  if (!wrap) return;
+  var screen = document.getElementById('fsScreen');
+  var videos = Array.prototype.slice.call(screen.querySelectorAll('.fs-video'));
+  var caps = Array.prototype.slice.call(document.getElementById('fsCaption').querySelectorAll('.fs-cap-slide'));
+  var tabs = Array.prototype.slice.call(document.getElementById('fsTabs').querySelectorAll('.fs-tab'));
+  var tabsList = document.getElementById('fsTabs');
+  var count = videos.length;
+  var current = 0;
+  var interacted = false;
+  var timer = null;
+  var reduce = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || new URLSearchParams(location.search).get('static') === '1';
+
+  var initialized = false;
+  function activate(idx){
+    current = idx;
+    videos.forEach(function(v){
+      var active = Number(v.dataset.slide) === idx;
+      v.classList.toggle('active', active);
+      if (active) {
+        v.preload = 'auto';
+        /* slide 0 already carries preload="auto" in markup and starts
+           fetching before this script runs — calling .load() again here
+           on first init would double-request it (readyState is still 0
+           mid-flight, not because nothing was asked for yet). */
+        if (v.readyState === 0 && !(idx === 0 && !initialized)) v.load();
+        if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      } else {
+        v.pause();
       }
-      var btn = wlForm.querySelector('button');
-      btn.disabled = true;
-      fetch(WAITLIST_ENDPOINT, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email: email})
-      }).then(function(r){ return r.json(); }).then(function(d){
-        if(d && d.ok){
-          note.textContent = 'You’re on the list — we’ll email you the moment it’s live.';
-          input.value = '';
-        } else {
-          note.textContent = 'Something hiccuped — try again in a minute.';
-        }
-      }).catch(function(){
-        note.textContent = 'Something hiccuped — try again in a minute.';
-      });
-      /* re-enable regardless of outcome (.finally isn't everywhere) */
-      setTimeout(function(){ btn.disabled = false; }, 1500);
+    });
+    caps.forEach(function(c){
+      var active = Number(c.dataset.slide) === idx;
+      c.classList.toggle('active', active);
+      c.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    tabs.forEach(function(t){
+      var active = Number(t.dataset.slide) === idx;
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      t.tabIndex = active ? 0 : -1;
     });
   }
 
-  /* ── entrance reveals ─────────────────────────────────────────────── */
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
-  },{threshold:.2,rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
-  requestAnimationFrame(function(){
-    document.querySelectorAll('.rv').forEach(function(el){
-      var r = el.getBoundingClientRect();
-      if(r.top < innerHeight) el.classList.add('in');
-    });
-  });
-
-  /* ── right-edge rail: highlight the section in view ──────────────────── */
-  var railLinks = {};
-  document.querySelectorAll('.rail a').forEach(function(a){
-    railLinks[a.getAttribute('data-rail')] = a;
-  });
-  var railIO = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      var link = railLinks[e.target.id];
-      if(!link) return;
-      if(e.isIntersecting){
-        Object.keys(railLinks).forEach(function(k){ railLinks[k].classList.remove('on'); });
-        link.classList.add('on');
-      }
-    });
-  },{threshold:.5});
-  ['hero','panel','sage','library','more','reviews','close'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) railIO.observe(el);
-  });
-
-  /* ── per-chapter tint: a slow overlay-color shift, never a new image ─── */
-  var tintEl = document.getElementById('tint');
-  var tintIO = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(e.isIntersecting) tintEl.style.background = e.target.dataset.tint || 'transparent';
-    });
-  },{threshold:.55});
-  document.querySelectorAll('[data-tint]').forEach(function(el){ tintIO.observe(el); });
-
-  if(reduce){
-    return; // static, fully readable end-states — no rAF loops below this line.
+  function stopAuto(){
+    interacted = true;
+    if (timer) { clearTimeout(timer); timer = null; }
   }
 
-  /* ── THE STORY, SCRUBBED ──────────────────────────────────────────────
-     One ~10s clip carries the whole pitch: the bottle tips, pills pour
-     out, and then gather themselves into the weekly organizer (that beat
-     was filmed as pills jumping OUT of the organizer and is played
-     reversed — generative video can pour, it cannot un-pour). Desktop
-     maps scroll progress onto video.currentTime through a damped rAF
-     lerp (the @codevibes/@ray_fu scrub pattern); the only overlays are
-     the clause-2 reveal and one caption chip near the filled organizer.
-     Mobile plays the clip once in its framed card — the clip ends on the
-     organized frame, which is also the bg-img, so it just rests there. */
+  function scheduleNext(){
+    if (interacted || reduce) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      if (interacted) return;
+      activate((current + 1) % count);
+      scheduleNext();
+    }, 8000);
+  }
+
+  function goTo(idx, userDriven){
+    activate(((idx % count) + count) % count);
+    if (userDriven) stopAuto();
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ goTo(Number(t.dataset.slide), true); t.focus(); });
+  });
+
+  tabsList.addEventListener('keydown', function(e){
+    if (['ArrowLeft','ArrowRight','Home','End'].indexOf(e.key) === -1) return;
+    e.preventDefault();
+    var idx = current;
+    if (e.key === 'ArrowLeft') idx = current - 1;
+    else if (e.key === 'ArrowRight') idx = current + 1;
+    else if (e.key === 'Home') idx = 0;
+    else if (e.key === 'End') idx = count - 1;
+    goTo(idx, true);
+    var activeTab = tabsList.querySelector('[aria-selected="true"]');
+    if (activeTab) activeTab.focus();
+  });
+
+  /* swipe / drag on the phone screen — touch on mobile, mouse-drag on desktop */
+  var startX = null, dragging = false;
+  screen.style.touchAction = 'pan-y';
+  screen.addEventListener('pointerdown', function(e){ startX = e.clientX; dragging = true; });
+  screen.addEventListener('pointerup', function(e){
+    if (!dragging || startX === null) return;
+    var dx = e.clientX - startX;
+    dragging = false; startX = null;
+    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1), true);
+  });
+  screen.addEventListener('pointercancel', function(){ dragging = false; startX = null; });
+  screen.addEventListener('pointerleave', function(){ dragging = false; startX = null; });
+
+  activate(0);
+  initialized = true;
+  scheduleNext();
+})();
+
+/* ------------------------------------------------------------- sticky --- */
+(function(){
+  var bar = document.getElementById('stickyBar');
   var hero = document.getElementById('hero');
-  var video = document.getElementById('spillVideo');
-  var clause2 = document.querySelector('.clause2');
-  var scrolldownEl = document.getElementById('scrolldown');
-  var orgChip = document.getElementById('orgChip');
-
-  function clamp(v){ return Math.max(0, Math.min(1, v)); }
-
-  var duration = 0;
-  if(video){
-    if(video.readyState >= 1) duration = video.duration || 0;
-    video.addEventListener('loadedmetadata', function(){ duration = video.duration || 0; });
-  }
-
-  var bgImg = document.querySelector('.hero-bg-img');
-  if(isMobile){
-    /* the frozen-moment glide: no video at all — the portrait still is
-       the scene and heroTick's transform is the camera */
-    if(bgImg) bgImg.src = 'assets/img/home/hero-mobile.jpg';
-  } else if(video){
-    video.pause();
-  }
-
-  function easeInOut(t){ return t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2; }
-
-  function heroTick(){
-    var r = hero.getBoundingClientRect();
-    var total = r.height - innerHeight;
-    var p = total > 0 ? clamp(-r.top / total) : 0;
-
-    if(isMobile){
-      /* the camera IS this transform: start tight on the spill (scale
-         1.7, nudged toward the pills/bottle), glide out to the full
-         frame with the phone. Deterministic, 60fps, nothing to
-         hallucinate. */
-      var e = easeInOut(p);
-      if(bgImg){
-        /* subtle drift — 1.25 max stays inside the 1800px finish-graded
-           source on a 3x phone display (a 1.7x pass on the old 1128px
-           source went soft, which is the one thing this page is never
-           allowed to do) */
-        var s = 1.25 - 0.25 * e;
-        var ty = (1 - e) * -4;
-        bgImg.style.transform = 'scale(' + s + ') translate(0,' + ty + '%)';
-      }
-      if(clause2) clause2.style.opacity = clamp((p - 0.55) / 0.15);
-      if(orgChip) orgChip.style.opacity = clamp((p - 0.8) / 0.12);
-      if(scrolldownEl) scrolldownEl.style.opacity = 1 - clamp(p / 0.08);
-      return;
-    }
-
-    /* lazy re-check kills the metadata race for good: whatever order the
-       media events land in, the first tick after duration exists wins.
-       The seek itself is a DIRECT write, rate-limited by the > 1/30s
-       delta guard — a first draft chased the target through a nested
-       requestAnimationFrame "damping" loop, which dies in any throttled
-       context (hidden tab, headless verification): rAF chains only tick
-       while the compositor is producing frames, so the chase froze at 0
-       the moment scrolling paused. onScroll already coalesces per frame;
-       the browser's own seek pipeline is the smoothing. */
-    if(!duration && video) duration = video.duration || 0;
-    if(duration){
-      var t = p * Math.max(0, duration - 0.06);
-      if(Math.abs(t - video.currentTime) > 0.033){
-        try{ video.currentTime = t; }catch(e){}
-      }
-    }
-
-    /* the copy block sits top-left over clean wall in every shot, so it
-       stays put the whole film; only the italic clause and the caption
-       chip ride the story's payoff */
-    if(clause2) clause2.style.opacity = clamp((p - 0.72) / 0.12);
-    if(orgChip) orgChip.style.opacity = clamp((p - 0.9) / 0.08);
-    if(scrolldownEl) scrolldownEl.style.opacity = 1 - clamp(p / 0.06);
-  }
-
-  var ticking = false;
-  function onScroll(){
-    if(ticking) return;
-    ticking = true;
-    requestAnimationFrame(function(){ heroTick(); ticking = false; });
-  }
-  addEventListener('scroll', onScroll, {passive:true});
-  addEventListener('resize', onScroll);
-  onScroll();
+  if (!bar || !hero || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ bar.classList.toggle('show', !e.isIntersecting); });
+  }, {threshold: 0});
+  io.observe(hero);
 })();
 </script>
 </body>
