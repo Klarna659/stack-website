@@ -21,6 +21,26 @@
 <link rel="icon" type="image/png" href="../assets/img/icon.png" />
 <link rel="preload" href="../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="../assets/css/mono.css?v=4" />
+<style>
+  /* The honest-timeline table — its own two-column layout, not .cmp's
+     (which reserves 24% for a short value column; here the SECOND column
+     carries the long sentence, so that rule crushed it to a word per line).
+     Below 640px it drops the grid and stacks each row: the day label sits
+     above its sentence, exactly what a two-word "Day 5" column can't hold
+     next to a full sentence at 390px. */
+  .timeline { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .timeline th { text-align: left; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); padding: 12px 10px; border-bottom: 1px solid var(--line); }
+  .timeline td { padding: 13px 10px; border-bottom: 1px solid var(--line-soft); color: var(--ink-2); vertical-align: top; }
+  .timeline td:first-child { color: var(--ink); font-weight: 700; white-space: nowrap; width: 90px; }
+  .timeline td.y { color: var(--gold); font-weight: 600; }
+  @media (max-width: 640px) {
+    .timeline thead { display: none; }
+    .timeline, .timeline tbody, .timeline tr, .timeline td { display: block; width: 100%; }
+    .timeline tr { padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
+    .timeline td { border-bottom: 0; padding: 2px 10px; white-space: normal; }
+    .timeline td:first-child { padding-top: 8px; }
+  }
+</style>
 <script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Where do I subscribe?","acceptedAnswer":{"@type":"Answer","text":"In the app, through the App Store or Google Play."}},{"@type":"Question","name":"Is there a free version?","acceptedAnswer":{"@type":"Answer","text":"There is a 7-day free trial. After it, the app keeps everything you logged readable and exportable; logging, reminders and Juno need the subscription."}},{"@type":"Question","name":"Can I cancel any time?","acceptedAnswer":{"@type":"Answer","text":"Yes — Settings → Subscription in the app, or your store account. You keep access until the period ends."}},{"@type":"Question","name":"What happens to my data if I stop?","acceptedAnswer":{"@type":"Answer","text":"Everything you logged stays yours: your history stays readable, and the doctor report and a full backup still export. Logging new doses, reminders and Juno need an active subscription."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No — Stack works in guest mode. If you sign in, your subscription follows your account across devices. Your health data stays encrypted on your device; cloud backup is opt-in."}}]}</script>
 </head>
@@ -84,11 +104,11 @@
               <span data-anchor-year hidden>Billed yearly — works out to about $5/mo. Cancel any time.</span>
             </p>
             <ul>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Track every compound — no caps</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reminders &amp; supply projection</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Juno</strong>, the in-app assistant</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>In-system levels, bloodwork ranges &amp; full trends</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Doctor-ready report &amp; encrypted cloud backup</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Juno</strong> — say it, it's logged</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reminders that fire</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Log a dose in one tap</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>The injection-site map</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>A side-effect log</li>
             </ul>
             <button class="btn btn-primary btn-lg" data-store="play" style="width:100%">Get the app — start your trial</button>
             <p class="plan-foot">Subscribe in the app, through the App Store or Google Play. Restore purchases any time with the same account.</p>
@@ -103,23 +123,23 @@
       <div class="container" style="max-width:820px">
         <div class="section-head center"><span class="eyebrow">No surprises</span><h2 style="font-size:clamp(26px,4vw,38px)">The honest timeline</h2></div>
         <div class="cmp-wrap">
-        <table class="cmp">
+        <table class="timeline">
           <thead><tr><th>When</th><th>What happens</th></tr></thead>
           <tbody>
-            <tr><td>Today</td><td class="y">Your 7-day free trial starts — full access, nothing charged</td></tr>
+            <tr><td>Today</td><td class="y">Free for 7 days, everything on — nothing charged</td></tr>
             <tr><td>Day 5</td><td class="y">A reminder, if notifications are on — two days before you're charged</td></tr>
-            <tr><td>Day 7</td><td class="y">The trial ends and the subscription begins, at the price you chose</td></tr>
+            <tr><td>Day 7</td><td class="y">$9.99 / month or $59.99 / year, the plan you chose, unless you cancel</td></tr>
           </tbody>
         </table>
         </div>
         <div class="section-head center" style="margin-top:56px"><span class="eyebrow">What it runs</span><h2 style="font-size:clamp(24px,3.5vw,32px)">Five things the subscription pays for</h2></div>
         <div class="plan" style="max-width:520px;margin:0 auto;box-shadow:none">
           <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dose reminders</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Juno, the in-app assistant</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bloodwork logging &amp; trends</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>The doctor report</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Encrypted cloud backup</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Juno</strong> — say it, it's logged</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reminders that fire</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Log a dose in one tap</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>The injection-site map</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>A side-effect log</li>
           </ul>
           <p class="muted" style="font-size:13px;margin:4px 0 0">Without an active subscription the app stays a readable, exportable record of what you already logged — your history, the doctor report, and a backup file. Deleting your own data is never locked.</p>
         </div>
