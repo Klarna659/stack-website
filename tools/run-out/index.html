@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vial run-out date calculator — know when you'll run out | Stack</title>
+  <meta name="description" content="Free vial run-out calculator: enter what's in the vial, your dose and how often you take it — get the number of full doses left, your last full-dose date, and when to reorder." />
+  <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+  <link rel="canonical" href="https://trackyourstack.app/tools/run-out/" />
+  <meta property="og:title" content="Vial run-out date calculator — know when you'll run out" />
+  <meta property="og:description" content="Vial amount + dose + schedule → doses left, your last full-dose date, and a reorder-by date. Free, no signup." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackyourstack.app/tools/run-out/" />
+  <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="../tools.css" />
+  <script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Stack vial run-out calculator","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Vial run-out date calculator: enter what's in the vial, your dose and how often you take it, and get full doses left, your last full-dose date and a reorder-by date.","url":"https://trackyourstack.app/tools/run-out/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Vial run-out calculator","item":"https://trackyourstack.app/tools/run-out/"}]}</script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack — home">
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
+        <span class="brand-word">Stack</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="../../#features">Features</a>
+        <a href="../../compounds/">Compounds</a>
+        <a href="../">Tools</a>
+        <a href="../../guides/">Guides</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a href="../../#download" class="nav-cta">Get the app</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../">Tools</a> <span>/</span> <span>Vial run-out calculator</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>Vial run-out date calculator</h1>
+      <p class="lead">What's in the vial, your dose, and how often you take it — we'll tell you
+      how many full doses are left, your last full-dose date, and when to reorder.</p>
+    </div>
+
+    <div class="container" style="padding-bottom:70px">
+      <div class="tool-grid">
+        <form class="panel" id="calc" aria-label="Vial run-out inputs">
+
+          <fieldset>
+            <legend>What's in the vial</legend>
+            <div class="radio-row" role="radiogroup" aria-label="Vial input mode">
+              <label class="radio-chip"><input type="radio" name="vial-mode" value="amount" id="mode-amount" checked /> An amount (mg)</label>
+              <label class="radio-chip"><input type="radio" name="vial-mode" value="volume" id="mode-volume" /> mL at a concentration</label>
+            </div>
+          </fieldset>
+
+          <div id="vial-amount-fields">
+            <div class="field">
+              <label for="v-amount">Vial contains</label>
+              <div class="row">
+                <input class="input" id="v-amount" type="number" inputmode="decimal" min="0" step="any" value="10" aria-label="Vial amount" />
+                <select class="select" id="v-amount-unit" aria-label="Vial unit">
+                  <option value="mg" selected>mg</option>
+                  <option value="mcg">mcg</option>
+                  <option value="iu">IU</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="vial-volume-fields" style="display:none">
+            <div class="field">
+              <label for="v-ml">Vial volume</label>
+              <div class="row">
+                <input class="input" id="v-ml" type="number" inputmode="decimal" min="0" step="any" value="2" aria-label="Vial volume in mL" />
+                <span class="select" style="max-width:60px;display:grid;place-items:center">mL</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="v-conc">Concentration</label>
+              <div class="row">
+                <input class="input" id="v-conc" type="number" inputmode="decimal" min="0" step="any" value="5" aria-label="Concentration in mg per mL" />
+                <span class="select" style="max-width:90px;display:grid;place-items:center">mg/mL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="v-dose">Your dose</label>
+            <div class="row">
+              <input class="input" id="v-dose" type="number" inputmode="decimal" min="0" step="any" value="250" aria-label="Dose amount" />
+              <select class="select" id="v-dose-unit" aria-label="Dose unit">
+                <option value="mcg" selected>mcg</option>
+                <option value="mg">mg</option>
+                <option value="iu">IU</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field" id="iu-factor-field" style="display:none">
+            <label for="v-iu-per-mg">IU per mg <span class="hint">(only needed since a unit above is set to IU)</span></label>
+            <input class="input" id="v-iu-per-mg" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 20" />
+          </div>
+
+          <fieldset>
+            <legend>How often</legend>
+            <select class="select" id="v-freq">
+              <option value="daily" selected>Daily</option>
+              <option value="everyNDays">Every N days</option>
+              <option value="timesPerWeek">A number of times a week</option>
+              <option value="weekdays">Specific weekdays</option>
+            </select>
+          </fieldset>
+
+          <div class="field" id="freq-n-field" style="display:none">
+            <label for="v-freq-n" id="freq-n-label">Every how many days</label>
+            <input class="input" id="v-freq-n" type="number" inputmode="numeric" min="1" step="1" value="3" />
+          </div>
+
+          <div id="freq-weekdays-field" style="display:none">
+            <label style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);display:block;margin-bottom:8px">Which days</label>
+            <div class="weekday-row" role="group" aria-label="Weekdays">
+              <label class="weekday-chip"><input type="checkbox" value="0" /> Su</label>
+              <label class="weekday-chip"><input type="checkbox" value="1" /> Mo</label>
+              <label class="weekday-chip"><input type="checkbox" value="2" /> Tu</label>
+              <label class="weekday-chip"><input type="checkbox" value="3" /> We</label>
+              <label class="weekday-chip"><input type="checkbox" value="4" checked /> Th</label>
+              <label class="weekday-chip"><input type="checkbox" value="5" /> Fr</label>
+              <label class="weekday-chip"><input type="checkbox" value="6" /> Sa</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="v-start">First dose from this vial</label>
+            <input class="input" id="v-start" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="v-waste">Wasted per draw <span class="hint">(dead space, optional)</span></label>
+            <div class="row">
+              <input class="input" id="v-waste" type="number" inputmode="decimal" min="0" step="any" value="0" />
+              <span class="select" style="max-width:60px;display:grid;place-items:center">mL</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="v-lead">Reorder lead time</label>
+            <div class="row">
+              <input class="input" id="v-lead" type="number" inputmode="numeric" min="0" step="1" value="10" />
+              <span class="select" style="max-width:80px;display:grid;place-items:center">days</span>
+            </div>
+          </div>
+
+          <p class="dim" style="font-size:12.5px;line-height:1.6;margin:6px 0 0">This tool tracks and calculates. It
+          does not recommend a compound, a dose, or a schedule.</p>
+
+          <div id="v-error" role="alert" aria-live="assertive"></div>
+        </form>
+
+        <div class="panel tool-out" id="v-out" aria-live="polite">
+          <span class="eyebrow">Full doses left</span>
+          <div class="big" id="out-doses">—</div>
+          <div class="unit">at your current dose and schedule</div>
+          <div class="sub" id="out-sub">
+            <div class="row-line"><span>Last full dose</span><b id="out-last">—</b></div>
+            <div class="row-line"><span>Runs out</span><b id="out-runout">—</b></div>
+            <div class="row-line"><span>Reorder by</span><b id="out-reorder">—</b></div>
+          </div>
+          <div class="track-cta" style="text-align:left;margin-top:26px">
+            <h3>Stack keeps this running for you</h3>
+            <p>The app watches every vial, updates the countdown the moment you log a dose, and
+            reminds you before you run out.</p>
+            <a class="btn" href="../../#download">Get the app</a>
+          </div>
+        </div>
+      </div>
+
+      <article class="prose">
+        <h2>How the math works</h2>
+        <p><strong>Doses left</strong> = what's in the vial ÷ (your dose + anything wasted per draw),
+        rounded down to the last whole dose. A 10 mg vial at 1 mg per draw with no waste holds 10
+        full doses; add 0.05 mL of dead space at a 5 mg/mL mix and each draw actually costs 1.25 mg,
+        so the same vial holds 8.</p>
+        <p><strong>Run-out date</strong> is the date your schedule would ask for a dose you no longer
+        have. <strong>Reorder by</strong> is that date minus your lead time, so a new vial can arrive
+        before the old one is empty.</p>
+        <div class="callout"><b>Not medical advice.</b> This calculator does arithmetic on the numbers
+        you enter. It does not recommend a compound, a dose, or a schedule — check any change with
+        your prescriber.</div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="../../" class="brand">
+          <span class="brand-mark" data-mark aria-hidden="true"></span>
+          <span class="brand-word">Stack</span>
+        </a>
+        <p class="tag">Track your stack. Supplements, peptides, meds and more — one quiet, private app.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="../reconstitution/">Reconstitution calculator</a></li>
+          <li><a href="./">Vial run-out calculator</a></li>
+          <li><a href="../half-life/">Half-life visualiser</a></li>
+          <li><a href="../syringe-units/">Syringe units converter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about/">About &amp; sourcing</a></li>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer-band">
+      Stack is a logging tool and an educational reference. Nothing on this site is medical
+      advice, a recommendation, or an endorsement of any compound.
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span>
+      <span><a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a></span>
+    </div>
+  </footer>
+
+  <script src="../tools-math.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var M = window.ToolsMath;
+    var $ = function (id) { return document.getElementById(id); };
+
+    var themeBtn = $("themeToggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function () {
+        var cur = document.documentElement.getAttribute("data-theme");
+        var dark = matchMedia("(prefers-color-scheme: dark)").matches;
+        var next = cur === "dark" ? "light" : (cur === "light" ? "dark" : (dark ? "light" : "dark"));
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("stack-theme", next); } catch (e) {}
+      });
+    }
+
+    var todayISO = new Date().toISOString().slice(0, 10);
+    $("v-start").value = todayISO;
+
+    function fmtDate(iso) {
+      if (!iso) return "—";
+      var d = new Date(iso + "T00:00:00Z");
+      return new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(d);
+    }
+
+    function selectedVialMode() {
+      return document.querySelector('input[name="vial-mode"]:checked').value;
+    }
+
+    function selectedWeekdays() {
+      return Array.prototype.slice.call(document.querySelectorAll('#freq-weekdays-field input:checked')).map(function (el) { return Number(el.value); });
+    }
+
+    function updateModeVisibility() {
+      var mode = selectedVialMode();
+      $("vial-amount-fields").style.display = mode === "amount" ? "" : "none";
+      $("vial-volume-fields").style.display = mode === "volume" ? "" : "none";
+      updateIuVisibility();
+    }
+
+    // The IU-per-mg field only matters once a unit above is actually set to
+    // IU — hidden otherwise so the form isn't showing a field most people
+    // never need.
+    function updateIuVisibility() {
+      var vialUnit = selectedVialMode() === "amount" ? $("v-amount-unit").value : "mg";
+      var needsFactor = vialUnit === "iu" || $("v-dose-unit").value === "iu";
+      $("iu-factor-field").style.display = needsFactor ? "" : "none";
+    }
+
+    function updateFreqVisibility() {
+      var freq = $("v-freq").value;
+      $("freq-n-field").style.display = (freq === "everyNDays" || freq === "timesPerWeek") ? "" : "none";
+      $("freq-weekdays-field").style.display = freq === "weekdays" ? "" : "none";
+      $("freq-n-label").textContent = freq === "everyNDays" ? "Every how many days" : "How many times a week";
+    }
+
+    function buildFrequency() {
+      var freq = $("v-freq").value;
+      var n = parseInt($("v-freq-n").value, 10) || 1;
+      if (freq === "daily") return { type: "daily" };
+      if (freq === "everyNDays") return { type: "everyNDays", n: n };
+      if (freq === "timesPerWeek") return { type: "timesPerWeek", n: n };
+      if (freq === "weekdays") return { type: "weekdays", days: selectedWeekdays() };
+      return null;
+    }
+
+    function setError(msg) {
+      var box = $("v-error");
+      if (!msg) { box.className = ""; box.textContent = ""; return; }
+      box.className = "form-error";
+      box.textContent = msg;
+    }
+
+    function calc() {
+      var mode = selectedVialMode();
+      var doseUnit = $("v-dose-unit").value;
+      var vialUnit = mode === "amount" ? $("v-amount-unit").value : "mg";
+      var iuPerMg = parseFloat($("v-iu-per-mg").value);
+      if (!isFinite(iuPerMg)) iuPerMg = null;
+
+      var mismatch = M.unitMismatchMessage(vialUnit, doseUnit, iuPerMg);
+      if (mismatch) { setError(mismatch); clearOutputs(); return; }
+
+      var waste = parseFloat($("v-waste").value) || 0;
+      var deadSpaceMismatch = M.deadSpaceMismatchMessage(mode, waste);
+      if (deadSpaceMismatch) { setError(deadSpaceMismatch); clearOutputs(); return; }
+
+      var vialMg;
+      var concMgPerMl = null;
+      if (mode === "amount") {
+        vialMg = M.vialMgFromInputs("amount", { amount: parseFloat($("v-amount").value), unit: vialUnit, iuPerMg: iuPerMg });
+      } else {
+        concMgPerMl = parseFloat($("v-conc").value);
+        vialMg = M.vialMgFromInputs("volume", { ml: parseFloat($("v-ml").value), concMgPerMl: concMgPerMl });
+      }
+
+      var doseMg = M.toMg(parseFloat($("v-dose").value), doseUnit, iuPerMg);
+      var wasteMg = waste > 0 && concMgPerMl > 0 ? waste * concMgPerMl : 0;
+
+      setError(null);
+
+      if (!(vialMg > 0) || !(doseMg > 0)) { clearOutputs(); return; }
+
+      var result = M.runOutCalc({
+        vialMg: vialMg,
+        doseMg: doseMg,
+        wasteMgPerDraw: wasteMg,
+        frequency: buildFrequency(),
+        startDateISO: $("v-start").value,
+        leadDays: parseFloat($("v-lead").value)
+      });
+
+      if (result.error) { setError(result.error); clearOutputs(); return; }
+
+      $("out-doses").textContent = M.fmt(result.fullDoses, 0);
+      $("out-last").textContent = fmtDate(result.lastDoseDate);
+      $("out-runout").textContent = fmtDate(result.runOutDate);
+      $("out-reorder").textContent = fmtDate(result.reorderByDate);
+    }
+
+    function clearOutputs() {
+      $("out-doses").textContent = "—";
+      $("out-last").textContent = "—";
+      $("out-runout").textContent = "—";
+      $("out-reorder").textContent = "—";
+    }
+
+    document.querySelectorAll('input[name="vial-mode"]').forEach(function (el) {
+      el.addEventListener("change", function () { updateModeVisibility(); calc(); });
+    });
+    $("v-freq").addEventListener("change", function () { updateFreqVisibility(); calc(); });
+    document.querySelectorAll('#freq-weekdays-field input').forEach(function (el) {
+      el.addEventListener("change", calc);
+    });
+    ["v-amount", "v-amount-unit", "v-ml", "v-conc", "v-dose", "v-dose-unit", "v-iu-per-mg", "v-freq-n", "v-start", "v-waste", "v-lead"].forEach(function (id) {
+      $(id).addEventListener("input", calc);
+      $(id).addEventListener("change", calc);
+    });
+    $("v-amount-unit").addEventListener("change", updateIuVisibility);
+    $("v-dose-unit").addEventListener("change", updateIuVisibility);
+
+    updateModeVisibility();
+    updateFreqVisibility();
+    calc();
+  })();
+  </script>
+  <script src="../../assets/js/mark.js"></script>
+</body>
+</html>

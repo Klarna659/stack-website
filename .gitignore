@@ -11,3 +11,5 @@ tools/__pycache__/
 # JPEGs in assets/img/hero/ are versioned; regenerate the pool with
 # tools/gen_hero.py if you want to pick a different one.
 tools/hero_pool/
+
+tools/waitlist-worker/EXPORT_TOKEN.local.txt

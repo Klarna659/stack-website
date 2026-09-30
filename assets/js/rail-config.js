@@ -18,8 +18,7 @@ window.STACK_RAIL = {
   // RevenueCat Web Billing (Stripe) hosted purchase URLs — paste at launch.
   checkout: {
     plusMonthly: "PASTE_RC_WEB_URL_MONTHLY",
-    plusAnnual: "PASTE_RC_WEB_URL_ANNUAL",
-    lifetime: "PASTE_RC_WEB_URL_LIFETIME"
+    plusAnnual: "PASTE_RC_WEB_URL_ANNUAL"
   },
 
   contactEmail: "hello@trackyourstack.app"

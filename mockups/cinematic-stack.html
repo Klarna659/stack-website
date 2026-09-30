@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.className="js"</script>
+<title>Stack — cinematic direction (mockup)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cinematic direction: one hero asset, cursor-spotlight and scroll-scrubbed motion, and Stack's own numbers doing the rest of the work. No pricing on this page — Plus is parked.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   STACK · CINEMATIC DIRECTION (mockup)
+   Proves the recipe in docs/../Inbox/topics/CINEMATIC-WEB-DESIGN.md:
+   committed near-black ground, one accent, cursor-spotlight hero, a scroll-
+   scrubbed Ken Burns sequence standing in for a future 10s video loop,
+   numbered chapters + a right-edge progress rail, and Stack's own numbers
+   (half-life decay, doses logged, days of supply) doing the cinematic work
+   instead of a stock hero video. No pricing section — Plus is parked.
+
+   Discipline: everything animated degrades to a fully readable static state
+   under prefers-reduced-motion, and every default (no JS) state is already
+   the correct one — nothing here requires script to be legible. Native
+   scroll only, no scroll-hijack library.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  /* PLACEHOLDER — accent is a Phase 0 decision. A restrained warm amber for
+     this demo only; the real mark is still unpicked. Swap this one line and
+     the whole page re-themes. Not gold (dead), not blue (the old lane). */
+  --accent:#C2894F;
+  --accent-soft:rgba(194,137,79,.16);
+
+  --ground:#0b0b0d;
+  --ground-2:#141316;
+  --panel:rgba(20,19,18,.62);
+  --line:rgba(255,255,255,.10);
+  --line-2:rgba(255,255,255,.18);
+  --ink:#F2EEE7;
+  --ink-2:#C7C1B8;
+  --muted:#8B857C;
+  --paper:#F4EFE3;
+  --paper-ink:#2A2620;
+
+  --serif:Georgia,'Iowan Old Style','Apple Garamond','Times New Roman',serif;
+  --sans:Figtree,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --shell:1180px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.shell{width:100%;max-width:var(--shell);margin:0 auto;padding:0 22px}
+::selection{background:var(--accent-soft);color:var(--ink)}
+
+/* ── film grain, tiled, no external asset ─────────────────────────────── */
+.grain{position:fixed;inset:-60px;z-index:90;pointer-events:none;opacity:.05;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:140px 140px;animation:grain 1s steps(6) infinite}
+@keyframes grain{
+  0%{transform:translate(0,0)}20%{transform:translate(-1%,-2%)}
+  40%{transform:translate(-2%,1%)}60%{transform:translate(1%,-1%)}
+  80%{transform:translate(2%,2%)}100%{transform:translate(0,0)}
+}
+
+/* ── top chrome: one wordmark, one action, nothing else ───────────────── */
+.top{position:fixed;inset:0 0 auto;z-index:60;
+  background:linear-gradient(180deg,rgba(11,11,13,.85),rgba(11,11,13,0))}
+.topin{display:flex;align-items:center;gap:20px;padding:20px 22px;
+  max-width:var(--shell);margin:0 auto}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;
+  letter-spacing:-.02em}
+.logo svg{width:20px;height:20px;flex:none;color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;
+  height:40px;padding:0 19px;border-radius:999px;font-weight:600;font-size:14px;
+  border:1px solid var(--line-2);white-space:nowrap;cursor:pointer;
+  background:rgba(255,255,255,.04);backdrop-filter:blur(8px);
+  transition:transform .3s var(--ease),border-color .3s var(--ease),
+             background .3s var(--ease)}
+.btn:hover{border-color:var(--accent);transform:translateY(-2px)}
+.btn-p{background:var(--ink);color:#141316;border-color:var(--ink)}
+.btn-p:hover{background:var(--accent);border-color:var(--accent);color:#1a1409}
+.btn-lg{height:52px;padding:0 26px;font-size:15.5px}
+.topin .btn{margin-left:auto}
+
+/* ── right-edge scene progress rail ───────────────────────────────────── */
+.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:55;
+  display:flex;flex-direction:column;align-items:center;gap:15px;
+  font-family:var(--mono)}
+.rail a{display:flex;align-items:center;justify-content:center;width:22px;
+  height:22px;font-size:9.5px;letter-spacing:.03em;color:var(--muted);
+  border-radius:999px;transition:color .3s var(--ease)}
+.rail a::before{content:"";display:block;width:5px;height:5px;border-radius:99px;
+  background:currentColor;transition:width .3s var(--ease),height .3s var(--ease),
+    background .3s var(--ease)}
+.rail a span{display:none}
+.rail a.on{color:var(--accent)}
+.rail a.on::before{width:8px;height:8px;background:var(--accent)}
+.rail .track{width:1px;flex:1;background:var(--line);order:99}
+@media (max-width:980px){.rail{display:none}}
+
+/* ── reveal-on-scroll, JS-off default is fully visible ────────────────── */
+.rv{opacity:1}
+.js .rv{opacity:0;transform:translateY(26px);
+  transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.rv2{transition-delay:.08s}.rv3{transition-delay:.16s}.rv4{transition-delay:.24s}
+
+/* ── chapter scaffolding ───────────────────────────────────────────────── */
+.chapter{position:relative;padding:150px 0 130px;overflow:hidden}
+.eyebrow{display:flex;align-items:baseline;gap:12px;margin:0 0 22px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--accent)}
+.eyebrow em{font-style:normal;color:var(--muted);letter-spacing:.06em}
+h2{font-size:clamp(30px,4.4vw,52px);line-height:1.03;letter-spacing:-.03em;
+  font-weight:800;margin:0 0 20px;max-width:16ch;text-wrap:balance}
+.lede{font-size:clamp(16.5px,1.4vw,19px);color:var(--ink-2);max-width:46ch;
+  line-height:1.65;margin:0 0 30px}
+.micro{font-family:var(--mono);font-size:12px;color:var(--muted);
+  letter-spacing:.03em;line-height:1.6}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;
+  align-items:center}
+@media (max-width:900px){.two{grid-template-columns:1fr;gap:40px}}
+
+.bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--ground)}
+.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.veil{position:absolute;inset:0;z-index:1;pointer-events:none}
+.chapter>.shell{position:relative;z-index:2}
+
+/* frosted-glass cards */
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15)}
+@supports not (backdrop-filter:blur(1px)){.glass{background:rgba(18,17,16,.92)}}
+
+/* ═══ HERO ═══════════════════════════════════════════════════════════════ */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
+  overflow:hidden;padding:120px 0 84px}
+.hero-bg{position:absolute;inset:0;z-index:0;background:var(--ground)}
+.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:60% 40%}
+.hero-bg .base{opacity:1}
+/* Cursor-spotlight reveal: default (no JS / reduced motion) = fully hidden,
+   so the base photograph alone is what renders. JS raises opacity to 1 and
+   clips it to a soft circle that tracks (or, on touch, slowly drifts near)
+   the pointer, revealing a brighter/more saturated pass of the SAME asset —
+   no second photograph required. */
+.hero-bg .bright{opacity:0;filter:brightness(1.38) saturate(1.28) contrast(1.05)}
+.js .hero-bg .bright{opacity:1;
+  -webkit-mask-image:radial-gradient(240px circle at var(--mx,50%) var(--my,38%),
+    #000 0%,#000 34%,transparent 70%);
+  mask-image:radial-gradient(240px circle at var(--mx,50%) var(--my,38%),
+    #000 0%,#000 34%,transparent 70%)}
+.hero .veil{background:linear-gradient(180deg,rgba(11,11,13,.28) 0%,
+  rgba(11,11,13,.18) 32%,rgba(11,11,13,.55) 72%,rgba(11,11,13,.92) 100%)}
+.hero-in{position:relative;z-index:2;width:100%}
+.hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+.hero h1{font-family:var(--serif);font-weight:400;
+  font-size:clamp(42px,8.6vw,104px);line-height:.98;letter-spacing:-.01em;
+  margin:0 0 26px;max-width:15ch}
+.hero h1 i{font-style:italic;color:var(--ink)}
+.hero-lede{font-size:clamp(16px,1.5vw,19px);color:var(--ink-2);max-width:42ch;
+  margin:0 0 34px;line-height:1.6}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+
+/* the floating product element — CSS-drawn, no screenshot asset resolved */
+.phone{width:216px;margin:38px auto 0;border-radius:32px;padding:14px;
+  background:linear-gradient(160deg,rgba(30,26,20,.9),rgba(10,9,8,.96));
+  border:1px solid rgba(255,255,255,.14);position:relative;
+  box-shadow:0 40px 90px -24px rgba(0,0,0,.75)}
+.phone::before{content:"";position:absolute;inset:0;border-radius:32px;
+  background:linear-gradient(135deg,rgba(255,255,255,.14),transparent 42%);
+  pointer-events:none}
+.phone .notch{width:64px;height:16px;background:#000;border-radius:0 0 12px 12px;
+  margin:0 auto 12px}
+.phone .ph-hd{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 10px;
+  display:flex;justify-content:space-between}
+.phone .ph-hd b{color:var(--accent);font-weight:500}
+.phone .row{display:flex;align-items:center;gap:9px;padding:9px 10px;
+  border-radius:12px;background:rgba(255,255,255,.055);margin-bottom:7px}
+.phone .row:last-child{margin-bottom:0}
+.phone .dot{width:7px;height:7px;border-radius:99px;background:var(--accent);flex:none}
+.phone .row .t{flex:1;min-width:0}
+.phone .row .t b{display:block;font-size:11.5px;font-weight:600;color:var(--ink)}
+.phone .row .t span{display:block;font-size:9.5px;color:var(--muted);
+  font-family:var(--mono);margin-top:1px}
+
+@media (min-width:900px){
+  .hero{align-items:center}
+  .hero-in{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;
+    align-items:end}
+  .hero h1{max-width:none}
+  .phone{position:absolute;right:6%;bottom:9%;margin:0;z-index:5}
+  /* the headline's second line is sized to run under the phone's left edge —
+     "layered behind" rather than merely adjacent */
+  .hero-copy{position:relative;z-index:2;max-width:640px}
+}
+.scrolldown{position:absolute;left:22px;bottom:26px;z-index:3;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px}
+.scrolldown i{display:block;width:1px;height:34px;background:var(--line-2);
+  position:relative;font-style:normal}
+.js .scrolldown i::after{content:"";position:absolute;left:-2px;top:0;width:5px;
+  height:5px;border-radius:99px;background:var(--accent);
+  animation:scrollcue 2.2s var(--ease) infinite}
+@keyframes scrollcue{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+
+/* ═══ CHAPTER 01 · THE DAY — scroll-scrubbed Ken Burns (video loop stand-in) ═ */
+/* SWAP POINT: replace the three <img class="scene-img"> layers below with a
+   single <video autoplay muted loop playsinline> (a 10s Wan2.2 loop) and
+   drive video.currentTime from the same `p01` scalar computed in the script
+   at the bottom. Keep img[data-t="0"] as the poster/first-frame fallback for
+   iOS, where currentTime-scrubbing stutters. */
+.scene{position:absolute;inset:0;z-index:0;background:var(--ground)}
+.scene-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.08);will-change:opacity,transform}
+.scene-img:first-child{opacity:1}
+.scene-img:not(:first-child){opacity:0}
+.scene-count{position:absolute;left:22px;bottom:26px;z-index:2;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-2);
+  display:flex;align-items:center;gap:8px}
+.scene-count b{color:var(--accent);font-weight:500}
+.ch01-cards{display:grid;gap:14px;max-width:460px}
+.dose{display:flex;align-items:center;gap:13px;padding:16px 18px}
+.dose .ic{width:34px;height:34px;border-radius:11px;flex:none;
+  background:rgba(255,255,255,.08);display:grid;place-items:center;color:var(--ink-2)}
+.dose .ic svg{width:16px;height:16px}
+.dose .nm{flex:1;min-width:0}
+.dose .nm b{display:block;font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.dose .nm span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;
+  font-family:var(--mono)}
+.dose .done{width:20px;height:20px;border-radius:99px;flex:none;
+  background:var(--accent);position:relative}
+.dose .done::after{content:"";position:absolute;left:6px;top:3px;width:5px;
+  height:9px;border:solid #1a1409;border-width:0 2px 2px 0;transform:rotate(43deg)}
+
+/* ═══ CHAPTER 02 · IN YOUR SYSTEM ═══════════════════════════════════════ */
+.decay{padding:26px 26px 24px;max-width:420px}
+.decay .lbl{font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  letter-spacing:.05em;margin:0 0 6px}
+.decay .lbl b{color:var(--ink-2);font-weight:500}
+.decay .num{font-size:clamp(52px,7vw,74px);font-weight:800;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;color:var(--ink);margin:0}
+.decay .num span{font-size:.4em;color:var(--muted);font-weight:500;margin-left:4px}
+.decay .bar{height:6px;border-radius:99px;background:rgba(255,255,255,.09);
+  overflow:hidden;margin:18px 0 12px}
+.decay .bar b{display:block;height:100%;background:linear-gradient(90deg,
+  var(--accent),#E8B77E);border-radius:99px;transition:width .1s linear}
+.decay .fine{font-size:12px;color:var(--muted);margin:0;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;margin-top:16px;max-width:420px}
+.stats div{background:rgba(15,14,13,.7);padding:18px 20px}
+.stats b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.stats span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.stats em{display:block;font-style:normal;font-size:10px;color:var(--accent);
+  letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+
+/* ═══ CHAPTER 03 · THE RECORD — paper-white artifact in the dark world ═══ */
+.record-scene{background:radial-gradient(120% 90% at 20% 10%,#161412 0%,
+  #0b0b0d 60%)}
+.paper{background:var(--paper) url('assets/tex-paper.jpg') center/cover;
+  color:var(--paper-ink);border-radius:6px;max-width:440px;padding:30px 30px 26px;
+  box-shadow:0 50px 110px -30px rgba(0,0,0,.8),0 0 0 1px rgba(0,0,0,.06);
+  transform:rotate(-1.4deg);position:relative}
+.paper::after{content:"";position:absolute;inset:0;border-radius:6px;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.06)}
+.paper .pe{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:#8A7F68;margin:0 0 4px}
+.paper h3{font-family:var(--serif);font-size:22px;font-weight:400;margin:0 0 18px;
+  letter-spacing:0}
+.paper table{width:100%;border-collapse:collapse;font-size:12px}
+.paper th{text-align:left;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:#8A7F68;font-weight:500;
+  padding:0 8px 8px 0;border-bottom:1px solid rgba(42,38,32,.18)}
+.paper td{padding:8px 8px 8px 0;border-bottom:1px solid rgba(42,38,32,.1);
+  font-variant-numeric:tabular-nums}
+.paper tr:last-child td{border-bottom:0}
+.paper .pf{margin:16px 0 0;font-size:11.5px;color:#6E6455;line-height:1.5}
+
+/* ═══ CHAPTER 04 · THE LIBRARY — dense but calm ══════════════════════════ */
+.libnum{font-size:clamp(64px,9vw,120px);font-weight:800;letter-spacing:-.035em;
+  line-height:.9;margin:0 0 10px;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:9px;max-width:640px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--ink-2);
+  padding:8px 14px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(255,255,255,.03)}
+
+/* ═══ CLOSE ══════════════════════════════════════════════════════════════ */
+.close{padding:150px 0 96px;text-align:center;position:relative}
+.close::before{content:"";position:absolute;inset:0;z-index:0;
+  background:radial-gradient(60% 55% at 50% 30%,rgba(194,137,79,.10),
+    transparent 70%),var(--ground)}
+.close .shell{position:relative;z-index:1}
+.close h2{max-width:20ch;margin:0 auto 18px}
+.close .lede{margin:0 auto 34px;text-align:center}
+.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:30px 0 14px}
+.badge{display:inline-flex;flex-direction:column;align-items:flex-start;
+  gap:1px;padding:9px 18px;border-radius:12px;border:1px solid var(--line-2);
+  color:var(--ink-2)}
+.badge b{font-size:13.5px;font-weight:600;color:var(--ink)}
+.badge span{font-size:10px;font-family:var(--mono);letter-spacing:.04em;
+  color:var(--muted)}
+
+footer{padding:44px 0;border-top:1px solid var(--line);font-size:13.5px;
+  color:var(--muted);background:var(--ground);position:relative;z-index:1}
+.fin{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+.fin nav{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+footer a:hover{color:var(--ink-2)}
+
+@media (max-width:640px){
+  .chapter{padding:104px 0 88px}
+  .close{padding:104px 0 72px}
+  .stats,.two{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;
+    transition-duration:.01ms!important}
+  .js .rv{opacity:1!important;transform:none!important}
+  .grain{animation:none}
+  .hero-bg .bright{opacity:0!important}
+  .scene-img{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="top">
+  <div class="topin">
+    <a class="logo" href="#hero">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true">
+        <rect x="322" y="192" width="380" height="144" rx="72"/>
+        <rect x="252" y="440" width="520" height="144" rx="72"/>
+        <rect x="182" y="688" width="660" height="144" rx="72"/>
+      </svg>Stack
+    </a>
+    <a class="btn" href="../index.html">Get Stack</a>
+  </div>
+</div>
+
+<nav class="rail" aria-label="Section progress">
+  <a href="#hero" data-rail="hero" title="Intro"><span>Intro</span></a>
+  <a href="#ch01" data-rail="ch01" title="01 — The day"><span>01</span></a>
+  <a href="#ch02" data-rail="ch02" title="02 — In your system"><span>02</span></a>
+  <a href="#ch03" data-rail="ch03" title="03 — The record"><span>03</span></a>
+  <a href="#ch04" data-rail="ch04" title="04 — The library"><span>04</span></a>
+  <a href="#close" data-rail="close" title="Get Stack"><span>Get</span></a>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════════ -->
+<header class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <img class="base" src="assets/hero-dark.jpg" alt="" width="1920" height="1080"
+      fetchpriority="high">
+    <img class="bright" src="assets/hero-dark.jpg" alt="" width="1920" height="1080"
+      loading="lazy">
+  </div>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="shell hero-in">
+    <div class="hero-copy">
+      <p class="hero-eyebrow rv">Stack</p>
+      <h1 class="rv rv2">Your whole stack,<br><i>in one place.</i></h1>
+      <p class="hero-lede rv rv3">Medications, peptides, supplements — Stack
+      tracks every dose in one calm screen, whatever you take and however
+      often you take it.</p>
+      <div class="hero-cta rv rv4">
+        <a class="btn btn-p btn-lg" href="../index.html">Get Stack</a>
+        <a class="btn btn-lg" href="#ch01">See how it works</a>
+      </div>
+    </div>
+
+    <div class="phone rv rv3" aria-hidden="true">
+      <div class="notch"></div>
+      <p class="ph-hd">Today <b>2 of 3</b></p>
+      <div class="row"><span class="dot"></span>
+        <div class="t"><b>Semaglutide</b><span>0.5 mg · 7:12 AM</span></div></div>
+      <div class="row"><span class="dot"></span>
+        <div class="t"><b>Vitamin D3</b><span>1 capsule · breakfast</span></div></div>
+      <div class="row" style="opacity:.5"><span class="dot" style="background:var(--muted)"></span>
+        <div class="t"><b>Magnesium glycinate</b><span>2 capsules · before bed</span></div></div>
+    </div>
+  </div>
+
+  <p class="scrolldown" aria-hidden="true">Scroll<i></i></p>
+</header>
+
+<!-- ═══ CHAPTER 01 · THE DAY ═════════════════════════════════════════════
+     Scroll-scrubbed Ken Burns across three stills stands in for the future
+     10s cinematic loop; see SWAP POINT comment in the CSS above. Progress
+     `p01` (0–1 across this section) picks the dominant image and its zoom. -->
+<section class="chapter" id="ch01">
+  <div class="scene" aria-hidden="true">
+    <img class="scene-img" data-t="0.00" src="assets/img/dune.jpg" alt=""
+      width="1920" height="1080" loading="lazy">
+    <img class="scene-img" data-t="0.50" src="assets/img/ridge.jpg" alt=""
+      width="1920" height="1080" loading="lazy">
+    <img class="scene-img" data-t="1.00" src="assets/img/coast.jpg" alt=""
+      width="1920" height="1080" loading="lazy">
+    <div class="veil" style="background:linear-gradient(180deg,
+      rgba(11,11,13,.5) 0%,rgba(11,11,13,.62) 55%,rgba(11,11,13,.9) 100%)"></div>
+  </div>
+  <p class="scene-count" id="ch01count" aria-hidden="true">
+    <b>01</b> / 03 — dawn to night, one list either way</p>
+
+  <div class="shell">
+    <div class="two">
+      <div>
+        <p class="eyebrow rv"><span>Chapter 01</span><em>— the day</em></p>
+        <h2 class="rv rv2">Every dose, in the order you take it.</h2>
+        <p class="lede rv rv3">Morning, midday, night — Stack keeps today's
+        stack in one list, so you never have to hold the order in your head.</p>
+      </div>
+      <div class="ch01-cards rv rv2">
+        <div class="dose glass">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v10M9 6l3-3 3 3"/><rect x="9" y="13" width="6" height="8" rx="3"/></svg></span>
+          <div class="nm"><b>Semaglutide</b><span>0.5 mg · injected 7:12 AM</span></div>
+          <span class="done"></span>
+        </div>
+        <div class="dose glass">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
+          <div class="nm"><b>Vitamin D3</b><span>1 capsule · with breakfast</span></div>
+          <span class="done"></span>
+        </div>
+        <div class="dose glass" style="opacity:.6">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 15l6-6M7.5 16.5a4 4 0 010-5.6l3.4-3.4a4 4 0 015.6 5.6l-3.4 3.4a4 4 0 01-5.6 0z"/></svg></span>
+          <div class="nm"><b>Magnesium glycinate</b><span>2 capsules · before bed</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 02 · IN YOUR SYSTEM ══════════════════════════════════════
+     `p02` (0–1 across this section) drives the decay readout continuously —
+     the one truly scroll-scrubbed number on the page. The other two stats
+     count up once, on entrance, and are both labelled as an example — not a
+     claim about real usage. -->
+<section class="chapter" id="ch02">
+  <div class="bg" aria-hidden="true">
+    <img src="assets/hero-dark2.jpg" alt="" width="1920" height="1080" loading="lazy">
+    <div class="veil" style="background:linear-gradient(180deg,
+      rgba(11,11,13,.55) 0%,rgba(11,11,13,.72) 60%,rgba(11,11,13,.93) 100%)"></div>
+  </div>
+  <div class="shell">
+    <div class="two">
+      <div>
+        <p class="eyebrow rv"><span>Chapter 02</span><em>— in your system</em></p>
+        <h2 class="rv rv2">What's still active, at a glance.</h2>
+        <p class="lede rv rv3">Stack estimates what's still on board from
+        published half-life ranges for what you've logged — a tracking
+        estimate, not a medical reading.</p>
+      </div>
+      <div class="rv rv2">
+        <div class="decay glass">
+          <p class="lbl">Semaglutide · <b>half-life 7 days</b></p>
+          <p class="num" id="decayNum">92<span>% estimated remaining</span></p>
+          <div class="bar"><b id="decayBar" style="width:92%"></b></div>
+          <p class="fine">Based on published half-life data. For tracking
+          only — not medical advice.</p>
+        </div>
+        <div class="stats">
+          <div><b id="dosesNum" data-count="14">0</b><span>doses logged</span>
+            <em>example week</em></div>
+          <div><b id="supplyNum" data-count="9">0</b><span>days of supply left</span>
+            <em>example vial</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 03 · THE RECORD ══════════════════════════════════════════ -->
+<section class="chapter record-scene" id="ch03">
+  <div class="shell">
+    <div class="two">
+      <div>
+        <p class="eyebrow rv"><span>Chapter 03</span><em>— the record</em></p>
+        <h2 class="rv rv2">A record you can hand to your doctor.</h2>
+        <p class="lede rv rv3">Every dose you log becomes part of a plain
+        report — dates, amounts, times. Export it before an appointment;
+        nothing leaves your device until you choose to share it.</p>
+        <p class="micro rv rv4">On-device by default. Export is a PDF or raw
+        data, your choice.</p>
+      </div>
+      <div class="paper rv rv2">
+        <p class="pe">Stack — dose report (sample)</p>
+        <h3>Feb 1 – Feb 28</h3>
+        <table>
+          <thead><tr><th>Date</th><th>Compound</th><th>Dose</th><th>Time</th></tr></thead>
+          <tbody>
+            <tr><td>Feb 26</td><td>Semaglutide</td><td>0.5 mg</td><td>7:12 AM</td></tr>
+            <tr><td>Feb 26</td><td>Vitamin D3</td><td>1 cap</td><td>7:40 AM</td></tr>
+            <tr><td>Feb 25</td><td>Magnesium</td><td>2 cap</td><td>9:55 PM</td></tr>
+            <tr><td>Feb 24</td><td>Semaglutide</td><td>0.5 mg</td><td>7:05 AM</td></tr>
+          </tbody>
+        </table>
+        <p class="pf">Sample data for illustration. A real export lists
+        every entry for the period you choose.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 04 · THE LIBRARY ═════════════════════════════════════════ -->
+<section class="chapter" id="ch04">
+  <div class="bg" aria-hidden="true">
+    <img src="assets/calm-charcoal.jpg" alt="" width="1920" height="1080" loading="lazy">
+    <div class="veil" style="background:rgba(11,11,13,.86)"></div>
+  </div>
+  <div class="shell">
+    <p class="eyebrow rv"><span>Chapter 04</span><em>— the library</em></p>
+    <p class="libnum rv rv2">112</p>
+    <h2 class="rv rv2">Compounds, already in the library.</h2>
+    <p class="lede rv rv3">Peptides, hormones, supplements, prescriptions —
+    search once, and typical units, schedules, and half-life data are
+    already there.</p>
+    <div class="chips rv rv4">
+      <span class="chip">Semaglutide</span><span class="chip">Tirzepatide</span>
+      <span class="chip">Testosterone cypionate</span><span class="chip">BPC-157</span>
+      <span class="chip">Vitamin D3</span><span class="chip">Magnesium glycinate</span>
+      <span class="chip">Creatine monohydrate</span><span class="chip">Omega-3</span>
+      <span class="chip">Melatonin</span><span class="chip">Ashwagandha</span>
+      <span class="chip">Metformin</span><span class="chip">NAD+</span>
+      <span class="chip">Zinc</span><span class="chip">L-theanine</span>
+      <span class="chip">+ 98 more</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLOSE — single CTA, no pricing ═══════════════════════════════════ -->
+<section class="close" id="close">
+  <div class="shell">
+    <p class="eyebrow rv" style="justify-content:center"><span>Stack</span></p>
+    <h2 class="rv rv2">Get Stack.</h2>
+    <p class="lede rv rv3">One list for everything you take.</p>
+    <div class="rv rv4">
+      <a class="btn btn-p btn-lg" href="../index.html">Get Stack</a>
+    </div>
+    <div class="badges rv rv4">
+      <span class="badge"><b>App Store</b><span>coming soon</span></span>
+      <span class="badge"><b>Google Play</b><span>coming soon</span></span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell fin">
+    <span>Stack — track your stack</span>
+    <nav><a href="rebrand-index.html">Other directions</a>
+      <a href="../index.html">Live site</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasHover = matchMedia('(hover: hover)').matches;
+
+  /* ── entrance reveals ─────────────────────────────────────────────── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.2,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  // A tab that never composites never fires IO — make sure everything above
+  // the fold is legible on load regardless.
+  requestAnimationFrame(function(){
+    document.querySelectorAll('.rv').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if(r.top < innerHeight) el.classList.add('in');
+    });
+  });
+
+  /* ── right-edge rail: highlight the section in view ──────────────── */
+  var railLinks = {};
+  document.querySelectorAll('.rail a').forEach(function(a){
+    railLinks[a.getAttribute('data-rail')] = a;
+  });
+  var railIO = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var link = railLinks[e.target.id];
+      if(!link) return;
+      if(e.isIntersecting) {
+        Object.keys(railLinks).forEach(function(k){ railLinks[k].classList.remove('on'); });
+        link.classList.add('on');
+      }
+    });
+  },{threshold:.5});
+  ['hero','ch01','ch02','ch03','ch04','close'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) railIO.observe(el);
+  });
+
+  /* ── count-up stats, one shot on reveal ──────────────────────────── */
+  function countUp(el, target, dur){
+    if(reduce){ el.textContent = target; return; }
+    var start = performance.now();
+    function step(now){
+      var p = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counted = new WeakSet();
+  var countIO = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !counted.has(e.target)){
+        counted.add(e.target);
+        countUp(e.target, parseInt(e.target.dataset.count, 10), 1100);
+      }
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){ countIO.observe(el); });
+
+  if(reduce){
+    // Static, fully readable end-states — no rAF loops below this line.
+    var mid = document.querySelectorAll('#ch01 .scene-img')[1];
+    document.querySelectorAll('#ch01 .scene-img').forEach(function(img,i){
+      img.style.opacity = i === 1 ? 1 : 0;
+    });
+    document.getElementById('ch01count').innerHTML = '<b>02</b> / 03 — one list either way';
+    return;
+  }
+
+  /* ── cursor-spotlight reveal on the hero ─────────────────────────── */
+  var hero = document.getElementById('hero');
+  var mx = 50, my = 38, tx = 50, ty = 38; // percentages
+  if(hasHover){
+    hero.addEventListener('pointermove', function(ev){
+      var r = hero.getBoundingClientRect();
+      tx = ((ev.clientX - r.left) / r.width) * 100;
+      ty = ((ev.clientY - r.top) / r.height) * 100;
+    });
+  }
+  var driftT0 = performance.now();
+  function heroTick(now){
+    if(!hasHover){
+      // Touch / no-pointer: slow automatic drift instead of a cursor.
+      var t = (now - driftT0) / 1000;
+      tx = 50 + Math.sin(t * 0.18) * 26;
+      ty = 38 + Math.cos(t * 0.13) * 14;
+    }
+    mx += (tx - mx) * 0.07;
+    my += (ty - my) * 0.07;
+    hero.style.setProperty('--mx', mx.toFixed(2) + '%');
+    hero.style.setProperty('--my', my.toFixed(2) + '%');
+    requestAnimationFrame(heroTick);
+  }
+  requestAnimationFrame(heroTick);
+
+  /* ── chapter 01: scroll-scrubbed Ken Burns across three stills ───── */
+  var ch01 = document.getElementById('ch01');
+  var sceneImgs = [].slice.call(ch01.querySelectorAll('.scene-img'));
+  var ch01count = document.getElementById('ch01count');
+  function ch01Tick(){
+    var r = ch01.getBoundingClientRect();
+    var total = r.height - innerHeight;
+    var p = total > 0 ? (0 - r.top) / total : 0;
+    p = Math.max(0, Math.min(1, p));
+    var active = 0;
+    sceneImgs.forEach(function(img, i){
+      var t = parseFloat(img.dataset.t);
+      var dist = Math.abs(p - t);
+      var op = Math.max(0, 1 - dist * 3.2);
+      img.style.opacity = op;
+      img.style.transform = 'scale(' + (1.06 + op * 0.09) + ')';
+      if(op > (sceneImgs[active] ? Math.abs(p - parseFloat(sceneImgs[active].dataset.t)) : -1)) active = i;
+    });
+    // pick the nearest-t image for the counter label, independent of the
+    // crossfade math above
+    var nearest = 0, best = 2;
+    sceneImgs.forEach(function(img, i){
+      var d = Math.abs(p - parseFloat(img.dataset.t));
+      if(d < best){ best = d; nearest = i; }
+    });
+    ch01count.innerHTML = '<b>0' + (nearest + 1) + '</b> / 03 — dawn to night, one list either way';
+  }
+
+  /* ── chapter 02: scroll-scrubbed half-life decay ─────────────────── */
+  var ch02 = document.getElementById('ch02');
+  var decayNum = document.getElementById('decayNum');
+  var decayBar = document.getElementById('decayBar');
+  function ch02Tick(){
+    var r = ch02.getBoundingClientRect();
+    var total = r.height - innerHeight * 0.5;
+    var p = total > 0 ? (innerHeight * 0.75 - r.top) / total : 0;
+    p = Math.max(0, Math.min(1, p));
+    var level = Math.round(92 - p * 54); // 92% -> 38% across the section
+    decayNum.innerHTML = level + '<span>% estimated remaining</span>';
+    decayBar.style.width = level + '%';
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ch01Tick(); ch02Tick();
+      ticking = false;
+    });
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', onScroll);
+  onScroll();
+})();
+</script>
+</body>
+</html>

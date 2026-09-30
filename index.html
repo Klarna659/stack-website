@@ -1,715 +1,639 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stack — Track your stack. Supplements, peptides, meds & GLP-1.</title>
-  <meta name="description" content="Stack is the quiet, private way to track everything you take — supplements, peptides, meds, GLP-1 and TRT. Doses, smart reminders, supply projection, injection rotation and the levels in your system. Free to track." />
-  <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
-  <link rel="canonical" href="https://trackyourstack.app/" />
+<meta charset="utf-8">
+<title>Stack — Track your stack. One calm list for everything you take.</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Stack is the calm way to track medications, peptides and supplements — 587 compounds in the library, Juno to operate it by chat or voice, and a doctor-ready record.">
+<link rel="canonical" href="https://trackyourstack.app/">
+<meta name="theme-color" content="#0C0D0E">
 
-  <meta property="og:title" content="Stack — Track your stack" />
-  <meta property="og:description" content="Supplements, peptides, meds, GLP-1, TRT — every dose, refill and reminder in one quiet, private app. Free to track." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://trackyourstack.app/" />
-  <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
-  <meta property="og:site_name" content="Stack" />
-  <meta name="twitter:card" content="summary_large_image" />
+<meta property="og:title" content="Stack — Track your stack">
+<meta property="og:description" content="Stack is the calm way to track medications, peptides and supplements — 587 compounds in the library, Juno to operate it by chat or voice, and a doctor-ready record.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trackyourstack.app/">
+<meta property="og:image" content="https://trackyourstack.app/assets/img/og.png">
+<meta property="og:site_name" content="Stack">
+<meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" type="image/svg+xml" href="assets/img/icon.svg" />
-  <link rel="icon" type="image/png" href="assets/img/icon.png" />
-  <link rel="apple-touch-icon" href="assets/img/icon.png" />
-  <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/css/mono.css?v=4" />
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Stack", "url": "https://trackyourstack.app/", "logo": "https://trackyourstack.app/assets/img/icon.png", "email": "hello@trackyourstack.app", "parentOrganization": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Stack", "url": "https://trackyourstack.app/", "publisher": {"@type": "Organization", "name": "Stack"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Stack", "applicationCategory": "HealthApplication", "operatingSystem": "Android, iOS", "url": "https://trackyourstack.app/", "description": "Track medications, peptides and supplements in one list: doses, half-lives, reminders and a doctor-ready record.", "publisher": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+{"@type": "Question", "name": "Is this medical advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. Stack is a logging tool. It never recommends a dose, a compound, or tells you what to take."}},
+{"@type": "Question", "name": "Where is my data?", "acceptedAnswer": {"@type": "Answer", "text": "On your phone by default. Cloud backup is optional and encrypted, and only runs if you turn it on."}},
+{"@type": "Question", "name": "What happens if I cancel?", "acceptedAnswer": {"@type": "Answer", "text": "Everything you've logged stays readable and exportable. You just stop being able to log new doses."}},
+{"@type": "Question", "name": "Does it work for injections, pills and supplements?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — peptides, TRT, GLP-1s, oral compounds and supplements all log the same way."}},
+{"@type": "Question", "name": "iPhone and Android?", "acceptedAnswer": {"@type": "Answer", "text": "Both. One app, kept in sync with your own encrypted backup if you turn it on."}}
+]}</script>
 
-  <script>/* set theme before paint — no flash */(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="icon" type="image/svg+xml" href="assets/img/icon.svg">
+<link rel="icon" type="image/png" href="assets/img/icon.png">
+<link rel="apple-touch-icon" href="assets/img/icon.png">
+<link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/hero-photo/hero_a_2560.jpg" as="image" media="(min-width: 761px)">
+<link rel="preload" href="assets/img/hero-photo/hero_a_1280.jpg" as="image" media="(max-width: 760px)">
+<link rel="preload" href="assets/img/app/hero_juno_poster.jpg" as="image">
+<link rel="preload" href="assets/img/app/hero_today_still.webp" as="image">
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Stack","operatingSystem":"Android","applicationCategory":"HealthApplication","description":"Private dose, supplement, peptide, GLP-1 and TRT tracker — reminders, supply projection, injection-site rotation, in-system levels, bloodwork and weight trends.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://trackyourstack.app/"}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Stack free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tracking, reminders, supply projection, streaks and weight trends are free, with no cap on how many compounds you track. Plus adds the insight layer: the full in-system level screen (previews are free), bloodwork ranges, full trends, cloud backup and unlimited Sage."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. You can use Stack without an account — everything on your phone works. An account is optional and links a Plus purchase made on the web to your device; it only ever knows your email, never what you take."}},{"@type":"Question","name":"What can I track with Stack?","acceptedAnswer":{"@type":"Answer","text":"Anything you take on a schedule: supplements, vitamins, medications, peptides, GLP-1s and TRT — plus habits, weight, lifts and bloodwork alongside your doses."}},{"@type":"Question","name":"Does Stack give dosing advice?","acceptedAnswer":{"@type":"Answer","text":"No. Stack is a logging tool and an educational reference. It never recommends compounds or doses, and nothing in the app or on this site is medical advice."}}]}</script>
+<style>
+/* Self-hosted, matching the site's convention — no external font CDN.
+   Instrument Sans is self-hosted (assets/fonts, OFL), so the CSP stays
+   font 'self'-only. Without it the headings fell back to a serif. */
+@font-face{
+  font-family:"Instrument Sans";
+  src:url("assets/fonts/instrument-sans-600.woff2") format("woff2");
+  font-weight:500 600;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Instrument Sans";
+  src:url("assets/fonts/instrument-sans-700.woff2") format("woff2");
+  font-weight:700;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Inter";
+  src:url("assets/fonts/inter-subset.woff2") format("woff2");
+  font-weight:100 900;
+  font-display:swap;
+}
+/* ═══════════════════════════════════════════════════════════════════════
+   STACK · HOMEPAGE — split-S brand, ported 2026-09-28 from
+   docs/growth/brand_world/site_final.html (dose_tracker repo). Locked
+   brand: teal tile + white S, deep teal #175E58, paper/ink/night grounds.
+   Self-contained (own tokens below) rather than pulling mono.css, so this
+   always-dark hero page never fights the site-wide light/dark toggle.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  --night:#0C0D0E; --panel:#17140F; --panel-2:#1E1A15;
+  --line:rgba(245,242,236,.11); --line-soft:rgba(245,242,236,.06);
+  --paper:#FAF8F4; --ink:#1A1815;
+  --ns:#5FBFB3; --deep-teal:#175E58;
+  --mut:#A79E8F; --dim:#8C8374; --ink2:#CDC5B9;
+  --hero-desktop:url(assets/img/hero-photo/hero_a_2560.jpg);
+  --hero-mobile:url(assets/img/hero-photo/hero_a_1280.jpg);
+  color-scheme: dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--night);color:var(--paper);font:16px/1.6 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.brand-word,.hd{font-family:"Instrument Sans",Inter,sans-serif}
+h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 44px}
+.eyebrow{display:block;font:700 11.5px/1 Inter;letter-spacing:.16em;text-transform:uppercase;color:var(--ns)}
+:focus-visible{outline:2px solid var(--ns);outline-offset:2px;border-radius:6px}
 
-  <!-- 2026 homepage refresh: clean, gold, product-led. Additive to mono.css; theme-aware via mono tokens. -->
-  <style>
-    .script{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:500;color:var(--gold);letter-spacing:-.01em}
-    .hero{position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-      background:radial-gradient(58% 48% at 84% 6%,var(--gold-fill),transparent 60%)}
-    .hero>.container{position:relative;z-index:1}
-    .hero-stats{display:flex;gap:clamp(20px,4vw,40px);margin-top:28px;flex-wrap:wrap}
-    .hero-stat .n{font-size:clamp(24px,3.2vw,32px);font-weight:800;letter-spacing:-.04em;color:var(--gold);line-height:1}
-    .hero-stat .l{font-size:12.5px;color:var(--mut);margin-top:5px;max-width:15ch;line-height:1.35}
-    .phone-wrap{position:relative}
-    .lp-float{position:absolute;z-index:3;background:var(--panel);border:1px solid var(--line);border-radius:12px;
-      padding:9px 12px;box-shadow:var(--shadow-card)}
-    .lp-float .k{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-    .lp-float .v{font-size:14px;font-weight:800;letter-spacing:-.02em;margin-top:3px;color:var(--ink)}
-    .lp-float.f-a{top:3%;left:-3%;border-color:var(--gold-line)}
-    .lp-float.f-a .v{color:var(--gold)}
-    .lp-float.f-b{bottom:9%;right:0}
-    .lp-float.f-b .bars{display:flex;align-items:flex-end;gap:3px;height:20px;margin-top:5px}
-    .lp-float.f-b .bars i{width:5px;background:var(--gold);border-radius:1px;opacity:.9}
-    @media(max-width:900px){.lp-float{display:none}}
-    .lp-cmp{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--panel);box-shadow:var(--shadow-card);max-width:860px;margin:0 auto}
-    .lp-cmp .row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-soft)}
-    .lp-cmp .row:first-child{border-top:0}
-    .lp-cmp .c{padding:15px 18px;font-size:14px;line-height:1.45}
-    .lp-cmp .c.old{color:var(--mut);border-right:1px solid var(--line-soft)}
-    .lp-cmp .c.new{color:var(--ink);font-weight:550;display:flex;gap:9px;align-items:flex-start}
-    .lp-cmp .c.new svg{width:16px;height:16px;flex:none;margin-top:2px;stroke:var(--gold);stroke-width:2.4;fill:none}
-    .lp-cmp .head{background:var(--panel-2)}
-    .lp-cmp .head .c{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
-    .lp-cmp .head .c.old{color:var(--dim)}
-    .lp-cmp .head .c.new{color:var(--ink);display:block}
-    .lp-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:820px;margin:0 auto}
-    .lp-chip{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--ink-2);
-      border:1px solid var(--line);border-radius:99px;padding:9px 15px 9px 12px;background:var(--panel);box-shadow:var(--shadow-card);transition:.15s}
-    .lp-chip:hover{border-color:var(--dim);transform:translateY(-1px)}
-    .lp-chip .t{width:16px;height:16px;border-radius:50%;background:var(--gold-fill);display:grid;place-items:center;flex:none}
-    .lp-chip .t svg{width:9px;height:9px;stroke:var(--gold);stroke-width:2.6;fill:none}
-    .lp-chip.more{color:var(--gold);font-weight:700}
-    .lp-two{display:grid;gap:20px}
-    @media(min-width:860px){.lp-two{grid-template-columns:1fr 1fr}}
-    .lp-ii{list-style:none;margin:0;padding:0;display:grid;gap:13px}
-    .lp-ii li{font-size:14.5px;color:var(--ink-2);padding-left:28px;position:relative;line-height:1.5}
-    .lp-ii li svg{position:absolute;left:0;top:2px;width:18px;height:18px;fill:none;stroke-width:2.4}
-    .lp-ii li.is svg{stroke:var(--gold)}
-    .lp-ii li.no svg{stroke:var(--dim)}
-    .lp-priv p{font-size:14.5px;color:var(--ink-2);line-height:1.62;margin:0}
-    .lp-priv .g{color:var(--ink);font-weight:650}
-  </style>
+/* ---------------------------------------------------------------- nav --- */
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--night) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{display:flex;align-items:center;gap:14px;height:68px;max-width:1200px;margin:0 auto;padding:0 32px}
+.brand{display:inline-flex;align-items:center;gap:10px;font:600 19px "Instrument Sans";letter-spacing:-.02em;margin-right:auto}
+.brand-mark{width:28px;height:28px;flex:none;display:inline-block}
+.nav-links{display:none;gap:28px;margin-left:auto;align-items:center;font-size:14px}
+.nav-links a:not(.pill){font-weight:600;color:var(--mut)}
+.nav-links a:hover{color:var(--paper)}
+@media (min-width:880px){.nav-links{display:flex}}
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:10px 18px;min-height:40px;font:600 14px Inter;background:var(--paper);color:#111;white-space:nowrap;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14.5px "Instrument Sans",Inter,sans-serif;border-radius:999px;padding:13px 24px;min-height:46px;border:1px solid transparent;white-space:nowrap}
+.btn-acc{background:var(--ns);color:var(--ink)}
+.btn-acc:hover{opacity:.9}
+
+/* --------------------------------------------------------------- hero --- */
+.hero{position:relative;min-height:min(880px,92vh);overflow:hidden;display:flex;flex-direction:column}
+.hero .photo{position:absolute;inset:0;background-image:var(--hero-desktop);background-size:cover;background-position:center 42%;filter:brightness(.72)}
+@media (max-width:760px){.hero .photo{background-image:var(--hero-mobile)}}
+.hero .shade{position:absolute;inset:0;background:
+  linear-gradient(90deg,#0c0d0ef2 0%,#0c0d0eb8 40%,#0c0d0e2e 75%,#0c0d0e5c 100%),
+  linear-gradient(180deg,transparent 68%,#0c0d0ee8 100%)}
+.hero-nav{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;max-width:1240px;width:100%;margin:0 auto;padding:22px 32px}
+.hero-nav .nav-links a:not(.pill){color:#D8D1C6}
+.hero-body{position:relative;z-index:3;flex:1;max-width:1240px;width:100%;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px}
+.hero-copy h1{font:600 clamp(40px,5.6vw,72px)/1.03 "Instrument Sans";letter-spacing:-.035em;margin-top:12px}
+.hero-copy .sub{margin-top:16px;font-size:clamp(16px,1.4vw,19px);color:#E3DDD3;max-width:32ch}
+.hero-cta-row{display:flex;align-items:center;gap:12px;margin-top:28px;flex-wrap:wrap}
+.hero-trust{margin-top:16px;font-size:12.5px;color:var(--mut)}
+.hero-stage{position:relative;height:660px}
+.ph{position:relative;width:270px;height:562px;border-radius:46px;background:linear-gradient(155deg,#242220,#0a0a09);padding:11px;box-shadow:0 40px 90px -10px #000c,0 4px 18px #0006,inset 0 0 0 1px #ffffff14;border:1.5px solid #302d29;flex:none}
+.sc{width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;background:#121110;box-shadow:inset 0 0 0 1px #00000080}
+.sc video,.sc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;background:#121110}
+.isl{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:76px;height:22px;border-radius:20px;background:#000;z-index:3;box-shadow:inset 0 0 0 1px #ffffff12}
+/* Two-phone hero: the Today still sits back and slightly up-right, the
+   live product-demo video sits in front and slightly down-left, overlapping
+   it — later in DOM paints on top, so no z-index juggling is needed. Each
+   gets one subtle, one-time entrance (fade + raise); reduced-motion drops
+   both the entrance and the tilt. */
+.hero-ph-today{position:absolute;right:14px;top:4px;filter:brightness(.92);animation:heroInToday .7s cubic-bezier(.16,1,.3,1) .05s both}
+.hero-ph-video{position:absolute;left:6px;top:98px;box-shadow:0 46px 100px -12px #000d,0 6px 22px #0008;animation:heroInVideo .7s cubic-bezier(.16,1,.3,1) .2s both}
+@keyframes heroInToday{from{opacity:0;transform:rotate(3deg) translateY(22px)}to{opacity:1;transform:rotate(3deg) translateY(0)}}
+@keyframes heroInVideo{from{opacity:0;transform:rotate(-4deg) translateY(26px)}to{opacity:1;transform:rotate(-4deg) translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  .ph{transform:none!important}
+  .hero-ph-today,.hero-ph-video{animation:none!important;opacity:1!important}
+}
+
+@media (max-width:760px){
+  .hero-nav{padding:16px 20px}.hero-nav .nav-links a:not(.pill){display:none}
+  .hero-body{padding:0 20px;display:flex;flex-direction:column;align-items:stretch;text-align:left;padding-top:4vh}
+  .hero-copy h1{font-size:40px}
+  .hero-stage{position:relative;height:auto;margin-top:18px;display:flex;justify-content:center;overflow:visible}
+  .hero-stage .ph{width:138px;height:288px;border-radius:28px;padding:6px}
+  .hero-ph-today{position:relative;right:auto;top:auto;margin-right:-44px}
+  .hero-ph-video{position:relative;left:auto;top:auto;margin-top:30px}
+  .sc{border-radius:22px}.isl{width:52px;height:15px;top:6px}
+  .hero{min-height:auto;padding-bottom:14px}
+}
+
+/* ----------------------------------------------------------- section --- */
+.section{padding:28px 0;border-top:1px solid var(--line)}
+.section-head{max-width:62ch;margin-bottom:18px}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head h2{font-size:22px;margin-top:6px}
+.section-head p{color:var(--ink2);font-size:15px;margin:10px 0 0;line-height:1.6}
+@media (min-width:620px){.section-head h2{font-size:30px}.section{padding:48px 0}}
+
+/* -------------------------------------------------------- feature show --- */
+.fs-wrap{display:grid;grid-template-areas:"caption" "stage" "tabs";row-gap:12px;align-items:center}
+.fs-stage{grid-area:stage;display:flex;justify-content:center}
+.fs-ph{width:208px;height:auto;aspect-ratio:720/736;border-radius:32px;padding:7px}
+.fs-ph .sc{border-radius:24px}
+.fs-ph .isl{display:none}
+.fs-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;background:#121110;opacity:0;transition:opacity .3s ease;z-index:1}
+.fs-video.active{opacity:1;z-index:2}
+@media (prefers-reduced-motion:reduce){.fs-video{transition:none}}
+.fs-caption{grid-area:caption;display:grid;text-align:center}
+.fs-cap-slide{grid-row:1;grid-column:1;opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease;pointer-events:none}
+.fs-cap-slide.active{opacity:1;transform:translateY(0);pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.fs-cap-slide{transition:none;transform:none}}
+.fs-cap-slide h3{font-size:20px}
+.fs-cap-slide p{color:var(--ink2);font-size:14px;margin:8px 0 0;line-height:1.55;max-width:38ch;margin-left:auto;margin-right:auto}
+.fs-tabs{grid-area:tabs;display:flex;gap:10px;justify-content:center;list-style:none}
+.fs-tab{display:flex;align-items:center;gap:8px;padding:8px 4px;background:none;border:none;color:var(--mut);cursor:pointer;font:600 13px "Instrument Sans",Inter,sans-serif}
+.fs-tab .dot{width:8px;height:8px;border-radius:999px;background:var(--line);flex:none;transition:width .2s ease,background .2s ease}
+.fs-tab[aria-selected="true"]{color:var(--paper)}
+.fs-tab[aria-selected="true"] .dot{background:var(--ns);width:20px;border-radius:999px}
+.fs-tab:focus-visible{outline:2px solid var(--ns);outline-offset:3px;border-radius:6px}
+@media (max-width:779px){
+  .fs-tab .label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .fs-tab{padding:8px}
+}
+@media (min-width:780px){
+  .fs-wrap{grid-template-columns:1fr 1fr;grid-template-areas:"stage caption" "stage tabs";column-gap:56px;row-gap:14px}
+  .fs-ph{width:288px;height:auto;border-radius:42px}
+  .fs-caption{text-align:left;align-self:end}
+  .fs-cap-slide p{margin-left:0;margin-right:0}
+  .fs-cap-slide h3{font-size:25px}
+  .fs-cap-slide p{font-size:15.5px}
+  .fs-tabs{justify-content:flex-start;flex-direction:column;gap:4px;align-self:start}
+}
+
+/* --------------------------------------------------------------- doors --- */
+.door-scroll{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -1px;padding:1px}
+.door-scroll::-webkit-scrollbar{display:none}
+.door-card{scroll-snap-align:start;flex:0 0 auto;width:210px;display:block;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel);transition:border-color .2s ease}
+.door-card:hover{border-color:var(--ns)}
+.door-card h3{font-size:16px;margin-top:6px}
+.door-card p{color:var(--ink2);font-size:12.5px;margin:6px 0 0;line-height:1.5}
+.door-card .go{margin-top:10px;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--ns)}
+@media (min-width:780px){.door-scroll{overflow-x:visible}.door-card{flex:1 1 0;width:auto}}
+
+/* --------------------------------------------------------------- facts --- */
+.fact-row{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+@media (min-width:680px){.fact-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.fact-cell{background:var(--night);padding:14px 16px}
+.fact-cell h3{font-size:15.5px;font-weight:600;line-height:1.35}
+.fact-cell p{color:var(--mut);font-size:12.5px;margin:6px 0 0;line-height:1.5}
+
+/* ------------------------------------------------------------- pricing --- */
+.price-card{border:1px solid var(--line);border-radius:20px;padding:22px 20px;background:var(--panel);max-width:640px;margin:0 auto;text-align:center}
+.price-card h2{font-size:21px;margin-top:8px}
+@media (min-width:620px){.price-card h2{font-size:28px}}
+.tl-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px auto;max-width:460px}
+.tl-step{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;text-align:center}
+.tl-step b{font-family:"Instrument Sans",sans-serif;font-size:13px;color:var(--paper)}
+.tl-step span{color:var(--mut);line-height:1.4}
+.tl-dot{width:9px;height:9px;border-radius:999px;background:var(--ns)}
+.price-card .fine{color:var(--dim);font-size:13px;max-width:44ch;margin:0 auto 18px;line-height:1.6}
+
+/* ----------------------------------------------------------------- faq --- */
+.faq-list{max-width:760px;margin:0;border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line);padding:10px 2px}
+.faq-item summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:"Instrument Sans",sans-serif;font-size:15px;font-weight:600}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-plus{color:var(--mut);font-size:19px;font-weight:400;flex:none;transition:transform .2s}
+.faq-item[open] .faq-plus{transform:rotate(45deg)}
+.faq-item p{color:var(--ink2);font-size:13.5px;margin:10px 0 0;line-height:1.6;max-width:60ch}
+
+/* -------------------------------------------------------------- final --- */
+.final-cta{position:relative;overflow:hidden;min-height:auto;padding:0;display:flex}
+.final-cta .photo{position:absolute;inset:0;background-image:var(--hero-desktop);background-size:cover;background-position:center 55%;filter:brightness(.6)}
+@media (max-width:760px){.final-cta .photo{background-image:var(--hero-mobile)}}
+.final-cta .shade{position:absolute;inset:0;background:radial-gradient(60% 90% at 50% 50%,rgba(12,13,14,.55),rgba(12,13,14,.9))}
+.final-cta-inner{position:relative;z-index:2;padding:40px 0;text-align:center;max-width:1200px;margin:0 auto;padding-left:44px;padding-right:44px}
+.final-cta h2{font-size:24px;max-width:20ch;margin:0 auto}
+@media (min-width:620px){.final-cta h2{font-size:38px}}
+.final-cta .hero-cta-row{justify-content:center;margin-top:18px}
+
+/* -------------------------------------------------------- store badge --- */
+.store-badge{display:inline-flex;align-items:center;justify-content:center;gap:11px;background:var(--paper);color:#111;border:0;border-radius:14px;padding:13px 20px;min-height:52px;cursor:pointer;font-family:inherit;text-align:left;transition:transform .15s ease}
+.store-badge:hover{transform:translateY(-2px)}
+.store-badge svg{width:22px;height:22px;flex:none}
+.sb-text{display:flex;flex-direction:column;line-height:1.15}
+.sb-top{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.72}
+.sb-main{font-size:16px;font-weight:800;letter-spacing:-.01em}
+
+/* ------------------------------------------------------------ footer --- */
+.footer{border-top:1px solid var(--line);background:var(--panel);margin-top:0}
+.footer-inner{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding:24px 44px 16px;max-width:1200px;margin:0 auto}
+@media (min-width:680px){.footer-inner{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr)}}
+.footer h4{font:700 12px/1 Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+.footer ul{list-style:none}
+.footer li a{color:var(--mut);font-size:14px;display:inline-block;padding:4px 0}
+.footer li a:hover{color:var(--paper)}
+.footer .tag{color:var(--mut);font-size:14px;font-weight:500;line-height:1.6;margin:10px 0 0;max-width:32ch}
+.footer .brand{margin-right:0}
+.disclaimer-band{border-top:1px solid var(--line);padding:10px 44px;color:var(--dim);font-size:12.5px;line-height:1.6;max-width:1200px;margin:0 auto}
+.footer-bottom{display:flex;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;border-top:1px solid var(--line);padding:10px 44px 18px;color:var(--dim);font-size:13px;max-width:1200px;margin:0 auto}
+.footer-bottom a{color:var(--mut)}
+.footer-bottom a:hover{color:var(--paper)}
+@media (max-width:760px){
+  .container,.footer-inner,.disclaimer-band,.footer-bottom{padding-left:20px;padding-right:20px}
+}
+
+/* --------------------------------------------------------- sticky bar --- */
+.sticky-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:70;display:none;align-items:center;justify-content:space-between;gap:14px;padding:12px 12px 12px 18px;border-radius:16px;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 14px 30px rgba(0,0,0,.35);transform:translateY(140%);transition:transform .35s ease}
+.sticky-bar.show{transform:translateY(0)}
+.sticky-bar-text{display:flex;flex-direction:column;line-height:1.25}
+.sticky-bar-text b{font-family:"Instrument Sans",sans-serif;font-size:14px}
+.sticky-bar-text span{font-size:11.5px;color:var(--mut)}
+@media (max-width:680px){.sticky-bar{display:flex}body{padding-bottom:78px}}
+</style>
 </head>
 <body>
-<!-- Compound glyph sprite. Same geometry as the app's core/design/compound_glyph.dart,
-     so the phone mock below draws the marks the product actually draws. It used to
-     show letter avatars (D, C, T…), which is a pattern the app has never had. -->
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-  <defs>
-    <g id="g-vial">
-      <rect x="9" y="3.4" width="6" height="3" rx=".9" fill="currentColor" stroke="none"/>
-      <rect x="8.2" y="6.4" width="7.6" height="13.4" rx="1.8"/>
-      <path d="M8.2 12.6H15.8"/>
-    </g>
-    <g id="g-capsule" transform="rotate(-45 12 12)">
-      <rect x="8.9" y="3.8" width="6.2" height="16.4" rx="3.1"/>
-      <path d="M8.9 12.4h6.2"/>
-    </g>
-    <g id="g-pen">
-      <rect x="10.7" y="2.4" width="2.6" height="1.8" rx=".9" fill="currentColor" stroke="none"/>
-      <rect x="10.1" y="4.2" width="3.8" height="13.4" rx="1.9"/>
-      <rect x="11.1" y="6.6" width="1.8" height="2.6" rx=".5"/>
-      <path d="M10.1 12.4h3.8"/>
-      <rect x="11.1" y="17.6" width="1.8" height="1.8" rx=".4"/>
-      <path d="M12 19.4v2"/>
-    </g>
-    <g id="g-syringe">
-      <path d="M10 3.2h4M12 3.2v3.2M8.6 6.4h6.8"/>
-      <rect x="9.8" y="6.4" width="4.4" height="11" rx=".8"/>
-      <path d="M9.8 10h1.6M9.8 12.6h1.6M12 17.4v3.6"/>
-    </g>
-  </defs>
-</svg>
 
-  <header class="nav" id="nav">
-    <div class="container nav-inner">
-      <a href="./" class="brand" aria-label="Stack — home">
-        <svg class="brand-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
-          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
-          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
-          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
-        </svg>
-        <span class="brand-word">Stack</span>
+<main>
+<section class="hero" id="hero">
+  <div class="photo"></div>
+  <div class="shade"></div>
+  <nav class="hero-nav">
+    <a href="#hero" class="brand"><span class="brand-mark" data-mark aria-hidden="true"></span>Stack</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="pricing/">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="pricing/" class="pill">Get the app</a>
+    </div>
+  </nav>
+  <div class="hero-body">
+    <div class="hero-copy">
+      <span class="eyebrow">Track your stack</span>
+      <h1>Say your protocol.<br>Watch it organise.</h1>
+      <p class="sub">Peptides, TRT, GLP-1s and supplements — logged, reminded and counted down.</p>
+      <div class="hero-cta-row">
+        <button class="store-badge" data-store="play" type="button">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
+          <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
+        </button>
+      </div>
+      <div class="hero-trust">7 days free &middot; Cancel anytime &middot; Your log stays yours</div>
+    </div>
+    <div class="hero-stage">
+      <div class="ph hero-ph hero-ph-today">
+        <div class="sc">
+          <img src="assets/img/app/hero_today_still.webp" width="540" height="1210" alt="Stack's Today screen: &quot;Hey Alex, 7 left today&quot; with the day's doses ready to log" loading="eager" fetchpriority="high">
+        </div>
+      </div>
+      <div class="ph hero-ph hero-ph-video">
+        <div class="sc">
+          <video autoplay muted loop playsinline preload="none" poster="assets/img/app/hero_juno_poster.jpg">
+            <source src="assets/img/app/hero_juno.webm" type="video/webm">
+            <source src="assets/img/app/hero_juno.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------- what it does --- -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">What it does</span>
+      <h2>Four things Stack is quietly good at.</h2>
+    </div>
+
+    <div class="fs-wrap" id="fsWrap">
+      <div class="fs-stage">
+        <div class="ph fs-ph">
+          <div class="sc" id="fsScreen">
+            <div class="isl"></div>
+            <video class="fs-video active" data-slide="0" muted loop playsinline preload="auto" poster="assets/img/app/build_stack_poster.jpg">
+              <source src="assets/img/app/build_stack.webm" type="video/webm">
+              <source src="assets/img/app/build_stack.mp4" type="video/mp4">
+            </video>
+            <video class="fs-video" data-slide="1" muted loop playsinline preload="none" poster="assets/img/app/injection_sites_poster.jpg">
+              <source src="assets/img/app/injection_sites.webm" type="video/webm">
+              <source src="assets/img/app/injection_sites.mp4" type="video/mp4">
+            </video>
+            <video class="fs-video" data-slide="2" muted loop playsinline preload="none" poster="assets/img/app/juno_actions_poster.jpg">
+              <source src="assets/img/app/juno_actions.webm" type="video/webm">
+              <source src="assets/img/app/juno_actions.mp4" type="video/mp4">
+            </video>
+            <video class="fs-video" data-slide="3" muted loop playsinline preload="none" poster="assets/img/app/doctor_report_poster.jpg">
+              <source src="assets/img/app/doctor_report.webm" type="video/webm">
+              <source src="assets/img/app/doctor_report.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="fs-caption" id="fsCaption" aria-live="polite">
+        <div class="fs-cap-slide active" data-slide="0">
+          <h3>Just say it. Juno sets it up.</h3>
+          <p>Type your protocol in plain words &mdash; Juno sorts the doses and schedule. You confirm every detail before anything saves.</p>
+        </div>
+        <div class="fs-cap-slide" data-slide="1" aria-hidden="true">
+          <h3>Rotate sites without guessing</h3>
+          <p>A body map tracks what's rested and points you at the next spot &mdash; front or back.</p>
+        </div>
+        <div class="fs-cap-slide" data-slide="2" aria-hidden="true">
+          <h3>Tell Juno, it handles the rest</h3>
+          <p>Log a dose, push it later, or change the time &mdash; just tell Juno instead of digging through menus.</p>
+        </div>
+        <div class="fs-cap-slide" data-slide="3" aria-hidden="true">
+          <h3>Walk into the appointment ready</h3>
+          <p>A clinician-ready PDF &mdash; adherence, trends, flagged labs &mdash; built entirely on your phone.</p>
+        </div>
+      </div>
+
+      <div class="fs-tabs" id="fsTabs" role="tablist" aria-label="Stack features">
+        <button class="fs-tab" role="tab" aria-selected="true" data-slide="0" id="fsTab0" aria-controls="fsCaption"><span class="dot"></span><span class="label">Say it, done</span></button>
+        <button class="fs-tab" role="tab" aria-selected="false" tabindex="-1" data-slide="1" id="fsTab1" aria-controls="fsCaption"><span class="dot"></span><span class="label">Rotate sites</span></button>
+        <button class="fs-tab" role="tab" aria-selected="false" tabindex="-1" data-slide="2" id="fsTab2" aria-controls="fsCaption"><span class="dot"></span><span class="label">Ask Juno</span></button>
+        <button class="fs-tab" role="tab" aria-selected="false" tabindex="-1" data-slide="3" id="fsTab3" aria-controls="fsCaption"><span class="dot"></span><span class="label">Doctor report</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- who it's for --- -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Go deeper</span>
+      <h2>Three ways to use Stack beyond the app.</h2>
+    </div>
+    <div class="door-scroll">
+      <a href="compounds/" class="door-card">
+        <span class="eyebrow">Reference</span>
+        <h3>Compound library</h3>
+        <p>587 compounds — half-lives and tracking notes, free to read.</p>
+        <span class="go">Open <svg width="16" height="11" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg></span>
       </a>
-      <div class="nav-right">
-        <nav class="nav-links" id="navLinks">
-          <a href="#features">Features</a>
-          <a href="pricing/">Pricing</a>
-          <a href="compounds/">Compounds</a>
-          <a href="guides/">Guides</a>
-        </nav>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
-          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
-          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        </button>
-        <a href="#download" class="nav-cta">Get the app</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        </button>
-      </div>
+      <a href="tools/" class="door-card">
+        <span class="eyebrow">Free tools</span>
+        <h3>Calculators</h3>
+        <p>Reconstitution, vial run-out, half-life and syringe units &mdash; no signup.</p>
+        <span class="go">Open <svg width="16" height="11" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg></span>
+      </a>
+      <a href="guides/" class="door-card">
+        <span class="eyebrow">Guides</span>
+        <h3>How-tos</h3>
+        <p>Reconstitution, injection-site rotation, TRT bloodwork and GLP-1 tracking.</p>
+        <span class="go">Open <svg width="16" height="11" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h19M14 1l6 6-6 6"/></svg></span>
+      </a>
     </div>
-  </header>
+  </div>
+</section>
 
-  <main id="top">
-
-  <!-- ============================================================ HERO === -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div>
-          <span class="eyebrow hero-eyebrow">a calm logbook for your whole protocol</span>
-          <h1 class="display">Your whole stack,<br><span class="script">in one place.</span></h1>
-          <p class="lead">Every vitamin, capsule, peptide and shot — one quiet logbook that
-          remembers each dose, each refill, and the levels still working in you between them.
-          No ads. Your health data is encrypted on your device, and cloud backup is off by default.</p>
-
-          <div class="hero-cta" id="download">
-            <button class="store-badge" data-store="play">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
-              <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
-            </button>
-            <a class="btn btn-lg" href="pricing/" style="align-self:stretch">See what Plus adds</a>
-          </div>
-          <form class="waitlist" data-form="waitlist" novalidate aria-label="Join the launch list">
-            <input class="input" type="email" name="email" placeholder="you@email.com" aria-label="Your email" required />
-            <button type="submit" class="btn btn-primary">Notify me</button>
-          </form>
-          <p class="hero-note" data-msg>Launching soon on Android — drop your email and we'll tell you the day it's live.</p>
-
-          <div class="hero-stats reveal">
-            <div class="hero-stat"><div class="n tnum">112</div><div class="l">Cited compound pages</div></div>
-            <div class="hero-stat"><div class="n tnum">Free</div><div class="l">Free to track, no caps</div></div>
-            <div class="hero-stat"><div class="n">On&#8209;device</div><div class="l">Your data stays private</div></div>
-          </div>
-        </div>
-
-        <div class="reveal phone-wrap" aria-hidden="true">
-          <div class="lp-float f-a"><div class="k">Streak</div><div class="v tnum">18 days</div></div>
-          <div class="lp-float f-b"><div class="k">In system</div><div class="bars"><i style="height:55%"></i><i style="height:85%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:38%"></i></div></div>
-          <div class="phone-prev">
-            <div class="scr">
-              <div class="scr-meta">Today · Tuesday</div>
-              <h3>Your stack</h3>
-              <span class="scr-pill"><span class="d"></span>4 of 6 logged</span>
-              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-capsule"/></svg></span><b>Vitamin D3</b><span class="ti">8:10 ✓</span></div>
-              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-capsule"/></svg></span><b>Creatine 5 g</b><span class="ti">8:12 ✓</span></div>
-              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-syringe"/></svg></span><b>Testosterone</b><span class="ti">9:00 ✓</span></div>
-              <div class="scr-row done"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-vial"/></svg></span><b>BPC-157</b><span class="ti">9:02 ✓</span></div>
-              <div class="scr-row"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-pen"/></svg></span><b>Semaglutide</b><span class="ti">weekly</span></div>
-              <div class="scr-row"><span class="ico"><svg class="cg" viewBox="0 0 24 24"><use href="#g-capsule"/></svg></span><b>Magnesium</b><span class="ti">10:00 PM</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- ------------------------------------------------------------ honesty --- -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Honestly</span>
+      <h2>Built quiet on purpose.</h2>
     </div>
-  </section>
-
-  <!-- ==================================================== COMPARISON === -->
-  <section class="section-pad">
-    <div class="container">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Why Stack</span>
-        <h2>Better than <span class="script">how you track it now.</span></h2>
-        <p>You don't need another app to beat — just the notes, the spreadsheet, and the
-        memory you're using today.</p>
-      </div>
-      <div class="lp-cmp reveal">
-        <div class="row head"><div class="c old">Notes · spreadsheet · memory</div><div class="c new">Stack</div></div>
-        <div class="row"><div class="c old">Retype every dose by hand</div><div class="c new"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>Two taps, logged with the time</div></div>
-        <div class="row"><div class="c old">Re-read old entries to see what's working</div><div class="c new"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>An instant in-system curve</div></div>
-        <div class="row"><div class="c old">Find out you're out when you're out</div><div class="c new"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>“≈10 doses left · refill Jul 3”</div></div>
-        <div class="row"><div class="c old">Guess which side you pinned last</div><div class="c new"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>A body-map that picks the next safe site</div></div>
-        <div class="row"><div class="c old">Copy-paste to share with a doctor</div><div class="c new"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>Full data export + a doctor-ready PDF</div></div>
-      </div>
+    <div class="fact-row">
+      <div class="fact-cell"><h3>Your log lives on your phone</h3><p>Stored encrypted on the device. It only leaves when you back it up or ask Juno.</p></div>
+      <div class="fact-cell"><h3>Encrypted backup, only if you turn it on</h3><p>Off unless you choose it, in Settings.</p></div>
+      <div class="fact-cell"><h3>Stack never tells you what to take</h3><p>It logs. It doesn't prescribe, suggest, or judge.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================================================ SUPPORTED COMPOUNDS === -->
-  <section class="section-pad" style="padding-top:0">
-    <div class="container">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Supported compounds</span>
-        <h2>Whatever's in your stack, <span class="script">it's already here.</span></h2>
-        <p>From a daily multivitamin to a weekly shot — 112 compounds and counting,
-        each with a plain-English, cited page.</p>
+<!-- ------------------------------------------------------------ pricing --- -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="price-card">
+      <span class="eyebrow">Pricing</span>
+      <h2>7 days free, then $59.99 a year or $9.99 a month.</h2>
+      <div class="tl-strip">
+        <div class="tl-step"><div class="tl-dot"></div><b>Today</b><span>Free, full app</span></div>
+        <div class="tl-step"><div class="tl-dot"></div><b>Day 5</b><span>A reminder, not a charge</span></div>
+        <div class="tl-step"><div class="tl-dot"></div><b>Day 7</b><span>$9.99/mo or $59.99/yr starts</span></div>
       </div>
-      <div class="lp-chips reveal">
-        <a class="lp-chip" href="compounds/vitamin-d3/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Vitamin D3</a>
-        <a class="lp-chip" href="compounds/creatine-monohydrate/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Creatine</a>
-        <a class="lp-chip" href="compounds/magnesium-glycinate/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Magnesium</a>
-        <a class="lp-chip" href="compounds/nmn/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>NMN</a>
-        <a class="lp-chip" href="compounds/bpc-157/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>BPC-157</a>
-        <a class="lp-chip" href="compounds/tb-500/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>TB-500</a>
-        <a class="lp-chip" href="compounds/semaglutide/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Semaglutide</a>
-        <a class="lp-chip" href="compounds/tirzepatide/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Tirzepatide</a>
-        <a class="lp-chip" href="compounds/retatrutide/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Retatrutide</a>
-        <a class="lp-chip" href="compounds/testosterone-cypionate/"><span class="t"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg></span>Testosterone</a>
-        <a class="lp-chip more" href="compounds/">+112 more →</a>
-      </div>
+      <p class="fine">Cancel anytime. Everything you logged stays yours.</p>
+      <a href="pricing/" class="btn btn-acc">See pricing &amp; start your trial</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================================================= IN YOUR SYSTEM === -->
-  <section class="section-pad" id="insight" style="padding-bottom:0">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">The insight a checklist can't give you</span>
-        <h2>Watch it build in your system.</h2>
-        <p>A logbook tells you what you took. Stack also models what's still working —
-        a relative-level curve drawn from each compound's half-life, so overlapping
-        doses stop being a guess.</p>
-      </div>
-
-      <div class="show-grid reveal">
-        <!-- PK / in-system curve — code-drawn, gold thread draws in on load -->
-        <div class="viz">
-          <span class="eyebrow">In your system</span>
-          <h3>Testosterone · relative level</h3>
-          <p>Each injection adds to what hasn't cleared yet. The thread is the sum —
-          the steady state you're actually holding.</p>
-          <div class="viz-body">
-            <svg viewBox="0 0 520 210" width="100%" role="img" aria-label="A rising relative-level curve modeled from half-life, settling toward a steady state, with three dose markers.">
-              <line class="grid-line" x1="0" y1="40" x2="520" y2="40"/>
-              <line class="grid-line" x1="0" y1="90" x2="520" y2="90"/>
-              <line class="grid-line" x1="0" y1="140" x2="520" y2="140"/>
-              <line class="grid-line" x1="0" y1="190" x2="520" y2="190"/>
-              <path class="thread-area" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50 L512,190 Z"/>
-              <path class="thread-glow" pathLength="1" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50"/>
-              <path class="thread draw-in" style="--len:1" pathLength="1" d="M8,190 C60,150 84,120 128,132 C176,145 190,88 244,96 C300,104 300,66 360,72 C424,78 430,52 512,50"/>
-              <g class="fade-up">
-                <circle class="dot-live" cx="128" cy="132" r="3.4"/>
-                <circle class="dot-live" cx="244" cy="96" r="3.4"/>
-                <circle class="dot-live pulse-dot" cx="360" cy="72" r="4.4"/>
-              </g>
-            </svg>
-            <div class="viz-legend">
-              <span><span class="swatch" style="background:var(--gold)"></span><b>Modeled level</b></span>
-              <span><span class="swatch" style="background:var(--dim)"></span>Dose logged</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Completeness meter — the profile "make it yours" arc -->
-        <div class="viz">
-          <span class="eyebrow">Make it yours</span>
-          <h3>A profile that earns its keep</h3>
-          <p>The more Stack knows, the sharper the picture. The gold fills as you complete it — nothing here is required.</p>
-          <div class="viz-body">
-            <div class="meter-wrap">
-              <div class="meter">
-                <svg viewBox="0 0 120 120" width="118" height="118" aria-hidden="true">
-                  <circle class="meter-track" cx="60" cy="60" r="52"/>
-                  <circle class="meter-fill" pathLength="1" cx="60" cy="60" r="52"
-                          transform="rotate(-90 60 60)"/>
-                </svg>
-                <div class="pct tnum">67<span style="font-size:16px">%</span></div>
-              </div>
-              <div class="meter-list">
-                <div class="mi done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Your stack</div>
-                <div class="mi done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Reminders</div>
-                <div class="mi done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Supply tracked</div>
-                <div class="mi todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/></svg>Target weight</div>
-                <div class="mi todo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/></svg>Bloodwork</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- ----------------------------------------------------------------- faq --- -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head"><span class="eyebrow">Questions</span><h2>Before you ask.</h2></div>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Is this medical advice?<span class="faq-plus">+</span></summary><p>No. Stack is a logging tool. It never recommends a dose, a compound, or tells you what to take.</p></details>
+      <details class="faq-item"><summary>Where is my data?<span class="faq-plus">+</span></summary><p>On your phone by default. Cloud backup is optional and encrypted, and only runs if you turn it on.</p></details>
+      <details class="faq-item"><summary>What happens if I cancel?<span class="faq-plus">+</span></summary><p>Everything you've logged stays readable and exportable. You just stop being able to log new doses.</p></details>
+      <details class="faq-item"><summary>Does it work for injections, pills and supplements?<span class="faq-plus">+</span></summary><p>Yes &mdash; peptides, TRT, GLP-1s, oral compounds and supplements all log the same way.</p></details>
+      <details class="faq-item"><summary>iPhone and Android?<span class="faq-plus">+</span></summary><p>Both. One app, kept in sync with your own encrypted backup if you turn it on.</p></details>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ======================================================== FEATURES === -->
-  <section class="section-pad" id="features">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Features</span>
-        <h2>Everything your stack needs</h2>
-        <p>Built for the way real protocols work — multiple compounds, different schedules, vials and titrations.</p>
-      </div>
-      <div class="feature-grid">
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
-          <h3>Smart reminders</h3>
-          <p>Exact-time, time-block or every-N-days. One combined ping when doses land together.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div>
-          <h3>Supply projection</h3>
-          <p>"≈ 10 doses left · refill Jul 3." See run-out before it happens, with cost per dose.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 4 5-7 4 5"/><path d="M3 21h18"/></svg></div>
-          <h3>In your system</h3>
-          <p>A relative-level curve modeled from each compound's half-life — see doses overlap.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div>
-          <h3>Injection rotation</h3>
-          <p>A body-map remembers where you pinned and recommends the next site.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7 15h10"/></svg></div>
-          <h3>Reconstitution calc</h3>
-          <p>Vial mg + water mL → exact syringe units. <a href="tools/reconstitution/" style="text-decoration:underline">Try it on the web →</a></p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
-          <h3>Scan a label</h3>
-          <p>Point your camera at a vial — Stack reads the strength and size on-device.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s7 4 7 10a7 7 0 0 1-14 0c0-6 7-10 7-10z"/></svg></div>
-          <h3>Bloodwork &amp; weight</h3>
-          <p>Labs, weight, body comp and lifts in the same place as your doses — trends line up.</p>
-        </div>
-
-        <div class="feature reveal">
-          <div class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <h3>Private by design</h3>
-          <p>Encrypted on your device. Sign-in is email-only — it never sees what you take. No ads; only anonymous, aggregate analytics that never include your health data.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================= ROTATION MAP === -->
-  <section class="section-pad" id="rotation" style="padding-top:0">
-    <div class="container">
-      <div class="show-grid reveal">
-        <div class="viz">
-          <span class="eyebrow">Injection rotation</span>
-          <h3>It remembers where you pinned.</h3>
-          <p>Mark the sites you use, and Stack keeps an honest rotation going —
-          the map shows what's rested and hands you the next spot, so you're never
-          asking "did I already do the left side?"</p>
-          <div class="viz-body">
-            <div class="rotamap">
-              <svg viewBox="0 0 120 200" width="120" role="img" aria-label="A body map with injection sites: several marked as used, one highlighted as the next site to use.">
-                <g fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.5">
-                  <circle cx="60" cy="17" r="10"/>
-                  <rect x="44" y="30" width="32" height="58" rx="11"/>
-                  <rect x="29" y="32" width="12" height="44" rx="6"/>
-                  <rect x="79" y="32" width="12" height="44" rx="6"/>
-                  <rect x="45" y="90" width="13" height="76" rx="6.5"/>
-                  <rect x="62" y="90" width="13" height="76" rx="6.5"/>
-                </g>
-                <circle class="rota-site used" cx="36" cy="41" r="5.5"/>
-                <circle class="rota-site used" cx="84" cy="41" r="5.5"/>
-                <circle class="rota-site used" cx="52" cy="58" r="5.5"/>
-                <circle class="rota-site next pulse-dot" cx="68" cy="58" r="6"/>
-                <circle class="rota-site" cx="51" cy="122" r="5.5"/>
-                <circle class="rota-site used" cx="69" cy="122" r="5.5"/>
-              </svg>
-              <div class="rota-legend">
-                <div class="r"><span class="k next"></span><span><b style="color:var(--ink);font-weight:700">Next up</b> — right abdomen</span></div>
-                <div class="r"><span class="k used"></span>Used recently — resting</div>
-                <div class="r"><span class="k"></span>Clear to use</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="viz">
-          <span class="eyebrow">Supply, projected</span>
-          <h3>Never caught empty.</h3>
-          <p>Every logged dose draws down the vial. Stack counts what's left and tells you
-          the refill date before you run dry.</p>
-          <div class="viz-body">
-            <div style="display:grid;gap:14px">
-              <div class="lib-mini" style="background:var(--panel-2)">
-                <div style="display:flex;justify-content:space-between;align-items:baseline">
-                  <span class="nm">Testosterone Cyp.</span>
-                  <span class="tnum gold" style="font-weight:800;font-size:15px">≈ 9 doses</span>
-                </div>
-                <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:36%"></div></div>
-                <div class="fx" style="margin-top:8px">Refill by Jul 21 · $0.74 / dose</div>
-              </div>
-              <div class="lib-mini" style="background:var(--panel-2)">
-                <div style="display:flex;justify-content:space-between;align-items:baseline">
-                  <span class="nm">BPC-157</span>
-                  <span class="tnum gold" style="font-weight:800;font-size:15px">≈ 22 doses</span>
-                </div>
-                <div class="syr-track" style="margin-top:10px"><div class="syr-fill" style="width:71%"></div></div>
-                <div class="fx" style="margin-top:8px">Refill by Aug 6 · $0.41 / dose</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================= IS / ISN'T + PRIVACY === -->
-  <section class="section-pad" style="padding-top:0">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Straight edges</span>
-        <h2>What Stack is. <span class="script">What it isn't.</span></h2>
-        <p>We'd rather tell you the edges up front.</p>
-      </div>
-      <div class="lp-two reveal">
-        <div class="panel">
-          <ul class="lp-ii">
-            <li class="is"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>A private logbook for everything you take</li>
-            <li class="is"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>An educational reference, cited to the literature</li>
-            <li class="is"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-11"/></svg>A calculator, a schedule, a report for your doctor</li>
-            <li class="no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Medical advice, a diagnosis, or a recommendation</li>
-            <li class="no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>A prescription or an endorsement of any compound</li>
-            <li class="no"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>A measurement — curves are modeled estimates</li>
-          </ul>
-        </div>
-        <div class="panel lp-priv">
-          <span class="eyebrow">Your data</span>
-          <p style="margin-top:14px"><span class="g">Encrypted on your device.</span> Cloud backup is opt-in — off by default.
-          Email-only sign-in, so your account never sees what you track. Export a full backup of everything,
-          any time. Delete your account and everything goes with it, permanently. No ads, ever.
-          We never sell your data, and never train on it.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= SCREENS === -->
-  <section class="section-pad" id="screens" style="padding-top:0">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">A look inside</span>
-        <h2>Your whole stack, at a glance</h2>
-        <p>Ink on paper, fast and quiet — here's what tracking actually looks like.</p>
-      </div>
-      <div class="gallery" id="gallery"></div>
-      <p class="gallery-hint reveal">Tap any screen to enlarge.</p>
-    </div>
-  </section>
-
-  <!-- ========================================================= PRICING === -->
-  <section class="section-pad" id="pricing" style="padding-top:0">
-    <div class="container">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Pricing</span>
-        <h2>Free tracks the habit.<br/>Plus reads the insight.</h2>
-        <p>The whole logbook is free, with no cap on compounds. Plus is for when you want
-        to see <em>why</em> — the levels, the labs, the long trends.</p>
-      </div>
-
-      <div class="plans reveal">
-        <div class="plan">
-          <h3>Free</h3>
-          <div class="price tnum">Free</div>
-          <p class="price-sub">The full logbook. Yours to keep.</p>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Track every compound — no caps</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Smart reminders &amp; supply projection</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Streaks, milestones &amp; injection rotation</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Weight trend &amp; label scanning</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>3 questions a week for Sage</li>
-          </ul>
-          <button class="btn btn-lg" data-store="play">Get the app free</button>
-        </div>
-
-        <div class="plan plan-plus">
-          <span class="plan-tag">The insight layer</span>
-          <h3>Plus</h3>
-          <div class="price">Upgrade</div>
-          <p class="price-sub">Monthly, yearly, or a one-time Lifetime unlock. Cancel a subscription anytime.</p>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Free</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>In-system levels</strong> — the full half-life screen</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Bloodwork ranges &amp; the full trend history</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Unlimited Sage &amp; a doctor-ready report</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Automatic encrypted cloud backup</li>
-          </ul>
-          <a class="btn btn-primary btn-lg" href="pricing/">See Plus plans</a>
-          <p class="plan-foot">Buy Plus on the web — the same account signs you in on the app.</p>
-        </div>
-      </div>
-      <p class="center muted" style="margin-top:22px;font-size:13.5px">Never a paywall on your own data. Export an encrypted backup any time, on any plan.</p>
-    </div>
-  </section>
-
-  <!-- ========================================================= LIBRARY === -->
-  <section class="section-pad" style="padding-top:0">
-    <div class="container">
-      <div class="panel reveal funnel">
-        <div>
-          <span class="eyebrow">Compound library · free</span>
-          <h2 style="font-size:clamp(26px,3.8vw,40px);margin:12px 0 14px">Know what you take.</h2>
-          <p class="muted" style="margin:0 0 22px;line-height:1.65">Plain-English pages for 112 compounds —
-          what each one is, how it works, half-life, storage and what matters when you track it.
-          Summarized from public sources, cited, and free to read. Every page opens straight
-          into tracking it in the app.</p>
-          <a class="btn btn-primary" href="compounds/">Browse the library</a>
-          <a class="btn" href="guides/" style="margin-left:8px">Read the guides</a>
-        </div>
-        <div aria-hidden="true">
-          <div class="lib-preview">
-            <div class="lib-mini">
-              <div class="nm">Semaglutide</div>
-              <div class="fx">GLP-1 · t½ ≈ 7 days</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-            <div class="lib-mini">
-              <div class="nm">Testosterone Cyp.</div>
-              <div class="fx">TRT ester · t½ ≈ 8 days</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-            <div class="lib-mini">
-              <div class="nm">BPC-157</div>
-              <div class="fx">Peptide · injection</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-            <div class="lib-mini">
-              <div class="nm">Tirzepatide</div>
-              <div class="fx">GLP-1 · t½ ≈ 5 days</div>
-              <div class="hl">Track it in Stack →</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================= FAQ === -->
-  <section class="section-pad" id="faq" style="padding-top:0">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">FAQ</span>
-        <h2>Quick answers</h2>
-      </div>
-      <div class="faq reveal">
-        <details>
-          <summary>Is Stack free?</summary>
-          <p class="faq-a">Yes. Tracking, reminders, supply projection, streaks and weight trends are
-          free — with no cap on how many compounds you track. Plus adds the
-          insight layer: the full in-system level screen (previews are free), bloodwork ranges, your full trend history, cloud
-          backup and unlimited Sage. Or get Lifetime once and keep it all forever.</p>
-        </details>
-        <details>
-          <summary>Do I need an account?</summary>
-          <p class="faq-a">You sign in with just your email — no password — so your Plus and settings follow you
-          across devices. But the account only ever knows your email, never what you take: your health data stays
-          encrypted on your device, and cloud backup is opt-in. You can always export an encrypted backup file you own.</p>
-        </details>
-        <details>
-          <summary>What can I track?</summary>
-          <p class="faq-a">Anything you take on a schedule: supplements, vitamins, medications, peptides,
-          GLP-1s and TRT — plus habits, weight, lifts and bloodwork alongside your doses.</p>
-        </details>
-        <details>
-          <summary>Does Stack give dosing advice?</summary>
-          <p class="faq-a">No. Stack is a logging tool and an educational reference. It never recommends
-          compounds or doses, and nothing in the app or on this site is medical advice.</p>
-        </details>
-        <details>
-          <summary>When does it launch?</summary>
-          <p class="faq-a">Android first, very soon — iOS after. <a href="#" data-email-link style="text-decoration:underline">Email us</a> and we'll tell you the moment it's live.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================================================== CTA BAND === -->
-  <section class="cta-band">
-    <span class="eyebrow">Get Stack</span>
-    <h2>Your protocol deserves<br/>a better logbook.</h2>
-    <p>Free to track. Private by default. Built for stacks, not single pills.</p>
-    <div class="hero-cta" style="justify-content:center">
-      <button class="store-badge" data-store="play">
+<!-- -------------------------------------------------------------- final --- -->
+<section class="final-cta">
+  <div class="photo"></div>
+  <div class="shade"></div>
+  <div class="final-cta-inner">
+    <h2>Your protocol, organised tonight.</h2>
+    <div class="hero-cta-row">
+      <button class="store-badge" data-store="play" type="button">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
         <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
       </button>
     </div>
-  </section>
-
-  <!-- ======================================================== FEEDBACK === -->
-  <section class="section-pad" id="feedback">
-    <div class="container" style="max-width:720px">
-      <div class="section-head reveal">
-        <span class="eyebrow">Feedback</span>
-        <h2>Tell us what to build next</h2>
-        <p>Bugs, ideas, love notes — we read every message and reply.</p>
-      </div>
-      <form class="form panel reveal" data-form="feedback" novalidate>
-        <div class="form-grid">
-          <div class="field">
-            <label for="f-type">Type</label>
-            <select class="select" id="f-type" name="type">
-              <option>Feature idea</option><option>Bug report</option>
-              <option>Love note</option><option>Something else</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-email">Email <span class="hint">(optional)</span></label>
-            <input class="input" id="f-email" name="email" type="email" placeholder="you@email.com" />
-          </div>
-        </div>
-        <div class="field">
-          <label for="f-msg">Your message</label>
-          <textarea class="textarea" id="f-msg" name="message" placeholder="What's on your mind?" required></textarea>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
-          <div class="form-msg" data-msg></div>
-          <button type="submit" class="btn btn-primary">Send feedback</button>
-        </div>
-      </form>
-    </div>
-  </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand-col">
-        <a href="./" class="brand">
-          <svg class="brand-mark" width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
-            <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
-            <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
-            <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
-          </svg>
-          <span class="brand-word">Stack</span>
-        </a>
-        <p class="tag">Track your stack. Supplements, peptides, meds and more — one quiet, private app.</p>
-      </div>
-      <div>
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="pricing/">Pricing</a></li>
-          <li><a href="#download">Get the app</a></li>
-          <li><a href="account/">Sign in</a></li>
-          <li><a href="referral.html">Referral program</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Learn</h4>
-        <ul>
-          <li><a href="compounds/">Compound library</a></li>
-          <li><a href="guides/">Guides</a></li>
-          <li><a href="tools/reconstitution/">Reconstitution calculator</a></li>
-          <li><a href="stacks/">Share your stack</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <ul>
-          <li><a href="about/">About &amp; sourcing</a></li>
-          <li><a href="privacy.html">Privacy</a></li>
-          <li><a href="terms.html">Terms</a></li>
-          <li><a href="data-deletion.html">Data deletion</a></li>
-          <li><a href="#" data-email-link>Contact</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="disclaimer-band">
-      Stack is a logging tool and an educational reference. Nothing on this site is medical
-      advice, a recommendation, or an endorsement of any compound. Always talk to a clinician
-      about anything you take.
-    </div>
-    <div class="container footer-bottom">
-      <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span>
-      <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
-    </div>
-  </footer>
-
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
-    <img id="lbImg" alt="" />
   </div>
+</section>
+</main>
 
-  <script src="assets/js/site.js?v=5"></script>
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <a href="#hero" class="brand"><span class="brand-mark" data-mark aria-hidden="true"></span>Stack</a>
+      <p class="tag">Track your stack. Peptides, TRT, GLP-1s and supplements &mdash; one quiet, private app.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="compounds/">Compound library</a></li>
+        <li><a href="guides/">Guides</a></li>
+        <li><a href="tools/">Tools</a></li>
+        <li><a href="pricing/">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about/">About &amp; sourcing</a></li>
+        <li><a href="account/">Sign in</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="data-deletion.html">Data deletion</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="disclaimer-band">Not medical advice. Stack is a logging tool and an educational reference. Nothing on this site is medical advice, a recommendation, or an endorsement of any compound.</div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Stack &middot; Cedar Hills Studio LLC</span>
+    <span><a href="#" data-email-link>hello@trackyourstack.app</a></span>
+  </div>
+</footer>
+
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-bar-text"><b>Stack</b><span>7 days free</span></div>
+  <a href="pricing/" class="btn btn-acc">Get the app</a>
+</div>
+
+<script src="assets/js/mark.js"></script>
+<script src="assets/js/site.js?v=5"></script>
+<script>
+/* -------------------------------------------------------- hero motion --- */
+/* Real app footage drives the hero phone (autoplay/loop on the <video>).
+   Respect reduced-motion by pausing playback and holding the poster frame. */
+(function(){
+  var reduce = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || new URLSearchParams(location.search).get('static') === '1';
+  if (!reduce) return;
+  document.querySelectorAll('video[autoplay]').forEach(function(v){
+    v.removeAttribute('autoplay');
+    v.pause();
+    v.currentTime = 0;
+  });
+})();
+
+/* --------------------------------------------------------- feature show --- */
+(function(){
+  var wrap = document.getElementById('fsWrap');
+  if (!wrap) return;
+  var screen = document.getElementById('fsScreen');
+  var videos = Array.prototype.slice.call(screen.querySelectorAll('.fs-video'));
+  var caps = Array.prototype.slice.call(document.getElementById('fsCaption').querySelectorAll('.fs-cap-slide'));
+  var tabs = Array.prototype.slice.call(document.getElementById('fsTabs').querySelectorAll('.fs-tab'));
+  var tabsList = document.getElementById('fsTabs');
+  var count = videos.length;
+  var current = 0;
+  var interacted = false;
+  var timer = null;
+  var reduce = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || new URLSearchParams(location.search).get('static') === '1';
+
+  var initialized = false;
+  function activate(idx){
+    current = idx;
+    videos.forEach(function(v){
+      var active = Number(v.dataset.slide) === idx;
+      v.classList.toggle('active', active);
+      if (active) {
+        v.preload = 'auto';
+        /* slide 0 already carries preload="auto" in markup and starts
+           fetching before this script runs — calling .load() again here
+           on first init would double-request it (readyState is still 0
+           mid-flight, not because nothing was asked for yet). */
+        if (v.readyState === 0 && !(idx === 0 && !initialized)) v.load();
+        if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      } else {
+        v.pause();
+      }
+    });
+    caps.forEach(function(c){
+      var active = Number(c.dataset.slide) === idx;
+      c.classList.toggle('active', active);
+      c.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    tabs.forEach(function(t){
+      var active = Number(t.dataset.slide) === idx;
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      t.tabIndex = active ? 0 : -1;
+    });
+  }
+
+  function stopAuto(){
+    interacted = true;
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  function scheduleNext(){
+    if (interacted || reduce) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      if (interacted) return;
+      activate((current + 1) % count);
+      scheduleNext();
+    }, 8000);
+  }
+
+  function goTo(idx, userDriven){
+    activate(((idx % count) + count) % count);
+    if (userDriven) stopAuto();
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ goTo(Number(t.dataset.slide), true); t.focus(); });
+  });
+
+  tabsList.addEventListener('keydown', function(e){
+    if (['ArrowLeft','ArrowRight','Home','End'].indexOf(e.key) === -1) return;
+    e.preventDefault();
+    var idx = current;
+    if (e.key === 'ArrowLeft') idx = current - 1;
+    else if (e.key === 'ArrowRight') idx = current + 1;
+    else if (e.key === 'Home') idx = 0;
+    else if (e.key === 'End') idx = count - 1;
+    goTo(idx, true);
+    var activeTab = tabsList.querySelector('[aria-selected="true"]');
+    if (activeTab) activeTab.focus();
+  });
+
+  /* swipe / drag on the phone screen — touch on mobile, mouse-drag on desktop */
+  var startX = null, dragging = false;
+  screen.style.touchAction = 'pan-y';
+  screen.addEventListener('pointerdown', function(e){ startX = e.clientX; dragging = true; });
+  screen.addEventListener('pointerup', function(e){
+    if (!dragging || startX === null) return;
+    var dx = e.clientX - startX;
+    dragging = false; startX = null;
+    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1), true);
+  });
+  screen.addEventListener('pointercancel', function(){ dragging = false; startX = null; });
+  screen.addEventListener('pointerleave', function(){ dragging = false; startX = null; });
+
+  activate(0);
+  initialized = true;
+  scheduleNext();
+})();
+
+/* ------------------------------------------------------------- sticky --- */
+(function(){
+  var bar = document.getElementById('stickyBar');
+  var hero = document.getElementById('hero');
+  if (!bar || !hero || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ bar.classList.toggle('show', !e.isIntersecting); });
+  }, {threshold: 0});
+  io.observe(hero);
+})();
+</script>
 </body>
 </html>

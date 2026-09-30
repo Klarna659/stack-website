@@ -131,7 +131,7 @@
       readEntitlement(sess).then(function (tier) {
         var badge = $("acct-tier"); if (!badge) return;
         var plus = tier && tier !== "free";
-        badge.textContent = plus ? (tier === "lifetime" ? "Lifetime" : "Plus") : "Free";
+        badge.textContent = plus ? (tier === "lifetime" ? "Lifetime" : "Subscribed") : "Not subscribed";
         badge.classList.toggle("earned", !!plus);
         var hint = $("acct-plus-hint");
         if (hint) hint.hidden = !!plus;

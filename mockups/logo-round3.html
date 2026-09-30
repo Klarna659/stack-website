@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stack — mark, round 3 (five more directions)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@font-face{
+  font-family:"Inter";
+  src:url("../assets/fonts/inter-subset.woff2") format("woff2");
+  font-weight:100 900;
+  font-display:swap;
+}
+/* ═══════════════════════════════════════════════════════════════════════
+   STACK · MARK, ROUND 3 — REVIEW SHEET
+   Round 2 landed nowhere: "none is a for-sure yet... keep those, generate
+   five more." This sheet does not touch that verdict — all five round-2
+   directions stay exactly as drawn, undecided, on file. It adds five new
+   directions from new territory, runs each through the same four gates,
+   and closes with all TEN marks compared side by side at 16px, the only
+   test that has ever mattered on this file. Standalone, no build step, no
+   external assets besides the site's own Inter subset.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  --page:#FAF9F6; --ink:#17140F; --ink-2:#4B463D; --muted:#847C6C;
+  --line:#E7E2D8; --card:#FFFFFF;
+  --light:#FFFFFF; --light-ink:#15130F;
+  --dark:#0E0E0F; --dark-ink:#F5F3EE;
+  --icon-light:#F1EEE6; --icon-dark:#141414;
+  --amber:#96601F; --amber-bg:#F4EDE2;
+  --risk:#9A3B2E; --good:#3E6B4F;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:52px 24px 120px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 14px}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.025em;
+  font-weight:800;margin:0 0 16px;max-width:22ch}
+.lede{font-size:17px;color:var(--ink-2);max-width:74ch;margin:0 0 12px}
+.lede b{color:var(--ink);font-weight:700}
+
+.rules{margin:30px 0 0;padding:20px 22px;border:1px solid var(--line);
+  border-radius:14px;background:var(--card);display:grid;gap:14px;
+  grid-template-columns:repeat(4,minmax(0,1fr))}
+.rules div{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.rules b{display:block;color:var(--ink);font-weight:700;font-size:13px;margin:0 0 3px}
+
+.rejected{margin:26px 0 0;padding:16px 20px;border:1px solid var(--line);
+  border-left:4px solid var(--risk);border-radius:10px;background:var(--card);
+  font-size:14px;color:var(--ink-2)}
+.rejected b{color:var(--ink)}
+.rejected.kept{border-left-color:var(--good)}
+
+/* ---- direction sections ---- */
+.dir{margin:64px 0 0;padding-top:40px;border-top:1px solid var(--line)}
+.dir-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 6px}
+.dir-no{font-family:ui-monospace,monospace;font-size:13px;color:var(--amber);
+  font-weight:700;letter-spacing:.08em}
+.dir h2{font-size:25px;font-weight:800;letter-spacing:-.02em;margin:0}
+.dir-tag{margin:0 0 16px;font-size:14px;color:var(--muted);font-style:italic}
+.rationale{max-width:80ch;font-size:15px;color:var(--ink-2);margin:0 0 30px}
+.rationale b{color:var(--ink);font-weight:700}
+.rationale .risk{color:var(--risk);font-weight:600}
+
+.sub{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 12px}
+
+.ladder{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:0 0 26px}
+.swatch{position:relative;display:flex;align-items:center;justify-content:center;
+  flex:none;border-radius:6px}
+.swatch.light{background:var(--light);color:var(--light-ink);border:1px solid var(--line)}
+.swatch.dark{background:var(--dark);color:var(--dark-ink)}
+.swatch svg{display:block}
+.swatch .sz{position:absolute;bottom:-22px;left:0;right:0;text-align:center;
+  font-size:11px;color:var(--muted);font-family:ui-monospace,monospace}
+.s256{width:176px;height:176px}
+.s256 svg{width:105px;height:105px}
+.s64{width:64px;height:64px}
+.s64 svg{width:44px;height:44px}
+.s32{width:32px;height:32px}
+.s32 svg{width:24px;height:24px}
+.s16{width:16px;height:16px}
+.s16 svg{width:14px;height:14px}
+.ladder.pad-bottom{margin-bottom:40px}
+
+.row-mixed{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;
+  margin-top:8px}
+.block .tab{display:inline-flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;
+  background:var(--light);border:1px solid var(--line);border-bottom:none;
+  border-radius:9px 9px 0 0;max-width:100%}
+.block .tab-fav{width:16px;height:16px;flex:none;color:var(--light-ink)}
+.block .tab-fav svg{width:100%;height:100%;display:block}
+.block .tab-label{font-size:12.5px;color:#3a372f;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.icon-row{display:flex;gap:12px}
+.icon-tile{width:74px;height:74px;border-radius:17px;display:flex;
+  align-items:center;justify-content:center;flex:none}
+.icon-tile svg{width:42px;height:42px}
+.icon-tile.light{background:var(--icon-light);color:var(--light-ink)}
+.icon-tile.dark{background:var(--icon-dark);color:var(--dark-ink)}
+.lockup{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.lockup svg{width:30px;height:30px;color:var(--ink);flex:none}
+.word-inter{font-family:Inter,sans-serif;font-weight:800;font-size:23px;
+  letter-spacing:-.02em;color:var(--ink)}
+.word-serif{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:23px;
+  color:var(--ink)}
+.accent-swatch{width:74px;height:74px;border-radius:17px;background:var(--amber-bg);
+  display:flex;align-items:center;justify-content:center;color:var(--amber)}
+.accent-swatch svg{width:44px;height:44px}
+.accent-note{margin:10px 0 0;font-size:12px;color:var(--muted);max-width:22ch}
+
+/* ---- comparison strip ---- */
+.compare .strip{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;
+  margin:0 0 30px}
+.strip-item{display:flex;flex-direction:column;align-items:center;gap:10px;width:88px}
+.strip-item .swatch{width:16px;height:16px}
+.strip-item .swatch svg{width:14px;height:14px}
+.strip-item span{font-size:11px;color:var(--muted);text-align:center;line-height:1.3}
+.strip-item.old span{color:var(--muted);opacity:.82}
+.strip-div{flex-basis:100%;height:0}
+
+.foot{margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--muted);line-height:1.6;max-width:80ch}
+.foot code{font-family:ui-monospace,monospace;font-size:.92em;color:var(--ink-2)}
+
+@media (max-width:900px){
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .row-mixed{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .rules{grid-template-columns:1fr}
+  .row-mixed{grid-template-columns:1fr}
+  .s256{width:128px;height:128px}
+  .s256 svg{width:76px;height:76px}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- ═══════ SHARED MARK LIBRARY — every mark drawn once, reused by <use> ═══
+     Symbols 06–10 are new to this round. Symbols 01–05 are the round-2
+     marks, redrawn here verbatim from mockups/logo-round2.html so this
+     file stays standalone — they appear ONLY in the closing comparison
+     strip, not as full re-reviewed sections; that verdict isn't being
+     re-opened. Every symbol is viewBox 0 0 100 100, fill/stroke=
+     currentColor only. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+
+  <!-- 06 — TALLY. Four equal-weight vertical strokes (x=18/39/60/81, each
+       13 wide, 8-unit gaps) plus one diagonal slash crossing all four at
+       roughly the same relative height on each — the oldest counting
+       gesture there is. Square caps on every stroke, no curve or fill
+       anywhere to cushion a bad reduction. -->
+  <symbol id="mk-tally" viewBox="0 0 100 100">
+    <path d="M18,18 L18,82 M39,18 L39,82 M60,18 L60,82 M81,18 L81,82"
+      fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="square"/>
+    <path d="M8,88 L91,12" fill="none" stroke="currentColor" stroke-width="13"
+      stroke-linecap="square"/>
+  </symbol>
+
+  <!-- 07 — TITRATION STAIRS. Three equal 22-unit steps (rise 22 / run 22,
+       three times) drawn as ONE continuous mitred stroke, not three
+       separate bars — the silhouette is a staircase, not a bar chart.
+       Distinct from 01 Ascending Threshold: steps, not a ramp. -->
+  <symbol id="mk-stairs" viewBox="0 0 100 100">
+    <path d="M15,85 L15,63 L37,63 L37,41 L59,41 L59,19 L85,19" fill="none"
+      stroke="currentColor" stroke-width="14" stroke-linecap="square"
+      stroke-linejoin="miter"/>
+  </symbol>
+
+  <!-- 08 — S MONOGRAM. A custom S, not a typeset one: two cubic segments
+       related by an exact 180-degree rotation about the mark's own center
+       (50,50) — the second curve's points are the literal reflection
+       (x,y)->(100-x,100-y) of the first, traversed in reverse, so the two
+       terminals are cut at the IDENTICAL angle by construction, not by
+       eye. Flat (butt-cap) terminals; the cut angle falls out of the curve
+       math at ~6 degrees off horizontal on both ends. -->
+  <symbol id="mk-smonogram" viewBox="0 0 100 100">
+    <path d="M70,26 C72,8 18,14 50,50 C82,86 28,92 30,74" fill="none"
+      stroke="currentColor" stroke-width="16" stroke-linecap="butt"
+      stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- 09 — SEVEN DOTS (full size). Seven dots in a row, six as open rings,
+       one (the 6th, "today") solid and enlarged. Below ~64px this mark
+       switches to mk-dots5, a dedicated 5-dot redraw with the same
+       open/filled logic — not a scaled copy of this one. -->
+  <symbol id="mk-dots7" viewBox="0 0 100 100">
+    <circle cx="12" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="24.67" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="37.33" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="50" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="62.67" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle cx="75.33" cy="50" r="11" fill="currentColor"/>
+    <circle cx="88" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+  </symbol>
+
+  <!-- 09b — SEVEN DOTS (icon scale). The honest answer to "test hard at
+       16px": five dots, not seven, wider rings and a bigger "today" dot so
+       the open/filled distinction still reads once circles start to
+       merge. Used at 32px and below throughout this sheet. -->
+  <symbol id="mk-dots5" viewBox="0 0 100 100">
+    <circle cx="12" cy="50" r="9" fill="none" stroke="currentColor" stroke-width="6"/>
+    <circle cx="31" cy="50" r="9" fill="none" stroke="currentColor" stroke-width="6"/>
+    <circle cx="50" cy="50" r="9" fill="none" stroke="currentColor" stroke-width="6"/>
+    <circle cx="69" cy="50" r="15" fill="currentColor"/>
+    <circle cx="88" cy="50" r="9" fill="none" stroke="currentColor" stroke-width="6"/>
+  </symbol>
+
+  <!-- 10 — THE FOLD. A rounded square with the top-right corner replaced
+       by a straight bevel (68,10)-(90,32) instead of an arc — the missing
+       triangle IS the fold, pure negative space, not a knockout fill. No
+       internal crease line: deliberately omitted so nothing thin can be
+       lost at small sizes, at the cost of legibility-of-idea at rest. -->
+  <symbol id="mk-fold" viewBox="0 0 100 100">
+    <path fill="currentColor" d="M24,10 L68,10 L90,32 L90,76
+      A14,14 0 0 1 76,90 L24,90 A14,14 0 0 1 10,76 L10,24
+      A14,14 0 0 1 24,10 Z"/>
+  </symbol>
+
+  <!-- ═══ 01–05, redrawn verbatim from round 2, for the closing strip only. -->
+
+  <symbol id="mk-threshold" viewBox="0 0 100 100">
+    <path d="M14,80 L40,80 L64,28 L88,28" fill="none" stroke="currentColor"
+      stroke-width="14" stroke-linecap="square" stroke-linejoin="miter"/>
+    <circle cx="52" cy="54" r="12" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="mk-bracket" viewBox="0 0 100 100">
+    <path fill-rule="evenodd" fill="currentColor" d="
+      M50,12 A38,38 0 1,0 50,88 A38,38 0 1,0 50,12 Z
+      M55,17 A33,33 0 1,0 55,83 A33,33 0 1,0 55,17 Z"/>
+    <circle cx="55" cy="50" r="12" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="mk-fan" viewBox="0 0 100 100">
+    <g transform="rotate(-27 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+    <g transform="rotate(-9 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+    <g transform="rotate(9 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+    <g transform="rotate(27 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+  </symbol>
+
+  <symbol id="mk-capsule" viewBox="0 0 100 100">
+    <g transform="rotate(-16 50 50)">
+      <rect x="6" y="40" width="88" height="20" rx="10" fill="currentColor"/>
+      <path fill="var(--cap-ground,#fff)" d="M -6,45 C 14,25 34,65 50,45
+        C 66,25 86,65 106,45 L 106,55 C 86,75 66,35 50,55
+        C 34,75 14,35 -6,55 Z"/>
+    </g>
+  </symbol>
+
+  <symbol id="mk-mass" viewBox="0 0 100 100">
+    <path fill="currentColor" d="M12,84 L12,25 Q12,15 23,15
+      C48,15 46,55 66,72 C78,82 84,84 90,84 Z"/>
+  </symbol>
+
+</defs>
+</svg>
+
+<div class="wrap">
+
+  <p class="eyebrow">Stack &middot; mark, round 3</p>
+  <h1>Five more directions, drawn from new territory, none of it round 2's.</h1>
+  <p class="lede">Round 2's verdict was <b>not a rejection</b> — "none is a
+    for-sure yet... keep those, generate five more, maybe one will grow on
+    me." So all five round-2 marks stay on file exactly as drawn, undecided.
+    This sheet adds five new directions — a tally mark, a staircase, a
+    hand-built S, a row of dots, a folded page — none of them pills, capsules,
+    horizontal stacked bars, or gradients, and runs each through the same
+    four gates as everything before it.</p>
+
+  <div class="rules">
+    <div><b>One colour</b>Every mark is <code style="font-family:ui-monospace,monospace">currentColor</code>
+      only — no gradient, no second value, no opacity trick standing in for one.</div>
+    <div><b>Legible at 16px</b>The favicon size. Two of the five new
+      directions (09, and honestly 06) are the ones most likely to fail it —
+      both are rendered here twice, on both grounds, at all four sizes.</div>
+    <div><b>Names no substance</b>No pill, no syringe, no vial. Only round
+      2's Capsule S breaks this rule, on file and on purpose; none of the
+      five new directions go near it.</div>
+    <div><b>Borrows no silhouette</b>No horizontal stacked bars (Stack
+      Overflow's mark), no gradient or AI-blob fill. New for this round,
+      because the brief named both explicitly.</div>
+  </div>
+
+  <div class="rejected kept"><b>What round 2 actually said, verbatim:</b>
+    "none is a for-sure yet... keep those, generate five more." Nothing
+    below replaces 01–05 — they're carried into the closing strip on this
+    page unchanged, so all ten can be looked at side by side, once, in one
+    place.</div>
+
+  <!-- ══════════════════════════ 06 — TALLY ═══════════════════════════════ -->
+  <section class="dir" id="dir-tally">
+    <div class="dir-head"><span class="dir-no">06</span><h2>Tally</h2></div>
+    <p class="dir-tag">the counting gesture, drawn straight</p>
+    <p class="rationale"><b>What it means:</b> four strokes and a fifth
+      crossing them — the oldest counting mark there is, doing exactly what
+      a dose log does: one mark added at a time, day after day, no metaphor
+      required. <b>Why it survives small:</b> every stroke is the same
+      weight and the same square cap, so at 16px it either reads as an
+      even, deliberate hatch or it doesn't — there's no curve or fill to
+      soften a bad reduction. <span class="risk">Risk:</span> this is the
+      direction most likely to blur into a single dark smear below about
+      20px, and it's the least <i>authored</i> of the ten — it borrows a
+      pre-existing counting convention rather than inventing a shape of its
+      own.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 07 — TITRATION STAIRS ════════════════════ -->
+  <section class="dir" id="dir-stairs">
+    <div class="dir-head"><span class="dir-no">07</span><h2>Titration Stairs</h2></div>
+    <p class="dir-tag">one continuous ascent, drawn as steps, not a slope</p>
+    <p class="rationale"><b>What it means:</b> three risers drawn as a
+      single unbroken stroke, climbing right — the product's own titration
+      mechanic, a dose that steps up over weeks, as a silhouette. <b>Why it
+      survives small:</b> it's one path, one stroke weight, mitred square
+      corners — the same "nothing to blur" logic as 05 Mass, just angular
+      instead of curved. <span class="risk">Risk:</span> at 16px the three
+      steps can fuse into a blocky zigzag that reads as a bar chart or a
+      capital M before it reads as stairs; it also sits close enough to 01
+      Ascending Threshold in concept that shipping both would read as
+      indecision, not range.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 08 — S MONOGRAM ══════════════════════════ -->
+  <section class="dir" id="dir-smonogram">
+    <div class="dir-head"><span class="dir-no">08</span><h2>S Monogram</h2></div>
+    <p class="dir-tag">an authored letterform, not a typeset one</p>
+    <p class="rationale"><b>What it means:</b> a custom S built on a grid,
+      not lifted from a font — two curves related by an exact 180-degree
+      rotation about the mark's own centre, so both terminals are cut at the
+      identical angle by construction, not by eye. <b>Why it survives
+      small:</b> one continuous stroke of even weight with a tight
+      aperture, closer in spirit to the lettermarks on Whoop or Eight Sleep
+      than to a wordmark's initial. <span class="risk">Risk:</span> a
+      monogram carries the least product meaning of the ten — it says "this
+      is our S," not "this is what we do" — and a hand-built S this close to
+      a real font's S invites the exact "doesn't look professional" critique
+      that killed the ellipses, if the curve isn't tuned past this first
+      pass.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 09 — SEVEN DOTS ══════════════════════════ -->
+  <section class="dir" id="dir-dots">
+    <div class="dir-head"><span class="dir-no">09</span><h2>Seven Dots</h2></div>
+    <p class="dir-tag">the week, with today logged</p>
+    <p class="rationale"><b>What it means:</b> seven days in a row, six open
+      and one solid — the daily rhythm the whole app runs on, drawn as
+      literally as a calendar strip without becoming one. <b>Why it
+      survives small:</b> it doesn't, not at seven — below about 64px it
+      switches to <code style="font-family:ui-monospace,monospace">mk-dots5</code>,
+      a dedicated five-dot redraw with the same open/filled logic, which is
+      the honest answer to "test hard at 16px" rather than a workaround.
+      <span class="risk">Risk:</span> it's the only one of the ten that
+      needs two different drawings to work across sizes — a real
+      maintenance cost — and a row of circles risks reading as a loading
+      indicator or a carousel control before it reads as tracking.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-dots7"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-dots7"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg><span class="sz">32 (5-dot)</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg><span class="sz">16 (5-dot)</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-dots7"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-dots7"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg><span class="sz">32 (5-dot)</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg><span class="sz">16 (5-dot)</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon &mdash; 5-dot</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup &mdash; 5-dot</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 10 — THE FOLD ════════════════════════════ -->
+  <section class="dir" id="dir-fold">
+    <div class="dir-head"><span class="dir-no">10</span><h2>The Fold</h2></div>
+    <p class="dir-tag">a kept page, corner turned down</p>
+    <p class="rationale"><b>What it means:</b> one bold card with a corner
+      missing — the negative space itself is the fold, a record that's been
+      touched and dog-eared rather than a blank template. <b>Why it
+      survives small:</b> it's a single filled shape with no internal
+      line, gap, or knockout to lose, which makes it — with 05 Mass — the
+      most durable of all ten marks under reduction. <span class="risk">Risk:</span>
+      without an internal crease line, deliberately omitted for that
+      small-size durability, it can read at larger sizes as simply "a
+      square with a cut corner" or a bookmark rather than specifically a
+      fold; the idea is legible but generic at rest.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ COMPARISON STRIP — ALL TEN ═══════════════ -->
+  <section class="dir compare" id="dir-compare">
+    <div class="dir-head"><h2>All ten, side by side, at 16px</h2></div>
+    <p class="rationale">Round 2's five, unchanged, plus round 3's five.
+      The only test that has ever mattered on this file. If a mark doesn't
+      hold its idea here, no render above it saves it. Seven Dots appears in
+      its 5-dot icon-scale form, as it would ship at this size.</p>
+
+    <p class="sub">On light</p>
+    <div class="strip">
+      <div class="strip-item old"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div><span>01 Ascending Threshold</span></div>
+      <div class="strip-item old"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div><span>02 Bracketed Dot</span></div>
+      <div class="strip-item old"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div><span>03 Fanned Dose Cards</span></div>
+      <div class="strip-item old"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div><span>04 Capsule S</span></div>
+      <div class="strip-item old"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div><span>05 Mass</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg></div><span>06 Tally</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg></div><span>07 Titration Stairs</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg></div><span>08 S Monogram</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg></div><span>09 Seven Dots (5)</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg></div><span>10 The Fold</span></div>
+    </div>
+
+    <p class="sub">On dark</p>
+    <div class="strip">
+      <div class="strip-item old"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div><span>01 Ascending Threshold</span></div>
+      <div class="strip-item old"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div><span>02 Bracketed Dot</span></div>
+      <div class="strip-item old"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div><span>03 Fanned Dose Cards</span></div>
+      <div class="strip-item old"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div><span>04 Capsule S</span></div>
+      <div class="strip-item old"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div><span>05 Mass</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-tally"/></svg></div><span>06 Tally</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-stairs"/></svg></div><span>07 Titration Stairs</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-smonogram"/></svg></div><span>08 S Monogram</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-dots5"/></svg></div><span>09 Seven Dots (5)</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-fold"/></svg></div><span>10 The Fold</span></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b style="color:var(--ink)">Nothing here is installed.</b> This is a
+    standalone file at <code>mockups/logo-round3.html</code>; the shipping
+    icon (<code>assets/icon/icon.png</code> in <code>dose_tracker</code>) and
+    the live site mark are both untouched, and <code>mockups/logo-round2.html</code>
+    is untouched too. Marks 06&ndash;10 are new; marks 01&ndash;05 are redrawn
+    here verbatim from round 2 solely so the closing strip can hold all ten
+    without a second file open. Every mark is defined once in the hidden
+    <code>&lt;defs&gt;</code> block at the top of this file and reused
+    everywhere below by <code>&lt;use&gt;</code>.
+  </div>
+
+</div>
+</body>
+</html>
