@@ -3,8 +3,8 @@
  * THE PROBLEM THIS SOLVES
  * -----------------------
  * Every landing page that converts in this category leads with a number:
- * Shotsy's 4.8 stars, MyFitnessPal's 5.5 million reviews, Ro's 3,000,000
- * members. Stack has not launched and has none of that, and the obvious
+ * star ratings, review counts and member counts,
+ * and more. Stack has not launched and has none of that, and the obvious
  * shortcut — friends and family five-starring it on day one — is the one
  * thing that can actually take the listing down. Play does not need to prove
  * anyone is a relative; a burst of new accounts rating five stars minutes
