@@ -5,11 +5,20 @@ HTML/CSS/vanilla JS, no build step, no runtime dependencies. Live at
 **https://trackyourstack.app** (GitHub Pages behind Cloudflare, DNS-only).
 
 ## Brand
-"A ledger with a gold thread" — locked in `../dose_tracker/DESIGN_LANGUAGE.md`.
-Paper/light is the default world; dark follows the OS + a nav toggle. Exactly one
-hue (**gold = earned**, never decoration/buttons). Inter only, tabular figures,
-no emoji, the word "AI" never appears (the assistant is "Sage"). Single
-stylesheet: `assets/css/mono.css`.
+Split-S mark, ported 2026-09-28 from `../dose_tracker/docs/growth/brand_world/`
+(that repo's `README.md` there explains the build). Locked: a teal tile
+(`#5FBFB3`) with a white S, deep teal `#175E58` for text/accents on paper,
+paper/ink/night grounds. Paper/light is the default world; dark follows the
+OS + a nav toggle, except the homepage, which is a fixed dark photo hero and
+doesn't use the toggle. Exactly one accent hue (**teal = earned**, never
+decoration/buttons) — carried by the `--gold`/`--gold-fill`/`--gold-line`
+tokens in `assets/css/mono.css` (kept that internal name rather than a
+150-file variable rename; the *value* is teal everywhere, nothing reads
+"gold" anywhere in the UI). The mark itself renders from
+`assets/js/mark.js` (exact geometry, do not alter) into every
+`<span class="brand-mark" data-mark>` in nav/footer. Inter only, tabular
+figures, no emoji, the word "AI" never appears — the assistant is **Juno**
+(not "Sage", retired 2026-09).
 
 ## Run it locally
 ```

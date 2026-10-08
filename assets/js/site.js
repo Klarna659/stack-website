@@ -108,7 +108,9 @@
      WAITLIST_ENDPOINT: a Formspark/Buttondown/Formspree URL that accepts a JSON
      or form POST with an "email" field. Empty string → mailto fallback so the
      site still captures interest today with zero backend. */
-  var WAITLIST_ENDPOINT = ""; // e.g. "https://submit-form.com/abcd1234"
+  /* Live since 2026-09-07: a Cloudflare Worker (tools/waitlist-worker)
+     storing signups in KV. Accepts JSON or form POST with "email". */
+  var WAITLIST_ENDPOINT = "https://stack-waitlist.squeeze251.workers.dev";
 
   /* waitlist (hero) — POST to endpoint when set, else mailto */
   document.querySelectorAll('form[data-form="waitlist"]').forEach(function (form) {
@@ -167,8 +169,8 @@
       // not configured yet → notify at launch
       var email = (RAIL && RAIL.contactEmail) || "hello@trackyourstack.app";
       window.location.href = "mailto:" + email +
-        "?subject=" + encodeURIComponent("Notify me when Stack Plus launches") +
-        "&body=" + encodeURIComponent("Tell me when I can get Plus.");
+        "?subject=" + encodeURIComponent("Notify me when Stack launches") +
+        "&body=" + encodeURIComponent("Tell me when I can subscribe.");
     });
   });
 

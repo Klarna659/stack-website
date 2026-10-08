@@ -1,0 +1,300 @@
+/* ============================================================================
+   tools.css — standalone stylesheet for Stack's drop-in calculator pages.
+   Self-contained: every token this page needs is defined here (copied from
+   the site's lib/core/design/mono.dart values — "gold = earned", ink on
+   paper) so these pages render correctly with no dependency on the site's
+   own assets/css/mono.css or fonts. When dropped into the live site, they
+   can keep this file or be re-pointed at mono.css; either works.
+   ========================================================================== */
+
+/* ------------------------------------------------------- tokens: paper -- */
+/* Stack's brand ground — ink on paper, not generic UI gray. Matched to
+   docs/design/DESIGN_LANGUAGE.md §4 (paper #FAF8F4 / ink #1A1815 / gold
+   earned-accent) rather than a stock gray scale, so the tools read as the
+   same product as the app instead of a generic SaaS template. */
+:root {
+  --bg: #FAF8F4;
+  --bg-soft: #F1EDE4;
+  --panel: #FFFFFF;
+  --panel-2: #F1EDE4;
+  --line: #E4DFD6;
+  --line-soft: #ECE7DD;
+  --ink: #1A1815;
+  --ink-2: #5B554A;
+  --mut: #83786A;
+  --dim: #948A7A;
+
+  --gold: #8F661C;              /* deep brass, 4.96:1 on paper (AA) */
+  --gold-fill: rgba(143, 102, 28, 0.15);
+  --gold-line: rgba(143, 102, 28, 0.30);
+
+  --brand-1: #4A443A;
+  --brand-2: #A79E8C;
+  --brand-3: #1A1815;
+
+  --radius: 14px;
+  --radius-sm: 12px;
+  --maxw: 1200px;
+  --maxw-prose: 760px;
+  --nav-h: 58px;
+  --gutter: 18px;
+
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------- tokens: dark --- */
+:root[data-theme="dark"] {
+  --bg: #100F0D;
+  --bg-soft: #17140F;
+  --panel: #1A1815;
+  --panel-2: #211D17;
+  --line: #2C2822;
+  --line-soft: #241F19;
+  --ink: #F5F2EC;
+  --ink-2: #CDC5B9;
+  --mut: #A79E8F;
+  --dim: #8C8374;
+
+  --gold: #E6B45A;
+  --gold-fill: rgba(230, 180, 90, 0.14);
+  --gold-line: rgba(230, 180, 90, 0.30);
+
+  --brand-1: #CFC7B9;
+  --brand-2: #726B5C;
+  --brand-3: #F5F2EC;
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #100F0D; --bg-soft: #17140F; --panel: #1A1815; --panel-2: #211D17;
+    --line: #2C2822; --line-soft: #241F19;
+    --ink: #F5F2EC; --ink-2: #CDC5B9; --mut: #A79E8F; --dim: #8C8374;
+    --gold: #E6B45A; --gold-fill: rgba(230, 180, 90, 0.14); --gold-line: rgba(230, 180, 90, 0.30);
+    --brand-1: #CFC7B9; --brand-2: #726B5C; --brand-3: #F5F2EC;
+    color-scheme: dark;
+  }
+}
+
+@media (min-width: 560px) { :root { --gutter: 24px; } }
+@media (min-width: 900px) { :root { --gutter: 32px; --nav-h: 64px; } }
+@media (min-width: 1200px) { :root { --gutter: 44px; } }
+
+/* ------------------------------------------------------------------ base -- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+img, svg { max-width: 100%; }
+a { color: var(--ink); text-decoration: none; }
+a:hover { opacity: .82; }
+::selection { background: var(--ink); color: var(--bg); }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+.nav-cta:focus-visible, .btn:focus-visible, .theme-toggle:focus-visible, .nav-toggle:focus-visible {
+  outline: 2px solid var(--ink); outline-offset: 3px;
+}
+
+.tnum, .big, .facts td { font-variant-numeric: tabular-nums; }
+
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+
+h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word; }
+.eyebrow { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--mut); }
+.lead { color: var(--ink-2); font-size: clamp(16.5px, 2vw, 20px); line-height: 1.55; margin: 0; }
+.gold { color: var(--gold); }
+
+/* ------------------------------------------------------------------- nav -- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner { display: flex; align-items: center; gap: 12px; height: var(--nav-h); }
+.brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; font-size: 18px; letter-spacing: -.02em; margin-right: auto; }
+.brand-mark { flex: none; width: 32px; height: 32px; }
+.nav-links { display: none; }
+.nav-cta {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--ink); color: var(--bg);
+  font-size: 13.5px; font-weight: 700; white-space: nowrap;
+  padding: 11px 14px; border-radius: 999px; min-height: 44px;
+}
+.nav-cta:hover { opacity: 1; }
+.theme-toggle {
+  flex: none; display: inline-grid; place-items: center;
+  width: 38px; height: 38px; border-radius: 999px;
+  background: transparent; border: 1px solid var(--line); color: var(--mut);
+  cursor: pointer;
+}
+.theme-toggle svg { width: 17px; height: 17px; }
+.theme-toggle .moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .sun { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .moon { display: block; }
+}
+@media (min-width: 780px) {
+  .nav-inner { gap: 22px; }
+  .nav-links { display: flex; gap: 22px; margin-left: auto; }
+  .nav-links a { font-size: 14px; font-weight: 600; color: var(--mut); }
+  .nav-links a:hover { color: var(--ink); opacity: 1; }
+  .nav-links a[aria-current="page"] { color: var(--ink); opacity: 1; }
+}
+
+/* ---------------------------------------------------------------- header -- */
+/* top/bottom only — the shorthand zeroed .container's side gutter on phones */
+.tool-head { padding-top: clamp(28px, 6vw, 56px); padding-bottom: 8px; }
+.crumbs { font-size: 13px; color: var(--dim); margin-bottom: 16px; display: flex; gap: 7px; flex-wrap: wrap; }
+.crumbs a { color: var(--dim); }
+.crumbs a:hover { color: var(--mut); }
+.tool-head h1 { font-size: clamp(28px, 6vw, 44px); max-width: 20ch; margin-top: 10px; }
+.tool-head .lead { max-width: 56ch; margin-top: 16px; }
+
+/* --------------------------------------------------------------- panels -- */
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: clamp(20px, 4vw, 30px);
+}
+
+/* --------------------------------------------------------------- forms -- */
+.field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.field label { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); }
+.field .hint { color: var(--dim); text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 12.5px; margin-top: 2px; }
+.row { display: flex; gap: 10px; }
+.row > .input { flex: 1 1 auto; min-width: 0; }
+.row > .select { flex: 0 0 auto; max-width: 130px; }
+.input, .select {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 12px 14px; min-height: 48px;
+}
+.input:focus, .select:focus { outline: none; border-color: var(--ink-2); box-shadow: 0 0 0 3px var(--gold-fill); }
+fieldset { border: 0; padding: 0; margin: 0 0 14px; }
+fieldset legend { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); padding: 0; margin-bottom: 8px; }
+.radio-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.radio-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13.5px; font-weight: 600; color: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 9px 14px; min-height: 44px; cursor: pointer;
+  background: var(--bg);
+}
+.radio-chip input { margin: 0; accent-color: var(--gold); }
+.radio-chip:has(input:checked) { border-color: var(--ink-2); background: var(--panel-2); color: var(--ink); }
+.weekday-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.weekday-chip {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 10px;
+  min-height: 44px; cursor: pointer; background: var(--bg);
+}
+.weekday-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.weekday-chip:has(input:checked) { border-color: var(--gold-line); background: var(--gold-fill); color: var(--gold); }
+
+/* error / status text tied to the form via aria-live */
+.form-error {
+  font-size: 13.5px; color: var(--ink); background: var(--gold-fill);
+  border: 1px solid var(--gold-line); border-radius: var(--radius-sm);
+  padding: 12px 14px; margin-top: 4px; line-height: 1.55;
+}
+
+/* ===================================================================== TOOL */
+.tool-grid { display: grid; grid-template-columns: 1fr; gap: clamp(18px, 4vw, 32px); align-items: start; padding: 20px 0 12px; }
+@media (min-width: 880px) { .tool-grid { grid-template-columns: 1fr 1fr; } }
+/* The answer comes first below the fold, before the inputs that produced it —
+   sensible defaults mean there's already a real result to show the moment
+   the page loads, so mobile shouldn't make you scroll past a full form to
+   find it. Desktop's side-by-side layout already shows both at once. */
+@media (max-width: 879px) { .tool-out { order: -1; } }
+.tool-out { text-align: center; padding: 28px 20px; }
+.tool-out .eyebrow { display: block; }
+.tool-out .big { font-size: clamp(38px, 11vw, 60px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: var(--gold); margin-top: 8px; }
+.tool-out .unit { color: var(--mut); font-size: 15px; font-weight: 600; margin-top: 6px; }
+.tool-out .sub { color: var(--ink-2); font-size: 14px; margin-top: 20px; line-height: 1.7; text-align: left; }
+.tool-out .sub .row-line { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line-soft); }
+.tool-out .sub .row-line:first-child { border-top: 0; }
+.tool-out .sub b { color: var(--ink); font-weight: 700; }
+
+.syringe { margin: 22px auto 6px; max-width: 320px; }
+.syr-track { height: 14px; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--bg-soft); }
+.syr-fill { height: 100%; background: var(--gold); width: 0%; border-radius: 999px; transition: width .25s ease; }
+.syr-cap { display: flex; justify-content: space-between; color: var(--dim); font-size: 11.5px; margin-top: 6px; }
+
+.viz { margin: 4px auto 0; }
+.viz svg { display: block; width: 100%; height: auto; }
+.thread { stroke: var(--gold); stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.grid-line { stroke: var(--ink); opacity: .08; stroke-width: 1; }
+.ref-line { stroke: var(--dim); stroke-width: 1; stroke-dasharray: 3 3; opacity: .55; }
+.axis-cap { fill: var(--dim); font-size: 10px; font-weight: 700; letter-spacing: .06em; }
+.dose-tick { fill: var(--gold); }
+
+/* ================================================================= PROSE */
+.prose { padding: 8px 0 60px; max-width: var(--maxw-prose); }
+.prose h2 { font-size: 20px; letter-spacing: -.02em; margin: 30px 0 12px; }
+.prose p, .prose li { color: var(--ink-2); font-size: 15.5px; line-height: 1.75; }
+.prose p { margin: 0 0 14px; }
+.prose ul, .prose ol { padding-left: 22px; margin: 0 0 14px; }
+.prose strong, .prose b { color: var(--ink); }
+/* A hairline rule, not a box — the disclaimer stays legible without reading
+   as another card stacked on the page. */
+.callout {
+  border: 0; border-left: 2px solid var(--line); border-radius: 0;
+  background: none;
+  padding: 2px 0 2px 15px; font-size: 14px; color: var(--mut); line-height: 1.6;
+  margin: 22px 0 0;
+}
+.callout b { color: var(--ink); }
+
+/* The single call-to-action, set off by a hairline rule instead of a second
+   panel nested inside the result panel. */
+.track-cta {
+  margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line);
+  background: none; border-radius: 0;
+}
+.track-cta h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.track-cta p { color: var(--mut); font-size: 13.5px; margin: 0 0 16px; line-height: 1.55; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  font-family: inherit; font-size: 15px; font-weight: 700;
+  border-radius: 999px; padding: 12px 22px; min-height: 46px;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+  cursor: pointer; width: 100%;
+}
+.btn:hover { opacity: .88; }
+@media (min-width: 560px) { .btn { width: auto; } }
+
+/* ================================================================== FOOTER */
+.footer { border-top: 1px solid var(--line); background: var(--bg-soft); margin-top: 30px; }
+.footer-inner { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 40px var(--gutter) 30px; }
+@media (min-width: 620px) { .footer-inner { grid-template-columns: 1.4fr 1fr 1fr; } }
+.footer h4 { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin: 0 0 12px; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer li a { color: var(--mut); font-size: 14px; display: inline-block; padding: 7px 0; }
+.footer li a:hover { color: var(--ink); }
+.footer .tag { color: var(--mut); font-size: 14px; font-weight: 500; line-height: 1.6; margin: 10px 0 0; max-width: 34ch; }
+.footer-bottom {
+  display: flex; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding: 16px var(--gutter) 22px; color: var(--dim); font-size: 13px;
+}
+.footer-bottom a { color: var(--dim); }
+.disclaimer-band {
+  border-top: 1px solid var(--line);
+  padding: 16px var(--gutter); color: var(--dim); font-size: 12.5px; line-height: 1.6;
+  max-width: var(--maxw); margin: 0 auto;
+}
+
+.center { text-align: center; }
+.muted { color: var(--mut); }
+.dim { color: var(--dim); }

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Syringe units converter — mg or mcg to insulin syringe units | Stack</title>
+  <meta name="description" content="Free syringe units converter: enter your mixed vial strength and desired dose — get the exact units and mL to draw on a U-100 insulin syringe, with a drawn syringe showing the fill line." />
+  <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+  <link rel="canonical" href="https://trackyourstack.app/tools/syringe-units/" />
+  <meta property="og:title" content="Syringe units converter — mg or mcg to syringe units" />
+  <meta property="og:description" content="Vial strength + desired dose → exact units and mL on a U-100 insulin syringe, with a drawn syringe fill line. Free, no signup." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackyourstack.app/tools/syringe-units/" />
+  <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="../tools.css" />
+  <script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Stack syringe units converter","applicationCategory":"HealthApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Syringe units converter: mixed vial strength + desired dose → units and mL to draw on a U-100 insulin syringe.","url":"https://trackyourstack.app/tools/syringe-units/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Syringe units converter","item":"https://trackyourstack.app/tools/syringe-units/"}]}</script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack — home">
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
+        <span class="brand-word">Stack</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="../../#features">Features</a>
+        <a href="../../compounds/">Compounds</a>
+        <a href="../">Tools</a>
+        <a href="../../guides/">Guides</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a href="../../#download" class="nav-cta">Get the app</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../">Tools</a> <span>/</span> <span>Syringe units converter</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>Syringe units converter</h1>
+      <p class="lead">Your mixed vial strength and your desired dose — we'll give you the exact
+      units and mL to draw on a U-100 insulin syringe.</p>
+    </div>
+
+    <div class="container" style="padding-bottom:70px">
+      <div class="tool-grid">
+        <form class="panel" id="calc" aria-label="Syringe units inputs">
+          <fieldset>
+            <legend>Vial strength after mixing</legend>
+            <div class="radio-row" role="radiogroup" aria-label="Vial strength input mode">
+              <label class="radio-chip"><input type="radio" name="s-mode" value="conc" id="s-mode-conc" checked /> mg per mL</label>
+              <label class="radio-chip"><input type="radio" name="s-mode" value="mix" id="s-mode-mix" /> mg + mL of water</label>
+            </div>
+          </fieldset>
+
+          <div id="s-conc-fields">
+            <div class="field">
+              <label for="s-conc">Concentration</label>
+              <div class="row">
+                <input class="input" id="s-conc" type="number" inputmode="decimal" min="0" step="any" value="5" />
+                <span class="select" style="max-width:90px;display:grid;place-items:center">mg/mL</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="s-mix-fields" style="display:none">
+            <div class="field">
+              <label for="s-mix-mg">Peptide in the vial</label>
+              <div class="row">
+                <input class="input" id="s-mix-mg" type="number" inputmode="decimal" min="0" step="any" value="5" />
+                <span class="select" style="max-width:60px;display:grid;place-items:center">mg</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="s-mix-ml">Water added</label>
+              <div class="row">
+                <input class="input" id="s-mix-ml" type="number" inputmode="decimal" min="0" step="any" value="2" />
+                <span class="select" style="max-width:60px;display:grid;place-items:center">mL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="s-dose">Desired dose</label>
+            <div class="row">
+              <input class="input" id="s-dose" type="number" inputmode="decimal" min="0" step="any" value="250" />
+              <select class="select" id="s-dose-unit" aria-label="Dose unit">
+                <option value="mcg" selected>mcg</option>
+                <option value="mg">mg</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="s-syringe">Syringe</label>
+            <select class="select" id="s-syringe">
+              <option value="100" selected>U-100 insulin — 1 mL (100 units)</option>
+              <option value="50">U-100 insulin — 0.5 mL (50 units)</option>
+              <option value="30">U-100 insulin — 0.3 mL (30 units)</option>
+            </select>
+          </div>
+
+          <p class="dim" style="font-size:12.5px;line-height:1.6;margin:6px 0 0">On a U-100 insulin
+          syringe, 100 units = 1 mL. This tool converts volume — it does not suggest what dose to take.</p>
+
+          <div id="s-error" role="alert" aria-live="assertive"></div>
+        </form>
+
+        <div class="panel tool-out" id="s-out" aria-live="polite">
+          <span class="eyebrow">Draw to</span>
+          <div class="big" id="out-units">—</div>
+          <div class="unit">units on your syringe</div>
+          <div class="syringe" aria-hidden="true">
+            <svg id="syringe-svg" viewBox="0 0 320 90" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="syr-cap"><span>0</span><span id="syr-max">100 u</span></div>
+          </div>
+          <div class="sub" id="out-sub">
+            <div class="row-line"><span>Volume</span><b id="out-vol">—</b></div>
+            <div class="row-line"><span>Concentration</span><b id="out-conc">—</b></div>
+          </div>
+          <div class="track-cta" style="text-align:left;margin-top:26px">
+            <h3>Stack keeps this running for you</h3>
+            <p>The app does this math on every vial you mix, and remembers the concentration so you
+            never have to re-enter it.</p>
+            <a class="btn" href="../../#download">Get the app</a>
+          </div>
+        </div>
+      </div>
+
+      <article class="prose">
+        <h2>How the math works</h2>
+        <p><strong>Volume per dose</strong> = your dose ÷ the concentration. A 250 mcg (0.25 mg) dose
+        at 2.5 mg/mL is 0.1 mL.</p>
+        <p><strong>Syringe units</strong> = volume × 100, because a U-100 syringe reads 100 units to
+        the mL by definition. 0.1 mL = 10 units, on any U-100 syringe regardless of its barrel size —
+        the barrel only limits how much you can draw at once.</p>
+        <div class="callout"><b>Not medical advice.</b> This calculator converts volumes. It does not
+        recommend a compound or a dose — your dose comes from your clinician or your own research.</div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="../../" class="brand">
+          <span class="brand-mark" data-mark aria-hidden="true"></span>
+          <span class="brand-word">Stack</span>
+        </a>
+        <p class="tag">Track your stack. Supplements, peptides, meds and more — one quiet, private app.</p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="../reconstitution/">Reconstitution calculator</a></li>
+          <li><a href="../run-out/">Vial run-out calculator</a></li>
+          <li><a href="../half-life/">Half-life visualiser</a></li>
+          <li><a href="./">Syringe units converter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about/">About &amp; sourcing</a></li>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="disclaimer-band">
+      Stack is a logging tool and an educational reference. Nothing on this site is medical
+      advice, a recommendation, or an endorsement of any compound.
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 Stack — a product of Cedar Hills Studio LLC</span>
+      <span><a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a></span>
+    </div>
+  </footer>
+
+  <script src="../tools-math.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var M = window.ToolsMath;
+    var $ = function (id) { return document.getElementById(id); };
+    var SVG_NS = "http://www.w3.org/2000/svg";
+
+    var themeBtn = $("themeToggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function () {
+        var cur = document.documentElement.getAttribute("data-theme");
+        var dark = matchMedia("(prefers-color-scheme: dark)").matches;
+        var next = cur === "dark" ? "light" : (cur === "light" ? "dark" : (dark ? "light" : "dark"));
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("stack-theme", next); } catch (e) {}
+      });
+    }
+
+    function el(tag, attrs) {
+      var n = document.createElementNS(SVG_NS, tag);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      return n;
+    }
+
+    function setError(msg) {
+      var box = $("s-error");
+      if (!msg) { box.className = ""; box.textContent = ""; return; }
+      box.className = "form-error";
+      box.textContent = msg;
+    }
+
+    function selectedMode() {
+      return document.querySelector('input[name="s-mode"]:checked').value;
+    }
+
+    function updateModeVisibility() {
+      var mode = selectedMode();
+      $("s-conc-fields").style.display = mode === "conc" ? "" : "none";
+      $("s-mix-fields").style.display = mode === "mix" ? "" : "none";
+    }
+
+    // Draws a plain barrel + plunger with a fill line at `pct` of the barrel,
+    // and a red band if the dose overshoots the barrel.
+    function renderSyringe(pct, overshoot) {
+      var svg = $("syringe-svg");
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      var barrelX = 20, barrelY = 30, barrelW = 260, barrelH = 30;
+      svg.appendChild(el("rect", { x: barrelX, y: barrelY, width: barrelW, height: barrelH, rx: 6, fill: "none", stroke: "var(--line)", "stroke-width": 2 }));
+      var clamped = Math.max(0, Math.min(1, pct));
+      var fillW = barrelW * clamped;
+      svg.appendChild(el("rect", {
+        x: barrelX + (barrelW - fillW), y: barrelY + 3, width: fillW, height: barrelH - 6, rx: 4,
+        fill: overshoot ? "var(--dim)" : "var(--gold)", opacity: overshoot ? 0.5 : 1
+      }));
+      // plunger cap + needle hub, purely decorative
+      svg.appendChild(el("rect", { x: barrelX - 14, y: barrelY - 4, width: 14, height: barrelH + 8, rx: 3, fill: "none", stroke: "var(--line)", "stroke-width": 2 }));
+      svg.appendChild(el("rect", { x: barrelX + barrelW, y: barrelY + 10, width: 26, height: 10, fill: "none", stroke: "var(--line)", "stroke-width": 2 }));
+      // graduation ticks every 10%
+      for (var i = 0; i <= 10; i++) {
+        var gx = barrelX + (barrelW * i) / 10;
+        svg.appendChild(el("line", { x1: gx, x2: gx, y1: barrelY, y2: barrelY + (i % 5 === 0 ? 10 : 6), stroke: "var(--dim)", "stroke-width": 1 }));
+      }
+    }
+
+    function calc() {
+      var mode = selectedMode();
+      var conc;
+      if (mode === "conc") {
+        conc = parseFloat($("s-conc").value);
+      } else {
+        conc = M.concentrationMgPerMl(parseFloat($("s-mix-mg").value), parseFloat($("s-mix-ml").value));
+      }
+
+      var doseUnit = $("s-dose-unit").value;
+      var doseMg = M.toMg(parseFloat($("s-dose").value), doseUnit, null);
+      var barrelUnits = parseInt($("s-syringe").value, 10);
+      $("syr-max").textContent = barrelUnits + " u";
+
+      if (!(conc > 0) || !(doseMg > 0)) {
+        setError(null);
+        $("out-units").textContent = "—";
+        $("out-vol").textContent = "—";
+        $("out-conc").textContent = "—";
+        renderSyringe(0, false);
+        return;
+      }
+
+      var units = M.unitsToDraw(doseMg, conc);
+      var ml = M.mlForDose(doseMg, conc);
+      var warn = M.syringeWarning(units, barrelUnits);
+
+      setError(warn);
+      $("out-units").textContent = M.fmt(units, 1);
+      $("out-vol").textContent = M.fmt(ml, 3) + " mL";
+      $("out-conc").textContent = M.fmt(conc, 2) + " mg/mL";
+
+      renderSyringe(units / barrelUnits, units > barrelUnits);
+    }
+
+    document.querySelectorAll('input[name="s-mode"]').forEach(function (el) {
+      el.addEventListener("change", function () { updateModeVisibility(); calc(); });
+    });
+    ["s-conc", "s-mix-mg", "s-mix-ml", "s-dose", "s-dose-unit", "s-syringe"].forEach(function (id) {
+      $(id).addEventListener("input", calc);
+      $(id).addEventListener("change", calc);
+    });
+
+    updateModeVisibility();
+    calc();
+  })();
+  </script>
+  <script src="../../assets/js/mark.js"></script>
+</body>
+</html>

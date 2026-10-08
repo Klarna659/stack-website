@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stack — mark, round 2 (five directions)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@font-face{
+  font-family:"Inter";
+  src:url("../assets/fonts/inter-subset.woff2") format("woff2");
+  font-weight:100 900;
+  font-display:swap;
+}
+/* ═══════════════════════════════════════════════════════════════════════
+   STACK · MARK, ROUND 2 — REVIEW SHEET
+   The three-stacked-ellipses mark was rejected: "doesn't stand out, doesn't
+   look professional, screams vibe-code." This sheet draws five NEW
+   directions from a research brief, redraws the prior round's top pick
+   ("mass") alongside them, and stress-tests every one the same way: one ink
+   colour, four sizes, two grounds, a tab favicon, an app-icon tile, and a
+   wordmark lockup. Nothing here is installed anywhere. Standalone file,
+   no build step, no external assets besides the site's own Inter subset.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root{
+  --page:#FAF9F6; --ink:#17140F; --ink-2:#4B463D; --muted:#847C6C;
+  --line:#E7E2D8; --card:#FFFFFF;
+  --light:#FFFFFF; --light-ink:#15130F;
+  --dark:#0E0E0F; --dark-ink:#F5F3EE;
+  --icon-light:#F1EEE6; --icon-dark:#141414;
+  --amber:#96601F; --amber-bg:#F4EDE2;
+  --risk:#9A3B2E; --good:#3E6B4F;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:52px 24px 120px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 14px}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.025em;
+  font-weight:800;margin:0 0 16px;max-width:22ch}
+.lede{font-size:17px;color:var(--ink-2);max-width:74ch;margin:0 0 12px}
+.lede b{color:var(--ink);font-weight:700}
+
+.rules{margin:30px 0 0;padding:20px 22px;border:1px solid var(--line);
+  border-radius:14px;background:var(--card);display:grid;gap:14px;
+  grid-template-columns:repeat(4,minmax(0,1fr))}
+.rules div{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.rules b{display:block;color:var(--ink);font-weight:700;font-size:13px;margin:0 0 3px}
+
+.rejected{margin:26px 0 0;padding:16px 20px;border:1px solid var(--line);
+  border-left:4px solid var(--risk);border-radius:10px;background:var(--card);
+  font-size:14px;color:var(--ink-2)}
+.rejected b{color:var(--ink)}
+
+/* ---- direction sections ---- */
+.dir{margin:64px 0 0;padding-top:40px;border-top:1px solid var(--line)}
+.dir-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 6px}
+.dir-no{font-family:ui-monospace,monospace;font-size:13px;color:var(--amber);
+  font-weight:700;letter-spacing:.08em}
+.dir h2{font-size:25px;font-weight:800;letter-spacing:-.02em;margin:0}
+.dir-tag{margin:0 0 16px;font-size:14px;color:var(--muted);font-style:italic}
+.rationale{max-width:80ch;font-size:15px;color:var(--ink-2);margin:0 0 30px}
+.rationale b{color:var(--ink);font-weight:700}
+.rationale .risk{color:var(--risk);font-weight:600}
+
+.sub{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 12px}
+
+.ladder{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:0 0 26px}
+.swatch{position:relative;display:flex;align-items:center;justify-content:center;
+  flex:none;border-radius:6px}
+.swatch.light{background:var(--light);color:var(--light-ink);border:1px solid var(--line)}
+.swatch.dark{background:var(--dark);color:var(--dark-ink)}
+.swatch svg{display:block}
+.swatch .sz{position:absolute;bottom:-22px;left:0;right:0;text-align:center;
+  font-size:11px;color:var(--muted);font-family:ui-monospace,monospace}
+.s256{width:176px;height:176px}
+.s256 svg{width:105px;height:105px}
+.s64{width:64px;height:64px}
+.s64 svg{width:44px;height:44px}
+.s32{width:32px;height:32px}
+.s32 svg{width:24px;height:24px}
+.s16{width:16px;height:16px}
+.s16 svg{width:14px;height:14px}
+.ladder.pad-bottom{margin-bottom:40px}
+
+.row-mixed{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;
+  margin-top:8px}
+.block .tab{display:inline-flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;
+  background:var(--light);border:1px solid var(--line);border-bottom:none;
+  border-radius:9px 9px 0 0;max-width:100%}
+.block .tab-fav{width:16px;height:16px;flex:none;color:var(--light-ink)}
+.block .tab-fav svg{width:100%;height:100%;display:block}
+.block .tab-label{font-size:12.5px;color:#3a372f;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.icon-row{display:flex;gap:12px}
+.icon-tile{width:74px;height:74px;border-radius:17px;display:flex;
+  align-items:center;justify-content:center;flex:none}
+.icon-tile svg{width:42px;height:42px}
+.icon-tile.light{background:var(--icon-light);color:var(--light-ink);
+  --fan-ground:var(--icon-light);--cap-ground:var(--icon-light)}
+.icon-tile.dark{background:var(--icon-dark);color:var(--dark-ink);
+  --fan-ground:var(--icon-dark);--cap-ground:var(--icon-dark)}
+.lockup{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.lockup svg{width:30px;height:30px;color:var(--ink);flex:none}
+.word-inter{font-family:Inter,sans-serif;font-weight:800;font-size:23px;
+  letter-spacing:-.02em;color:var(--ink)}
+.word-serif{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:23px;
+  color:var(--ink)}
+.accent-swatch{width:74px;height:74px;border-radius:17px;background:var(--amber-bg);
+  display:flex;align-items:center;justify-content:center;color:var(--amber);
+  --fan-ground:var(--amber-bg);--cap-ground:var(--amber-bg)}
+.accent-swatch svg{width:44px;height:44px}
+.accent-note{margin:10px 0 0;font-size:12px;color:var(--muted);max-width:22ch}
+
+.light{--fan-ground:#FFFFFF;--cap-ground:#FFFFFF}
+.dark{--fan-ground:#0E0E0F;--cap-ground:#0E0E0F}
+
+/* ---- comparison strip ---- */
+.compare .strip{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;
+  margin:0 0 30px}
+.strip-item{display:flex;flex-direction:column;align-items:center;gap:10px;width:96px}
+.strip-item .swatch{width:16px;height:16px}
+.strip-item .swatch svg{width:14px;height:14px}
+.strip-item span{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.3}
+
+.foot{margin:64px 0 0;padding-top:28px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--muted);line-height:1.6;max-width:80ch}
+.foot code{font-family:ui-monospace,monospace;font-size:.92em;color:var(--ink-2)}
+
+@media (max-width:900px){
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .row-mixed{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .rules{grid-template-columns:1fr}
+  .row-mixed{grid-template-columns:1fr}
+  .s256{width:128px;height:128px}
+  .s256 svg{width:76px;height:76px}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- ═══════ SHARED MARK LIBRARY — every mark drawn once, reused by <use> ═══
+     Each symbol is viewBox 0 0 100 100, fill/stroke=currentColor only, so
+     one CSS `color` swap is the entire dark/light/accent story. `mk-fan`
+     and `mk-capsule` knock out a background-coloured gap between
+     overlapping shapes rather than using a second ink — the custom
+     properties --fan-ground/--cap-ground carry that colour and are set on
+     every wrapper (.light/.dark/.icon-tile/.accent-swatch) so the knockout
+     always matches whatever it's sitting on. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+
+  <!-- 1 — ASCENDING THRESHOLD. One angular ascending stroke (flat / rise /
+       flat, not a smooth bezier — the corners are the point) with a single
+       oversized dot riding the rising segment. Optical correction: the dot
+       (r12) is deliberately larger than the stroke (w14) so the two never
+       fuse into one blob as they shrink. -->
+  <symbol id="mk-threshold" viewBox="0 0 100 100">
+    <path d="M14,80 L40,80 L64,28 L88,28" fill="none" stroke="currentColor"
+      stroke-width="14" stroke-linecap="square" stroke-linejoin="miter"/>
+    <circle cx="52" cy="54" r="12" fill="currentColor"/>
+  </symbol>
+
+  <!-- 2 — BRACKETED DOT. A single continuous crescent (outer circle r38 at
+       (50,50), inner circle r33 at (55,50) — internally TANGENT, d = 38-33
+       = 5, so the cut is one clean bite with a horn cusp at (88,50) and no
+       stray XOR sliver) plus a dot centred in the pocket the cut leaves
+       behind. -->
+  <symbol id="mk-bracket" viewBox="0 0 100 100">
+    <path fill-rule="evenodd" fill="currentColor" d="
+      M50,12 A38,38 0 1,0 50,88 A38,38 0 1,0 50,12 Z
+      M55,17 A33,33 0 1,0 55,83 A33,33 0 1,0 55,17 Z"/>
+    <circle cx="55" cy="50" r="12" fill="currentColor"/>
+  </symbol>
+
+  <!-- 3 — FANNED DOSE CARDS. Four equal rounded rects pivoting on one
+       point (50,90), fanned +-9/+-27 degrees — a ~54 degree spread, a
+       generous fraction of a quarter arc, pulled in from a literal 90 for
+       legibility. Deliberately NOT a vertical stack of horizontal bars —
+       that silhouette belongs to Stack Overflow. -->
+  <symbol id="mk-fan" viewBox="0 0 100 100">
+    <g transform="rotate(-27 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+    <g transform="rotate(-9 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+    <g transform="rotate(9 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+    <g transform="rotate(27 50 90)"><rect x="33" y="32" width="34" height="58"
+      rx="7" fill="currentColor" stroke="var(--fan-ground,#fff)" stroke-width="4"/></g>
+  </symbol>
+
+  <!-- 4 — CAPSULE S. A stadium silhouette with a background-knockout S-band
+       cut through it, tilted -16 degrees. HIGH RISK BY DESIGN: this is the
+       one direction that draws the exact thing the repo's own mark doctrine
+       forbids ("must not name a substance — no pill"). Drawn because the
+       brief asked for it; see rationale below for why I would not ship it. -->
+  <symbol id="mk-capsule" viewBox="0 0 100 100">
+    <g transform="rotate(-16 50 50)">
+      <rect x="6" y="40" width="88" height="20" rx="10" fill="currentColor"/>
+      <path fill="var(--cap-ground,#fff)" d="M -6,45 C 14,25 34,65 50,45
+        C 66,25 86,65 106,45 L 106,55 C 86,75 66,35 50,55
+        C 34,75 14,35 -6,55 Z"/>
+    </g>
+  </symbol>
+
+  <!-- 5 — MASS (refined). The prior round's recommended mark — the filled
+       area under a decay curve — redrawn with two optical corrections: the
+       top-left corner is rounded (Q12,15 23,15) instead of a hard right
+       angle, so it doesn't read as a chart's y-axis; and the curve's last
+       control point (84,84) shares the baseline's y, so the tail goes
+       tangent into the baseline instead of stopping at a corner. -->
+  <symbol id="mk-mass" viewBox="0 0 100 100">
+    <path fill="currentColor" d="M12,84 L12,25 Q12,15 23,15
+      C48,15 46,55 66,72 C78,82 84,84 90,84 Z"/>
+  </symbol>
+
+</defs>
+</svg>
+
+<div class="wrap">
+
+  <p class="eyebrow">Stack &middot; mark, round 2</p>
+  <h1>Five new directions, stress-tested the same way as the twenty before them.</h1>
+  <p class="lede">The three-stacked-ellipses mark is rejected. <b>This sheet does
+    not re-litigate that round</b> — it draws four new directions from a
+    research pass plus one refinement of that round's own top pick, and runs
+    every one through the same four gates that killed most of the last
+    twenty.</p>
+
+  <div class="rules">
+    <div><b>One colour</b>Every mark is <code style="font-family:ui-monospace,monospace">currentColor</code>
+      only — no gradient, no second value, no opacity trick standing in for one.</div>
+    <div><b>Legible at 16px</b>The favicon size, and the size that kills
+      clever marks. Every direction is rendered there, twice, on both grounds.</div>
+    <div><b>Names no substance</b>No pill, no syringe, no vial — one of the
+      five breaks this rule on purpose; see direction 04.</div>
+    <div><b>Promises no result</b>A dose tracker cannot imply "you will
+      improve." All five pass this one.</div>
+  </div>
+
+  <div class="rejected"><b>What was rejected, verbatim:</b> "doesn't stand
+    out, doesn't look professional, screams vibe-code." The three horizontal
+    bars before that were rejected as "lazy." Both notes point the same
+    direction — generic geometry, no matter how clean, reads as generated.
+    Every direction below tries to own one specific, describable idea instead.</div>
+
+  <!-- ══════════════════════════ 01 — ASCENDING THRESHOLD ══════════════════ -->
+  <section class="dir" id="dir-threshold">
+    <div class="dir-head"><span class="dir-no">01</span><h2>Ascending Threshold</h2></div>
+    <p class="dir-tag">a dose crossing a rising line</p>
+    <p class="rationale"><b>What it means:</b> one dot, one ascending line —
+      a single dose shown as progress along a threshold being crossed. It
+      reads the same for a vitamin streak, a titration schedule, or a lift
+      log without naming any of them. <b>Why it survives small:</b> it's one
+      thick mitred stroke and one oversized dot, nothing to blur — the dot is
+      deliberately bigger than the stroke so the two shapes stay distinct as
+      both shrink. <span class="risk">Risk:</span> at the smallest sizes the
+      dot can still read as a flag pin stuck in a ramp rather than a marker
+      riding a line — it is the most literal of the five and the least
+      surprising.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 02 — BRACKETED DOT ═══════════════════════ -->
+  <section class="dir" id="dir-bracket">
+    <div class="dir-head"><span class="dir-no">02</span><h2>Bracketed Dot</h2></div>
+    <p class="dir-tag">a dose held and watched</p>
+    <p class="rationale"><b>What it means:</b> a crescent bracket cradling a
+      dot — custody and attention in one glyph, which is the whole job of a
+      dose tracker. <b>Why it survives small:</b> both shapes are solid
+      fills with no internal detail to lose; it degrades gracefully all the
+      way down to a fat comma and a dot. <span class="risk">Risk:</span> a
+      crescent alone reads as a moon, or — worse — as the muted/low-battery
+      glyphs it was explicitly disqualified for looking like in the prior
+      round ("meniscus"); the dot in the pocket is the only thing that saves
+      it, and it can never be recentred or dropped.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 03 — FANNED DOSE CARDS ═══════════════════ -->
+  <section class="dir" id="dir-fan">
+    <div class="dir-head"><span class="dir-no">03</span><h2>Fanned Dose Cards</h2></div>
+    <p class="dir-tag">doses laid out across time, not piled up</p>
+    <p class="rationale"><b>What it means:</b> four equal cards fanned
+      through an arc — a regimen spread out and legible, on purpose <i>not</i>
+      a vertical stack of horizontal bars, which is Stack Overflow's
+      silhouette, not Stack's. <b>Why it survives small:</b> the gap between
+      cards is a knockout in the exact background colour rather than a
+      second ink, so it still reads as one stepped silhouette rather than
+      four thin outlines at 16px. <span class="risk">Risk:</span> it is the
+      most detailed of the five and the only one load-bearing on that
+      knockout trick — it only works on a flat, known ground, and breaks on
+      a photo or a gradient.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 04 — CAPSULE S ════════════════════════════ -->
+  <section class="dir" id="dir-capsule">
+    <div class="dir-head"><span class="dir-no">04</span><h2>Capsule S</h2></div>
+    <p class="dir-tag">high risk, high payoff &mdash; drawn on request</p>
+    <p class="rationale"><b>What it means:</b> a capsule silhouette with an
+      S-shaped seam cut through it instead of a straight one, so the brand's
+      own initial is carved into the most literal shape in the category.
+      <b>Why it survives small:</b> it is a single bold fill with one wide
+      knockout band, so the S is still legible reduced, though the capsule's
+      rounded ends soften first. <span class="risk">Risk — and this is the
+      one that matters:</span> this direction breaks the repo's own mark
+      rule, "must not name a substance — no pill," which the prior round
+      used to disqualify a mark for the same reason ("column"). I drew it
+      because the brief asked for it and it deserves to compete fairly, but
+      my honest recommendation is to cut it on that rule alone, before it
+      ever reaches a critic.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ 05 — MASS (refined) ═══════════════════════ -->
+  <section class="dir" id="dir-mass">
+    <div class="dir-head"><span class="dir-no">05</span><h2>Mass</h2></div>
+    <p class="dir-tag">refined from the prior round's recommendation</p>
+    <p class="rationale"><b>What it means:</b> the filled area under a decay
+      curve — the app's own half-life measurement drawn as a shape instead
+      of a chart. Carried over from the last round's recommendation and
+      redrawn here with two optical corrections: a rounded peak instead of a
+      hard right angle (so it stops reading as a y-axis), and a tail that
+      goes tangent into the baseline instead of stopping at a corner.
+      <b>Why it survives small:</b> it is the single boldest fill of the
+      five — one curve, one solid mass, nothing thin to lose — so it is the
+      last of the five to degrade as it shrinks. <span class="risk">Risk:</span>
+      it is still one step from a generic area-chart icon and asks the
+      viewer to already know what a decay curve looks like; its safety is
+      also its ceiling.</p>
+
+    <p class="sub">Size ladder &mdash; light ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch light s256"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">256</span></div>
+      <div class="swatch light s64"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">64</span></div>
+      <div class="swatch light s32"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">32</span></div>
+      <div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">16</span></div>
+    </div>
+    <p class="sub">Size ladder &mdash; dark ground</p>
+    <div class="ladder pad-bottom">
+      <div class="swatch dark s256"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">256</span></div>
+      <div class="swatch dark s64"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">64</span></div>
+      <div class="swatch dark s32"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">32</span></div>
+      <div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="sz">16</span></div>
+    </div>
+
+    <div class="row-mixed">
+      <div class="block">
+        <p class="sub">Browser tab</p>
+        <div class="tab"><span class="tab-fav"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></span><span class="tab-label">Stack &ndash; Dose &amp; Med Tracker</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">App icon</p>
+        <div class="icon-row">
+          <div class="icon-tile light"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div>
+          <div class="icon-tile dark"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div>
+        </div>
+      </div>
+      <div class="block">
+        <p class="sub">Wordmark lockup</p>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="word-inter">Stack</span></div>
+        <div class="lockup"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg><span class="word-serif">Stack</span></div>
+      </div>
+      <div class="block">
+        <p class="sub">Accent &mdash; amber</p>
+        <div class="accent-swatch"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div>
+        <p class="accent-note">Placeholder. Accent colour is a Phase 0 decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ COMPARISON STRIP ══════════════════════════ -->
+  <section class="dir compare" id="dir-compare">
+    <div class="dir-head"><h2>All five, side by side, at 16px</h2></div>
+    <p class="rationale">The only test that matters in the end. If a mark
+      doesn't hold its idea here, none of the renders above save it.</p>
+
+    <p class="sub">On light</p>
+    <div class="strip">
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div><span>01 Ascending Threshold</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div><span>02 Bracketed Dot</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div><span>03 Fanned Dose Cards</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div><span>04 Capsule S</span></div>
+      <div class="strip-item"><div class="swatch light s16"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div><span>05 Mass</span></div>
+    </div>
+
+    <p class="sub">On dark</p>
+    <div class="strip">
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-threshold"/></svg></div><span>01 Ascending Threshold</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-bracket"/></svg></div><span>02 Bracketed Dot</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-fan"/></svg></div><span>03 Fanned Dose Cards</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-capsule"/></svg></div><span>04 Capsule S</span></div>
+      <div class="strip-item"><div class="swatch dark s16"><svg viewBox="0 0 100 100"><use href="#mk-mass"/></svg></div><span>05 Mass</span></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b style="color:var(--ink)">Nothing here is installed.</b> This is a
+    standalone file at <code>mockups/logo-round2.html</code>; the shipping
+    icon (<code>assets/icon/icon.png</code> in <code>dose_tracker</code>) and
+    the live site mark are both untouched. The five marks are defined once in
+    the hidden <code>&lt;defs&gt;</code> block at the top of this file and
+    reused everywhere below by <code>&lt;use&gt;</code> — there is exactly
+    one drawing of each idea on this whole page, not five hundred near-copies.
+  </div>
+
+</div>
+</body>
+</html>

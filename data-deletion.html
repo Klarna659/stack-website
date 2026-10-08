@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Data Deletion — Stack</title>
-  <meta name="description" content="How to delete your data in Stack. Your health data is local-first and encrypted on your device — you can erase everything at any time; email us to delete your account or any opt-in cloud data." />
+  <meta name="description" content="How to delete your data in Stack. Your health data is local-first and encrypted on your device — erase everything at any time, or email us to delete your account." />
   <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href="https://trackyourstack.app/data-deletion.html" />
   <meta property="og:title" content="Data Deletion — Stack" />
-  <meta property="og:description" content="How to delete your data in Stack. Your health data is local-first and encrypted on your device; email us to delete your account or any opt-in cloud data." />
+  <meta property="og:description" content="How to delete your data in Stack. Your health data is local-first and encrypted on your device — erase everything at any time, or email us to delete your account." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://trackyourstack.app/data-deletion.html" />
   <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
@@ -25,11 +25,7 @@
   <header class="nav scrolled" id="nav">
     <div class="container nav-inner">
       <a href="./" class="brand" aria-label="Stack — home">
-        <svg class="brand-mark" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
-          <ellipse cx="20" cy="13" rx="13" ry="3.4" fill="var(--brand-1)"/>
-          <ellipse cx="20" cy="21" rx="13" ry="3.4" fill="var(--brand-2)"/>
-          <ellipse cx="20" cy="29" rx="13" ry="3.4" fill="var(--brand-3)"/>
-        </svg>
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
         <span class="brand-word">Stack</span>
       </a>
       <nav class="nav-links" style="display:flex"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
@@ -41,7 +37,7 @@
     <article class="legal">
       <a href="index.html" class="back-link">← Back to Stack</a>
       <h1>Data Deletion</h1>
-      <p class="updated">Last updated: August 19, 2026</p>
+      <p class="updated">Last updated: September 4, 2026</p>
 
       <p>Stack (the “App”) is <strong>local-first by default</strong>. Your data lives in an
         encrypted database <strong>on your device</strong>, and unless you turn on an optional feature
@@ -76,32 +72,37 @@
         <strong>no account, no identity, and none of your health or medication data</strong>, and cannot be
         tied back to you — there is no personal record on our side to look up.</p>
       <p><strong>Your account</strong> is the email you sign in with — that is all it holds, and it is never
-        linked to your health data. Email
+        linked to your health data. You can delete it directly in the App: <strong>Account → Delete account</strong>,
+        which also removes any Cloud backup stored under it. You can also email
         <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a> to have your account and its email
         permanently deleted from our backend.</p>
       <p><strong>Optional features you turned on</strong> can store data on our backend, and you can have it
         deleted at any time:</p>
       <ul>
-        <li><strong>Email updates:</strong> use the <strong>unsubscribe</strong> link in any email, or email us to
-          have your address removed from our list.</li>
+        <li><strong>Email updates:</strong> the <strong>unsubscribe</strong> link in any email stops the emails.
+          To have the stored sign-up record itself (your email, install identifier, sign-up source, and app/OS
+          version) deleted, email us at <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</li>
         <li><strong>Cloud backup:</strong> turn it off in the App, and email
           <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a> to have your encrypted cloud
           copy and associated email permanently deleted from our backend.</li>
-        <li><strong>Sage:</strong> your Sage messages are sent without your account or any identifier and are not stored on our backend, so there is no conversation history for us to look up or delete.</li>
+        <li><strong>Juno:</strong> your Juno messages are sent without your account or any identifier and are not stored on our backend, so there is no conversation history for us to look up or delete.</li>
           <li><strong>Feedback:</strong> email us to have a feedback message you sent removed.</li>
       </ul>
       <p>We aim to complete deletion requests within a few business days.</p>
 
       <h2>3. Purchases and subscriptions</h2>
-      <p>Stack Plus is bought on the web. Your purchase record is held by our billing provider
-        <strong>RevenueCat</strong>, with <strong>Stripe</strong> as the payment processor — not by the app
-        stores. To manage or remove those records:</p>
+      <p>The <strong>Stack subscription</strong> is sold through the <strong>app store</strong> on your device
+        (Apple App Store or Google Play), and may also be offered through checkout on our website. To manage or
+        remove those records:</p>
       <ul>
-        <li><strong>Cancel a subscription:</strong> use the billing/management link in your
-          purchase-confirmation email, or email <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.
-          Cancelling stops future renewals; you keep Plus through the period you already paid for.</li>
+        <li><strong>Store purchases:</strong> managed and refunded by the store you bought from, under its own
+          policy. Use your App Store or Google Play subscription settings to cancel; cancelling stops future
+          renewals and you keep the subscription through the period you already paid for.</li>
+        <li><strong>Website purchases (if offered):</strong> processed by <strong>Stripe</strong>, with the
+          subscription managed by <strong>RevenueCat</strong>. Use the billing/management link in your
+          purchase-confirmation email to cancel, or email <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</li>
         <li><strong>Purchase/refund history &amp; deletion:</strong> email us and we'll help you retrieve or
-          delete your billing records held by Stripe/RevenueCat.</li>
+          delete billing records we can reach, whether held by the app store, Stripe, or RevenueCat.</li>
       </ul>
       <p>Cancelling does not delete your in-app data — use Section 1 for that.</p>
 
@@ -122,10 +123,11 @@
 
   <footer class="footer">
     <div class="container footer-bottom">
-      <span>© <span id="year">2026</span> Stack. Not medical advice.</span>
+      <span>© <span id="year">2026</span> Cedar Hills Studio LLC — the operator of Stack. Not medical advice.</span>
       <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a></span>
     </div>
   </footer>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script src="assets/js/mark.js"></script>
 </body>
 </html>
