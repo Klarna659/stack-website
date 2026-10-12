@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /mockups/
 
 Sitemap: https://trackyourstack.app/sitemap.xml
