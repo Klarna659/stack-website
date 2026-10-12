@@ -17,8 +17,8 @@ tokens in `assets/css/mono.css` (kept that internal name rather than a
 "gold" anywhere in the UI). The mark itself renders from
 `assets/js/mark.js` (exact geometry, do not alter) into every
 `<span class="brand-mark" data-mark>` in nav/footer. Inter only, tabular
-figures, no emoji, the word "AI" never appears — the assistant is **Juno**
-(not "Sage", retired 2026-09).
+figures, no emoji. The assistant is **Juno** (not "Sage", retired 2026-09); the
+site says plainly that it is an AI.
 
 ## Run it locally
 ```
@@ -31,19 +31,15 @@ routing behave like production only when served.)
 One config block for the web rail (see `WEB_RAIL.md`). Supabase URL + anon key
 are the app's own committed public (RLS-gated) values. The `checkout.*` RevenueCat
 Web Billing URLs are `PASTE_…` until launch; while unset, the buy buttons fall
-back to a "notify at launch" mailto. Shared site JS (nav, theme toggle, pricing
-toggle, gallery, forms, buy buttons) lives in `assets/js/site.js`; account
+back to a "notify at launch" mailto. Shared site JS (nav, theme toggle,
+forms, buy buttons) lives in `assets/js/site.js`; account
 sign-in in `assets/js/account.js`.
 
-## Generated content — re-run the generators, don't hand-edit output
-```
-python tools/build_library.py   # compounds/ (index + 112 pages + 10 compares) + sitemap.xml
-python tools/build_pages.py      # guides/, about/, 404.html
-```
-Compound data lives in `assets/data/compounds.json`. Shared page chrome
-(`head`/`nav`/`footer`/`mark`) is defined in `tools/build_library.py` and imported
-by `tools/build_pages.py` + `tools/build_compare.py`. Editing a generated
-`.html` directly will be overwritten on the next build.
+## Removed pages
+The compound library, guides, calculators, stacks, compare pages, about page and the
+old mockups were removed on 2026-10-12 (the site is a front door for the app, not a
+reference site). Every removed URL that was in the old `sitemap.xml` is a tiny
+redirect page (meta refresh + canonical to `/`). Don't add them back to the sitemap.
 
 ## Deploy
 Push to `main` → GitHub Pages publishes. `CNAME` = trackyourstack.app (apex);
@@ -55,15 +51,14 @@ Hosted legal URLs for the store listings:
 
 ## Structure
 ```
-index.html         landing (hero, in-system + rotation visuals, features, pricing teaser, library funnel, FAQ)
-pricing/           dedicated pricing + comparison + FAQ (the checkout surface)
+index.html         landing (hero, features, data, pricing, FAQ)
+pricing/           three plans, trial timeline, billing FAQ
 account/           magic-link sign-in (noindex)
-compounds/         112-compound SEO library + 10 head-to-head compares (generated)
-guides/  about/    prose pages (generated)
-stacks/ referral.html creators.html   share + creator/partner funnels
+referral.html creators.html   creator/partner pages (apply by email)
 privacy.html terms.html data-deletion.html   hosted legal
+<removed path>/    redirect pages to / (old sitemap URLs)
 assets/css/mono.css   the single design system
 assets/js/            site.js · account.js · rail-config.js
 assets/img/ assets/fonts/   icons/og + self-hosted Inter (subset)
-tools/                page generators + reconstitution calculator
+tools/                image generators + the waitlist worker
 ```

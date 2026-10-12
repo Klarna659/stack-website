@@ -1,6 +1,6 @@
 /* Stack — shared site JS. Progressive enhancement only: every page works
    with JS disabled (static HTML); this adds nav toggle, scroll reveal,
-   gallery lightbox, mailto fallback links and the library filter. */
+   and mailto fallback links. */
 (function () {
   "use strict";
 
@@ -56,30 +56,6 @@
       var next = isDark ? "light" : "dark";
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("stack-theme", next); } catch (e) {}
-    });
-  }
-
-  /* pricing month/year toggle (landing) */
-  var priceToggle = document.querySelector(".price-toggle");
-  if (priceToggle) {
-    var pbtns = priceToggle.querySelectorAll("button");
-    var show = function (sel, on) {
-      document.querySelectorAll(sel).forEach(function (el) { el.hidden = !on; });
-    };
-    pbtns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        pbtns.forEach(function (x) { x.classList.remove("active"); });
-        b.classList.add("active");
-        var year = b.getAttribute("data-bill") === "year";
-        show("[data-price-month]", !year); show("[data-price-year]", year);
-        show("[data-anchor-month]", !year); show("[data-anchor-year]", year);
-        var per = document.querySelector("[data-per]");
-        if (per) per.textContent = year ? "/yr" : "/mo";
-        // Keep the Plus buy button's SKU in sync with the toggle, else a Yearly
-        // selection would check out on the monthly plan.
-        var buyBtn = document.querySelector("[data-plan-toggle]");
-        if (buyBtn) buyBtn.setAttribute("data-plan", year ? "plusAnnual" : "plusMonthly");
-      });
     });
   }
 
@@ -198,50 +174,6 @@
     });
   });
 
-  /* screens gallery (landing only) */
-  var gallery = document.getElementById("gallery");
-  if (gallery) {
-    var shots = [
-      ["assets/img/screens/today.png", "Today — what's due, what's active, and the streak"],
-      ["assets/img/screens/stack.png", "Your stack — compounds grouped by category"],
-      ["assets/img/screens/supply.png", "Inventory — what's left in every vial, and when it runs out"],
-      ["assets/img/screens/trends.png", "Charts — weight, lifts, bloodwork and body composition"],
-      ["assets/img/screens/tools.png", "Tools — calculators, reports and backups"]
-    ];
-    shots.forEach(function (s) {
-      var btn = document.createElement("button");
-      btn.className = "shot reveal";
-      var img = document.createElement("img");
-      img.src = s[0];
-      img.alt = s[1];
-      img.loading = "lazy";
-      img.width = 1080; img.height = 2260;
-      btn.appendChild(img);
-      btn.addEventListener("click", function () { openLB(s[0], s[1]); });
-      gallery.appendChild(btn);
-      if (io) io.observe(btn);
-    });
-  }
-  var lb = document.getElementById("lightbox");
-  var lbImg = document.getElementById("lbImg");
-  function openLB(src, alt) {
-    if (!lb) return;
-    lbImg.src = src; lbImg.alt = alt;
-    lb.classList.add("open");
-    lb.setAttribute("aria-hidden", "false");
-  }
-  if (lb) {
-    lb.addEventListener("click", function (e) {
-      if (e.target === lb || e.target.id === "lbClose") {
-        lb.classList.remove("open");
-        lb.setAttribute("aria-hidden", "true");
-      }
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") { lb.classList.remove("open"); lb.setAttribute("aria-hidden", "true"); }
-    });
-  }
-
   /* forms → mailto fallback (no backend yet); serializes every named field.
      ⚠ NOT the waitlist. It has its own handler above, and this selector used to
      match it too — both fired, this one second, so it overwrote the launch-list
@@ -270,40 +202,4 @@
     });
   });
 
-  /* library filter (compounds index) */
-  var libSearch = document.getElementById("libSearch");
-  if (libSearch) {
-    var cards = Array.prototype.slice.call(document.querySelectorAll(".comp-card"));
-    var sections = Array.prototype.slice.call(document.querySelectorAll(".lib-section"));
-    var chips = Array.prototype.slice.call(document.querySelectorAll(".cat-chip"));
-    var count = document.getElementById("libCount");
-    var activeCat = "all";
-
-    function apply() {
-      var q = libSearch.value.trim().toLowerCase();
-      var shown = 0;
-      cards.forEach(function (c) {
-        var hay = (c.getAttribute("data-search") || "").toLowerCase();
-        var cat = c.getAttribute("data-cat");
-        var ok = (activeCat === "all" || cat === activeCat) && (!q || hay.indexOf(q) !== -1);
-        c.style.display = ok ? "" : "none";
-        if (ok) shown++;
-      });
-      sections.forEach(function (s) {
-        var any = s.querySelector('.comp-card:not([style*="none"])');
-        s.style.display = any ? "" : "none";
-      });
-      if (count) count.textContent = shown + " compound" + (shown === 1 ? "" : "s");
-    }
-    libSearch.addEventListener("input", apply);
-    chips.forEach(function (ch) {
-      ch.addEventListener("click", function () {
-        chips.forEach(function (x) { x.classList.remove("active"); });
-        ch.classList.add("active");
-        activeCat = ch.getAttribute("data-cat");
-        apply();
-      });
-    });
-    apply();
-  }
 })();
