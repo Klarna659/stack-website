@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Your account — sign in | Stack</title>
-<meta name="description" content="Sign in to your Stack account to see your subscription status across the app and web." />
+<meta name="description" content="Sign in to your Stack account with the same email you use in the app." />
 <meta name="robots" content="noindex" />
 <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
@@ -49,7 +49,7 @@
       <div id="acct-signedout" hidden>
         <h1 style="font-size:clamp(30px,5vw,44px);margin:12px 0 14px">Sign in</h1>
         <p class="lead" style="font-size:17px;margin-bottom:26px">One account for the web and the app.
-        Sign in with the same email you use in the app to see your subscription status here too.</p>
+        Sign in with the same email you use in the app. Your subscription is managed in the app and in Google Play, not on this page.</p>
         <form class="panel" id="acct-form" novalidate>
           <div class="field">
             <label for="acct-email-input">Email</label>
@@ -67,16 +67,16 @@
         <p class="muted" style="margin:0 0 24px">as <strong id="acct-email" style="color:var(--ink)">your account</strong></p>
         <div class="panel" style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
           <div>
-            <div class="eyebrow" style="margin-bottom:6px">Membership</div>
-            <span class="tier-badge" id="acct-tier">Not subscribed</span>
+            <div class="eyebrow" style="margin-bottom:6px">Subscription</div>
+            <span class="muted" style="font-size:14px">Managed in the app, under Settings &gt; Subscription, and in Google Play.</span>
           </div>
           <a class="btn btn-primary" href="../pricing/" id="acct-plus-hint">See pricing</a>
         </div>
         <div class="panel" style="margin-top:14px">
           <h3 style="font-size:16px;margin-bottom:6px">Using the app?</h3>
           <p class="muted" style="font-size:14px;margin:0;line-height:1.6">Open Stack on your phone and sign in with
-          <strong style="color:var(--ink)">this same email</strong> to see the same subscription status there.
-          Nothing to restore, nothing to re-enter. Subscriptions are bought in the app, through Google Play.</p>
+          <strong style="color:var(--ink)">this same email</strong>.
+          Subscriptions are bought in the app, through Google Play.</p>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:14px;flex-wrap:wrap">
           <button class="btn" id="acct-signout">Sign out</button>

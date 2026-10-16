@@ -97,16 +97,6 @@
     return refresh(sess).catch(function () { return sess; }); // offline-tolerant
   }
 
-  /* read entitlement (best-effort). Until the entitlements table / RevenueCat
-     web sync exists this simply returns 'free'; the panel copy handles it. */
-  function readEntitlement(sess) {
-    return fetch(BASE + "/rest/v1/entitlements?select=tier,current_period_end&limit=1", {
-      headers: { "apikey": CFG.supabaseAnonKey, "Authorization": "Bearer " + sess.access_token }
-    }).then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (rows) { return (rows && rows[0] && rows[0].tier) || "free"; })
-      .catch(function () { return "free"; });
-  }
-
   function signOut(sess) {
     if (sess && sess.access_token) {
       fetch(BASE + "/auth/v1/logout", { method: "POST", headers: { "apikey": CFG.supabaseAnonKey, "Authorization": "Bearer " + sess.access_token } }).catch(function () {});
@@ -128,14 +118,6 @@
       var who = sess.email ? sess : Object.assign({}, sess, decodeJwtEmail(sess.access_token));
       var emailEl = $("acct-email"); if (emailEl) emailEl.textContent = who.email || "your account";
       signedOut.hidden = true; signedIn.hidden = false;
-      readEntitlement(sess).then(function (tier) {
-        var badge = $("acct-tier"); if (!badge) return;
-        var plus = tier && tier !== "free";
-        badge.textContent = plus ? (tier === "lifetime" ? "Lifetime" : "Subscribed") : "Not subscribed";
-        badge.classList.toggle("earned", !!plus);
-        var hint = $("acct-plus-hint");
-        if (hint) hint.hidden = !!plus;
-      });
     });
 
     var form = $("acct-form");
@@ -165,6 +147,6 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", render);
   else render();
 
-  // expose for the pricing page's buy buttons
+  // expose for the buy-button handler in site.js
   window.StackAccount = { ensureSession: ensureSession, decodeJwtEmail: decodeJwtEmail };
 })();
