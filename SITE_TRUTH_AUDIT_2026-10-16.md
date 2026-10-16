@@ -61,3 +61,18 @@ guide or tool copy is live, so there was nothing to fix on those, and PR #2
 - Home-screen widgets: none exist in the Android code (no AppWidget receiver, no widget package), so the site makes no widget claim.
 - Habits, groups, half-life curves, the reconstitution calculator, bloodwork and refill projection exist in the code but are barely on the marketing pages. I added no new feature copy.
 - Health Connect is off in release builds (`LaunchSwitches.healthConnectEnabled`); the privacy page still lists it because the permissions are in the manifest.
+
+## Added later on 2026-10-16
+
+- **Demo media re-recorded** from the current app with supplements-only example data
+  (`assets/img/app/*`: build_stack, doctor_report, hero_juno, injection_sites,
+  juno_actions, hero_today_still). The old ones were the pre-Photo-theme UI and the
+  doctor-report clip printed "bloodwork (with flagged results)", which the report no
+  longer contains; the build clip typed a prescription drug and dose.
+- **Home report caption** no longer says "flagged labs" (report v2 has no labs).
+- **Home "On your phone" cell** says "An account is optional" (the canon bans "no account").
+- **Share links and Health Connect** removed from privacy and data-deletion (both are
+  switched off in release). Add them back, with the app policy and store forms, the day
+  either ships.
+- Still open here: `/creators.html` and `/referral.html` promise "14 days free instead of
+  7" while an in-app creator code grants 30 days; Sim to pick the number.
