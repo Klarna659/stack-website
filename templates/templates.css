@@ -1,0 +1,106 @@
+/* ============================================================================
+   templates.css: fillable, printable sheets. Loaded after mono.css and
+   tools/tools.css. On screen the sheet is a normal form; in print it becomes
+   clean black-on-white with no nav, footer or background.
+   ========================================================================== */
+
+.template-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 18px; }
+.template-actions .btn { min-height: 46px; }
+.template-actions .btn-primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.sheet {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(16px, 3.5vw, 28px); box-shadow: var(--shadow-card);
+}
+.sheet-title { font-size: clamp(22px, 4vw, 28px); letter-spacing: -.03em; margin: 0 0 14px; }
+.sheet-meta { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 14px; }
+@media (min-width: 720px) { .sheet-meta.two { grid-template-columns: 1fr 1fr; } }
+.sheet-meta .field { margin-bottom: 0; }
+.sheet-line { margin-bottom: 12px; }
+.sheet-line.field { margin-bottom: 12px; }
+
+.sheet-table { width: 100%; border-collapse: collapse; }
+.sheet-table caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sheet-table thead { display: none; }
+.sheet-table, .sheet-table tbody, .sheet-table tr, .sheet-table td, .sheet-table th { display: block; width: 100%; }
+.sheet-table tr { padding: 12px 0; border-top: 1px solid var(--line); }
+.sheet-table tr:first-child { border-top: 0; }
+.sheet-table td, .sheet-table tbody th { padding: 4px 0; text-align: left; border: 0; }
+.sheet-table td::before {
+  content: attr(data-label); display: block; margin-bottom: 4px;
+  font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mut);
+}
+.sheet-table tbody th { font-size: 15px; font-weight: 800; letter-spacing: -.01em; color: var(--ink); }
+.sheet-table .input, .sheet-table .textarea { min-height: 44px; }
+.sheet-table .textarea { min-height: 64px; resize: vertical; }
+.cell-check { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 13px; color: var(--mut); }
+.cell-check input { width: 20px; height: 20px; accent-color: var(--gold); margin: 0; }
+
+@media (min-width: 720px) {
+  .sheet-table { display: table; }
+  .sheet-table thead { display: table-header-group; }
+  .sheet-table tbody { display: table-row-group; }
+  .sheet-table tr { display: table-row; padding: 0; border: 0; }
+  .sheet-table th, .sheet-table td { display: table-cell; width: auto; }
+  .sheet-table td::before { display: none; }
+  .sheet-table thead th {
+    text-align: left; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--mut); padding: 0 8px 10px 0; border-bottom: 1px solid var(--line);
+  }
+  .sheet-table td, .sheet-table tbody th { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .sheet-table tbody th { white-space: nowrap; vertical-align: middle; }
+  .sheet-table .input { min-height: 40px; padding: 8px 10px; font-size: 15px; }
+  .sheet-table .textarea { min-height: 56px; padding: 8px 10px; font-size: 15px; }
+}
+
+/* the print copy of every typed value; hidden on screen */
+.print-val { display: none; }
+.print-only { display: none; }
+
+@page { margin: 12mm; }
+
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  body { font-size: 10.5pt; line-height: 1.35; overflow: visible; }
+  .nav, .footer, .crumbs, .tool-head, .no-print, .template-actions, .page-cta, .related-links,
+  .tool-prose, .disclaimer-band, #navLinks { display: none !important; }
+  main, .container { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+  .main-end { padding: 0 !important; }
+
+  .sheet {
+    background: #fff !important; color: #000 !important; border: 0; border-radius: 0;
+    box-shadow: none; padding: 0;
+  }
+  .sheet * { color: #000 !important; background: transparent !important; box-shadow: none !important; }
+  .sheet-title { font-size: 18pt; margin: 0 0 8pt; }
+  .sheet .field > label, .sheet-table td::before { font-size: 8pt; letter-spacing: .06em; color: #000 !important; }
+  .sheet-meta { grid-template-columns: 1fr 1fr; gap: 8pt; margin-bottom: 8pt; }
+  .sheet-meta.one { grid-template-columns: 1fr; }
+  .sheet-line.field { margin-bottom: 8pt; }
+
+  .sheet.has-mirrors input:not([type="checkbox"]), .sheet.has-mirrors textarea { display: none !important; }
+  .sheet:not(.has-mirrors) input:not([type="checkbox"]), .sheet:not(.has-mirrors) textarea {
+    border: 0; border-bottom: 1px solid #000; border-radius: 0; padding: 2pt 0; min-height: 0; font-size: 10pt;
+  }
+  .print-val {
+    display: block; white-space: pre-wrap; overflow-wrap: anywhere;
+    min-height: 15pt; padding: 2pt 0; font-size: 10.5pt;
+    border-bottom: 1px solid #000;
+  }
+
+  .sheet-table { display: table !important; width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .sheet-table thead { display: table-header-group !important; }
+  .sheet-table tbody { display: table-row-group !important; }
+  .sheet-table tr { display: table-row !important; padding: 0 !important; border: 0 !important; page-break-inside: avoid; }
+  .sheet-table th, .sheet-table td { display: table-cell !important; width: auto; }
+  .sheet-table td::before { display: none !important; }
+  .sheet-table th, .sheet-table td { border: 1px solid #000 !important; padding: 3pt 4pt !important; vertical-align: top; }
+  .sheet-table thead th { font-size: 8.5pt; text-transform: uppercase; letter-spacing: .05em; text-align: left; }
+  .sheet-table tbody th { font-size: 10pt; }
+  .sheet-table .print-val { border-bottom: 0; min-height: 26pt; padding: 0; }
+  .sheet-table.tall .print-val { min-height: 56pt; }
+  .cell-check { font-size: 8pt; margin-top: 2pt; }
+  .cell-check span { display: none; }
+  .cell-check input { width: 11pt; height: 11pt; accent-color: #000; }
+  .print-only { display: block !important; margin: 10pt 0 0; font-size: 8pt; color: #000; }
+}
