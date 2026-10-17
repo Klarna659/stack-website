@@ -118,8 +118,8 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
    it — later in DOM paints on top, so no z-index juggling is needed. Each
    gets one subtle, one-time entrance (fade + raise); reduced-motion drops
    both the entrance and the tilt. */
-.hero-ph-today{position:absolute;right:14px;top:4px;filter:brightness(.92);animation:heroInToday .7s cubic-bezier(.16,1,.3,1) .05s both}
-.hero-ph-video{position:absolute;left:6px;top:98px;box-shadow:0 46px 100px -12px #000d,0 6px 22px #0008;animation:heroInVideo .7s cubic-bezier(.16,1,.3,1) .2s both}
+.hero-ph-today{position:absolute;right:14px;top:4px;filter:brightness(.92);animation:heroInToday .45s cubic-bezier(.16,1,.3,1) 0s both}
+.hero-ph-video{position:absolute;left:6px;top:98px;box-shadow:0 46px 100px -12px #000d,0 6px 22px #0008;animation:heroInVideo .45s cubic-bezier(.16,1,.3,1) .1s both}
 @keyframes heroInToday{from{opacity:0;transform:rotate(3deg) translateY(22px)}to{opacity:1;transform:rotate(3deg) translateY(0)}}
 @keyframes heroInVideo{from{opacity:0;transform:rotate(-4deg) translateY(26px)}to{opacity:1;transform:rotate(-4deg) translateY(0)}}
 @media (prefers-reduced-motion:reduce){
@@ -267,6 +267,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
 .sticky-bar-text{display:flex;flex-direction:column;line-height:1.25}
 .sticky-bar-text b{font-family:"Instrument Sans",sans-serif;font-size:14px}
 .sticky-bar-text span{font-size:11.5px;color:var(--mut)}
+@media (max-width:760px){.nav{backdrop-filter:none;background:color-mix(in srgb,var(--night) 94%,transparent)}}
 @media (max-width:680px){.sticky-bar{display:flex}body{padding-bottom:78px}}
 </style>
 </head>
