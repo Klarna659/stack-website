@@ -1,0 +1,13 @@
+# GitHub Pages builds this site with Jekyll, which turns every .md file into a
+# public page. These are working notes, not site pages: keep them off the web.
+exclude:
+  - README.md
+  - HANDOFF.md
+  - SESSION_D_HANDOFF.md
+  - DOMAIN_SETUP_HANDOFF.md
+  - DESIGN_RESEARCH.md
+  - SITE_CHECKLIST.md
+  - SITE_TRUTH_AUDIT_2026-10-16.md
+  - WEB_RAIL.md
+  - tools
+  - mockups
