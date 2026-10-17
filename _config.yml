@@ -11,5 +11,6 @@ exclude:
   - WEB_RAIL.md
   - tools/waitlist-worker
   - tools/*.py
+  - tools/tools-math.test.mjs
   - tools/__pycache__
   - mockups
