@@ -80,47 +80,8 @@
     a.setAttribute("href", "mailto:" + EMAIL);
   });
 
-  /* ---- config: paste a real endpoint at launch and the forms POST to it ----
-     WAITLIST_ENDPOINT: a Formspark/Buttondown/Formspree URL that accepts a JSON
-     or form POST with an "email" field. Empty string → mailto fallback so the
-     site still captures interest today with zero backend. */
-  /* Live since 2026-09-07: a Cloudflare Worker (tools/waitlist-worker)
-     storing signups in KV. Accepts JSON or form POST with "email". */
-  var WAITLIST_ENDPOINT = "https://stack-waitlist.squeeze251.workers.dev";
-
-  /* waitlist (hero) — POST to endpoint when set, else mailto */
-  document.querySelectorAll('form[data-form="waitlist"]').forEach(function (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var input = form.querySelector('[name="email"]');
-      var email = (input && input.value || "").trim();
-      var note = document.querySelector(".hero-note[data-msg]") || form.querySelector("[data-msg]");
-      if (!email || email.indexOf("@") === -1) {
-        if (note) note.textContent = "Enter a valid email and we'll keep you posted.";
-        return;
-      }
-      if (WAITLIST_ENDPOINT) {
-        if (note) note.textContent = "Adding you…";
-        fetch(WAITLIST_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({ email: email, source: "stack-website-hero" })
-        }).then(function (r) {
-          if (note) note.textContent = r.ok
-            ? "You're on the list — we'll email you at launch."
-            : "Hmm, that didn't go through. Email us at " + EMAIL + ".";
-          if (r.ok && input) { input.value = ""; }
-        }).catch(function () {
-          if (note) note.textContent = "Network hiccup — email us at " + EMAIL + " instead.";
-        });
-      } else {
-        window.location.href = "mailto:" + EMAIL +
-          "?subject=" + encodeURIComponent("Notify me when Stack launches") +
-          "&body=" + encodeURIComponent("Add me to the launch list: " + email);
-        if (note) note.textContent = "Opening your email app — hit send and you're on the list.";
-      }
-    });
-  });
+  /* The launch-list form is assets/js/capture.js (double opt-in via
+     tools/waitlist-worker). This file no longer sends or promises any email. */
 
   /* Plus buy buttons ([data-plan]) — go to the RevenueCat Web Billing checkout
      when it's configured (carrying the signed-in user id so the entitlement
@@ -174,15 +135,8 @@
     });
   });
 
-  /* forms → mailto fallback (no backend yet); serializes every named field.
-     ⚠ NOT the waitlist. It has its own handler above, and this selector used to
-     match it too — both fired, this one second, so it overwrote the launch-list
-     mailto with a "[Stack] Feedback" draft on EVERY hero signup, on this page
-     and on the live homepage. It also ran after the other handler had already
-     rejected an invalid address, so validation was bypassed and an empty draft
-     opened anyway. Excluding it here rather than renaming the attribute keeps
-     the markup contract the rest of the site already uses. */
-  document.querySelectorAll('form[data-form]:not([data-form="waitlist"])').forEach(function (form) {
+  /* forms → mailto fallback (no backend yet); serializes every named field. */
+  document.querySelectorAll('form[data-form]').forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var kind = form.getAttribute("data-form") || "form";

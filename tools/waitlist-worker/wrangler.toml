@@ -1,4 +1,4 @@
-﻿name = "stack-waitlist"
+name = "stack-waitlist"
 main = "index.js"
 compatibility_date = "2026-09-01"
 
@@ -6,3 +6,14 @@ compatibility_date = "2026-09-01"
 binding = "WAITLIST"
 id = "3b65e5495f0d40ae9b05ff7b8363f182"
 
+# Postal address printed in the footer of every email (CAN-SPAM). TODO: Sim
+# must replace the empty string with a real mailing address, for example
+# "Cedar Hills Studio LLC, 123 Main St, City, ST 12345". See DEPLOY.md.
+[vars]
+ADDRESS_LINE = ""
+
+# Secrets are NOT stored here. Set them with `wrangler secret put <NAME>`:
+#   RESEND_API_KEY   Resend API key (sending access, domain trackyourstack.app)
+#   HMAC_SECRET      random string; signs confirm and unsubscribe links
+#   EXPORT_TOKEN     bearer token for GET /export
+#   TURNSTILE_SECRET optional; when set, /subscribe requires a Turnstile token
