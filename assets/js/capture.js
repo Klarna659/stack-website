@@ -26,6 +26,11 @@
   }
 
   document.querySelectorAll("form[data-capture]").forEach(function (form) {
+    /* Until the Worker is deployed the form would only apologise: leave it out. */
+    if (WORKER_URL.indexOf("TODO") !== -1) {
+      form.style.display = "none";
+      return;
+    }
     var msg = form.querySelector("[data-capture-msg]");
     var button = form.querySelector('button[type="submit"]');
     var emailInput = form.querySelector('input[name="email"]');
