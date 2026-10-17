@@ -1,0 +1,133 @@
+/* ============================================================================
+   tools.css: styles for the calculator and template pages, loaded AFTER
+   assets/css/mono.css. mono.css owns the tokens, nav, footer, buttons, panels
+   and form fields; this file only adds what the tool pages need on top.
+   Selectors that mono.css already defines (.tool-grid, .tool-out, .syringe)
+   are refined here, not duplicated.
+   ========================================================================== */
+
+[hidden] { display: none !important; }
+
+/* ---------------------------------------------------------------- header -- */
+.tool-head { padding-top: clamp(28px, 6vw, 56px); padding-bottom: 8px; }
+.tool-head h1 { font-size: clamp(28px, 6vw, 44px); max-width: 22ch; margin-top: 10px; }
+.tool-head .lead { max-width: 58ch; margin: 16px 0 0; }
+.tool-head .privacy-note {
+  margin: 14px 0 0; max-width: 58ch; color: var(--mut); font-size: 14px; line-height: 1.6;
+}
+.crumbs [aria-current="page"] { color: var(--mut); }
+
+/* --------------------------------------------------------------- forms -- */
+.row { display: flex; gap: 10px; }
+.row > .input { flex: 1 1 auto; min-width: 0; }
+.row > .select { flex: 0 0 auto; max-width: 130px; }
+.unit-tag {
+  display: grid; place-items: center; flex: 0 0 auto;
+  min-width: 64px; padding: 0 14px; min-height: 48px;
+  color: var(--mut); font-size: 15px; font-weight: 600;
+  border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--bg-soft);
+}
+.field .hint { margin: 2px 0 0; font-size: 12.5px; line-height: 1.5; }
+.field-note { font-size: 12.5px; line-height: 1.6; color: var(--dim); margin: 6px 0 0; }
+fieldset { border: 0; padding: 0; margin: 0 0 14px; min-width: 0; }
+fieldset legend { font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); padding: 0; margin-bottom: 8px; }
+.radio-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.radio-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink-2); text-align: left;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 9px 14px; min-height: 44px; cursor: pointer; background: var(--bg);
+}
+.radio-chip input { margin: 0; accent-color: var(--gold); }
+.radio-chip:has(input:checked) { border-color: var(--ink-2); background: var(--panel-2); color: var(--ink); }
+.radio-chip:hover { border-color: var(--dim); }
+.weekday-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.weekday-chip {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 10px;
+  min-height: 44px; cursor: pointer; background: var(--bg);
+}
+.weekday-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.weekday-chip:has(input:checked) { border-color: var(--gold-line); background: var(--gold-fill); color: var(--gold); }
+.weekday-chip:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
+.form-error {
+  font-size: 13.5px; color: var(--ink); background: var(--gold-fill);
+  border: 1px solid var(--gold-line); border-radius: var(--radius-sm);
+  padding: 12px 14px; margin-top: 4px; line-height: 1.55;
+}
+
+/* ===================================================================== TOOL */
+.tool-grid { padding: 20px 0 12px; }
+/* The answer comes first below the fold on phones; sensible defaults mean
+   there is already a real result when the page loads. Desktop shows both. */
+@media (max-width: 879px) { .tool-out { order: -1; } }
+.tool-out .eyebrow { display: block; }
+.tool-out .big { margin-top: 8px; }
+.tool-out .big.sentence { font-size: clamp(26px, 7vw, 38px); line-height: 1.15; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.tool-out .sub { color: var(--ink-2); font-size: 14px; margin-top: 20px; line-height: 1.7; text-align: left; }
+.tool-out .sub .row-line { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line-soft); }
+.tool-out .sub .row-line:first-child { border-top: 0; }
+.tool-out .sub b { color: var(--ink); font-weight: 700; text-align: right; }
+.tool-out .sub .warn { margin-top: 12px; font-size: 13px; color: var(--ink); }
+
+.syr-cap { display: flex; justify-content: space-between; }
+.curve { margin: 4px auto 0; }
+.curve svg { display: block; width: 100%; height: auto; }
+.grid-line { stroke: var(--ink); opacity: .08; stroke-width: 1; }
+.ref-line { stroke: var(--dim); stroke-width: 1; stroke-dasharray: 3 3; opacity: .55; }
+.axis-cap { fill: var(--dim); font-size: 10px; font-weight: 700; letter-spacing: .06em; }
+.dose-tick { fill: var(--gold); }
+.syringe svg { display: block; width: 100%; height: auto; }
+
+.quick-ref { width: 100%; border-collapse: collapse; font-size: 14px; margin: 6px 0 14px; }
+.quick-ref th { text-align: left; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); }
+.quick-ref td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line-soft); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* ================================================================= PROSE */
+.tool-prose { padding: 8px 0 8px; max-width: var(--maxw-prose); }
+.tool-prose h2 { font-size: 21px; letter-spacing: -.02em; margin: 30px 0 12px; }
+.tool-prose h2:first-child { margin-top: 18px; }
+.tool-prose p, .tool-prose li { color: var(--ink-2); font-size: 15.5px; line-height: 1.75; }
+.tool-prose p { margin: 0 0 14px; }
+.tool-prose ul, .tool-prose ol { padding-left: 22px; margin: 0 0 14px; }
+.tool-prose strong { color: var(--ink); }
+.tool-prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--dim); }
+
+.related-links { max-width: var(--maxw-prose); margin: 30px 0 0; }
+.related-links h2 { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px; }
+.related-links ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+@media (min-width: 560px) { .related-links ul { grid-template-columns: 1fr 1fr; } }
+.related-links a {
+  display: block; height: 100%; padding: 14px 16px;
+  border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--panel);
+}
+.related-links a:hover { border-color: var(--dim); opacity: 1; }
+.related-links .rl-name { display: block; font-weight: 700; font-size: 15px; }
+.related-links .rl-desc { display: block; margin-top: 3px; font-size: 13.5px; color: var(--mut); line-height: 1.5; }
+
+/* The one call to action, always at the end of the page content. */
+.page-cta { max-width: var(--maxw-prose); margin: 34px 0 0; }
+.page-cta.track-cta { margin-top: 34px; }
+.page-cta .btn { width: 100%; }
+@media (min-width: 560px) { .page-cta .btn { width: auto; } }
+
+.footer-flat { border-top: 0; }
+.main-end { padding-bottom: 70px; }
+
+/* ------------------------------------------------------------- tools hub -- */
+.tool-list { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 640px) { .tool-list { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 980px) { .tool-list { grid-template-columns: 1fr 1fr 1fr; } }
+.tool-list a {
+  display: block; height: 100%; padding: 18px 18px 16px;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel);
+  box-shadow: var(--shadow-card);
+}
+.tool-list a:hover { border-color: var(--dim); opacity: 1; }
+.tool-list .tl-name { display: block; font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
+.tool-list .tl-desc { display: block; margin-top: 6px; font-size: 14px; color: var(--mut); line-height: 1.55; }
+.hub-h2 { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin: 34px 0 14px; }
+
+.page-cta h2 { font-size: 16px; letter-spacing: -.02em; margin-bottom: 6px; }
+.hub-callout { max-width: var(--maxw-prose); }

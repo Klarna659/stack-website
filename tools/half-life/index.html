@@ -1,13 +1,169 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Stack</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="refresh" content="0; url=/">
-<link rel="canonical" href="https://trackyourstack.app/">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Half-life calculator: what is still in your system | Stack</title>
+<meta name="description" content="Enter a half-life, the time between doses and how many doses. See a curve of how much is left over time, as a percentage of one dose." />
+<meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+<link rel="canonical" href="https://trackyourstack.app/tools/half-life/" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sTHdUZ83c1Y55MOwbLaMFzLTSLMk8TCQ5cIw+4vcK/c='; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta property="og:title" content="What is still in your system" />
+<meta property="og:description" content="Enter a half-life, the time between doses and how many doses. See a curve of how much is left over time, as a percentage of one dose." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackyourstack.app/tools/half-life/" />
+<meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+<meta property="og:site_name" content="Stack" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="icon" type="image/png" href="../../assets/img/icon.png" />
+<link rel="apple-touch-icon" href="../../assets/img/icon.png" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="../../assets/css/mono.css?v=4" />
+<link rel="stylesheet" href="../../tools/tools.css?v=1" />
+<script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Half-life visualiser","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"description":"Half-life visualiser: enter a half-life, the time between doses and the number of doses to see how much of a dose is left over time, as a percentage of one dose.","url":"https://trackyourstack.app/tools/half-life/","publisher":{"@type":"Organization","name":"Stack","url":"https://trackyourstack.app/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://trackyourstack.app/tools/"},{"@type":"ListItem","position":3,"name":"Half-life visualiser","item":"https://trackyourstack.app/tools/half-life/"}]}</script>
 </head>
 <body>
-<p>This page has moved. <a href="/">Go to the Stack home page</a>.</p>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack, home">
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
+        <span class="brand-word">Stack</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks" aria-label="Main">
+          <a href="../../#features">Features</a>
+          <a href="../../pricing/">Pricing</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="../../account/" class="nav-cta">Sign in</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../../tools/">Tools</a> <span>/</span> <span aria-current="page">Half-life visualiser</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>What is still in your system</h1>
+      <p class="lead">Enter a half-life and a schedule. We draw how much of each dose is left over time, as a percentage of one dose, not a blood level.</p>
+      <p class="privacy-note">Everything is worked out on this page. Nothing you type leaves your device.</p>
+    </div>
+
+    <div class="container main-end">
+      <div class="tool-grid">
+        <div class="panel" id="calc" role="group" aria-label="Half-life inputs">
+          <div class="field">
+            <label for="h-halflife">Half-life</label>
+            <div class="row">
+              <input class="input" id="h-halflife" type="number" inputmode="decimal" min="0" step="any" value="24" />
+              <select class="select" id="h-halflife-unit" aria-label="Half-life unit">
+                <option value="hours" selected>hours</option>
+                <option value="days">days</option>
+              </select>
+            </div>
+            <p class="hint" id="h-halflife-hint"></p>
+          </div>
+
+          <div class="field">
+            <label for="h-dose">Size of one dose <span class="hint">(any unit, the chart shows % of one dose)</span></label>
+            <input class="input" id="h-dose" type="number" inputmode="decimal" min="0" step="any" value="1" />
+          </div>
+
+          <div class="field">
+            <label for="h-interval">Time between doses</label>
+            <div class="row">
+              <input class="input" id="h-interval" type="number" inputmode="decimal" min="0" step="any" value="24" />
+              <select class="select" id="h-interval-unit" aria-label="Interval unit">
+                <option value="hours" selected>hours</option>
+                <option value="days">days</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="h-count">Number of doses</label>
+            <input class="input" id="h-count" type="number" inputmode="numeric" min="1" step="1" value="6" />
+          </div>
+
+          <p class="field-note">This shows the amount left as a percentage of one dose. It is not a blood level and not a recommendation.</p>
+
+          <fieldset>
+            <legend>Example half-lives</legend>
+            <p class="field-note">Approximate figures from the published prescribing information. Check the information for your own product.</p>
+            <div class="radio-row" id="h-presets">
+              <button type="button" class="radio-chip" data-hl="168" data-unit="hours">Semaglutide: about 1 week</button>
+              <button type="button" class="radio-chip" data-hl="120" data-unit="hours">Tirzepatide: about 5 days</button>
+              <button type="button" class="radio-chip" data-hl="17.5" data-unit="hours">Tadalafil: 17.5 hours</button>
+            </div>
+          </fieldset>
+
+          <div id="h-error" role="alert"></div>
+        </div>
+
+        <div class="panel tool-out" aria-live="polite">
+          <span class="eyebrow">Peak to trough, once it levels off</span>
+          <div class="big tnum" id="out-ratio">-</div>
+          <div class="unit">how far the peak sits above the trough</div>
+          <div class="curve" aria-hidden="true">
+            <svg id="curve-svg" viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="sub">
+            <div class="row-line"><span>Time to about 97% of steady state</span><b id="out-tss">-</b></div>
+            <div class="row-line"><span>Steady-state peak</span><b id="out-peak">-</b></div>
+            <div class="row-line"><span>Steady-state trough</span><b id="out-trough">-</b></div>
+          </div>
+        </div>
+      </div>
+
+      <article class="tool-prose">
+        <h2>How the numbers are worked out</h2>
+        <p>Each dose fades on its own first-order curve: half of it is gone after one half-life, half of what is left after the next, and so on. The line above is the sum of every dose taken so far, each fading from the moment it was given. That is why it climbs and settles instead of resetting between doses.</p>
+        <p><strong>Peak to trough</strong> at steady state is 2 to the power of (time between doses divided by half-life). A short gap against a long half-life keeps the peak and trough close together. A long gap against a short half-life spreads them apart.</p>
+        <p><strong>Time to steady state</strong> is about five half-lives, whatever the dose or gap. By then about 97% of the eventual plateau has been reached.</p>
+        <p>Want to know when a supply will run out? Try the <a href="../run-out/">vial run-out calculator</a>.</p>
+        <div class="callout"><b>Not medical advice.</b> This tool does arithmetic. It does not show a blood level, and it does not recommend a compound, an amount or a schedule. Check any change with your prescriber.</div>
+      </article>
+
+      <aside class="related-links" aria-labelledby="related-h">
+        <h2 id="related-h">Related</h2>
+        <ul>
+          <li><a href="../../tools/run-out/"><span class="rl-name">Vial run-out calculator</span><span class="rl-desc">How many full doses are left in a vial, the date it runs out and when to reorder.</span></a></li>
+          <li><a href="../../templates/weekly-pill-chart/"><span class="rl-name">Weekly pill chart</span><span class="rl-desc">A seven-day grid with a box to tick for each time of day.</span></a></li>
+        </ul>
+      </aside>
+
+      <section class="page-cta track-cta" aria-labelledby="cta-h">
+        <h2 id="cta-h">Keep your own record in Stack</h2>
+        <p>Log what you take and when, and see it all in one place instead of working it out by hand.</p>
+        <a class="btn btn-primary" href="../../pricing/">Get the app</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom footer-flat">
+      <span>&copy; 2026 Stack, a product of Cedar Hills Studio LLC</span>
+      <span><a href="../../tools/">Tools</a> &middot; <a href="../../templates/">Templates</a> &middot; <a href="../../account/">Sign in</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../terms.html">Terms</a> &middot; <a href="mailto:hello@trackyourstack.app" data-email-link>hello@trackyourstack.app</a></span>
+    </div>
+    <div class="disclaimer-band">Stack is a personal tracking tool, not medical advice. Talk to your doctor or pharmacist about your treatment.</div>
+  </footer>
+
+  <script src="../../tools/tools-math.js?v=1"></script>
+  <script src="half-life.js?v=1"></script>
+  <script src="../../assets/js/site.js?v=6"></script>
+  <script src="../../assets/js/mark.js"></script>
 </body>
 </html>

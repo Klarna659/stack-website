@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Days of supply calculator: when will it run out? | Stack</title>
+<meta name="description" content="How long will your pills, capsules or supplements last? Enter what you have and how you take it to get the run-out date and a reorder date." />
+<meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+<link rel="canonical" href="https://trackyourstack.app/tools/days-of-supply/" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sTHdUZ83c1Y55MOwbLaMFzLTSLMk8TCQ5cIw+4vcK/c='; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta property="og:title" content="Days of supply calculator" />
+<meta property="og:description" content="How long will your pills, capsules or supplements last? Enter what you have and how you take it to get the run-out date and a reorder date." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackyourstack.app/tools/days-of-supply/" />
+<meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+<meta property="og:site_name" content="Stack" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="icon" type="image/png" href="../../assets/img/icon.png" />
+<link rel="apple-touch-icon" href="../../assets/img/icon.png" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="../../assets/css/mono.css?v=4" />
+<link rel="stylesheet" href="../../tools/tools.css?v=1" />
+<script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Days of supply calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"description":"Days of supply calculator: enter how many you have and how you take them to get the number of days they cover, the run-out date and a reorder date.","url":"https://trackyourstack.app/tools/days-of-supply/","publisher":{"@type":"Organization","name":"Stack","url":"https://trackyourstack.app/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://trackyourstack.app/tools/"},{"@type":"ListItem","position":3,"name":"Days of supply calculator","item":"https://trackyourstack.app/tools/days-of-supply/"}]}</script>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack, home">
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
+        <span class="brand-word">Stack</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks" aria-label="Main">
+          <a href="../../#features">Features</a>
+          <a href="../../pricing/">Pricing</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="../../account/" class="nav-cta">Sign in</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../../tools/">Tools</a> <span>/</span> <span aria-current="page">Days of supply calculator</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>Days of supply calculator</h1>
+      <p class="lead">Enter how many you have and how you take them. We work out how many days they cover, the date they run out and when to reorder.</p>
+      <p class="privacy-note">Everything is worked out on this page. Nothing you type leaves your device.</p>
+    </div>
+
+    <div class="container main-end">
+      <div class="tool-grid">
+        <div class="panel" id="calc" role="group" aria-label="Days of supply inputs">
+          <div class="field">
+            <label for="d-onhand">How many you have on hand</label>
+            <input class="input" id="d-onhand" type="number" inputmode="decimal" min="0" step="any" value="60" />
+            <p class="hint">Count in whatever you take: tablets, capsules, scoops, mL, patches, pen clicks.</p>
+          </div>
+          <div class="field">
+            <label for="d-perdose">How many you take each time</label>
+            <input class="input" id="d-perdose" type="number" inputmode="decimal" min="0" step="any" value="1" />
+            <p class="hint">Use the same unit as above. Half a tablet is 0.5.</p>
+          </div>
+          <div class="field">
+            <label for="d-freq">How often</label>
+            <select class="select" id="d-freq">
+              <option value="perDay" selected>Times a day</option>
+              <option value="everyNDays">Once every N days</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="d-freq-n" id="d-freq-label">How many times a day</label>
+            <input class="input" id="d-freq-n" type="number" inputmode="decimal" min="0" step="any" value="2" />
+          </div>
+          <div class="field">
+            <label for="d-start">Counting from</label>
+            <input class="input" id="d-start" type="date" />
+          </div>
+          <div class="field">
+            <label for="d-lead">Reorder lead time</label>
+            <div class="row">
+              <input class="input" id="d-lead" type="number" inputmode="numeric" min="0" step="1" value="7" />
+              <span class="unit-tag">days</span>
+            </div>
+            <p class="hint">How many days before you run out you want to reorder.</p>
+          </div>
+          <div id="d-error" role="alert"></div>
+        </div>
+
+        <div class="panel tool-out" aria-live="polite">
+          <span class="eyebrow">What you have lasts</span>
+          <div class="big tnum" id="out-days">-</div>
+          <div class="unit" id="out-days-unit">days of supply</div>
+          <div class="sub">
+            <div class="row-line"><span>Covered through</span><b id="out-covered">-</b></div>
+            <div class="row-line"><span>Runs out</span><b id="out-runout">-</b></div>
+            <div class="row-line"><span>Reorder by</span><b id="out-reorder">-</b></div>
+            <div class="row-line"><span>Doses on hand</span><b id="out-doses">-</b></div>
+          </div>
+        </div>
+      </div>
+
+      <article class="tool-prose">
+        <h2>How the numbers are worked out</h2>
+        <p><strong>Doses on hand</strong> is the amount you have divided by the amount you take each time, rounded down. <strong>Days of supply</strong> is that number of doses divided by how many you take a day, rounded down to whole days. Sixty tablets at one each, twice a day, is 30 days.</p>
+        <p>If you take something every few days, each dose counts as that many days instead. Ten doses taken once every 3 days is 30 days.</p>
+        <p><strong>Runs out</strong> is the first date you would not have a full day covered. <strong>Reorder by</strong> is that date minus your lead time. The date counts from the day you enter, so change it if you have already started.</p>
+        <p>Working from a vial of liquid? The <a href="../run-out/">vial run-out calculator</a> handles mg, mL and dead space.</p>
+        <div class="callout"><b>Not medical advice.</b> This calculator counts what you have and how fast you use it. It does not say how much to take. Follow your prescriber or the product label, and ask your pharmacist about refills.</div>
+      </article>
+
+      <aside class="related-links" aria-labelledby="related-h">
+        <h2 id="related-h">Related</h2>
+        <ul>
+          <li><a href="../../tools/run-out/"><span class="rl-name">Vial run-out calculator</span><span class="rl-desc">How many full doses are left in a vial, the date it runs out and when to reorder.</span></a></li>
+          <li><a href="../../templates/medication-list/"><span class="rl-name">Medication list for your doctor</span><span class="rl-desc">One page with everything you take. Fill it in, then print or save as PDF.</span></a></li>
+        </ul>
+      </aside>
+
+      <section class="page-cta track-cta" aria-labelledby="cta-h">
+        <h2 id="cta-h">Know what is left before it runs out</h2>
+        <p>Stack tracks what you take and what is left of it, so the end of a bottle or a vial is never a surprise.</p>
+        <a class="btn btn-primary" href="../../pricing/">Get the app</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom footer-flat">
+      <span>&copy; 2026 Stack, a product of Cedar Hills Studio LLC</span>
+      <span><a href="../../tools/">Tools</a> &middot; <a href="../../templates/">Templates</a> &middot; <a href="../../account/">Sign in</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../terms.html">Terms</a> &middot; <a href="mailto:hello@trackyourstack.app" data-email-link>hello@trackyourstack.app</a></span>
+    </div>
+    <div class="disclaimer-band">Stack is a personal tracking tool, not medical advice. Talk to your doctor or pharmacist about your treatment.</div>
+  </footer>
+
+  <script src="../../tools/tools-math.js?v=1"></script>
+  <script src="days-of-supply.js?v=1"></script>
+  <script src="../../assets/js/site.js?v=6"></script>
+  <script src="../../assets/js/mark.js"></script>
+</body>
+</html>
