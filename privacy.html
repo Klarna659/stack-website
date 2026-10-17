@@ -37,7 +37,7 @@
     <article class="legal">
       <a href="index.html" class="back-link">← Back to Stack</a>
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: October 16, 2026</p>
+      <p class="updated">Last updated: October 17, 2026</p>
 
       <p>Stack (the “App”, “we”, “us”, “our”) is operated by <strong>Cedar Hills Studio LLC</strong>.
         Questions: <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a>.</p>
@@ -97,6 +97,17 @@
         <li><strong>Juno (the in-app assistant):</strong> Juno’s chat runs <strong>on your phone</strong>. What you type to her after setup (log a dose, pause, add, change a time, ask about your log) is read by the app’s own code and <strong>never leaves your device</strong>. The one place text is sent is when you <strong>build your stack</strong> (during setup, or “Add your whole stack”): if the phone cannot read what you typed, said or scanned by itself, <strong>that text</strong> is sent to our processing endpoint on Cloudflare, which forwards it to <strong>OpenRouter</strong> and on to the company that runs the model, to be read. That text is what you typed, dictated or scanned, and the text your phone read off a label photo you add. <strong>The photo itself is never sent</strong> — your phone reads it and only the reading leaves. It is all sent <strong>without your account, email, or any app identifier</strong>; like any internet request it necessarily carries your IP address to the services that process it, but we attach nothing that identifies you, and we do not store it on our backend. The App asks you to allow this, in a one-time prompt, before the first time any of it is sent; you can allow or turn it off at any time from Settings, and adding things by hand always works. Anything you type there is included, so doses, medications and conditions you mention leave your device, and the model providers behind OpenRouter may log requests under their own policies, and we cannot control how long they keep them or whether they use them to train models. If you tap <strong>“Report this reply”</strong> on something Juno said, that text (and your note, if you add one) is sent to us as feedback so we can fix it. Juno is optional — the rest of the App works without her.</li>
         <li><strong>Voice dictation:</strong> if you use the microphone to dictate to Juno or to speak your protocol during setup, the audio is transcribed by <strong>your operating system’s speech-recognition service</strong> (Apple or Google), which may process it on their servers. Only the resulting text is used, and we never receive or store your recordings.</li>
         <li><strong>Feedback:</strong> if you send feedback from within the App (including “Report this reply” in Juno), we receive your <strong>message</strong>, basic technical context (app version, device/OS) and the reply email address if you give one, so we can act on it. Please don't include health details you'd rather keep private in a feedback message.</li>
+      </ul>
+
+      <h2 id="email-list">3c. The email list on this website</h2>
+      <p>The trackyourstack.app website has an optional form to join our email list: news about Stack&rsquo;s launch, new free tools, and occasional tips. It is separate from your account and from the App.</p>
+      <ul>
+        <li><strong>What we collect:</strong> the email address you enter, which form you used (for example the launch notice or a tool page), and the date and time you agreed, with the version of the consent wording you saw. Nothing about your health, what you take, or any condition. The form never asks.</li>
+        <li><strong>Why:</strong> only to send you the email you asked for, and to prove that you asked. We do not use it for anything else and we <strong>never sell, rent, or share it</strong>.</li>
+        <li><strong>Double opt-in:</strong> the box is never pre-ticked. After you submit, we send one message with a confirmation link. You are added to the list only when you click it. If you do not, the request expires after a week and the address is deleted.</li>
+        <li><strong>Unsubscribe:</strong> every email has an unsubscribe link that works in one click, and your mail app may show its own unsubscribe button. When you unsubscribe we delete your address and keep only a one-way fingerprint of it, so we can honor your choice.</li>
+        <li><strong>Deletion:</strong> email <a href="mailto:hello@trackyourstack.app">hello@trackyourstack.app</a> and we will delete your address.</li>
+        <li><strong>Who handles it:</strong> <strong>Cloudflare</strong> (Workers and KV storage) receives the form and stores the list, and <strong>Resend</strong> delivers the emails. Each is governed by its own privacy terms. The form may also use Cloudflare Turnstile to block automated sign-ups.</li>
       </ul>
 
       <h2>4. Camera and photos (label scanning)</h2>
