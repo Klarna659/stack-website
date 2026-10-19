@@ -236,6 +236,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
 .final-cta .hero-cta-row{justify-content:center;margin-top:18px}
 
 /* -------------------------------------------------------- store badge --- */
+[hidden]{display:none!important}
 .store-badge{display:inline-flex;align-items:center;justify-content:center;gap:11px;background:var(--paper);color:#111;border:0;border-radius:14px;padding:13px 20px;min-height:52px;cursor:pointer;font-family:inherit;text-align:left;transition:transform .15s ease}
 .store-badge:hover{transform:translateY(-2px)}
 .store-badge svg{width:22px;height:22px;flex:none}
@@ -284,7 +285,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
       <a href="#features">Features</a>
       <a href="pricing/">Pricing</a>
       <a href="#faq">FAQ</a>
-      <a href="pricing/" class="pill">Get the app</a>
+      <a href="pricing/" class="pill" data-play>Get the app</a>
     </div>
   </nav>
   <div class="hero-body">
@@ -293,10 +294,11 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
       <h1>Say your protocol.<br>Watch it organize.</h1>
       <p class="sub">Track vitamins, supplements, medications and injections. Doses, reminders and what is left in the vial, in one list.</p>
       <div class="hero-cta-row">
-        <button class="store-badge" data-store="play" type="button">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
-          <span class="sb-text"><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
-        </button>
+        <a class="store-badge" data-play href="mailto:hello@trackyourstack.app?subject=Notify%20me%20when%20Stack%20launches&amp;body=Tell%20me%20when%20Stack%20is%20live.">
+          <svg data-play-on hidden viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 3.2v17.6c0 .5.3.8.7.8.2 0 .4-.1.5-.2L17 13l-3-3L4.2 2.4c-.1-.1-.3-.2-.5-.2-.4 0-.7.4-.7 1z" fill="currentColor"/></svg>
+          <span class="sb-text" data-play-on hidden><span class="sb-top">Get it on</span><span class="sb-main">Google Play</span></span>
+          <span class="sb-text" data-play-off><span class="sb-main">Get notified at launch</span></span>
+        </a>
       </div>
       <div class="hero-trust">7 days free &middot; Cancel anytime &middot; Your log stays yours</div>
     </div>
@@ -493,11 +495,12 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
 
 <div class="sticky-bar" id="stickyBar">
   <div class="sticky-bar-text"><b>Stack</b><span>7 days free</span></div>
-  <a href="pricing/" class="btn btn-acc">Get the app</a>
+  <a href="pricing/" class="btn btn-acc" data-play>Get the app</a>
 </div>
 
 <script src="assets/js/mark.js"></script>
 <script src="assets/js/site.js?v=7"></script>
+<script src="assets/js/go.js?v=1"></script>
 <script src="assets/js/capture.js"></script>
 <script>
 /* -------------------------------------------------------- hero motion --- */

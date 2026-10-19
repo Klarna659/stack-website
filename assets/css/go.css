@@ -1,0 +1,31 @@
+/* Landing pages under /go/ (loaded after mono.css and tools.css). Quiet on
+   purpose: the same tokens, one list, one big button. */
+.go-head { padding-top: clamp(28px, 6vw, 56px); padding-bottom: 4px; }
+.go-head h1 { font-size: clamp(30px, 6.4vw, 48px); max-width: 20ch; margin-top: 10px; }
+.go-head .lead { max-width: 54ch; margin: 16px 0 0; }
+
+.go-points { list-style: none; margin: 26px 0 0; padding: 0; max-width: var(--maxw-prose); display: grid; gap: 10px; }
+.go-points li {
+  padding: 14px 16px 14px 18px; color: var(--ink-2); font-size: 15.5px; line-height: 1.6;
+  border: 1px solid var(--line); border-left: 3px solid var(--gold-line);
+  border-radius: var(--radius-sm); background: var(--panel);
+}
+
+.go-action { max-width: var(--maxw-prose); margin: 30px 0 0; }
+.go-play { width: 100%; min-height: 56px; font-size: 17px; text-align: center; }
+@media (min-width: 560px) { .go-play { width: auto; min-width: 320px; } }
+.go-play[aria-disabled="true"] {
+  cursor: not-allowed; background: var(--panel-2); color: var(--mut);
+  border-color: var(--line); transform: none;
+}
+.go-play[aria-disabled="true"]:hover { transform: none; border-color: var(--line); }
+.go-fine { margin: 12px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--mut); max-width: 56ch; }
+.go-action .capture { margin: 22px 0 0; max-width: 460px; }
+.go-note { max-width: var(--maxw-prose); }
+.go-more { max-width: var(--maxw-prose); margin: 22px 0 0; font-size: 14.5px; color: var(--mut); }
+.go-more a { text-decoration: underline; text-underline-offset: 3px; }
+.main-end { padding-bottom: 70px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .go-play, .go-play:hover { transition: none; transform: none; }
+}

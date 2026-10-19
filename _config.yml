@@ -9,8 +9,10 @@ exclude:
   - SITE_CHECKLIST.md
   - SITE_TRUTH_AUDIT_2026-10-16.md
   - WEB_RAIL.md
+  - GO_LINKS.md
   - tools/waitlist-worker
   - tools/*.py
   - tools/tools-math.test.mjs
+  - assets/js/*.test.js
   - tools/__pycache__
   - mockups
