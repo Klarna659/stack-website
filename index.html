@@ -18,7 +18,7 @@
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Stack", "url": "https://trackyourstack.app/", "logo": "https://trackyourstack.app/assets/img/icon.png", "email": "hello@trackyourstack.app", "parentOrganization": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Stack", "url": "https://trackyourstack.app/", "publisher": {"@type": "Organization", "name": "Stack"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Stack", "applicationCategory": "HealthApplication", "operatingSystem": "Android", "url": "https://trackyourstack.app/", "description": "Track medications, supplements, peptides and TRT in one list: doses, reminders, supply and a report for your doctor.", "publisher": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}, "offers": [{"@type": "Offer", "name": "Monthly, 7-day free trial", "price": "7.99", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Every 6 months, 7-day free trial", "price": "29.99", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Yearly, 7-day free trial", "price": "44.99", "priceCurrency": "USD"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Stack", "applicationCategory": "HealthApplication", "operatingSystem": "Android", "url": "https://trackyourstack.app/", "description": "Stack tracks everything you take, from vitamins and supplements to medications and injections: exact reminders, a supply count and a report for your doctor. Every plan starts with a 7-day free trial.", "publisher": {"@type": "Organization", "name": "Cedar Hills Studio LLC"}, "offers": [{"@type": "Offer", "name": "Monthly", "price": "7.99", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Every 6 months", "price": "29.99", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Yearly", "price": "44.99", "priceCurrency": "USD"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What can I track?", "acceptedAnswer": {"@type": "Answer", "text": "Vitamins, supplements and medications first. After that: GLP-1s, peptides, TRT and other hormone therapy, and anything else you take. Stack has a built-in library of common medications, supplements and peptides. If something is not in it, add it yourself as a custom entry."}}, {"@type": "Question", "name": "What data do you store, and where?", "acceptedAnswer": {"@type": "Answer", "text": "Your log (what you take, doses, schedules, lab results, weight, notes) is stored on your phone, in an encrypted database. You do not need an account to use Stack, and if you make one it holds only your email. A few optional things send data off your phone: cloud backup, building your stack with Juno (only when the phone cannot read it alone), voice dictation (your phone's speech service handles the audio), the product-updates list, and feedback you choose to send. We also count anonymous usage and collect crash reports, which never include what you take. The Privacy page has the full list."}}, {"@type": "Question", "name": "Is there a backup option?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, two. First, an encrypted backup file with a password you choose. Save it anywhere and restore it on any phone. We never receive it and cannot recover the password. Second, cloud backup, which is off until you turn it on. It keeps an encrypted copy under your email so you can restore on a new phone. The key is stored with the copy so we can restore it for you, so cloud backup is a convenience, not zero-knowledge. If you want your data on your phone only, leave it off."}}, {"@type": "Question", "name": "Does it work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Your log and your reminders live on your phone, so they do not need a connection. Juno's chat is code on your phone, so it works offline too. Building a stack from messy text, signing in, cloud backup and subscribing can need a connection."}}, {"@type": "Question", "name": "How does the free trial work?", "acceptedAnswer": {"@type": "Answer", "text": "You get 7 days free with the full app. Google Play needs a card on file and runs the trial. On day 5, if notifications are on, Stack sends a reminder that the trial ends in two days. To avoid the first charge, cancel before the trial ends, in Google Play or in the app under Settings > Subscription. The purchase screen shows the date of the first charge. If you keep going, your plan starts after day 7."}}, {"@type": "Question", "name": "How much does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "$7.99 per month, $29.99 per 6 months, or $44.99 per year. All three start with a 7-day free trial. Those are US dollar prices; Google Play shows and charges the price in your local currency."}}, {"@type": "Question", "name": "Who is Juno?", "acceptedAnswer": {"@type": "Answer", "text": "Juno is the assistant inside Stack. You type or say what you take, or ask it to move a dose or change a time, and it does the setup. When it builds your stack, you confirm every detail before anything is saved. Juno's chat runs on your phone: what you type to it after setup never leaves the phone. While you build your stack, text the phone cannot read by itself is sent to be read, after you say yes. It is not tied to your account and we do not keep it. Juno can misread, so check what it sets up."}}, {"@type": "Question", "name": "Is there an iPhone version?", "acceptedAnswer": {"@type": "Answer", "text": "Stack is launching on Android first, through Google Play. An iPhone version comes next. There is no date yet."}}, {"@type": "Question", "name": "How do I delete my data or my account?", "acceptedAnswer": {"@type": "Answer", "text": "In the app, Settings > Wipe all data erases everything on your phone, and Settings > Account > Delete account removes your account, wipes the log on that phone, and removes a cloud backup stored under the same email. The Data deletion page has the full steps, and you can always email hello@trackyourstack.app."}}]}</script>
 
 <link rel="icon" type="image/svg+xml" href="assets/img/icon.svg">
@@ -191,6 +191,15 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
 .door-card p{color:var(--ink2);font-size:12.5px;margin:6px 0 0;line-height:1.5}
 .door-card .go{margin-top:10px;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--ns)}
 @media (min-width:780px){.door-scroll{overflow-x:visible}.door-card{flex:1 1 0;width:auto}}
+
+/* free tools: the same card, in a grid */
+.door-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.door-grid .door-card{width:auto}
+@media (min-width:480px){.door-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:900px){.door-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.door-more{margin-top:14px;font-size:13.5px;color:var(--mut)}
+.door-more a{color:var(--ink2);text-decoration:underline;text-underline-offset:3px}
+.door-more a:hover{color:var(--paper)}
 
 /* --------------------------------------------------------------- facts --- */
 .fact-row{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
@@ -420,6 +429,26 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
   </div>
 </section>
 
+<!-- --------------------------------------------------- free tools --- -->
+<section class="section" id="free">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Free</span>
+      <h2>Free tools and templates</h2>
+      <p>Calculators, printable sheets and short guides for keeping track of what you take. They run in your browser and nothing you type leaves it.</p>
+    </div>
+    <div class="door-grid">
+      <a class="door-card" href="templates/medication-list/"><span class="eyebrow">Template</span><h3>Medication list for your doctor</h3><p>One page with everything you take. Fill it in, then print or save as PDF.</p></a>
+      <a class="door-card" href="templates/supplement-schedule/"><span class="eyebrow">Template</span><h3>Supplement schedule</h3><p>A morning, midday, evening and bedtime grid for what you take.</p></a>
+      <a class="door-card" href="tools/days-of-supply/"><span class="eyebrow">Calculator</span><h3>Days of supply calculator</h3><p>How long what you have on hand will last, and the date to reorder.</p></a>
+      <a class="door-card" href="tools/run-out/"><span class="eyebrow">Calculator</span><h3>Vial run-out calculator</h3><p>Full doses left in a vial, the date it runs out and when to reorder.</p></a>
+      <a class="door-card" href="guides/medication-list-for-your-doctor/"><span class="eyebrow">Guide</span><h3>Keeping a medication list</h3><p>What belongs on it, supplements included, and how to keep it current.</p></a>
+      <a class="door-card" href="guides/schedules-explained/"><span class="eyebrow">Guide</span><h3>Schedules explained</h3><p>What every other day, twice a week and weekly mean, written clearly.</p></a>
+    </div>
+    <p class="door-more">See all: <a href="tools/">tools</a>, <a href="templates/">templates</a>, <a href="guides/">guides</a>.</p>
+  </div>
+</section>
+
 <!-- ----------------------------------------------------------------- faq --- -->
 <section class="section" id="faq">
   <div class="container">
@@ -471,6 +500,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
         <li><a href="#features">Features</a></li>
         <li><a href="pricing/">Pricing</a></li>
         <li><a href="tools/">Tools</a></li>
+        <li><a href="templates/">Templates</a></li>
         <li><a href="guides/">Guides</a></li>
         <li><a href="#faq">Questions</a></li>
         <li><a href="account/">Sign in</a></li>
