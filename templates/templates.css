@@ -134,6 +134,7 @@
   .q-list { padding-left: 16pt; margin-bottom: 4pt; }
   .q-list li { margin-bottom: 0; }
   .q-list .print-val, .check-item .print-val { min-height: 17pt; }
+  .check-item .print-val { flex: 1 1 auto; }
   .notes-field + .print-val { min-height: 110pt; border: 1px solid #000 !important; padding: 3pt 4pt; }
   .supply-block { margin-top: 8pt; }
 }
