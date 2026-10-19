@@ -7,11 +7,10 @@
   <meta name="description" content="That page doesn&#x27;t exist. Head back to Stack, an app for tracking everything you take." />
   <meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
-  <link rel="canonical" href="https://trackyourstack.app/404.html" />
+  <meta name="robots" content="noindex" />
   <meta property="og:title" content="Page not found | Stack" />
   <meta property="og:description" content="That page doesn&#x27;t exist. Head back to Stack, an app for tracking everything you take." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://trackyourstack.app/404.html" />
   <meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
   <meta property="og:site_name" content="Stack" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -20,6 +19,7 @@
   <link rel="apple-touch-icon" href="/assets/img/icon.png" />
   <link rel="preload" href="/assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/mono.css?v=4" />
+  <link rel="stylesheet" href="/tools/tools.css?v=1" />
   <script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 </head>
 <body>
@@ -47,12 +47,20 @@
     </div>
   </header>
   <main>
-    <div class="container center" style="padding:120px 22px 140px">
+    <div class="container center" style="padding:120px 22px 40px">
       <span class="eyebrow">404</span>
       <h1 class="display" style="font-size:clamp(40px,7vw,80px)">Nothing here.</h1>
       <p class="lead" style="max-width:40ch;margin:22px auto 34px">That page doesn't exist. The home page does.</p>
       <a class="btn btn-primary btn-lg" href="/">Back to Stack</a>
       <a class="btn btn-lg" href="/pricing/" style="margin-left:8px">Pricing</a>
+    </div>
+    <div class="container main-end" style="max-width:920px">
+      <h2 class="hub-h2">Or try something free</h2>
+      <ul class="tool-list" style="text-align:left">
+        <li><a href="/tools/"><span class="tl-name">Tools</span><span class="tl-desc">Calculators and converters for what you take: days of supply, vial run-out, syringe units and more.</span></a></li>
+        <li><a href="/templates/"><span class="tl-name">Templates</span><span class="tl-desc">Printable medication lists, supplement schedules and weekly pill charts.</span></a></li>
+        <li><a href="/guides/"><span class="tl-name">Guides</span><span class="tl-desc">Short, plain guides on keeping a record of what you take.</span></a></li>
+      </ul>
     </div>
   </main>
 
@@ -70,6 +78,9 @@
         <ul>
           <li><a href="/#features">Features</a></li>
           <li><a href="/pricing/">Pricing</a></li>
+          <li><a href="/tools/">Tools</a></li>
+          <li><a href="/templates/">Templates</a></li>
+          <li><a href="/guides/">Guides</a></li>
           <li><a href="/account/">Sign in</a></li>
           <li><a href="/creators.html">Creators</a></li>
         </ul>
@@ -91,6 +102,6 @@
     </div>
   </footer>
   <script src="/assets/js/site.js?v=6"></script>
-  <script src="assets/js/mark.js"></script>
+  <script src="/assets/js/mark.js"></script>
 </body>
 </html>
