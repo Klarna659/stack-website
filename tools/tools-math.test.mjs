@@ -30,7 +30,16 @@ const {
   iuToMcg,
   mcgToIu,
   ngdlToNmolL,
-  nmolLToNgdl
+  nmolLToNgdl,
+  glucoseMgdlToMmolL,
+  glucoseMmolLToMgdl,
+  lipidMgdlToMmolL,
+  lipidMmolLToMgdl,
+  parseClock,
+  formatClock,
+  timesEveryNHours,
+  datesEveryNDays,
+  timesPerDay
 } = ToolsMath;
 
 // ------------------------------------------------------------- formatting
@@ -347,4 +356,183 @@ test("testosterone: round trip and bad input", () => {
   assert.ok(Math.abs(nmolLToNgdl(ngdlToNmolL(450)) - 450) < 1e-9);
   assert.equal(ngdlToNmolL(-5), null);
   assert.equal(nmolLToNgdl(undefined), null);
+});
+
+// ---------------------------------------------------------------- glucose
+test("glucose: mg/dL -> mmol/L divides by 18.016", () => {
+  assert.equal(fmt(glucoseMgdlToMmolL(135), 2), "7.49");
+  assert.equal(fmt(glucoseMgdlToMmolL(18.016), 3), "1");
+  assert.equal(glucoseMgdlToMmolL(0), 0);
+});
+
+test("glucose: mmol/L -> mg/dL multiplies by 18.016", () => {
+  assert.equal(fmt(glucoseMmolLToMgdl(6.8), 1), "122.5");
+  assert.equal(fmt(glucoseMmolLToMgdl(4.9), 1), "88.3");
+  assert.equal(fmt(glucoseMmolLToMgdl(1), 3), "18.016");
+});
+
+test("glucose: the rounded factor 18 agrees to within 0.1 percent", () => {
+  assert.ok(Math.abs(glucoseMgdlToMmolL(150) - 150 / 18) / glucoseMgdlToMmolL(150) < 0.001);
+});
+
+test("glucose: round trip and bad input", () => {
+  assert.ok(Math.abs(glucoseMmolLToMgdl(glucoseMgdlToMmolL(142)) - 142) < 1e-9);
+  assert.equal(glucoseMgdlToMmolL(-1), null);
+  assert.equal(glucoseMgdlToMmolL(NaN), null);
+  assert.equal(glucoseMmolLToMgdl(undefined), null);
+});
+
+// ------------------------------------------------------------ cholesterol
+test("cholesterol: mg/dL -> mmol/L divides by 38.67", () => {
+  assert.equal(fmt(lipidMgdlToMmolL(175, "cholesterol"), 2), "4.53");
+  assert.equal(fmt(lipidMgdlToMmolL(38.67, "cholesterol"), 3), "1");
+});
+
+test("cholesterol: mmol/L -> mg/dL multiplies by 38.67", () => {
+  assert.equal(fmt(lipidMmolLToMgdl(5.4, "cholesterol"), 1), "208.8");
+  assert.equal(fmt(lipidMmolLToMgdl(1, "cholesterol"), 2), "38.67");
+});
+
+test("triglycerides use their own factor, 88.57, not the cholesterol one", () => {
+  assert.equal(fmt(lipidMgdlToMmolL(130, "triglycerides"), 2), "1.47");
+  assert.equal(fmt(lipidMmolLToMgdl(2, "triglycerides"), 1), "177.1");
+  assert.notEqual(lipidMgdlToMmolL(130, "triglycerides"), lipidMgdlToMmolL(130, "cholesterol"));
+});
+
+test("lipids: round trip, unknown kind and bad input return null", () => {
+  assert.ok(Math.abs(lipidMmolLToMgdl(lipidMgdlToMmolL(210, "cholesterol"), "cholesterol") - 210) < 1e-9);
+  assert.ok(Math.abs(lipidMmolLToMgdl(lipidMgdlToMmolL(95, "triglycerides"), "triglycerides") - 95) < 1e-9);
+  assert.equal(lipidMgdlToMmolL(100, "glucose"), null);
+  assert.equal(lipidMgdlToMmolL(-3, "cholesterol"), null);
+  assert.equal(lipidMmolLToMgdl(NaN, "triglycerides"), null);
+});
+
+// -------------------------------------------------------- clock helpers
+test("parseClock reads 24-hour times and rejects the rest", () => {
+  assert.equal(parseClock("00:00"), 0);
+  assert.equal(parseClock("07:30"), 450);
+  assert.equal(parseClock("7:05"), 425);
+  assert.equal(parseClock("23:59"), 1439);
+  assert.equal(parseClock("24:00"), null);
+  assert.equal(parseClock("12:60"), null);
+  assert.equal(parseClock(""), null);
+  assert.equal(parseClock(null), null);
+  assert.equal(parseClock("noon"), null);
+});
+
+test("formatClock: 12-hour and 24-hour, midnight and noon, wraps past midnight", () => {
+  assert.equal(formatClock(0), "12:00 am");
+  assert.equal(formatClock(720), "12:00 pm");
+  assert.equal(formatClock(450), "7:30 am");
+  assert.equal(formatClock(1380 + 5), "11:05 pm");
+  assert.equal(formatClock(450, true), "07:30");
+  assert.equal(formatClock(0, true), "00:00");
+  assert.equal(formatClock(1440 + 90), "1:30 am");
+  assert.equal(formatClock(-60), "11:00 pm");
+  assert.equal(formatClock(NaN), null);
+});
+
+// ------------------------------------------------------ every N hours
+const clocks = (r, use24 = true) => r.times.map((t) => formatClock(t.clock, use24));
+
+test("every 8 hours from 06:00 gives three times and repeats daily", () => {
+  const r = timesEveryNHours({ first: "06:00", hours: 8 });
+  assert.equal(r.error, null);
+  assert.deepEqual(clocks(r), ["06:00", "14:00", "22:00"]);
+  assert.equal(r.repeatsDaily, true);
+  assert.equal(formatClock(r.next.clock, true), "06:00");
+  assert.equal(r.next.dayOffset, 1);
+});
+
+test("every 6 hours from 07:30 crosses midnight and marks the next day", () => {
+  const r = timesEveryNHours({ first: "07:30", hours: 6 });
+  assert.deepEqual(clocks(r), ["07:30", "13:30", "19:30", "01:30"]);
+  assert.deepEqual(r.times.map((t) => t.dayOffset), [0, 0, 0, 1]);
+});
+
+test("every 5 hours does not divide a day: five times, then the times shift", () => {
+  const r = timesEveryNHours({ first: "08:00", hours: 5 });
+  assert.deepEqual(clocks(r), ["08:00", "13:00", "18:00", "23:00", "04:00"]);
+  assert.equal(r.repeatsDaily, false);
+  assert.equal(formatClock(r.next.clock, true), "09:00");
+  assert.equal(r.next.dayOffset, 1);
+});
+
+test("every 24 hours is one time a day; every 12 is two", () => {
+  assert.deepEqual(clocks(timesEveryNHours({ first: "09:00", hours: 24 })), ["09:00"]);
+  assert.deepEqual(clocks(timesEveryNHours({ first: "21:15", hours: 12 })), ["21:15", "09:15"]);
+});
+
+test("every 1.5 hours works in minutes", () => {
+  const r = timesEveryNHours({ first: "06:00", hours: 1.5 });
+  assert.equal(r.times.length, 16);
+  assert.equal(formatClock(r.times[1].clock, true), "07:30");
+});
+
+test("every N hours: bad input gives a plain error", () => {
+  assert.match(timesEveryNHours({ first: "", hours: 8 }).error, /first time/);
+  assert.match(timesEveryNHours({ first: "06:00", hours: 0 }).error, /gap in hours/);
+  assert.match(timesEveryNHours({ first: "06:00", hours: NaN }).error, /gap in hours/);
+  assert.match(timesEveryNHours({ first: "06:00", hours: 0.1 }).error, /at least 15 minutes/);
+  assert.match(timesEveryNHours({ first: "06:00", hours: 30 }).error, /every N days/);
+  assert.match(timesEveryNHours().error, /first time/);
+});
+
+// ------------------------------------------------------- every N days
+test("every 2 days from 2026-10-19", () => {
+  const r = datesEveryNDays({ firstDateISO: "2026-10-19", days: 2, count: 4 });
+  assert.equal(r.error, null);
+  assert.deepEqual(r.dates, ["2026-10-19", "2026-10-21", "2026-10-23", "2026-10-25"]);
+});
+
+test("every N days rolls over months, years and a leap day", () => {
+  assert.deepEqual(datesEveryNDays({ firstDateISO: "2026-10-30", days: 3, count: 3 }).dates,
+    ["2026-10-30", "2026-11-02", "2026-11-05"]);
+  assert.deepEqual(datesEveryNDays({ firstDateISO: "2028-02-27", days: 1, count: 4 }).dates,
+    ["2028-02-27", "2028-02-28", "2028-02-29", "2028-03-01"]);
+  assert.deepEqual(datesEveryNDays({ firstDateISO: "2026-12-30", days: 7, count: 2 }).dates,
+    ["2026-12-30", "2027-01-06"]);
+});
+
+test("every N days defaults to 8 dates and rejects bad input", () => {
+  assert.equal(datesEveryNDays({ firstDateISO: "2026-10-19", days: 3 }).dates.length, 8);
+  assert.match(datesEveryNDays({ firstDateISO: "", days: 3 }).error, /first date/);
+  assert.match(datesEveryNDays({ firstDateISO: "2026-10-19", days: 0 }).error, /whole number/);
+  assert.match(datesEveryNDays({ firstDateISO: "2026-10-19", days: 2.5 }).error, /whole number/);
+  assert.match(datesEveryNDays({ firstDateISO: "2026-10-19", days: 3, count: 0 }).error, /1 to 60/);
+  assert.match(datesEveryNDays({ firstDateISO: "2026-10-19", days: 3, count: 61 }).error, /1 to 60/);
+});
+
+// ------------------------------------------------------- N times a day
+test("3 times a day, wake 07:00 to bed 23:00, is 07:00, 15:00, 23:00", () => {
+  const r = timesPerDay({ times: 3, wake: "07:00", bed: "23:00" });
+  assert.equal(r.error, null);
+  assert.deepEqual(clocks(r), ["07:00", "15:00", "23:00"]);
+  assert.equal(r.gapMinutes, 480);
+});
+
+test("4 times a day rounds to the nearest minute", () => {
+  const r = timesPerDay({ times: 4, wake: "07:00", bed: "23:00" });
+  assert.deepEqual(clocks(r), ["07:00", "12:20", "17:40", "23:00"]);
+  const odd = timesPerDay({ times: 3, wake: "07:00", bed: "22:30" });
+  assert.deepEqual(clocks(odd), ["07:00", "14:45", "22:30"]);
+});
+
+test("1 time a day is the wake time; 2 times are wake and bed", () => {
+  assert.deepEqual(clocks(timesPerDay({ times: 1, wake: "07:00", bed: "23:00" })), ["07:00"]);
+  assert.deepEqual(clocks(timesPerDay({ times: 2, wake: "07:00", bed: "23:00" })), ["07:00", "23:00"]);
+});
+
+test("a bed time before the wake time is read as the next morning", () => {
+  const r = timesPerDay({ times: 3, wake: "22:00", bed: "06:00" });
+  assert.deepEqual(clocks(r), ["22:00", "02:00", "06:00"]);
+  assert.deepEqual(r.times.map((t) => t.dayOffset), [0, 1, 1]);
+});
+
+test("N times a day: bad input gives a plain error", () => {
+  assert.match(timesPerDay({ times: 0, wake: "07:00", bed: "23:00" }).error, /1 to 12/);
+  assert.match(timesPerDay({ times: 13, wake: "07:00", bed: "23:00" }).error, /1 to 12/);
+  assert.match(timesPerDay({ times: 2.5, wake: "07:00", bed: "23:00" }).error, /1 to 12/);
+  assert.match(timesPerDay({ times: 3, wake: "", bed: "23:00" }).error, /wake time/);
+  assert.match(timesPerDay({ times: 3, wake: "07:00", bed: "" }).error, /bed time/);
 });

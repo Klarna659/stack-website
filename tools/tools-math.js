@@ -349,6 +349,128 @@
   function ngdlToNmolL(v) { return validAmount(v) ? v / TESTO_NGDL_PER_NMOLL : null; }
   function nmolLToNgdl(v) { return validAmount(v) ? v * TESTO_NGDL_PER_NMOLL : null; }
 
+  // ------------------------------------------------ clinical-lab converters
+  // Glucose: molar mass 180.16 g/mol, so 1 mmol/L = 18.016 mg/dL.
+  // Cholesterol (total, LDL, HDL): molar mass about 386.65 g/mol, so
+  // 1 mmol/L = 38.67 mg/dL. Triglycerides: about 885.7 g/mol, so 1 mmol/L =
+  // 88.57 mg/dL. Each analyte has its own factor and they are never swapped.
+  // Units only: nothing here says what a result means.
+  var GLUCOSE_MGDL_PER_MMOLL = 18.016;
+  var CHOLESTEROL_MGDL_PER_MMOLL = 38.67;
+  var TRIGLYCERIDES_MGDL_PER_MMOLL = 88.57;
+  var LIPID_FACTORS = {
+    cholesterol: CHOLESTEROL_MGDL_PER_MMOLL,
+    triglycerides: TRIGLYCERIDES_MGDL_PER_MMOLL
+  };
+
+  function glucoseMgdlToMmolL(v) { return validAmount(v) ? v / GLUCOSE_MGDL_PER_MMOLL : null; }
+  function glucoseMmolLToMgdl(v) { return validAmount(v) ? v * GLUCOSE_MGDL_PER_MMOLL : null; }
+  // kind: "cholesterol" (total, LDL or HDL) | "triglycerides"
+  function lipidMgdlToMmolL(v, kind) {
+    var f = LIPID_FACTORS[kind];
+    return f && validAmount(v) ? v / f : null;
+  }
+  function lipidMmolLToMgdl(v, kind) {
+    var f = LIPID_FACTORS[kind];
+    return f && validAmount(v) ? v * f : null;
+  }
+
+  // ------------------------------------------------------- schedule times
+  // Pure clock and calendar arithmetic. Times are minutes after midnight
+  // (0..1439). Nothing here says how often anything should be taken.
+  var MIN_PER_DAY = 1440;
+  var MAX_DATE_COUNT = 60;
+
+  // "07:30" -> 450. Returns null for anything that is not a valid 24-hour time.
+  function parseClock(s) {
+    var m = /^(\d{1,2}):(\d{2})$/.exec(String(s == null ? "" : s));
+    if (!m) return null;
+    var h = Number(m[1]), mi = Number(m[2]);
+    return h > 23 || mi > 59 ? null : h * 60 + mi;
+  }
+
+  // 450 -> "7:30 am" (or "07:30" with use24). Wraps past midnight.
+  function formatClock(totalMin, use24) {
+    if (totalMin == null || !isFinite(totalMin)) return null;
+    var m = ((Math.round(totalMin) % MIN_PER_DAY) + MIN_PER_DAY) % MIN_PER_DAY;
+    var h = Math.floor(m / 60);
+    var mm = String(m % 60).padStart(2, "0");
+    if (use24) return String(h).padStart(2, "0") + ":" + mm;
+    return (h % 12 === 0 ? 12 : h % 12) + ":" + mm + " " + (h < 12 ? "am" : "pm");
+  }
+
+  // Every N hours from a first time, across the 24 hours that start at that
+  // time. params: { first: "HH:MM", hours }
+  // Returns times: [{ offsetMin, clock, dayOffset }] (dayOffset 0 = same
+  // calendar day as the first time, 1 = after midnight), repeatsDaily (the gap
+  // divides 24 hours exactly, so tomorrow is the same), and next: the first
+  // time after the window.
+  function timesEveryNHours(params) {
+    params = params || {};
+    var first = parseClock(params.first);
+    if (first == null) return { error: "Enter a first time." };
+    var hours = Number(params.hours);
+    if (!(hours > 0)) return { error: "Enter the gap in hours." };
+    var step = Math.round(hours * 60);
+    if (step < 15) return { error: "Enter a gap of at least 15 minutes (0.25 hours)." };
+    if (step > MIN_PER_DAY) return { error: "That gap is longer than a day. Use the every N days option instead." };
+
+    var times = [];
+    var offset = 0;
+    while (offset < MIN_PER_DAY) {
+      var abs = first + offset;
+      times.push({ offsetMin: offset, clock: abs % MIN_PER_DAY, dayOffset: Math.floor(abs / MIN_PER_DAY) });
+      offset += step;
+    }
+    var nextAbs = first + offset;
+    return {
+      error: null,
+      stepMinutes: step,
+      times: times,
+      repeatsDaily: MIN_PER_DAY % step === 0,
+      next: { offsetMin: offset, clock: nextAbs % MIN_PER_DAY, dayOffset: Math.floor(nextAbs / MIN_PER_DAY) }
+    };
+  }
+
+  // Every N whole days from a first date. params: { firstDateISO, days, count }
+  // Returns dates: [ "YYYY-MM-DD", ... ] (count of them, default 8).
+  function datesEveryNDays(params) {
+    params = params || {};
+    var startMs = parseISODate(params.firstDateISO);
+    if (startMs == null) return { error: "Enter a first date." };
+    var n = Number(params.days);
+    if (!(n >= 1) || Math.floor(n) !== n) return { error: "Enter a whole number of days, 1 or more." };
+    var count = params.count == null ? 8 : Number(params.count);
+    if (!(count >= 1) || Math.floor(count) !== count || count > MAX_DATE_COUNT) {
+      return { error: "Enter how many dates to show, from 1 to " + MAX_DATE_COUNT + "." };
+    }
+    var dates = [];
+    for (var i = 0; i < count; i++) dates.push(formatISODate(addDaysUTC(startMs, i * n)));
+    return { error: null, dates: dates };
+  }
+
+  // N times a day, evenly spaced from a wake time (first) to a bed time (last).
+  // One time a day is placed at the wake time. A bed time at or before the
+  // wake time is read as the next morning (a night shift).
+  // params: { times, wake: "HH:MM", bed: "HH:MM" }
+  function timesPerDay(params) {
+    params = params || {};
+    var n = Number(params.times);
+    if (!(n >= 1) || Math.floor(n) !== n || n > 12) return { error: "Enter how many times a day, from 1 to 12." };
+    var wake = parseClock(params.wake);
+    if (wake == null) return { error: "Enter a wake time." };
+    var bed = parseClock(params.bed);
+    if (bed == null) return { error: "Enter a bed time." };
+    if (bed <= wake) bed += MIN_PER_DAY;
+    var span = bed - wake;
+    var times = [];
+    for (var i = 0; i < n; i++) {
+      var abs = wake + (n === 1 ? 0 : Math.round((span * i) / (n - 1)));
+      times.push({ clock: abs % MIN_PER_DAY, dayOffset: Math.floor(abs / MIN_PER_DAY) });
+    }
+    return { error: null, times: times, gapMinutes: n === 1 ? null : span / (n - 1) };
+  }
+
   var api = {
     MCG_PER_MG: MCG_PER_MG,
     U100_UNITS_PER_ML: U100_UNITS_PER_ML,
@@ -383,7 +505,19 @@
     iuToMcg: iuToMcg,
     mcgToIu: mcgToIu,
     ngdlToNmolL: ngdlToNmolL,
-    nmolLToNgdl: nmolLToNgdl
+    nmolLToNgdl: nmolLToNgdl,
+    GLUCOSE_MGDL_PER_MMOLL: GLUCOSE_MGDL_PER_MMOLL,
+    CHOLESTEROL_MGDL_PER_MMOLL: CHOLESTEROL_MGDL_PER_MMOLL,
+    TRIGLYCERIDES_MGDL_PER_MMOLL: TRIGLYCERIDES_MGDL_PER_MMOLL,
+    glucoseMgdlToMmolL: glucoseMgdlToMmolL,
+    glucoseMmolLToMgdl: glucoseMmolLToMgdl,
+    lipidMgdlToMmolL: lipidMgdlToMmolL,
+    lipidMmolLToMgdl: lipidMmolLToMgdl,
+    parseClock: parseClock,
+    formatClock: formatClock,
+    timesEveryNHours: timesEveryNHours,
+    datesEveryNDays: datesEveryNDays,
+    timesPerDay: timesPerDay
   };
 
   if (typeof module !== "undefined" && module.exports) {
