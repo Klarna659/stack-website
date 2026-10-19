@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glucose mg/dL to mmol/L converter | Stack</title>
+<meta name="description" content="Convert glucose between mg/dL and mmol/L. Divide by 18.016 to get mmol/L, multiply by 18.016 to get mg/dL. A unit converter only, no ranges." />
+<meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+<link rel="canonical" href="https://trackyourstack.app/tools/glucose-units/" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sTHdUZ83c1Y55MOwbLaMFzLTSLMk8TCQ5cIw+4vcK/c='; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta property="og:title" content="Glucose mg/dL to mmol/L converter" />
+<meta property="og:description" content="Convert glucose between mg/dL and mmol/L. Divide by 18.016 to get mmol/L, multiply by 18.016 to get mg/dL. A unit converter only, no ranges." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackyourstack.app/tools/glucose-units/" />
+<meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+<meta property="og:site_name" content="Stack" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="icon" type="image/png" href="../../assets/img/icon.png" />
+<link rel="apple-touch-icon" href="../../assets/img/icon.png" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="../../assets/css/mono.css?v=4" />
+<link rel="stylesheet" href="../../tools/tools.css?v=2" />
+<script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Glucose mg/dL to mmol/L converter","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"description":"Glucose converter: type a value in mg/dL or mmol/L and get the other. 1 mmol/L = 18.016 mg/dL. Units only.","url":"https://trackyourstack.app/tools/glucose-units/","publisher":{"@type":"Organization","name":"Stack","url":"https://trackyourstack.app/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://trackyourstack.app/tools/"},{"@type":"ListItem","position":3,"name":"Glucose mg/dL to mmol/L converter","item":"https://trackyourstack.app/tools/glucose-units/"}]}</script>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack, home">
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
+        <span class="brand-word">Stack</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks" aria-label="Main">
+          <a href="../../#features">Features</a>
+          <a href="../../pricing/">Pricing</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="../../account/" class="nav-cta">Sign in</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../../tools/">Tools</a> <span>/</span> <span aria-current="page">Glucose mg/dL to mmol/L converter</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>Glucose mg/dL to mmol/L converter</h1>
+      <p class="lead">Switch a glucose reading between mg/dL and mmol/L. Divide by 18.016 to get mmol/L, multiply by 18.016 to get mg/dL.</p>
+      <p class="privacy-note">Everything is worked out on this page. Nothing you type leaves your device.</p>
+    </div>
+
+    <div class="container main-end">
+      <div class="tool-grid">
+        <div class="panel" id="calc" role="group" aria-label="Glucose converter">
+          <div class="field">
+            <label for="g-mgdl">Milligrams per decilitre (mg/dL)</label>
+            <input class="input" id="g-mgdl" type="number" inputmode="decimal" min="0" step="any" value="135" />
+          </div>
+          <div class="field">
+            <label for="g-mmol">Millimoles per litre (mmol/L)</label>
+            <input class="input" id="g-mmol" type="number" inputmode="decimal" min="0" step="any" />
+          </div>
+          <p class="field-note">Type in either box and the other one fills in. The factor is 1 mmol/L = 18.016 mg/dL.</p>
+        </div>
+
+        <div class="panel tool-out" aria-live="polite">
+          <span class="eyebrow">Result</span>
+          <div class="big sentence tnum" id="out-line">-</div>
+          <div class="unit">1 mmol/L = 18.016 mg/dL</div>
+        </div>
+      </div>
+
+      <article class="tool-prose">
+        <h2>How the numbers are worked out</h2>
+        <p>Glucose has a molar mass of 180.16 grams per mole, so one millimole is 180.16 milligrams. A litre holds ten decilitres, so one millimole per litre is 18.016 milligrams per decilitre. That gives the single factor behind both directions: <strong>1 mmol/L = 18.016 mg/dL</strong>.</p>
+        <p>To go from mg/dL to mmol/L, <strong>divide by 18.016</strong>. To go from mmol/L to mg/dL, <strong>multiply by 18.016</strong>. Some countries report one unit and some the other, so you may see both on meters, apps and reports.</p>
+        <p>This page converts the unit and nothing else. It gives no ranges and does not say what a number means.</p>
+        <h2>Three worked examples</h2>
+        <table class="quick-ref">
+          <thead><tr><th scope="col">Start</th><th scope="col">Working</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><td>135 mg/dL</td><td>135 &divide; 18.016</td><td>7.49 mmol/L</td></tr>
+            <tr><td>6.8 mmol/L</td><td>6.8 &times; 18.016</td><td>122.5 mg/dL</td></tr>
+            <tr><td>4.9 mmol/L</td><td>4.9 &times; 18.016</td><td>88.3 mg/dL</td></tr>
+          </tbody>
+        </table>
+        <h2>Questions</h2>
+        <h3>Why 18.016 and not 18?</h3>
+        <p>Glucose has a molar mass of 180.16 grams per mole, which gives 18.016. Many sources round it to 18. The two agree to within about 0.1 percent, so 18 is close enough for a quick check, but 18.016 is the exact figure.</p>
+        <h3>Which way do I convert?</h3>
+        <p>To go from mg/dL to mmol/L, divide by 18.016. To go from mmol/L to mg/dL, multiply by 18.016. Check the unit printed next to the number on your meter or report before you convert.</p>
+        <h3>Is the same factor used for cholesterol?</h3>
+        <p>No. Each substance has its own factor because the factor comes from the molar mass. See the <a href="../cholesterol-units/">cholesterol and triglycerides converter</a>, which uses a different number for each.</p>
+        <h3>Does this say whether my reading is high or low?</h3>
+        <p>No. This page converts units and nothing else. It gives no ranges and no interpretation. Your clinician or pharmacist can tell you what a result means for you.</p>
+        <div class="callout"><b>Not medical advice.</b> This page does arithmetic only. It does not say how much to take, when to take it or what a result means. Talk to your doctor or pharmacist about your treatment.</div>
+      </article>
+
+      <aside class="related-links" aria-labelledby="related-h">
+        <h2 id="related-h">Related</h2>
+        <ul>
+          <li><a href="../../tools/cholesterol-units/"><span class="rl-name">Cholesterol mg/dL to mmol/L converter</span><span class="rl-desc">Cholesterol and triglycerides with the right factor for each. Units only.</span></a></li>
+          <li><a href="../../tools/vitamin-d-iu-to-mcg/"><span class="rl-name">Vitamin D IU to mcg converter</span><span class="rl-desc">Convert between IU and micrograms on a vitamin D label. 1 mcg = 40 IU.</span></a></li>
+          <li><a href="../../templates/appointment-checklist/"><span class="rl-name">What to bring to a medical appointment</span><span class="rl-desc">A checklist to tick, space for your questions and room for notes.</span></a></li>
+        </ul>
+      </aside>
+
+      <section class="page-cta track-cta" aria-labelledby="cta-h">
+        <h2 id="cta-h">Keep it all in Stack</h2>
+        <p>Doses, reminders, what is left and a report for your doctor, in one private app.</p>
+        <a class="btn btn-primary" href="../../pricing/">Get the app</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom footer-flat">
+      <span>&copy; 2026 Stack, a product of Cedar Hills Studio LLC</span>
+      <span><a href="../../tools/">Tools</a> &middot; <a href="../../templates/">Templates</a> &middot; <a href="../../guides/">Guides</a> &middot; <a href="../../account/">Sign in</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../terms.html">Terms</a> &middot; <a href="mailto:hello@trackyourstack.app" data-email-link>hello@trackyourstack.app</a></span>
+    </div>
+    <div class="disclaimer-band">Stack is a personal tracking tool, not medical advice. Talk to your doctor or pharmacist about your treatment.</div>
+  </footer>
+
+  <script src="../../tools/tools-math.js?v=2"></script>
+  <script src="glucose-units.js?v=1"></script>
+  <script src="../../assets/js/site.js?v=6"></script>
+  <script src="../../assets/js/mark.js"></script>
+</body>
+</html>

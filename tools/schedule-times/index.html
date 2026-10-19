@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Medication schedule times calculator | Stack</title>
+<meta name="description" content="Work out clock times for every 8 hours, every N days or N times a day from a first time. Arithmetic only, not a dose recommendation." />
+<meta name="theme-color" content="#FBFBFA" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B0B0F" media="(prefers-color-scheme: dark)" />
+<link rel="canonical" href="https://trackyourstack.app/tools/schedule-times/" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sTHdUZ83c1Y55MOwbLaMFzLTSLMk8TCQ5cIw+4vcK/c='; connect-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta property="og:title" content="Medication schedule times calculator" />
+<meta property="og:description" content="Work out clock times for every 8 hours, every N days or N times a day from a first time. Arithmetic only, not a dose recommendation." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://trackyourstack.app/tools/schedule-times/" />
+<meta property="og:image" content="https://trackyourstack.app/assets/img/og.png" />
+<meta property="og:site_name" content="Stack" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="../../assets/img/icon.svg" />
+<link rel="icon" type="image/png" href="../../assets/img/icon.png" />
+<link rel="apple-touch-icon" href="../../assets/img/icon.png" />
+<link rel="preload" href="../../assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="../../assets/css/mono.css?v=4" />
+<link rel="stylesheet" href="../../tools/tools.css?v=2" />
+<script>(function(){try{var t=localStorage.getItem("stack-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Medication schedule times calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"description":"Schedule times calculator: every N hours, every N days or N times a day from a first time, as clock times and dates. Arithmetic only.","url":"https://trackyourstack.app/tools/schedule-times/","publisher":{"@type":"Organization","name":"Stack","url":"https://trackyourstack.app/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Stack","item":"https://trackyourstack.app/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://trackyourstack.app/tools/"},{"@type":"ListItem","position":3,"name":"Medication schedule times calculator","item":"https://trackyourstack.app/tools/schedule-times/"}]}</script>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="Stack, home">
+        <span class="brand-mark" data-mark aria-hidden="true"></span>
+        <span class="brand-word">Stack</span>
+      </a>
+      <div class="nav-right">
+        <nav class="nav-links" id="navLinks" aria-label="Main">
+          <a href="../../#features">Features</a>
+          <a href="../../pricing/">Pricing</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a href="../../account/" class="nav-cta">Sign in</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container tool-head">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="../../">Home</a> <span>/</span> <a href="../../tools/">Tools</a> <span>/</span> <span aria-current="page">Medication schedule times calculator</span>
+      </nav>
+      <span class="eyebrow">Free tool</span>
+      <h1>Medication schedule times calculator</h1>
+      <p class="lead">Pick a gap or a number of times a day. We work out the clock times, or the dates, so you can copy them into a calendar or a reminder.</p>
+      <p class="privacy-note">Everything is worked out on this page. Nothing you type leaves your device.</p>
+    </div>
+
+    <div class="container main-end">
+      <div class="tool-grid">
+        <div class="panel" id="calc" role="group" aria-label="Schedule times inputs">
+          <div class="field">
+            <label for="s-mode">What kind of schedule</label>
+            <select class="select" id="s-mode">
+              <option value="hours" selected>Every N hours</option>
+              <option value="days">Every N days</option>
+              <option value="perday">N times a day, wake to bed</option>
+            </select>
+          </div>
+          <div class="field" data-for="hours">
+            <label for="s-hours">Gap between times</label>
+            <div class="row">
+              <input class="input" id="s-hours" type="number" inputmode="decimal" min="0" step="any" value="8" />
+              <span class="unit-tag">hours</span>
+            </div>
+            <p class="hint">8 for every 8 hours, 1.5 for every hour and a half.</p>
+          </div>
+          <div class="field" data-for="days" hidden>
+            <label for="s-days">Gap between dates</label>
+            <div class="row">
+              <input class="input" id="s-days" type="number" inputmode="numeric" min="1" step="1" value="2" />
+              <span class="unit-tag">days</span>
+            </div>
+            <p class="hint">Whole days. 2 is every other day.</p>
+          </div>
+          <div class="field" data-for="days" hidden>
+            <label for="s-date">First date</label>
+            <input class="input" id="s-date" type="date" />
+          </div>
+          <div class="field" data-for="hours days">
+            <label for="s-time" id="s-time-label">First time</label>
+            <input class="input" id="s-time" type="time" value="06:00" />
+          </div>
+          <div class="field" data-for="perday" hidden>
+            <label for="s-times">How many times a day</label>
+            <input class="input" id="s-times" type="number" inputmode="numeric" min="1" max="12" step="1" value="3" />
+          </div>
+          <div class="field" data-for="perday" hidden>
+            <label for="s-wake">Wake time</label>
+            <input class="input" id="s-wake" type="time" value="07:00" />
+          </div>
+          <div class="field" data-for="perday" hidden>
+            <label for="s-bed">Bed time</label>
+            <input class="input" id="s-bed" type="time" value="23:00" />
+          </div>
+          <div class="field">
+            <label for="s-fmt">Show times as</label>
+            <select class="select" id="s-fmt">
+              <option value="12" selected>12-hour (3:00 pm)</option>
+              <option value="24">24-hour (15:00)</option>
+            </select>
+          </div>
+          <div id="s-error" role="alert"></div>
+        </div>
+
+        <div class="panel tool-out" aria-live="polite">
+          <span class="eyebrow">Your times</span>
+          <div class="big tnum" id="out-count">-</div>
+          <div class="unit" id="out-unit">times</div>
+          <div class="sub" id="out-list"></div>
+          <p class="field-note" id="out-note"></p>
+        </div>
+      </div>
+
+      <article class="tool-prose">
+        <h2>How the times are worked out</h2>
+        <p><strong>Every N hours.</strong> Start at the first time and keep adding the gap. The list stops when the next time would be 24 hours or more after the first. Eight hours from 6:00 am gives 6:00 am, 2:00 pm and 10:00 pm, and then 6:00 am again tomorrow.</p>
+        <p><strong>Every N days.</strong> Add the gap to the first date, again and again. Dates are counted on the calendar, so months, years and leap days roll over correctly. Add a time of day if you want one shown with each date.</p>
+        <p><strong>N times a day.</strong> The first time is your wake time and the last is your bed time. The rest are spaced evenly in between. The gap is (bed time minus wake time) divided by (N minus 1). Three times between 7:00 am and 11:00 pm is 16 hours divided by 2, so 8 hours apart. One time a day is placed at your wake time. If your bed time is earlier than your wake time, it is read as the next morning, which suits night shifts.</p>
+        <p><strong>This is not a dose recommendation.</strong> Use the times your pharmacist or clinician gave you. This page only turns a schedule you already have into clock times and dates.</p>
+        <h2>Three worked examples</h2>
+        <table class="quick-ref">
+          <thead><tr><th scope="col">Schedule</th><th scope="col">Working</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><td>Every 8 hours from 6:00 am</td><td>6:00, then +8 h, then +8 h</td><td>6:00 am, 2:00 pm, 10:00 pm</td></tr>
+            <tr><td>Every 2 days from Mon 19 Oct 2026</td><td>Add 2 days each time</td><td>Mon 19, Wed 21, Fri 23, Sun 25 Oct</td></tr>
+            <tr><td>4 times a day, wake 7:00 am, bed 11:00 pm</td><td>16 h divided by 3 = 5 h 20 min</td><td>7:00 am, 12:20 pm, 5:40 pm, 11:00 pm</td></tr>
+          </tbody>
+        </table>
+        <h2>Questions</h2>
+        <h3>Is every 8 hours the same as three times a day?</h3>
+        <p>Not always. Every 8 hours is a fixed gap around the clock, so one time falls in the night. Three times a day is usually spread across the waking day, so the overnight gap is longer. Use the wording your pharmacist or clinician gave you, and check with them if you are unsure which one they meant.</p>
+        <h3>What if the gap does not divide 24 hours evenly?</h3>
+        <p>Then the times move from one day to the next. Every 5 hours from 8:00 am gives 8:00 am, 1:00 pm, 6:00 pm, 11:00 pm and 4:00 am, and the next one is 9:00 am the following day. The calculator says so when this happens.</p>
+        <h3>Does it handle time zones or clock changes?</h3>
+        <p>No. It works in plain clock times. If you are travelling, see <a href="../../guides/schedules-and-time-zones/">schedules and time zones</a> for what a schedule does when the clock changes.</p>
+        <h3>Does this tell me when to take something?</h3>
+        <p>No. It only does the arithmetic on a schedule you already have. Use the times your pharmacist or clinician gave you.</p>
+        <div class="callout"><b>Not medical advice.</b> This page does arithmetic only. It does not say how much to take, when to take it or what a result means. Talk to your doctor or pharmacist about your treatment.</div>
+      </article>
+
+      <aside class="related-links" aria-labelledby="related-h">
+        <h2 id="related-h">Related</h2>
+        <ul>
+          <li><a href="../../tools/days-of-supply/"><span class="rl-name">Days of supply calculator</span><span class="rl-desc">How long what you have on hand will last, and the date to reorder.</span></a></li>
+          <li><a href="../../guides/schedules-explained/"><span class="rl-name">Schedules explained</span><span class="rl-desc">What every other day, twice a week and weekly mean, and how to write them clearly.</span></a></li>
+          <li><a href="../../guides/schedules-and-time-zones/"><span class="rl-name">Keeping a medication schedule across time zones</span><span class="rl-desc">What intervals and daily reminders do when the clock changes, and how to plan a trip.</span></a></li>
+          <li><a href="../../templates/medication-schedule/"><span class="rl-name">Medication schedule with a supply sheet</span><span class="rl-desc">A weekly grid or an every-N-days grid, with a supply and reorder line.</span></a></li>
+        </ul>
+      </aside>
+
+      <section class="page-cta track-cta" aria-labelledby="cta-h">
+        <h2 id="cta-h">Reminders that follow your schedule</h2>
+        <p>Stack turns a schedule into reminders and keeps a record of what you took, so there is nothing to copy across.</p>
+        <a class="btn btn-primary" href="../../pricing/">Get the app</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom footer-flat">
+      <span>&copy; 2026 Stack, a product of Cedar Hills Studio LLC</span>
+      <span><a href="../../tools/">Tools</a> &middot; <a href="../../templates/">Templates</a> &middot; <a href="../../guides/">Guides</a> &middot; <a href="../../account/">Sign in</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../terms.html">Terms</a> &middot; <a href="mailto:hello@trackyourstack.app" data-email-link>hello@trackyourstack.app</a></span>
+    </div>
+    <div class="disclaimer-band">Stack is a personal tracking tool, not medical advice. Talk to your doctor or pharmacist about your treatment.</div>
+  </footer>
+
+  <script src="../../tools/tools-math.js?v=2"></script>
+  <script src="schedule-times.js?v=1"></script>
+  <script src="../../assets/js/site.js?v=6"></script>
+  <script src="../../assets/js/mark.js"></script>
+</body>
+</html>

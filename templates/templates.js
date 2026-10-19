@@ -58,9 +58,15 @@
   var addBtn = document.querySelector("[data-add-row]");
   if (addBtn) {
     addBtn.addEventListener("click", function () {
-      var body = sheet.querySelector("tbody");
+      // The last table that is showing: sheets with a mode switch or a second
+      // table add the row where the person is working.
+      var bodies = [].filter.call(sheet.querySelectorAll("tbody"), function (b) { return !b.closest("[hidden]"); });
+      var body = bodies[bodies.length - 1];
+      if (!body) return;
       var rows = body.querySelectorAll("tr");
       var clone = rows[rows.length - 1].cloneNode(true);
+      var numbered = clone.querySelector("th[data-row-number]");
+      if (numbered) numbered.textContent = String(rows.length + 1);
       var old = clone.querySelectorAll(".print-val");
       for (var i = 0; i < old.length; i++) old[i].remove();
       var fields = clone.querySelectorAll("input, textarea");

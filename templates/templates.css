@@ -14,7 +14,10 @@
 }
 .sheet-title { font-size: clamp(22px, 4vw, 28px); letter-spacing: -.03em; margin: 0 0 14px; }
 .sheet-meta { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 14px; }
-@media (min-width: 720px) { .sheet-meta.two { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 720px) {
+  .sheet-meta.two { grid-template-columns: 1fr 1fr; }
+  .sheet-meta.three { grid-template-columns: 1fr 1fr 1fr; }
+}
 .sheet-meta .field { margin-bottom: 0; }
 .sheet-line { margin-bottom: 12px; }
 .sheet-line.field { margin-bottom: 12px; }
@@ -52,6 +55,24 @@
   .sheet-table .input { min-height: 40px; padding: 8px 10px; font-size: 15px; }
   .sheet-table .textarea { min-height: 56px; padding: 8px 10px; font-size: 15px; }
 }
+
+/* sheet sections, notes and checklists (appointment checklist, charts) */
+.sheet-sub {
+  font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--mut); margin: 22px 0 10px;
+}
+.sheet-note { font-size: 13.5px; line-height: 1.55; color: var(--mut); margin: 0 0 14px; }
+.mode-switch { margin: 0 0 16px; }
+.check-list { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: 1fr; gap: 8px 28px; }
+@media (min-width: 720px) { .check-list { grid-template-columns: 1fr 1fr; } }
+.check-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.45; color: var(--ink-2); }
+.check-item input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--gold); }
+.check-item .input { flex: 1 1 auto; min-width: 0; }
+.q-list { margin: 0 0 10px; padding-left: 26px; }
+.q-list li { margin-bottom: 8px; color: var(--mut); font-weight: 700; }
+.q-list .input { font-weight: 400; color: var(--ink); }
+.notes-field { min-height: 120px; resize: vertical; }
+.supply-block { margin-top: 18px; }
 
 /* the print copy of every typed value; hidden on screen */
 .print-val { display: none; }
@@ -103,4 +124,16 @@
   .cell-check span { display: none; }
   .cell-check input { width: 11pt; height: 11pt; accent-color: #000; }
   .print-only { display: block !important; margin: 10pt 0 0; font-size: 8pt; color: #000; }
+
+  .sheet-sub { font-size: 8.5pt; letter-spacing: .06em; margin: 9pt 0 4pt; }
+  .sheet-note { font-size: 9pt; margin: 0 0 6pt; }
+  .sheet-meta.three { grid-template-columns: 1fr 1fr 1fr; }
+  .check-list { grid-template-columns: 1fr 1fr; gap: 3pt 14pt; margin-bottom: 4pt; }
+  .check-item { font-size: 9.5pt; gap: 6pt; line-height: 1.3; }
+  .check-item input[type="checkbox"] { width: 11pt; height: 11pt; margin-top: 1pt; accent-color: #000; }
+  .q-list { padding-left: 16pt; margin-bottom: 4pt; }
+  .q-list li { margin-bottom: 0; }
+  .q-list .print-val, .check-item .print-val { min-height: 17pt; }
+  .notes-field + .print-val { min-height: 110pt; border: 1px solid #000 !important; padding: 3pt 4pt; }
+  .supply-block { margin-top: 8pt; }
 }
