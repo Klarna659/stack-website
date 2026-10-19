@@ -25,10 +25,11 @@
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preload" href="assets/fonts/inter-subset.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/instrument-sans-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/hero-photo/hero_a_2560.jpg" as="image" media="(min-width: 761px)">
 <link rel="preload" href="assets/img/hero-photo/hero_a_1280.jpg" as="image" media="(max-width: 760px)">
-<link rel="preload" href="assets/img/app/hero_juno_poster.jpg" as="image">
-<link rel="preload" href="assets/img/app/hero_today_still.webp" as="image">
+<link rel="preload" href="assets/img/app/hero_juno_poster.jpg" as="image" fetchpriority="low">
+<link rel="preload" href="assets/img/app/hero_today_still.webp" as="image" fetchpriority="high">
 
 <style>
 /* Self-hosted, matching the site's convention — no external font CDN.
@@ -105,7 +106,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
 .hero-nav .nav-links a:not(.pill){color:#D8D1C6}
 .hero-body{position:relative;z-index:3;flex:1;max-width:1240px;width:100%;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px}
 .hero-copy h1{font:600 clamp(40px,5.6vw,72px)/1.03 "Instrument Sans";letter-spacing:-.035em;margin-top:12px}
-.hero-copy .sub{margin-top:16px;font-size:clamp(16px,1.4vw,19px);color:#E3DDD3;max-width:32ch}
+.hero-copy .sub{margin-top:16px;font-size:clamp(16px,1.4vw,19px);color:#E3DDD3;max-width:20.13em}
 .hero-cta-row{display:flex;align-items:center;gap:12px;margin-top:28px;flex-wrap:wrap}
 .hero-trust{margin-top:16px;font-size:12.5px;color:var(--mut)}
 .hero-stage{position:relative;height:660px}
@@ -342,19 +343,19 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
         <div class="ph fs-ph">
           <div class="sc" id="fsScreen">
             <div class="isl"></div>
-            <video class="fs-video active" data-slide="0" muted loop playsinline preload="auto" poster="assets/img/app/build_stack_poster.jpg">
+            <video class="fs-video active" data-slide="0" muted loop playsinline preload="none" data-poster="assets/img/app/build_stack_poster.jpg">
               <source src="assets/img/app/build_stack.webm" type="video/webm">
               <source src="assets/img/app/build_stack.mp4" type="video/mp4">
             </video>
-            <video class="fs-video" data-slide="1" muted loop playsinline preload="none" poster="assets/img/app/injection_sites_poster.jpg">
+            <video class="fs-video" data-slide="1" muted loop playsinline preload="none" data-poster="assets/img/app/injection_sites_poster.jpg">
               <source src="assets/img/app/injection_sites.webm" type="video/webm">
               <source src="assets/img/app/injection_sites.mp4" type="video/mp4">
             </video>
-            <video class="fs-video" data-slide="2" muted loop playsinline preload="none" poster="assets/img/app/juno_actions_poster.jpg">
+            <video class="fs-video" data-slide="2" muted loop playsinline preload="none" data-poster="assets/img/app/juno_actions_poster.jpg">
               <source src="assets/img/app/juno_actions.webm" type="video/webm">
               <source src="assets/img/app/juno_actions.mp4" type="video/mp4">
             </video>
-            <video class="fs-video" data-slide="3" muted loop playsinline preload="none" poster="assets/img/app/doctor_report_poster.jpg">
+            <video class="fs-video" data-slide="3" muted loop playsinline preload="none" data-poster="assets/img/app/doctor_report_poster.jpg">
               <source src="assets/img/app/doctor_report.webm" type="video/webm">
               <source src="assets/img/app/doctor_report.mp4" type="video/mp4">
             </video>
@@ -561,23 +562,27 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
   var timer = null;
   var reduce = (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || new URLSearchParams(location.search).get('static') === '1';
 
-  var initialized = false;
+  /* Nothing below the fold is fetched until the phone is near the screen:
+     posters load when it first comes close, a video only plays while it is
+     on screen, and the auto-advance only runs while it is on screen. */
+  var inView = false;
+  function playVideo(v){
+    v.preload = 'auto';
+    if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+  }
+  function loadPosters(){
+    videos.forEach(function(v){
+      var src = v.getAttribute('data-poster');
+      if (src) { v.setAttribute('poster', src); v.removeAttribute('data-poster'); }
+    });
+  }
   function activate(idx){
     current = idx;
     videos.forEach(function(v){
       var active = Number(v.dataset.slide) === idx;
       v.classList.toggle('active', active);
-      if (active) {
-        v.preload = 'auto';
-        /* slide 0 already carries preload="auto" in markup and starts
-           fetching before this script runs — calling .load() again here
-           on first init would double-request it (readyState is still 0
-           mid-flight, not because nothing was asked for yet). */
-        if (v.readyState === 0 && !(idx === 0 && !initialized)) v.load();
-        if (!reduce) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
-      } else {
-        v.pause();
-      }
+      if (active) { if (inView) playVideo(v); }
+      else { v.pause(); }
     });
     caps.forEach(function(c){
       var active = Number(c.dataset.slide) === idx;
@@ -641,9 +646,24 @@ h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.1}
   screen.addEventListener('pointercancel', function(){ dragging = false; startX = null; });
   screen.addEventListener('pointerleave', function(){ dragging = false; startX = null; });
 
-  activate(0);
-  initialized = true;
-  scheduleNext();
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      var vis = entries[entries.length - 1].isIntersecting;
+      if (vis === inView) return;
+      inView = vis;
+      if (vis) { loadPosters(); activate(current); scheduleNext(); }
+      else {
+        videos.forEach(function(v){ v.pause(); });
+        if (timer) { clearTimeout(timer); timer = null; }
+      }
+    }, {rootMargin: '60px 0px'}).observe(screen);
+    activate(0);
+  } else {
+    inView = true;
+    loadPosters();
+    activate(0);
+    scheduleNext();
+  }
 })();
 
 /* ------------------------------------------------------------- sticky --- */
